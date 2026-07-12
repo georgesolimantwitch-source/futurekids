@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 844" fill="none">
+  <rect width="390" height="844" fill="#e0f2fe"/>
+  <rect x="20" y="60" width="350" height="60" rx="12" fill="#0ea5e9" opacity="0.15"/>
+  <rect x="20" y="140" width="350" height="80" rx="16" fill="white" stroke="#0ea5e9" stroke-opacity="0.2"/>
+  <rect x="20" y="240" width="350" height="80" rx="16" fill="white" stroke="#0ea5e9" stroke-opacity="0.2"/>
+  <rect x="20" y="340" width="350" height="80" rx="16" fill="white" stroke="#0ea5e9" stroke-opacity="0.2"/>
+  <circle cx="70" cy="180" r="20" fill="#0ea5e9" opacity="0.2"/>
+  <circle cx="70" cy="280" r="20" fill="#0ea5e9" opacity="0.2"/>
+  <circle cx="70" cy="380" r="20" fill="#0ea5e9" opacity="0.2"/>
+  <text x="195" y="780" text-anchor="middle" fill="#0ea5e9" font-family="system-ui,sans-serif" font-size="14" opacity="0.5">TinyPal  Family Contacts</text>
+</svg>

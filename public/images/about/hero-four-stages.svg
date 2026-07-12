@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 800" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1400" y2="800">
+      <stop offset="0%" stop-color="#fafafa"/>
+      <stop offset="100%" stop-color="#f0f9ff"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="700" y1="400" x2="700" y2="800" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6366f1" stop-opacity="0.15"/>
+      <stop offset="1" stop-color="#6366f1" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1400" height="800" fill="url(#bg)"/>
+  <ellipse cx="700" cy="500" rx="400" ry="120" fill="url(#glow)"/>
+  <!-- Connection hub -->
+  <circle cx="700" cy="420" r="60" fill="#fff" stroke="#e5e5e5" stroke-width="2"/>
+  <circle cx="700" cy="420" r="8" fill="#171717"/>
+  <!-- Learn - Scholars -->
+  <g transform="translate(320,280)">
+    <circle cx="80" cy="60" r="35" fill="#eef2ff"/>
+    <rect x="50" y="100" width="60" height="80" rx="8" fill="#6366f1" opacity="0.2"/>
+    <rect x="60" y="110" width="40" height="50" rx="4" fill="#6366f1" opacity="0.4"/>
+    <text x="80" y="210" text-anchor="middle" fill="#6366f1" font-family="system-ui" font-size="12" font-weight="600">Learning</text>
+  </g>
+  <!-- Earn - Earnly -->
+  <g transform="translate(520,180)">
+    <circle cx="80" cy="60" r="35" fill="#ecfdf5"/>
+    <rect x="55" y="95" width="50" height="35" rx="17" fill="#059669" opacity="0.3"/>
+    <text x="80" y="210" text-anchor="middle" fill="#059669" font-family="system-ui" font-size="12" font-weight="600">Earning</text>
+  </g>
+  <!-- Play - Ballr -->
+  <g transform="translate(720,180)">
+    <circle cx="80" cy="60" r="35" fill="#fff7ed"/>
+    <circle cx="80" cy="120" r="30" stroke="#ea580c" stroke-width="3" fill="none" opacity="0.5"/>
+    <text x="80" y="210" text-anchor="middle" fill="#ea580c" font-family="system-ui" font-size="12" font-weight="600">Playing</text>
+  </g>
+  <!-- Connect - TinyPal -->
+  <g transform="translate(920,280)">
+    <circle cx="80" cy="60" r="35" fill="#e0f2fe"/>
+    <rect x="45" y="100" width="70" height="45" rx="12" fill="#0ea5e9" opacity="0.25"/>
+    <circle cx="65" cy="122" r="8" fill="#0ea5e9" opacity="0.5"/>
+    <text x="80" y="210" text-anchor="middle" fill="#0ea5e9" font-family="system-ui" font-size="12" font-weight="600">Connecting</text>
+  </g>
+  <!-- Connection lines -->
+  <path d="M400 340 Q550 380 640 420" stroke="#d4d4d4" stroke-width="2" fill="none" stroke-dasharray="8 6"/>
+  <path d="M600 240 Q650 320 660 360" stroke="#d4d4d4" stroke-width="2" fill="none" stroke-dasharray="8 6"/>
+  <path d="M800 240 Q750 320 740 360" stroke="#d4d4d4" stroke-width="2" fill="none" stroke-dasharray="8 6"/>
+  <path d="M1000 340 Q850 380 760 420" stroke="#d4d4d4" stroke-width="2" fill="none" stroke-dasharray="8 6"/>
+</svg>

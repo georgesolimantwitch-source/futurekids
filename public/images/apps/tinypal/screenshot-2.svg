@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 844" fill="none">
+  <rect width="390" height="844" fill="#e0f2fe"/>
+  <rect x="20" y="60" width="350" height="60" rx="12" fill="#0ea5e9" opacity="0.15"/>
+  <rect x="20" y="140" width="350" height="300" rx="16" fill="white" stroke="#0ea5e9" stroke-opacity="0.2"/>
+  <rect x="40" y="380" width="60" height="40" rx="12" fill="#0ea5e9" opacity="0.15"/>
+  <rect x="120" y="360" width="200" height="36" rx="18" fill="#0ea5e9" opacity="0.1"/>
+  <rect x="40" y="200" width="160" height="36" rx="18" fill="#0ea5e9" opacity="0.15"/>
+  <rect x="220" y="220" width="120" height="60" rx="16" fill="#0ea5e9" opacity="0.1"/>
+  <text x="195" y="780" text-anchor="middle" fill="#0ea5e9" font-family="system-ui,sans-serif" font-size="14" opacity="0.5">TinyPal  Parent Dashboard</text>
+</svg>
