@@ -1,32 +1,43 @@
 import { NextRequest, NextResponse } from "next/server";
-import Stripe from "stripe";
-import {
-  clampEarnlyChildCount,
-  earnlyLivePricing,
-} from "@/config/earnly-pricing";
+import { clampEarnlyChildCount } from "@/config/earnly-pricing";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-
-const stripeSecret = process.env.STRIPE_SECRET_KEY;
-
-function getStripe(): Stripe {
-  if (!stripeSecret) {
-    throw new Error("STRIPE_SECRET_KEY is not configured");
-  }
-  return new Stripe(stripeSecret);
-}
-
 import { getRequestOrigin } from "@/lib/auth/redirect";
+import {
+  assertStripePriceMatchesCatalog,
+  getServerCheckoutPlan,
+  getStripe,
+} from "@/lib/subscriptions/stripe";
 
-function resolvePlanType(app: string | undefined): string {
-  if (app === "ecosystem") return "bundle";
-  if (app === "earnly") return "per_child";
-  if (app === "scholars") return "tier";
-  return "flat";
+function checkoutOrigin(request: NextRequest): string {
+  const configured = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (configured) {
+    try {
+      return new URL(configured).origin;
+    } catch {
+      throw new Error("NEXT_PUBLIC_SITE_URL is invalid");
+    }
+  }
+  return getRequestOrigin(request);
 }
 
 export async function POST(request: NextRequest) {
   try {
+    const stripeSecret = process.env.STRIPE_SECRET_KEY?.trim();
+    const requestHostname = (
+      request.headers.get("x-forwarded-host") ?? request.nextUrl.hostname
+    )
+      .split(":")[0]
+      .toLowerCase();
+    if (
+      stripeSecret?.startsWith("sk_test_") &&
+      !["localhost", "127.0.0.1"].includes(requestHostname)
+    ) {
+      return NextResponse.json(
+        { error: "Stripe sandbox checkout is local-only" },
+        { status: 403 },
+      );
+    }
     const supabase = await createClient();
     const {
       data: { user },
@@ -37,29 +48,70 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Authentication required", code: "AUTH_REQUIRED" }, { status: 401 });
     }
 
-    const body = (await request.json()) as {
-      priceId?: string;
-      quantity?: number;
-      app?: string;
-      childCount?: number;
-    };
-
-    const { priceId, quantity = 1, app, childCount } = body;
-
-    if (!priceId || typeof priceId !== "string") {
-      return NextResponse.json({ error: "Missing priceId" }, { status: 400 });
+    let body: { planKey?: unknown; childCount?: unknown };
+    try {
+      body = (await request.json()) as {
+        planKey?: unknown;
+        childCount?: unknown;
+      };
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
     }
 
+    const { planKey, childCount } = body;
+
+    if (typeof planKey !== "string" || !planKey) {
+      return NextResponse.json({ error: "Missing planKey" }, { status: 400 });
+    }
+
+    const mapped = getServerCheckoutPlan(planKey);
+    if (!mapped) {
+      return NextResponse.json({ error: "Unknown planKey" }, { status: 400 });
+    }
+    const { plan, priceId } = mapped;
+    const { data: existingEntitlements } = await supabase
+      .from("user_entitlements")
+      .select("id, status, current_period_end")
+      .eq("provider", "stripe")
+      .eq("plan_key", plan.planKey)
+      .in("status", ["active", "trialing", "grace_period", "canceled"]);
+    if (
+      existingEntitlements?.some(
+        (entitlement) =>
+          !entitlement.current_period_end ||
+          Date.parse(entitlement.current_period_end) > Date.now(),
+      )
+    ) {
+      return NextResponse.json(
+        { error: "This Stripe plan is already attached to your account" },
+        { status: 409 },
+      );
+    }
     const stripe = getStripe();
-    const origin = getRequestOrigin(request);
-    const planType = resolvePlanType(app);
+    await assertStripePriceMatchesCatalog(stripe, plan, priceId);
+    const origin = checkoutOrigin(request);
+    let lineItemQuantity = 1;
+    let effectiveChildCount = plan.fixedChildCount ?? 1;
 
-    let lineItemQuantity = quantity;
-
-    if (app === "earnly" || app === "ecosystem") {
-      lineItemQuantity = clampEarnlyChildCount(childCount ?? quantity);
-      if (lineItemQuantity < earnlyLivePricing.minChildren) {
+    if (plan.perChildQuantity) {
+      const requestedChildren = childCount ?? 1;
+      if (
+        !Number.isInteger(requestedChildren) ||
+        Number(requestedChildren) !== clampEarnlyChildCount(Number(requestedChildren))
+      ) {
         return NextResponse.json({ error: "Invalid child count" }, { status: 400 });
+      }
+      effectiveChildCount = clampEarnlyChildCount(Number(requestedChildren));
+      lineItemQuantity = effectiveChildCount;
+    } else if (plan.fixedChildCount !== null) {
+      if (
+        childCount !== undefined &&
+        Number(childCount) !== plan.fixedChildCount
+      ) {
+        return NextResponse.json(
+          { error: "planKey does not match child count" },
+          { status: 400 },
+        );
       }
     }
 
@@ -71,6 +123,23 @@ export async function POST(request: NextRequest) {
 
     let customerId = profile?.stripe_customer_id ?? undefined;
 
+    if (customerId) {
+      const customer = await stripe.customers.retrieve(customerId);
+      if (customer.deleted) {
+        customerId = undefined;
+      } else {
+        const linkedUserId = customer.metadata.future_kids_user_id;
+        if (linkedUserId && linkedUserId !== user.id) {
+          throw new Error("Stripe customer belongs to a different user");
+        }
+        if (!linkedUserId) {
+          await stripe.customers.update(customer.id, {
+            metadata: { future_kids_user_id: user.id },
+          });
+        }
+      }
+    }
+
     if (!customerId) {
       const customer = await stripe.customers.create({
         email: user.email ?? profile?.email ?? undefined,
@@ -81,14 +150,17 @@ export async function POST(request: NextRequest) {
       });
       customerId = customer.id;
 
-      try {
-        const admin = createAdminClient();
-        await admin.rpc("set_profile_stripe_customer_id", {
-          p_user_id: user.id,
-          p_stripe_customer_id: customerId,
+      const admin = createAdminClient();
+      const { error: customerLinkError } = await admin.rpc("set_profile_stripe_customer_id", {
+        p_user_id: user.id,
+        p_stripe_customer_id: customerId,
+      });
+      if (customerLinkError) {
+        console.error("[checkout] failed to persist Stripe customer", {
+          userId: user.id,
+          code: customerLinkError.code,
         });
-      } catch {
-        // Profile column may not exist until migration runs — checkout still proceeds.
+        return NextResponse.json({ error: "Could not link billing profile" }, { status: 500 });
       }
     }
 
@@ -102,22 +174,20 @@ export async function POST(request: NextRequest) {
           quantity: lineItemQuantity,
         },
       ],
-      success_url: `${origin}/account?checkout=success&app=${app ?? "earnly"}`,
+      success_url: `${origin}/account?checkout=success&app=${plan.appKey}`,
       cancel_url: `${origin}/pricing?checkout=canceled`,
       metadata: {
         future_kids_user_id: user.id,
-        app_id: app ?? "unknown",
-        price_id: priceId,
-        plan_type: planType,
-        child_count: String(lineItemQuantity),
+        app_key: plan.appKey,
+        plan_key: plan.planKey,
+        child_count: String(effectiveChildCount),
       },
       subscription_data: {
         metadata: {
           future_kids_user_id: user.id,
-          app_id: app ?? "unknown",
-          price_id: priceId,
-          plan_type: planType,
-          child_count: String(lineItemQuantity),
+          app_key: plan.appKey,
+          plan_key: plan.planKey,
+          child_count: String(effectiveChildCount),
         },
       },
     });
@@ -128,7 +198,9 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ url: session.url });
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Checkout failed";
-    return NextResponse.json({ error: message }, { status: 500 });
+    console.error("[checkout] failed", {
+      message: error instanceof Error ? error.message : "unknown",
+    });
+    return NextResponse.json({ error: "Could not start checkout" }, { status: 500 });
   }
 }

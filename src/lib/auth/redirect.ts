@@ -1,8 +1,10 @@
+import { safeNextPath } from "@/lib/auth/safe-next";
+
 const PRODUCTION_SITE_URL = "https://kidsfuture.vercel.app";
 
 /** Client-side OAuth / password-reset callback URL. Uses the current browser origin. */
 export function buildOAuthCallbackUrl(next = "/account"): string {
-  const safeNext = next.startsWith("/") ? next : "/account";
+  const safeNext = safeNextPath(next);
 
   if (typeof window === "undefined") {
     return `${PRODUCTION_SITE_URL}/auth/callback?next=${encodeURIComponent(safeNext)}`;

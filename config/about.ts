@@ -44,15 +44,22 @@ export const missionSection = {
 
 /* ── How we help (mapped to apps) ── */
 export const familyChallenges = {
-  headline: "How we help families.",
+  eyebrow: "Built for real family life",
+  headline: "Four apps. One purpose: helping you raise capable kids.",
+  subtext:
+    "Each app gives parents a practical way to teach, guide, and protect — while children build skills they can use in the real world.",
   cards: [
     {
       id: "money",
       title: "Money & responsibility",
       description:
-        "Earnly teaches kids to earn, save, and manage money — so they enter adulthood with real financial experience.",
+        "Turn everyday chores into early money lessons. Parents guide the routine while kids practice earning, saving, spending, and giving.",
       app: "Earnly",
-      illustration: "/images/about/challenge-money.svg",
+      illustration: "/images/about/earnly-family.jpg",
+      illustrationAlt:
+        "A parent helping their child sort allowance into saving, spending, and giving jars",
+      parentBenefit: "You set the structure",
+      childBenefit: "They build responsibility",
       accent: "#059669",
       accentLight: "#ecfdf5",
     },
@@ -60,9 +67,12 @@ export const familyChallenges = {
       id: "school",
       title: "Learning & academics",
       description:
-        "Scholars Notes gives students AI-powered study tools — so school feels less overwhelming and more achievable.",
+        "Give students support that builds independence instead of doing the work for them. Better study habits make school feel manageable.",
       app: "Scholars Notes",
-      illustration: "/images/about/challenge-school.svg",
+      illustration: "/images/about/scholars-family.jpg",
+      illustrationAlt: "A parent encouraging their child while they study with notes and a laptop",
+      parentBenefit: "You encourage progress",
+      childBenefit: "They learn with confidence",
       accent: "#6366f1",
       accentLight: "#eef2ff",
     },
@@ -70,9 +80,12 @@ export const familyChallenges = {
       id: "activity",
       title: "Sports & activity",
       description:
-        "Ballr helps kids find games, train, and build community — so staying active is social, not solitary.",
+        "Help kids find opportunities to play, practice, and belong. Activity becomes a source of confidence, friendship, and healthy routine.",
       app: "Ballr",
-      illustration: "/images/about/challenge-activity.svg",
+      illustration: "/images/about/ballr-family.jpg",
+      illustrationAlt: "A parent cheering as children play a neighborhood soccer game",
+      parentBenefit: "You help them participate",
+      childBenefit: "They get active together",
       accent: "#ea580c",
       accentLight: "#fff7ed",
     },
@@ -80,9 +93,12 @@ export const familyChallenges = {
       id: "communication",
       title: "Safe connection",
       description:
-        "TinyPal gives families parent-managed messaging — so kids can communicate without the risks of open social media.",
+        "Introduce digital communication with guardrails from the beginning. Kids connect with trusted people while parents stay involved.",
       app: "TinyPal",
-      illustration: "/images/about/challenge-communication.svg",
+      illustration: "/images/about/tinypal-family.jpg",
+      illustrationAlt: "A parent and child using devices together for safe family messaging",
+      parentBenefit: "You choose trusted connections",
+      childBenefit: "They communicate safely",
       accent: "#0ea5e9",
       accentLight: "#e0f2fe",
     },

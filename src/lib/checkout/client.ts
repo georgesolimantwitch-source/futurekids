@@ -1,7 +1,14 @@
 /** Redirect to login when checkout requires authentication. */
-export function redirectToLoginForCheckout() {
+export function redirectToLoginForCheckout(body: Record<string, unknown>) {
   if (typeof window === "undefined") return;
-  const next = `${window.location.pathname}${window.location.search}`;
+  const nextUrl = new URL(window.location.href);
+  if (typeof body.planKey === "string") {
+    nextUrl.searchParams.set("checkoutPlan", body.planKey);
+  }
+  if (typeof body.childCount === "number") {
+    nextUrl.searchParams.set("children", String(body.childCount));
+  }
+  const next = `${nextUrl.pathname}${nextUrl.search}`;
   globalThis.location.assign(`/login?next=${encodeURIComponent(next)}`);
 }
 
@@ -15,7 +22,7 @@ export async function postCheckout(body: Record<string, unknown>) {
   const data = (await res.json()) as { url?: string; error?: string; code?: string };
 
   if (res.status === 401 || data.code === "AUTH_REQUIRED") {
-    redirectToLoginForCheckout();
+    redirectToLoginForCheckout(body);
     return null;
   }
 

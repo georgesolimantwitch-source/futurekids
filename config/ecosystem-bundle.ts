@@ -19,10 +19,10 @@ export const ecosystemBundle = {
     "Earnly, Scholars Notes, Ballr Live, and TinyPal — the complete ecosystem for learning, earning, playing, and connecting.",
   /** $19.99/mo with 1 Earnly child; +$0.99/mo per additional child */
   monthlyBase: 19.99,
-  monthlyPerExtraChild: earnlyLivePricing.unitMonthly,
-  /** 10 months of base + Earnly yearly unit per extra child */
+  monthlyPerExtraChild: 0.99,
+  /** Annual base + $9.99 per additional child */
   yearlyBase: 199.9,
-  yearlyPerExtraChild: earnlyLivePricing.unitYearly,
+  yearlyPerExtraChild: 9.99,
   scholarsYearlyEquivalent: scholarsAllAccessYearly,
   includedApps: [
     { slug: "earnly" as const, name: "Earnly Live", icon: "/images/apps/earnly/icon.png" },

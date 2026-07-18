@@ -7,23 +7,23 @@ import { useEffect, useMemo, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { apps } from "@/config/brand";
 import {
-  appAccessStatus,
-  billingLabel,
   formatAccountDate,
   initialsFromName,
-  statusLabel,
-  statusTone,
-  subscriptionForApp,
-  accessForApp,
 } from "@/lib/auth/account-display";
 import {
   buildAccountViewModel,
   countActiveApps,
   countActivePlans,
+  entitlementForApp,
   REQUIRED_APP_IDS,
   SETUP_PENDING_MESSAGE,
 } from "@/lib/auth/account-view";
-import type { EcosystemAccount, EcosystemAppId, EcosystemSubscription } from "@/lib/auth/types";
+import type {
+  EcosystemAccount,
+  EcosystemAppId,
+  EntitlementStatus,
+  UserEntitlement,
+} from "@/lib/auth/types";
 import { createClient } from "@/lib/supabase/client";
 
 const NAV_ITEMS = [
@@ -42,6 +42,30 @@ interface AccountDashboardProps {
   setupError?: string | null;
 }
 
+async function loadCanonicalAccount(): Promise<EcosystemAccount | null> {
+  const supabase = createClient();
+  const [accountResult, entitlementsResult, effectiveResult] = await Promise.all([
+    supabase.rpc("get_ecosystem_account"),
+    supabase
+      .from("user_entitlements")
+      .select("*")
+      .order("created_at", { ascending: false }),
+    supabase.rpc("get_effective_app_access"),
+  ]);
+  if (!accountResult.data) return null;
+  const account = accountResult.data as EcosystemAccount;
+  return {
+    ...account,
+    entitlements:
+      (entitlementsResult.data as UserEntitlement[] | null) ??
+      account.entitlements ??
+      [],
+    effective_access:
+      (effectiveResult.data as EcosystemAccount["effective_access"] | null) ??
+      [],
+  };
+}
+
 export function AccountDashboard({
   initialAccount,
   authUser,
@@ -56,26 +80,66 @@ export function AccountDashboard({
   const [loading, setLoading] = useState(!initialAccount?.profile);
   const [signingOut, setSigningOut] = useState(false);
   const [repairing, setRepairing] = useState(false);
+  const [openingPortal, setOpeningPortal] = useState(false);
 
   useEffect(() => {
     if (initialAccount?.profile) return;
 
     async function load() {
-      const supabase = createClient();
-      let { data } = await supabase.rpc("get_ecosystem_account");
+      let data = await loadCanonicalAccount();
 
-      if (!data || !(data as EcosystemAccount).profile) {
+      if (!data?.profile) {
         await fetch("/api/account/setup", { method: "POST" });
-        const refreshed = await supabase.rpc("get_ecosystem_account");
-        data = refreshed.data ?? data;
+        data = (await loadCanonicalAccount()) ?? data;
       }
 
-      setRawAccount((data as EcosystemAccount | null) ?? null);
+      setRawAccount(data);
       setLoading(false);
     }
 
     load();
   }, [initialAccount]);
+
+  useEffect(() => {
+    if (!checkoutSuccess) return;
+    let cancelled = false;
+    let timer: number | undefined;
+    let attempts = 0;
+
+    async function refreshEntitlements() {
+      const data = await loadCanonicalAccount();
+      if (cancelled) return;
+      if (data) setRawAccount(data as EcosystemAccount);
+
+      attempts += 1;
+      if (attempts < 5 && !(data as EcosystemAccount | null)?.entitlements?.length) {
+        timer = window.setTimeout(refreshEntitlements, 1500);
+      }
+    }
+
+    refreshEntitlements();
+    return () => {
+      cancelled = true;
+      if (timer) window.clearTimeout(timer);
+    };
+  }, [checkoutSuccess]);
+
+  useEffect(() => {
+    if (!initialAccount?.profile?.stripe_customer_id || checkoutSuccess) return;
+    let cancelled = false;
+    async function reconcileStripe() {
+      const response = await fetch("/api/subscriptions/stripe/reconcile", {
+        method: "POST",
+      });
+      if (!response.ok || cancelled) return;
+      const data = await loadCanonicalAccount();
+      if (data && !cancelled) setRawAccount(data);
+    }
+    reconcileStripe();
+    return () => {
+      cancelled = true;
+    };
+  }, [checkoutSuccess, initialAccount?.profile?.stripe_customer_id]);
 
   const account = useMemo(
     () => buildAccountViewModel(rawAccount, authUser),
@@ -93,9 +157,8 @@ export function AccountDashboard({
     setRepairing(true);
     try {
       await fetch("/api/account/setup", { method: "POST" });
-      const supabase = createClient();
-      const { data } = await supabase.rpc("get_ecosystem_account");
-      setRawAccount((data as EcosystemAccount | null) ?? null);
+      const data = await loadCanonicalAccount();
+      setRawAccount(data);
     } finally {
       setRepairing(false);
     }
@@ -107,6 +170,20 @@ export function AccountDashboard({
     await supabase.auth.signOut();
     router.push("/");
     router.refresh();
+  }
+
+  async function handleOpenBillingPortal() {
+    setOpeningPortal(true);
+    try {
+      const response = await fetch("/api/billing/portal", { method: "POST" });
+      const data = (await response.json()) as { url?: string };
+      if (response.ok && data.url) {
+        globalThis.location.assign(data.url);
+        return;
+      }
+    } finally {
+      setOpeningPortal(false);
+    }
   }
 
   if (loading) {
@@ -247,9 +324,8 @@ export function AccountDashboard({
               <div className="mt-6 grid gap-4 md:grid-cols-2">
                 {REQUIRED_APP_IDS.map((appId) => {
                   const brandApp = apps.find((a) => a.slug === appId)!;
-                  const sub = subscriptionForApp(account, appId);
-                  const access = accessForApp(account, appId);
-                  const status = appAccessStatus(sub, access?.has_access ?? false);
+                  const entitlement = entitlementForApp(account, appId);
+                  const status = entitlement ? "active" : "inactive";
 
                   return (
                     <AppCard
@@ -260,8 +336,7 @@ export function AccountDashboard({
                       icon={brandApp.iconPath}
                       accent={brandApp.accentColor}
                       status={status}
-                      subscription={sub}
-                      accessSource={access?.access_source}
+                      entitlement={entitlement}
                       learnMore={brandApp.learnMorePath}
                       openHref={brandApp.appStoreUrl || brandApp.cta.href}
                     />
@@ -298,64 +373,102 @@ export function AccountDashboard({
                     <thead className="border-b border-neutral-100 text-xs uppercase tracking-wider text-neutral-500">
                       <tr>
                         <th className="px-6 py-4 font-medium">App</th>
-                        <th className="px-6 py-4 font-medium">Plan status</th>
-                        <th className="px-6 py-4 font-medium">Access</th>
-                        <th className="px-6 py-4 font-medium">Billing</th>
+                        <th className="px-6 py-4 font-medium">Plan</th>
+                        <th className="px-6 py-4 font-medium">Provider</th>
+                        <th className="px-6 py-4 font-medium">Status</th>
                         <th className="px-6 py-4 font-medium">Renews / expires</th>
                         <th className="px-6 py-4 font-medium">Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {REQUIRED_APP_IDS.map((appId) => {
-                        const brandApp = apps.find((a) => a.slug === appId)!;
-                        const sub = subscriptionForApp(account, appId);
-                        const access = accessForApp(account, appId);
-                        const tone = statusTone(sub?.subscription_status, access?.has_access ?? false);
+                      {account.entitlements.length ? (
+                        account.entitlements.map((entitlement) => {
+                          const brandApp =
+                            apps.find((app) => app.slug === entitlement.app_key);
 
-                        return (
-                          <tr key={appId} className="border-b border-neutral-100 last:border-0">
-                            <td className="px-6 py-5">
-                              <div className="flex items-center gap-3">
-                                <Image
-                                  src={brandApp.iconPath}
-                                  alt=""
-                                  width={28}
-                                  height={28}
-                                  className="h-7 w-7"
-                                  aria-hidden
-                                />
-                                <div>
-                                  <p className="font-medium text-neutral-950">{brandApp.name}</p>
-                                  <p className="text-xs text-neutral-500">{brandApp.tagline}</p>
+                          return (
+                            <tr
+                              key={entitlement.id}
+                              className="border-b border-neutral-100 last:border-0"
+                            >
+                              <td className="px-6 py-5">
+                                <div className="flex items-center gap-3">
+                                  {brandApp ? (
+                                    <Image
+                                      src={brandApp.iconPath}
+                                      alt=""
+                                      width={28}
+                                      height={28}
+                                      className="h-7 w-7"
+                                      aria-hidden
+                                    />
+                                  ) : (
+                                    <div className="grid h-7 w-7 place-items-center rounded-lg bg-neutral-950 text-xs text-white">
+                                      FK
+                                    </div>
+                                  )}
+                                  <p className="font-medium text-neutral-950">
+                                    {brandApp?.name ?? "Future Kids All Access"}
+                                  </p>
                                 </div>
-                              </div>
-                            </td>
-                            <td className="px-6 py-5">
-                              <Badge tone={tone}>{statusLabel(sub?.subscription_status)}</Badge>
-                            </td>
-                            <td className="px-6 py-5 text-neutral-600">
-                              {access?.has_access ? "Unlocked" : "Not subscribed"}
-                            </td>
-                            <td className="px-6 py-5 text-neutral-600">{billingLabel(sub)}</td>
-                            <td className="px-6 py-5 text-neutral-600">
-                              {formatAccountDate(sub?.current_period_end ?? access?.expires_at)}
-                              {sub?.cancel_at_period_end ? (
-                                <span className="mt-1 block text-xs text-amber-700">
-                                  Cancels at period end
+                              </td>
+                              <td className="px-6 py-5 text-neutral-600">
+                                {planDisplayName(entitlement.plan_key)}
+                                <span className="mt-1 block text-xs capitalize text-neutral-500">
+                                  {entitlementAccessSummary(entitlement)}
                                 </span>
-                              ) : null}
-                            </td>
-                            <td className="px-6 py-5">
-                              <Link
-                                href="/pricing"
-                                className="font-medium text-neutral-950 underline underline-offset-4"
-                              >
-                                Manage
-                              </Link>
-                            </td>
-                          </tr>
-                        );
-                      })}
+                              </td>
+                              <td className="px-6 py-5 capitalize text-neutral-600">
+                                {entitlement.provider}
+                              </td>
+                              <td className="px-6 py-5">
+                                <Badge tone={entitlementTone(entitlement.status)}>
+                                  {entitlementStatusLabel(entitlement.status)}
+                                </Badge>
+                              </td>
+                              <td className="px-6 py-5 text-neutral-600">
+                                {formatAccountDate(entitlement.current_period_end)}
+                              </td>
+                              <td className="px-6 py-5">
+                                {entitlement.provider === "stripe" ? (
+                                  <button
+                                    type="button"
+                                    onClick={handleOpenBillingPortal}
+                                    disabled={openingPortal}
+                                    className="font-medium text-neutral-950 underline underline-offset-4 disabled:opacity-50"
+                                  >
+                                    {openingPortal ? "Opening…" : "Manage subscription"}
+                                  </button>
+                                ) : entitlement.provider === "apple" ? (
+                                  <a
+                                    href="https://apps.apple.com/account/subscriptions"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="font-medium text-neutral-950 underline underline-offset-4"
+                                  >
+                                    Manage in App Store
+                                  </a>
+                                ) : (
+                                  <a
+                                    href="https://play.google.com/store/account/subscriptions"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="font-medium text-neutral-950 underline underline-offset-4"
+                                  >
+                                    Manage in Google Play
+                                  </a>
+                                )}
+                              </td>
+                            </tr>
+                          );
+                        })
+                      ) : (
+                        <tr>
+                          <td colSpan={6} className="px-6 py-10 text-center text-neutral-500">
+                            No subscriptions yet. Choose an app plan to get started.
+                          </td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </div>
@@ -585,6 +698,49 @@ function Badge({
   );
 }
 
+function entitlementStatusLabel(status: EntitlementStatus): string {
+  const labels: Record<EntitlementStatus, string> = {
+    active: "Active",
+    trialing: "Trial",
+    grace_period: "Grace period",
+    past_due: "Past due",
+    canceled: "Canceled",
+    expired: "Expired",
+    revoked: "Revoked",
+    incomplete: "Incomplete",
+  };
+  return labels[status];
+}
+
+function entitlementTone(
+  status: EntitlementStatus,
+): "success" | "warning" | "neutral" {
+  if (status === "active" || status === "trialing") return "success";
+  if (status === "grace_period") return "warning";
+  return "neutral";
+}
+
+function planDisplayName(planKey: string): string {
+  return planKey
+    .replace(/^futurekids_/, "Future Kids ")
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+function entitlementAccessSummary(entitlement: UserEntitlement): string {
+  const details = [entitlement.tier_key.replace(/_/g, " ")];
+  if (entitlement.child_limit) {
+    details.push(
+      `${entitlement.child_limit} ${entitlement.child_limit === 1 ? "child" : "children"}`,
+    );
+  }
+  const features = Object.entries(entitlement.features ?? {})
+    .filter(([, enabled]) => enabled)
+    .map(([feature]) => feature.replace(/([a-z])([A-Z])/g, "$1 $2").toLowerCase());
+  if (features.length) details.push(features.join(", "));
+  return details.join(" · ");
+}
+
 function AppCard({
   appId,
   name,
@@ -592,8 +748,7 @@ function AppCard({
   icon,
   accent,
   status,
-  subscription,
-  accessSource,
+  entitlement,
   learnMore,
   openHref,
 }: {
@@ -603,8 +758,7 @@ function AppCard({
   icon: string;
   accent: string;
   status: "active" | "inactive" | "coming_soon";
-  subscription?: EcosystemSubscription;
-  accessSource?: string | null;
+  entitlement?: UserEntitlement;
   learnMore: string;
   openHref: string;
 }) {
@@ -629,21 +783,22 @@ function AppCard({
 
       <div className="mt-5 space-y-2 text-sm text-neutral-600">
         <p>
-          Plan: <span className="font-medium text-neutral-900">{statusLabel(subscription?.subscription_status)}</span>
+          Plan:{" "}
+          <span className="font-medium text-neutral-900">
+            {entitlement ? planDisplayName(entitlement.plan_key) : "None"}
+          </span>
         </p>
         <p>
-          Billing: <span className="font-medium text-neutral-900">{billingLabel(subscription)}</span>
+          Provider:{" "}
+          <span className="font-medium capitalize text-neutral-900">
+            {entitlement?.provider ?? "—"}
+          </span>
         </p>
-        {accessSource && accessSource !== "none" && (
-          <p>
-            Access source: <span className="font-medium capitalize text-neutral-900">{accessSource}</span>
-          </p>
-        )}
-        {subscription?.current_period_end && (
+        {entitlement?.current_period_end && (
           <p>
             Renews:{" "}
             <span className="font-medium text-neutral-900">
-              {formatAccountDate(subscription.current_period_end)}
+              {formatAccountDate(entitlement.current_period_end)}
             </span>
           </p>
         )}

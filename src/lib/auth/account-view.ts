@@ -1,4 +1,9 @@
-import type { AccountType, EcosystemAccount, EcosystemAppId } from "@/lib/auth/types";
+import type {
+  AccountType,
+  EcosystemAccount,
+  EcosystemAppId,
+  UserEntitlement,
+} from "@/lib/auth/types";
 import type { User } from "@supabase/supabase-js";
 
 export const REQUIRED_APP_IDS: EcosystemAppId[] = ["earnly", "scholars", "ballr", "tinypal"];
@@ -34,7 +39,13 @@ export function buildAccountViewModel(
   account: EcosystemAccount | null,
   user: User,
 ): EcosystemAccount {
-  if (account?.profile) return account;
+  if (account?.profile) {
+    return {
+      ...account,
+      entitlements: account.entitlements ?? [],
+      effective_access: account.effective_access ?? [],
+    };
+  }
 
   const fullName = displayNameFromUser(user);
   const now = new Date().toISOString();
@@ -55,17 +66,43 @@ export function buildAccountViewModel(
     family_members: account?.family_members ?? [],
     subscriptions: account?.subscriptions ?? [],
     app_access: account?.app_access ?? [],
+    entitlements: account?.entitlements ?? [],
+    effective_access: account?.effective_access ?? [],
   };
 }
 
+export function entitlementIsActive(entitlement: UserEntitlement): boolean {
+  if (
+    !["active", "trialing", "grace_period", "canceled"].includes(
+      entitlement.status,
+    )
+  ) {
+    return false;
+  }
+  return (
+    entitlement.current_period_end === null ||
+    Date.parse(entitlement.current_period_end) > Date.now()
+  );
+}
+
+export function entitlementForApp(
+  account: EcosystemAccount,
+  appId: EcosystemAppId,
+): UserEntitlement | undefined {
+  return account.entitlements
+    .filter(
+      (entitlement) =>
+        entitlementIsActive(entitlement) &&
+        (entitlement.app_key === appId ||
+          entitlement.app_key === "futurekids_all_access"),
+    )
+    .sort((a, b) => b.entitlement_rank - a.entitlement_rank)[0];
+}
+
 export function countActivePlans(account: EcosystemAccount): number {
-  return account.subscriptions.filter(
-    (sub) => sub.subscription_status === "active" || sub.subscription_status === "trialing",
-  ).length;
+  return account.entitlements.filter(entitlementIsActive).length;
 }
 
 export function countActiveApps(account: EcosystemAccount): number {
-  const activeFromAccess = account.app_access.filter((a) => a.has_access).length;
-  const activeFromSubs = account.subscriptions.filter((s) => s.subscription_status === "active").length;
-  return Math.max(activeFromAccess, activeFromSubs);
+  return REQUIRED_APP_IDS.filter((appId) => entitlementForApp(account, appId)).length;
 }

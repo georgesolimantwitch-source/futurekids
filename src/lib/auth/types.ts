@@ -1,6 +1,55 @@
 export type EcosystemAppId = "earnly" | "scholars" | "ballr" | "tinypal";
+export type SubscriptionAppId = EcosystemAppId | "futurekids_all_access";
 
 export type AccountType = "parent" | "individual";
+
+export type EntitlementStatus =
+  | "active"
+  | "trialing"
+  | "grace_period"
+  | "past_due"
+  | "canceled"
+  | "expired"
+  | "revoked"
+  | "incomplete";
+
+export interface UserEntitlement {
+  id: string;
+  app_key: SubscriptionAppId;
+  plan_key: string;
+  provider: "stripe" | "apple" | "google";
+  status: EntitlementStatus;
+  current_period_start: string | null;
+  current_period_end: string | null;
+  cancel_at_period_end: boolean;
+  quantity: number;
+  tier_key: string;
+  entitlement_rank: number;
+  child_limit: number | null;
+  limits: Record<string, number | boolean | string>;
+  features: Record<string, boolean>;
+  provider_subscription_id: string;
+  provider_product_id: string | null;
+  provider_price_id: string | null;
+  environment: string | null;
+  auto_renew_status: boolean | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface EffectiveAppAccess {
+  hasAccess: boolean;
+  appKey: EcosystemAppId;
+  planKey: string | null;
+  tierKey: string;
+  features: Record<string, boolean>;
+  limits: Record<string, number | boolean | string>;
+  childLimit: number | null;
+  provider: "stripe" | "apple" | null;
+  status: EntitlementStatus | null;
+  currentPeriodEnd: string | null;
+  manageWith: "stripe" | "app_store" | null;
+}
 
 export type EcosystemSubscriptionStatus =
   | "none"
@@ -71,5 +120,7 @@ export interface EcosystemAccount {
   family_members: EcosystemFamilyMember[];
   subscriptions: EcosystemSubscription[];
   app_access: EcosystemAppAccess[];
+  entitlements: UserEntitlement[];
+  effective_access?: EffectiveAppAccess[];
   tinypal_parent_profile_exists?: boolean;
 }

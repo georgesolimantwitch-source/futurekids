@@ -4,6 +4,7 @@
  */
 
 import { ecosystemBundle, ecosystemMonthlyByChild, ecosystemYearlyByChild } from "./ecosystem-bundle";
+import { earnlyLivePricing, earnlyTotalPrice } from "./earnly-pricing";
 import {
   scholarsAllAccessMonthly,
   scholarsAllAccessYearly,
@@ -29,30 +30,38 @@ export interface StripeCatalogPlan {
   metadata?: Record<string, string>;
 }
 
-/** One Earnly product — quantity = children on the plan */
-export const earnlyStripePlans: StripeCatalogPlan[] = [
+/** Existing fixed Stripe product for each child-count and billing period. */
+export const earnlyStripePlans: StripeCatalogPlan[] = Array.from(
+  { length: earnlyLivePricing.maxChildren },
+  (_, index) => index + 1,
+).flatMap((childCount) => [
   {
     app: "earnly",
-    catalogId: "earnly.live.monthly",
-    name: "Earnly Live",
-    description:
-      "Family banking, chores, savings goals, and premium family features. Billed per child.",
-    unitAmount: 0.99,
-    interval: "month",
-    perChildQuantity: true,
-    metadata: { billing_period: "monthly", pricing_model: "per_child" },
+    catalogId: `earnly.kids${childCount}.monthly`,
+    name: `Earnly Live — ${childCount} ${childCount === 1 ? "Child" : "Children"} Monthly`,
+    description: "Family banking, chores, savings goals, and premium family features.",
+    unitAmount: earnlyTotalPrice(childCount, "monthly"),
+    interval: "month" as const,
+    metadata: {
+      billing_period: "monthly",
+      pricing_model: "fixed_child_count",
+      child_count: String(childCount),
+    },
   },
   {
     app: "earnly",
-    catalogId: "earnly.live.yearly",
-    name: "Earnly Live",
-    description: "Annual Earnly Live plan. Billed per child.",
-    unitAmount: 9.99,
-    interval: "year",
-    perChildQuantity: true,
-    metadata: { billing_period: "yearly", pricing_model: "per_child" },
+    catalogId: `earnly.kids${childCount}.yearly`,
+    name: `Earnly Live — ${childCount} ${childCount === 1 ? "Child" : "Children"} Yearly`,
+    description: "Annual Earnly Live family plan.",
+    unitAmount: earnlyTotalPrice(childCount, "yearly"),
+    interval: "year" as const,
+    metadata: {
+      billing_period: "yearly",
+      pricing_model: "fixed_child_count",
+      child_count: String(childCount),
+    },
   },
-];
+]);
 
 export const scholarsStripePlans: StripeCatalogPlan[] = [
   {

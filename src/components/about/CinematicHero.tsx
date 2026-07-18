@@ -1,34 +1,72 @@
 "use client";
 
 import Image from "next/image";
-import { cinematicHero } from "@/config/about";
+import { cinematicHero, familyChallenges } from "@/config/about";
 import { ScrollIndicator, StoryReveal } from "./StoryReveal";
 
 export function CinematicHero() {
   return (
-    <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-white">
-      <div className="absolute inset-0 bg-gradient-to-b from-[#fafafa] via-white to-[#f0f9ff]/40" />
-      <div className="absolute inset-0 opacity-30">
-        <Image
-          src={cinematicHero.illustration}
-          alt=""
-          fill
-          className="object-cover object-center"
-          priority
-          sizes="100vw"
-        />
-      </div>
+    <section className="relative flex min-h-screen items-center overflow-hidden bg-[#f8f8f6] py-24 sm:py-28">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_15%,rgba(16,185,129,0.12),transparent_28%),radial-gradient(circle_at_85%_20%,rgba(99,102,241,0.12),transparent_30%),radial-gradient(circle_at_75%_85%,rgba(249,115,22,0.10),transparent_28%)]" />
 
-      <div className="relative z-10 mx-auto max-w-5xl px-4 text-center sm:px-6">
-        <StoryReveal variant="fade-up" duration={1200}>
-          <h1 className="text-4xl font-semibold leading-[1.05] tracking-tight text-neutral-900 sm:text-6xl lg:text-7xl xl:text-8xl">
-            {cinematicHero.headline}
-          </h1>
-        </StoryReveal>
-        <StoryReveal variant="fade-in" delay={400}>
-          <p className="mx-auto mt-6 max-w-md text-base text-neutral-500 sm:mt-8 sm:text-lg">
-            {cinematicHero.subtext}
-          </p>
+      <div className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-14 px-4 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16 lg:px-8">
+        <div>
+          <StoryReveal variant="fade-up" duration={1200}>
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-neutral-500">
+              Technology that helps families grow
+            </p>
+            <h1 className="mt-5 text-4xl font-semibold leading-[1.04] tracking-tight text-neutral-950 sm:text-6xl lg:text-7xl">
+              {cinematicHero.headline}
+            </h1>
+          </StoryReveal>
+          <StoryReveal variant="fade-in" delay={300}>
+            <p className="mt-6 max-w-xl text-base leading-relaxed text-neutral-600 sm:text-lg">
+              {cinematicHero.subtext}
+            </p>
+            <div className="mt-8 flex flex-wrap gap-2">
+              {["Money skills", "Better study habits", "Active play", "Safe connection"].map(
+                (outcome) => (
+                  <span
+                    key={outcome}
+                    className="rounded-full border border-neutral-200 bg-white/80 px-4 py-2 text-sm font-medium text-neutral-700 shadow-sm backdrop-blur"
+                  >
+                    {outcome}
+                  </span>
+                ),
+              )}
+            </div>
+          </StoryReveal>
+        </div>
+
+        <StoryReveal variant="scale" delay={200}>
+          <div className="relative grid grid-cols-2 gap-3 sm:gap-4">
+            {familyChallenges.cards.map((card, index) => (
+              <div
+                key={card.id}
+                className={`group relative overflow-hidden rounded-[1.5rem] border-4 border-white bg-white shadow-[0_20px_60px_rgba(15,23,42,0.14)] sm:rounded-[2rem] ${
+                  index === 1 || index === 3 ? "translate-y-6" : ""
+                }`}
+              >
+                <div className="relative aspect-[4/3]">
+                  <Image
+                    src={card.illustration}
+                    alt={card.illustrationAlt}
+                    fill
+                    priority={index < 2}
+                    sizes="(min-width: 1024px) 28vw, 48vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 p-3 text-white sm:p-5">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/75 sm:text-xs">
+                      {card.app}
+                    </p>
+                    <p className="mt-1 text-sm font-semibold sm:text-base">{card.title}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </StoryReveal>
       </div>
 

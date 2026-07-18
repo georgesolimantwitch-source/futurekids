@@ -9,7 +9,7 @@ import {
   clampEarnlyChildCount,
   type EarnlyBillingPeriod,
 } from "@/config/earnly-pricing";
-import { getEarnlyStripePriceId } from "@/config/stripe";
+import { earnlyPlanKey } from "@/config/checkout-plans";
 import { postCheckout } from "@/lib/checkout/client";
 import { BillingToggle } from "./PricingPlansSection";
 
@@ -20,26 +20,17 @@ export function EarnlyLivePaywall() {
   const [error, setError] = useState<string | null>(null);
 
   const count = clampEarnlyChildCount(childCount);
-  const priceId = getEarnlyStripePriceId(billingPeriod);
-
   function adjustChildren(delta: number) {
     setChildCount((c) => clampEarnlyChildCount(c + delta));
   }
 
   async function handleCheckout() {
-    if (!priceId) {
-      setError("Checkout is not configured yet. Run npm run setup:stripe.");
-      return;
-    }
-
     setLoading(true);
     setError(null);
 
     try {
       const url = await postCheckout({
-        priceId,
-        quantity: count,
-        app: "earnly",
+        planKey: earnlyPlanKey(count, billingPeriod),
         childCount: count,
       });
 
@@ -178,7 +169,7 @@ export function EarnlyLivePaywall() {
             <button
               type="button"
               onClick={handleCheckout}
-              disabled={loading || !priceId}
+              disabled={loading}
               className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#5BC0DE] px-6 py-4 text-base font-semibold text-white shadow-md transition hover:bg-[#4ab0ce] disabled:cursor-not-allowed disabled:opacity-60"
             >
               {loading ? "Redirecting…" : "Start Premium"}

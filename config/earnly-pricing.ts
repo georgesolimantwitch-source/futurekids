@@ -1,14 +1,16 @@
 /**
- * Earnly Live web pricing — one plan, quantity = number of children.
- * Unit prices match App Store (per child): $1.99/mo · $19.90/yr (10 months / 2 free).
+ * Earnly Live fixed child-count tiers already configured in Stripe.
+ * One child starts at $0.99/mo or $9.99/yr; each extra child adds
+ * $1/mo or $10/yr.
  */
 
 export const earnlyLivePricing = {
   minChildren: 1,
   maxChildren: 6,
-  unitMonthly: 1.99,
-  /** Yearly = 10 × monthly (2 months free). */
-  unitYearly: 19.9,
+  unitMonthly: 0.99,
+  unitYearly: 9.99,
+  additionalChildMonthly: 1,
+  additionalChildYearly: 10,
   billedMonthsInYearlyPlan: 10,
   productName: "Earnly Live",
   description:
@@ -42,8 +44,12 @@ export function earnlyTotalPrice(
   period: EarnlyBillingPeriod,
 ): number {
   const count = clampEarnlyChildCount(childCount);
-  const unit = earnlyUnitPrice(period);
-  return Math.round(count * unit * 100) / 100;
+  const base = earnlyUnitPrice(period);
+  const additional =
+    period === "monthly"
+      ? earnlyLivePricing.additionalChildMonthly
+      : earnlyLivePricing.additionalChildYearly;
+  return Math.round((base + (count - 1) * additional) * 100) / 100;
 }
 
 export function formatEarnlyPrice(amount: number): string {
@@ -66,5 +72,5 @@ export function earnlyPriceLine(
 export function earnlyUnitPriceLine(period: EarnlyBillingPeriod): string {
   const unit = earnlyUnitPrice(period);
   const suffix = period === "monthly" ? "month" : "year";
-  return `${formatEarnlyPrice(unit)} per child / ${suffix}`;
+  return `From ${formatEarnlyPrice(unit)} / ${suffix}`;
 }

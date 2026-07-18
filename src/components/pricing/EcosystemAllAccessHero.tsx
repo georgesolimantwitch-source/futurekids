@@ -4,6 +4,10 @@ import Image from "next/image";
 import { useState } from "react";
 import { apps, type AppSlug } from "@/config/brand";
 import {
+  allAccessPlanKey,
+  individualAppPlanKey,
+} from "@/config/checkout-plans";
+import {
   ecosystemBundle,
   bundlePriceLine,
   bundleSavings,
@@ -26,10 +30,6 @@ import {
   type ScholarsTierId,
 } from "@/config/scholars-pricing";
 import { getPricingPlan } from "@/config/pricing";
-import {
-  getEcosystemBundleStripePriceId,
-  getIndividualAppCheckout,
-} from "@/config/stripe";
 import { postCheckout } from "@/lib/checkout/client";
 import { BillingToggle } from "./PricingPlansSection";
 
@@ -62,17 +62,14 @@ export function EcosystemAllAccessHero() {
   const individualPlan =
     !isBundle ? getPricingPlan(selectedPlan as AppSlug) : undefined;
 
-  const bundlePriceId = getEcosystemBundleStripePriceId(count, billingPeriod);
-  const individualCheckout =
-    !isBundle
-      ? getIndividualAppCheckout(
-          selectedPlan as AppSlug,
-          billingPeriod,
-          count,
-          isScholars ? scholarsTier : undefined,
-        )
-      : null;
-  const checkoutPriceId = isBundle ? bundlePriceId : individualCheckout?.priceId;
+  const checkoutPlanKey = isBundle
+    ? allAccessPlanKey(count, billingPeriod)
+    : individualAppPlanKey(
+        selectedPlan as AppSlug,
+        billingPeriod,
+        isScholars ? scholarsTier : undefined,
+        count,
+      );
 
   const individualTotal =
     billingPeriod === "monthly"
@@ -94,32 +91,14 @@ export function EcosystemAllAccessHero() {
   }
 
   async function handleCheckout() {
-    if (!checkoutPriceId) {
-      setError("Checkout is not configured yet. Run npm run setup:stripe.");
-      return;
-    }
-
     setLoading(true);
     setError(null);
 
     try {
-      const url = await postCheckout(
-        isBundle
-          ? {
-              priceId: checkoutPriceId,
-              quantity: 1,
-              app: "ecosystem",
-              childCount: count,
-            }
-          : {
-              priceId: checkoutPriceId,
-              quantity: individualCheckout!.quantity,
-              app: selectedPlan,
-              ...(individualCheckout!.childCount !== undefined
-                ? { childCount: individualCheckout!.childCount }
-                : {}),
-            },
-      );
+      const url = await postCheckout({
+        planKey: checkoutPlanKey,
+        ...(showChildStepper ? { childCount: count } : {}),
+      });
 
       if (url) {
         globalThis.location.assign(url);
@@ -432,7 +411,7 @@ export function EcosystemAllAccessHero() {
           <button
             type="button"
             onClick={handleCheckout}
-            disabled={loading || !checkoutPriceId}
+            disabled={loading}
             className="mt-6 flex w-full items-center justify-center rounded-2xl bg-white px-6 py-4 text-base font-semibold text-neutral-900 shadow-lg transition hover:bg-neutral-100 disabled:opacity-60"
           >
             {loading ? "Redirecting…" : ctaLabel}

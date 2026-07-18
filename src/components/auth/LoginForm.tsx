@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { safeNextPath } from "@/lib/auth/safe-next";
 import { AuthDivider, GoogleAuthButton } from "./GoogleAuthButton";
 import { AuthField, AuthLink, AuthShell, authInputClass } from "./AuthShell";
 import { PasswordInput } from "./PasswordInput";
@@ -10,7 +11,7 @@ import { PasswordInput } from "./PasswordInput";
 export function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const next = searchParams.get("next") ?? "/account";
+  const next = safeNextPath(searchParams.get("next"));
   const callbackError = searchParams.get("error");
   const callbackErrorMessage =
     callbackError === "auth_callback_failed"
@@ -46,7 +47,7 @@ export function LoginForm() {
       sessionStorage.setItem("fk_session_only", "1");
     }
 
-    router.push(next.startsWith("/") ? next : "/account");
+    router.push(next);
     router.refresh();
   }
 

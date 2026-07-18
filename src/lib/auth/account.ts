@@ -34,10 +34,27 @@ function avatarFromUser(user: User): string | null {
 
 export async function getEcosystemAccount(): Promise<EcosystemAccount | null> {
   const supabase = await createClient();
-  const { data, error } = await supabase.rpc("get_ecosystem_account");
+  const [accountResult, entitlementsResult, effectiveResult] = await Promise.all([
+    supabase.rpc("get_ecosystem_account"),
+    supabase
+      .from("user_entitlements")
+      .select("*")
+      .order("created_at", { ascending: false }),
+    supabase.rpc("get_effective_app_access"),
+  ]);
 
-  if (error || !data) return null;
-  return data as EcosystemAccount;
+  if (accountResult.error || !accountResult.data) return null;
+  const account = accountResult.data as EcosystemAccount;
+  return {
+    ...account,
+    entitlements:
+      (entitlementsResult.data as EcosystemAccount["entitlements"] | null) ??
+      account.entitlements ??
+      [],
+    effective_access:
+      (effectiveResult.data as EcosystemAccount["effective_access"] | null) ??
+      [],
+  };
 }
 
 async function provisionViaAdmin(user: User) {

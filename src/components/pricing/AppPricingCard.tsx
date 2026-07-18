@@ -8,7 +8,7 @@ import {
   type BillingPeriod,
   type PricingPlanConfig,
 } from "@/config/pricing";
-import { getBallrStripePriceId, getTinyPalStripePriceId } from "@/config/stripe";
+import { individualAppPlanKey } from "@/config/checkout-plans";
 import { postCheckout } from "@/lib/checkout/client";
 import { Button } from "@/components/ui/Button";
 
@@ -17,39 +17,17 @@ interface AppPricingCardProps {
   billingPeriod: BillingPeriod;
 }
 
-const appStoreApps = new Set(["earnly", "scholars"]);
-
-function getStripePriceIdForPlan(
-  plan: PricingPlanConfig,
-  billingPeriod: BillingPeriod,
-): string | undefined {
-  switch (plan.appId) {
-    case "ballr":
-      return getBallrStripePriceId(billingPeriod);
-    case "tinypal":
-      return getTinyPalStripePriceId(billingPeriod);
-    default:
-      return undefined;
-  }
-}
-
 export function AppPricingCard({ plan, billingPeriod }: AppPricingCardProps) {
   const [loading, setLoading] = useState(false);
   const price = getPriceForPeriod(plan, billingPeriod);
   const periodLabel = billingPeriod === "monthly" ? "month" : "year";
-  const useAppStore = appStoreApps.has(plan.appId);
-  const stripePriceId = useAppStore ? undefined : getStripePriceIdForPlan(plan, billingPeriod);
-  const canCheckout = Boolean(stripePriceId);
 
   async function handleSubscribe() {
-    if (!stripePriceId) return;
-
     setLoading(true);
     try {
       const url = await postCheckout({
-        priceId: stripePriceId,
-        quantity: 1,
-        app: plan.appId,
+        planKey: individualAppPlanKey(plan.appId, billingPeriod),
+        ...(plan.appId === "earnly" ? { childCount: 1 } : {}),
       });
       if (url) globalThis.location.assign(url);
       else setLoading(false);
@@ -122,17 +100,7 @@ export function AppPricingCard({ plan, billingPeriod }: AppPricingCardProps) {
       </p>
 
       <div className="mt-4 flex flex-col gap-2.5">
-        {useAppStore ? (
-          <Button
-            href={plan.cta.href}
-            external
-            size="md"
-            accentColor={plan.accentColor}
-            className="w-full"
-          >
-            {plan.cta.label}
-          </Button>
-        ) : canCheckout ? (
+        {plan.availability !== "waitlist" ? (
           <button
             type="button"
             onClick={handleSubscribe}
