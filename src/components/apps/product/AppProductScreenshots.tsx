@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { type AppConfig } from "@/config/brand";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";

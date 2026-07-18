@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 import { apps, brand, navigationLinks } from "@/config/brand";
+import { AuthNav, AuthNavMobile } from "@/components/auth/AuthNav";
 import { Button } from "@/components/ui/Button";
 
 export function Navigation() {
@@ -154,7 +155,8 @@ export function Navigation() {
           ))}
         </ul>
 
-        <div className="hidden lg:block">
+        <div className="hidden items-center gap-3 lg:flex">
+          <AuthNav />
           <Button href="/#apps" size="sm">
             Explore Apps
           </Button>
@@ -245,6 +247,8 @@ export function Navigation() {
                 Explore Apps
               </Button>
             </div>
+
+            <AuthNavMobile onNavigate={closeMobile} />
           </div>
         </div>
       )}

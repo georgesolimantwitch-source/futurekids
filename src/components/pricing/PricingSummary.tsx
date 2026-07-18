@@ -12,6 +12,7 @@ interface PricingSummaryProps {
     originalTotal: string;
     savings: string;
     estimatedTotal: string;
+    allAccessPrice: string | null;
     tier: SavingsTierConfig;
   };
   statusMessage: string;
@@ -75,6 +76,15 @@ export function PricingSummary({
           <dd className="text-right text-sm font-medium text-emerald-700">{totals.savings}</dd>
         </div>
 
+        {totals.allAccessPrice && selectedCount >= 1 && (
+          <div className="flex items-center justify-between gap-4 rounded-xl bg-indigo-50 px-3 py-2">
+            <dt className="text-sm font-medium text-indigo-900">{labels.allAccessPrice}</dt>
+            <dd className="text-right text-sm font-semibold text-indigo-900">
+              {totals.allAccessPrice}
+            </dd>
+          </div>
+        )}
+
         <div className="flex items-center justify-between gap-4 border-t border-neutral-200 pt-4">
           <dt className="text-sm font-medium text-neutral-900">{labels.estimatedTotal}</dt>
           <dd className="text-right text-lg font-semibold text-neutral-900">
@@ -84,8 +94,8 @@ export function PricingSummary({
       </dl>
 
       <p className="mt-6 text-xs leading-relaxed text-neutral-500">
-        Billing: {billingPeriod}. No payment processing — preview only until pricing is
-        finalized.
+        Billing: {billingPeriod}. Scholars uses All Access ($14.99/mo). Earnly priced per
+        child. Compare with Future Kids All Access above.
       </p>
     </div>
   );

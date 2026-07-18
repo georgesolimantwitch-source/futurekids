@@ -29,6 +29,14 @@ export function AboutFinalCta() {
             </StoryReveal>
           ))}
 
+          {aboutFinalCta.subtext && (
+            <StoryReveal variant="fade-in" delay={500}>
+              <p className="mx-auto mt-6 max-w-lg text-base text-neutral-600 sm:text-lg">
+                {aboutFinalCta.subtext}
+              </p>
+            </StoryReveal>
+          )}
+
           <StoryReveal variant="scale" delay={600} className="mt-12">
             <div className="flex flex-col gap-4 sm:flex-row sm:justify-center sm:gap-5">
               <Button href={aboutFinalCta.primary.href} size="lg" className="w-full sm:w-auto sm:px-10">

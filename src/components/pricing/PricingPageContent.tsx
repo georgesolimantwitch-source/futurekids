@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import type { BillingPeriod } from "@/config/pricing";
-import { PricingPlansSection } from "./PricingPlansSection";
-import { MultiAppSavingsSection } from "./MultiAppSavingsSection";
+import { EcosystemAllAccessHero } from "./EcosystemAllAccessHero";
+import { IndividualAppsSection } from "./PricingPlansSection";
 import { EcosystemPlanBuilder } from "./EcosystemPlanBuilder";
 import { ExistingSubscriberSection } from "./ExistingSubscriberSection";
 import { PricingComparison } from "./PricingComparison";
@@ -15,11 +15,11 @@ export function PricingPageContent() {
 
   return (
     <>
-      <PricingPlansSection
+      <EcosystemAllAccessHero />
+      <IndividualAppsSection
         billingPeriod={billingPeriod}
         onBillingChange={setBillingPeriod}
       />
-      <MultiAppSavingsSection />
       <EcosystemPlanBuilder billingPeriod={billingPeriod} />
       <ExistingSubscriberSection />
       <PricingComparison />

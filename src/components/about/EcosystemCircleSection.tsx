@@ -30,6 +30,11 @@ export function EcosystemCircleSection() {
           <h2 className="text-center text-4xl font-semibold tracking-tight text-neutral-900 sm:text-5xl lg:text-7xl">
             {ecosystemCircle.headline}
           </h2>
+          {ecosystemCircle.subtext && (
+            <p className="mx-auto mt-4 max-w-xl text-center text-base text-neutral-600">
+              {ecosystemCircle.subtext}
+            </p>
+          )}
         </StoryReveal>
 
         {/* Desktop circle layout */}

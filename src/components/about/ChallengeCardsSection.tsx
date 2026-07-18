@@ -43,12 +43,18 @@ export function ChallengeCardsSection() {
                   />
                 </div>
                 <div className="px-6 py-6 sm:px-8 sm:py-8">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-neutral-400">
+                    {card.app}
+                  </p>
                   <h3
-                    className="text-2xl font-semibold sm:text-3xl"
+                    className="mt-1 text-2xl font-semibold sm:text-3xl"
                     style={{ color: card.accent }}
                   >
                     {card.title}
                   </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-neutral-600 sm:text-base">
+                    {card.description}
+                  </p>
                 </div>
               </article>
             </StoryReveal>

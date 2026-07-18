@@ -1,0 +1,70 @@
+/**
+ * Earnly Live web pricing — one plan, quantity = number of children.
+ * Unit prices match App Store (per child): $1.99/mo · $19.90/yr (10 months / 2 free).
+ */
+
+export const earnlyLivePricing = {
+  minChildren: 1,
+  maxChildren: 6,
+  unitMonthly: 1.99,
+  /** Yearly = 10 × monthly (2 months free). */
+  unitYearly: 19.9,
+  billedMonthsInYearlyPlan: 10,
+  productName: "Earnly Live",
+  description:
+    "Choose how many children are on your family plan. Unlock family banking, chores, savings goals, and premium family features.",
+  features: [
+    "Chores & allowances",
+    "Savings goals",
+    "Parent approvals",
+    "Family dashboard",
+    "School rewards",
+  ],
+} as const;
+
+export type EarnlyBillingPeriod = "monthly" | "yearly";
+
+export function clampEarnlyChildCount(count: number): number {
+  return Math.min(
+    earnlyLivePricing.maxChildren,
+    Math.max(earnlyLivePricing.minChildren, count),
+  );
+}
+
+export function earnlyUnitPrice(period: EarnlyBillingPeriod): number {
+  return period === "monthly"
+    ? earnlyLivePricing.unitMonthly
+    : earnlyLivePricing.unitYearly;
+}
+
+export function earnlyTotalPrice(
+  childCount: number,
+  period: EarnlyBillingPeriod,
+): number {
+  const count = clampEarnlyChildCount(childCount);
+  const unit = earnlyUnitPrice(period);
+  return Math.round(count * unit * 100) / 100;
+}
+
+export function formatEarnlyPrice(amount: number): string {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 2,
+  }).format(amount);
+}
+
+export function earnlyPriceLine(
+  childCount: number,
+  period: EarnlyBillingPeriod,
+): string {
+  const total = earnlyTotalPrice(childCount, period);
+  const suffix = period === "monthly" ? "month" : "year";
+  return `${formatEarnlyPrice(total)} / ${suffix}`;
+}
+
+export function earnlyUnitPriceLine(period: EarnlyBillingPeriod): string {
+  const unit = earnlyUnitPrice(period);
+  const suffix = period === "monthly" ? "month" : "year";
+  return `${formatEarnlyPrice(unit)} per child / ${suffix}`;
+}

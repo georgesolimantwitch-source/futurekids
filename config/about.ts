@@ -1,88 +1,87 @@
 /**
- * Cinematic About page — all story content & asset paths.
- * Update copy and illustration paths here only.
+ * About page — mission-focused content.
  */
 
 import { apps, brand, type AppSlug } from "./brand";
 
 export const aboutPageMeta = {
-  title: "Our Story",
-  description: `Why ${brand.companyName} exists — cinematic storytelling for families raising the next generation.`,
+  title: "Our Mission",
+  description: `${brand.companyName} helps parents raise healthy, successful, experienced kids through apps built for real-world growth.`,
 };
 
-/* ── Section 1: Hero ── */
+/* ── Hero ── */
 export const cinematicHero = {
-  headline: "The next generation deserves better.",
-  subtext: "Technology that helps kids grow — not just scroll.",
+  headline: "Helping parents raise healthy, successful, experienced kids.",
+  subtext:
+    "We build apps that prepare children for real life — with tools for earning, learning, playing, and connecting safely.",
   illustration: "/images/about/hero-four-stages.svg",
 };
 
-/* ── Section 2: World changed ── */
-export const worldChanged = {
-  headline: "The world has changed.",
-  eras: [
-    {
-      year: "1995",
-      themes: ["Playgrounds", "Allowances", "Neighborhood games"],
-      shift: "Childhood was mostly offline.",
-      illustration: "/images/about/era-1995.svg",
-    },
-    {
-      year: "2005",
-      themes: ["Early internet", "Video games", "Digital homework"],
-      shift: "Screens entered daily life.",
-      illustration: "/images/about/era-2005.svg",
-    },
-    {
-      year: "2015",
-      themes: ["Social media", "Mobile everything", "Always connected"],
-      shift: "Childhood moved into pockets.",
-      illustration: "/images/about/era-2015.svg",
-    },
-    {
-      year: "2025",
-      themes: ["AI learning", "Parent burnout", "Digital childhood"],
-      shift: "Families need better tools.",
-      illustration: "/images/about/era-2025.svg",
-    },
+/* ── Mission statement ── */
+export const missionSection = {
+  eyebrow: "Our mission",
+  headline: "Give every child the skills, habits, and experiences they need to thrive.",
+  paragraphs: [
+    "Parents want more than entertainment. They want kids who understand money, love learning, stay active, and build real friendships — safely.",
+    "Future Brand exists to support that journey. Our ecosystem gives families practical tools at every stage, from first allowance to teenage independence.",
+    "We believe technology should help kids grow up prepared — not keep them stuck on a screen.",
   ],
-  forces: [
-    { label: "Money", note: "Less real-world practice" },
-    { label: "School", note: "More digital, less depth" },
-    { label: "Sports", note: "Participation declining" },
-    { label: "Friendships", note: "Harder to stay safe online" },
-    { label: "Technology", note: "More screen time" },
+  commitments: [
+    {
+      title: "Healthy",
+      description: "Encourage balance, activity, and wellbeing — not endless scrolling.",
+    },
+    {
+      title: "Successful",
+      description: "Build money skills, academic confidence, and habits that last.",
+    },
+    {
+      title: "Experienced",
+      description: "Get kids into sports, communities, and real-world practice early.",
+    },
   ],
 };
 
-/* ── Section 3: Challenges ── */
+/* ── How we help (mapped to apps) ── */
 export const familyChallenges = {
-  headline: "The challenges every family faces.",
+  headline: "How we help families.",
   cards: [
     {
       id: "money",
-      title: "Money",
+      title: "Money & responsibility",
+      description:
+        "Earnly teaches kids to earn, save, and manage money — so they enter adulthood with real financial experience.",
+      app: "Earnly",
       illustration: "/images/about/challenge-money.svg",
       accent: "#059669",
       accentLight: "#ecfdf5",
     },
     {
       id: "school",
-      title: "School",
+      title: "Learning & academics",
+      description:
+        "Scholars Notes gives students AI-powered study tools — so school feels less overwhelming and more achievable.",
+      app: "Scholars Notes",
       illustration: "/images/about/challenge-school.svg",
       accent: "#6366f1",
       accentLight: "#eef2ff",
     },
     {
       id: "activity",
-      title: "Activity",
+      title: "Sports & activity",
+      description:
+        "Ballr helps kids find games, train, and build community — so staying active is social, not solitary.",
+      app: "Ballr",
       illustration: "/images/about/challenge-activity.svg",
       accent: "#ea580c",
       accentLight: "#fff7ed",
     },
     {
       id: "communication",
-      title: "Communication",
+      title: "Safe connection",
+      description:
+        "TinyPal gives families parent-managed messaging — so kids can communicate without the risks of open social media.",
+      app: "TinyPal",
       illustration: "/images/about/challenge-communication.svg",
       accent: "#0ea5e9",
       accentLight: "#e0f2fe",
@@ -90,9 +89,10 @@ export const familyChallenges = {
   ],
 };
 
-/* ── Section 4: Ecosystem circle ── */
+/* ── Ecosystem ── */
 export const ecosystemCircle = {
-  headline: "One ecosystem.",
+  headline: "One ecosystem. Every part of growing up.",
+  subtext: "Four apps designed to work together — one account, one mission.",
   apps: ["earnly", "scholars", "ballr", "tinypal"] as AppSlug[],
 };
 
@@ -100,47 +100,74 @@ export function getEcosystemCircleApps() {
   return ecosystemCircle.apps.map((slug) => apps.find((a) => a.slug === slug)!);
 }
 
-/* ── Section 5: Child growth ── */
+/* ── Child growth ── */
 export const childGrowth = {
   headline: "Growing with your child.",
+  subtext: "The right tools at the right age — from first chores to college prep.",
   stages: [
-    { age: 6, apps: ["TinyPal", "Earnly"], note: "Safe start" },
-    { age: 9, apps: ["Earnly", "Scholars Notes"], note: "Habits form" },
-    { age: 12, apps: ["Scholars Notes", "Ballr"], note: "Independence grows" },
-    { age: 15, apps: ["Ballr", "Scholars Notes", "Earnly"], note: "Community matters" },
-    { age: 18, apps: ["Earnly", "Scholars Notes", "Ballr"], note: "Ready for adulthood" },
+    { age: 6, apps: ["TinyPal", "Earnly"], note: "Safe communication and first money lessons" },
+    { age: 9, apps: ["Earnly", "Scholars Notes"], note: "Habits form — saving, studying, responsibility" },
+    { age: 12, apps: ["Scholars Notes", "Ballr"], note: "Independence grows — school, sports, friends" },
+    { age: 15, apps: ["Ballr", "Scholars Notes", "Earnly"], note: "Real-world skills for teenage life" },
+    { age: 18, apps: ["Earnly", "Scholars Notes", "Ballr"], note: "Prepared for adulthood" },
   ],
 };
 
-/* ── Section 6: Pillars ── */
+/* ── Values we build toward ── */
 export const valuePillars = {
-  headline: "Built for who they become.",
+  headline: "What we help kids become.",
+  subtext: "Every app in our ecosystem supports a different part of a well-rounded childhood.",
   pillars: [
-    { label: "Responsibility", illustration: "/images/about/pillar-responsibility.svg", accent: "#059669" },
-    { label: "Curiosity", illustration: "/images/about/pillar-curiosity.svg", accent: "#6366f1" },
-    { label: "Confidence", illustration: "/images/about/pillar-confidence.svg", accent: "#8b5cf6" },
-    { label: "Friendship", illustration: "/images/about/pillar-friendship.svg", accent: "#0ea5e9" },
-    { label: "Health", illustration: "/images/about/pillar-health.svg", accent: "#ea580c" },
-    { label: "Growth", illustration: "/images/about/pillar-growth.svg", accent: "#10b981" },
+    {
+      label: "Responsible",
+      description: "Kids who understand earning, saving, and accountability.",
+      illustration: "/images/about/pillar-responsibility.svg",
+      accent: "#059669",
+    },
+    {
+      label: "Curious",
+      description: "Learners who ask questions and love discovering new things.",
+      illustration: "/images/about/pillar-curiosity.svg",
+      accent: "#6366f1",
+    },
+    {
+      label: "Confident",
+      description: "Students who believe they can tackle hard subjects.",
+      illustration: "/images/about/pillar-confidence.svg",
+      accent: "#8b5cf6",
+    },
+    {
+      label: "Active",
+      description: "Kids who play, train, and show up for their community.",
+      illustration: "/images/about/pillar-health.svg",
+      accent: "#ea580c",
+    },
+    {
+      label: "Connected",
+      description: "Children who build safe, meaningful friendships.",
+      illustration: "/images/about/pillar-friendship.svg",
+      accent: "#0ea5e9",
+    },
+    {
+      label: "Prepared",
+      description: "Young adults ready for money, school, and life on their own.",
+      illustration: "/images/about/pillar-growth.svg",
+      accent: "#10b981",
+    },
   ],
 };
 
-/* ── Section 7: Vision ── */
+/* ── Vision ── */
 export const visionSection = {
-  eyebrow: "Our vision.",
+  eyebrow: "Why we exist",
   headline:
-    "We're building technology that helps families raise stronger, smarter, healthier kids.",
+    "Parents shouldn't have to choose between technology and a healthy childhood. We're building both.",
 };
 
-/* ── Section 8: Future ── */
-export const futureEcosystem = {
-  headline: "This is only the beginning.",
-  placeholderCount: 3,
-};
-
-/* ── Section 9: CTA ── */
+/* ── CTA ── */
 export const aboutFinalCta = {
-  headline: ["Better technology.", "Better childhoods.", "Better futures."],
+  headline: ["Healthy kids.", "Successful kids.", "Experienced kids."],
+  subtext: "Join families using Future Brand to raise the next generation — for real.",
   illustration: "/images/about/cta-families.svg",
   primary: { label: "Explore Apps", href: "/#apps" },
   secondary: { label: "Plans & Pricing", href: "/pricing" },

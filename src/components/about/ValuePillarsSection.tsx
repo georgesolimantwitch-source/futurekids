@@ -12,6 +12,11 @@ export function ValuePillarsSection() {
           <h2 className="text-center text-4xl font-semibold tracking-tight text-neutral-900 sm:text-5xl lg:text-6xl">
             {valuePillars.headline}
           </h2>
+          {valuePillars.subtext && (
+            <p className="mx-auto mt-4 max-w-2xl text-center text-base text-neutral-600 sm:text-lg">
+              {valuePillars.subtext}
+            </p>
+          )}
         </StoryReveal>
 
         <div className="mt-16 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3 lg:gap-8">
@@ -34,9 +39,14 @@ export function ValuePillarsSection() {
                     style={{ backgroundColor: pillar.accent }}
                   />
                 </div>
-                <p className="py-6 text-center text-lg font-semibold text-neutral-900 sm:text-xl">
+                <p className="py-4 text-center text-lg font-semibold text-neutral-900 sm:text-xl">
                   {pillar.label}
                 </p>
+                {"description" in pillar && pillar.description && (
+                  <p className="px-4 pb-6 text-center text-sm leading-relaxed text-neutral-600">
+                    {pillar.description}
+                  </p>
+                )}
               </article>
             </StoryReveal>
           ))}

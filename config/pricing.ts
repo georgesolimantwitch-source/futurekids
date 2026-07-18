@@ -4,6 +4,9 @@
  */
 
 import { apps, type AppSlug, getAppCtaHref, isAppLive } from "./brand";
+import { bundlePrice } from "./ecosystem-bundle";
+import { earnlyTotalPrice } from "./earnly-pricing";
+import { scholarsAllAccessMonthly, scholarsAllAccessYearly } from "./scholars-pricing";
 
 export type { AppSlug };
 
@@ -67,16 +70,15 @@ export interface PricingFaq {
 export const pricingPageMeta = {
   title: "Plans & Pricing",
   description:
-    "Explore individual app plans and ecosystem savings across Earnly, Scholars Notes, Ballr, and TinyPal. Final pricing coming soon.",
+    "Future Kids All Access — every app in one subscription. Or choose individual plans for Earnly, Scholars Notes, Ballr Live, and TinyPal.",
 };
 
 export const pricingHero = {
-  eyebrow: "Plans & Pricing",
-  headline: "Choose the apps that fit your family.",
+  eyebrow: "Individual apps",
+  headline: "Need just one app?",
   supportingText:
-    "Start with one app and save when you add more to your ecosystem.",
-  pricingNotice:
-    "Pricing is not finalized yet. Amounts shown are placeholders until launch.",
+    "Subscribe to a single app — or save more with All Access above.",
+  pricingNotice: "Individual plans do not include ecosystem bundle savings.",
 };
 
 export const billingOptions: {
@@ -85,7 +87,7 @@ export const billingOptions: {
   badge?: string;
 }[] = [
   { id: "monthly", label: "Monthly" },
-  { id: "yearly", label: "Yearly", badge: "Save more" },
+  { id: "yearly", label: "Yearly", badge: "2 mo free" },
 ];
 
 /** Per-app pricing details — colors/icons synced from brand apps */
@@ -106,8 +108,8 @@ const pricingPlanOverrides: Record<
   earnly: {
     description:
       "Teach kids how to earn, save, and build better money habits.",
-    monthlyPrice: { display: "Price to be announced", amount: null },
-    yearlyPrice: { display: "Price to be announced", amount: null },
+    monthlyPrice: { display: "$1.99 / child / mo", amount: 1.99 },
+    yearlyPrice: { display: "$19.90 / child / yr", amount: 19.9 },
     features: [
       "Chores & allowances",
       "Savings goals",
@@ -121,8 +123,11 @@ const pricingPlanOverrides: Record<
   scholars: {
     description:
       "AI-powered tools that make learning and studying easier.",
-    monthlyPrice: { display: "Price to be announced", amount: null },
-    yearlyPrice: { display: "Price to be announced", amount: null },
+    monthlyPrice: { display: "$14.99 / mo", amount: scholarsAllAccessMonthly },
+    yearlyPrice: {
+      display: `$${scholarsAllAccessYearly.toFixed(2)} / yr`,
+      amount: scholarsAllAccessYearly,
+    },
     features: [
       "Notes workspace",
       "AI tutor",
@@ -136,8 +141,8 @@ const pricingPlanOverrides: Record<
   ballr: {
     description:
       "Find games, train, compete, and grow your sports community.",
-    monthlyPrice: { display: "Price to be announced", amount: null },
-    yearlyPrice: { display: "Price to be announced", amount: null },
+    monthlyPrice: { display: "$4.99 / mo", amount: 4.99 },
+    yearlyPrice: { display: "$49.99 / yr", amount: 49.99 },
     features: [
       "Pickup game finder",
       "Nearby parks",
@@ -151,8 +156,8 @@ const pricingPlanOverrides: Record<
   tinypal: {
     description:
       "Safe communication designed for kids and managed by parents.",
-    monthlyPrice: { display: "Coming soon", amount: null },
-    yearlyPrice: { display: "Coming soon", amount: null },
+    monthlyPrice: { display: "$4.99 / mo", amount: 4.99 },
+    yearlyPrice: { display: "$49.99 / yr", amount: 49.99 },
     features: [
       "Parent-managed setup",
       "Verified family contacts",
@@ -161,7 +166,7 @@ const pricingPlanOverrides: Record<
       "Child-focused privacy",
     ],
     memberSavingsMessage:
-      "Join the waitlist — ecosystem pricing will be available at launch.",
+      "Already subscribed to another app? Unlock member savings.",
   },
 };
 
@@ -222,7 +227,7 @@ export const savingsTiers: SavingsTierConfig[] = [
       "Discount applied to the second app",
       "One account for managing subscriptions",
     ],
-    discountLabel: "Ecosystem savings — amount TBA",
+    discountLabel: "Ecosystem savings unlocked",
     discountPercent: null,
   },
   {
@@ -233,11 +238,11 @@ export const savingsTiers: SavingsTierConfig[] = [
     maxApps: 4,
     benefits: [
       "Combine three or all four apps",
-      "Largest ecosystem savings",
+      "Compare vs Future Kids All Access",
       "Centralized subscription management",
       "Early access to future ecosystem benefits",
     ],
-    discountLabel: "Maximum savings — amount TBA",
+    discountLabel: "Maximum savings — compare All Access",
     discountPercent: null,
   },
 ];
@@ -245,25 +250,26 @@ export const savingsTiers: SavingsTierConfig[] = [
 export const ecosystemBuilderCopy = {
   title: "Build your ecosystem",
   description:
-    "Select the apps your family uses today. Savings tiers update automatically — no checkout yet.",
+    "Select the apps your family uses. Totals use real app prices — Scholars All Access at $14.99/mo.",
   empty: "Select an app to begin building your plan.",
-  oneApp: "Add another app to unlock ecosystem savings.",
-  multiApp: "Your ecosystem savings have been unlocked.",
+  oneApp: "Add another app to compare with All Access.",
+  multiApp: "Compare your selection with Future Kids All Access.",
   labels: {
     selectedCount: "Apps selected",
     includedApps: "Included apps",
-    originalTotal: "Original total (placeholder)",
-    ecosystemSavings: "Ecosystem savings (placeholder)",
-    estimatedTotal: "Estimated total (placeholder)",
-    currentTier: "Current savings tier",
+    originalTotal: "À la carte total",
+    ecosystemSavings: "vs All Access",
+    estimatedTotal: "Your selection",
+    currentTier: "Current tier",
+    allAccessPrice: "Future Kids All Access",
   },
 };
 
 export const existingSubscriberSection = {
   headline: "Already part of the ecosystem?",
   text: "Sign in with the account connected to your existing app subscription to view personalized savings on additional apps.",
-  signInHref: "/contact?intent=sign-in",
-  viewAppsHref: "/#apps",
+  signInHref: "/login",
+  viewAppsHref: "/account",
 };
 
 export const multiAppSavingsSection = {
@@ -391,7 +397,33 @@ export function getPriceForPeriod(
   return period === "monthly" ? plan.monthlyPrice : plan.yearlyPrice;
 }
 
-/** Calculator totals — returns null displays when amounts are not set */
+const ALL_APP_SLUGS: AppSlug[] = ["earnly", "scholars", "ballr", "tinypal"];
+
+/** Real per-app price for the ecosystem calculator (1 Earnly child, Scholars All Access) */
+export function getCalculatorAppAmount(
+  appId: AppSlug,
+  period: BillingPeriod,
+  earnlyChildren = 1,
+): number {
+  switch (appId) {
+    case "earnly":
+      return earnlyTotalPrice(earnlyChildren, period);
+    case "scholars":
+      return period === "monthly" ? scholarsAllAccessMonthly : scholarsAllAccessYearly;
+    case "ballr":
+      return period === "monthly" ? 4.99 : 49.99;
+    case "tinypal":
+      return period === "monthly" ? 4.99 : 49.99;
+    default:
+      return 0;
+  }
+}
+
+function formatCalculatorTotal(amount: number, period: BillingPeriod): string {
+  const suffix = period === "monthly" ? "mo" : "yr";
+  return `$${amount.toFixed(2)} / ${suffix}`;
+}
+
 export function calculateEcosystemTotals(
   selectedAppIds: AppSlug[],
   period: BillingPeriod,
@@ -399,39 +431,67 @@ export function calculateEcosystemTotals(
   originalTotal: string;
   savings: string;
   estimatedTotal: string;
+  allAccessPrice: string | null;
   tier: SavingsTierConfig;
 } {
   const tier = getSavingsTierForCount(selectedAppIds.length);
-  const plans = selectedAppIds
-    .map((id) => getPricingPlan(id))
-    .filter(Boolean) as PricingPlanConfig[];
+  const suffix = period === "monthly" ? "mo" : "yr";
 
-  const amounts = plans.map((p) => getPriceForPeriod(p, period).amount);
-  const hasAmounts = amounts.every((a) => a !== null);
-
-  if (!hasAmounts || selectedAppIds.length === 0) {
+  if (selectedAppIds.length === 0) {
     return {
-      originalTotal: "Price to be announced",
-      savings: tier.discountPercent
-        ? `${tier.discountPercent}% (placeholder)`
-        : "Amount TBA",
-      estimatedTotal: "Price to be announced",
+      originalTotal: "—",
+      savings: "—",
+      estimatedTotal: "—",
+      allAccessPrice: null,
       tier,
     };
   }
 
-  const original = amounts.reduce((sum, a) => sum + (a ?? 0), 0);
-  const discount = tier.discountPercent ?? 0;
-  const savingsAmount = original * (discount / 100);
-  const estimated = original - savingsAmount;
+  const selectionTotal = selectedAppIds.reduce(
+    (sum, id) => sum + getCalculatorAppAmount(id, period),
+    0,
+  );
+  const allFourSelected = ALL_APP_SLUGS.every((id) => selectedAppIds.includes(id));
+  const fullAlaCarte = ALL_APP_SLUGS.reduce(
+    (sum, id) => sum + getCalculatorAppAmount(id, period),
+    0,
+  );
+  const allAccessAmount = bundlePrice(1, period);
+
+  if (selectedAppIds.length === 1) {
+    return {
+      originalTotal: formatCalculatorTotal(selectionTotal, period),
+      savings: "—",
+      estimatedTotal: formatCalculatorTotal(selectionTotal, period),
+      allAccessPrice: formatCalculatorTotal(allAccessAmount, period),
+      tier,
+    };
+  }
+
+  const vsAllAccess = selectionTotal - allAccessAmount;
+
+  if (allFourSelected) {
+    const savingsAmount = Math.max(0, fullAlaCarte - allAccessAmount);
+    return {
+      originalTotal: formatCalculatorTotal(fullAlaCarte, period),
+      savings:
+        savingsAmount > 0
+          ? `Save $${savingsAmount.toFixed(2)}/${suffix} with All Access`
+          : `All Access $${allAccessAmount.toFixed(2)}/${suffix} — one bill, every feature`,
+      estimatedTotal: formatCalculatorTotal(selectionTotal, period),
+      allAccessPrice: formatCalculatorTotal(allAccessAmount, period),
+      tier,
+    };
+  }
 
   return {
-    originalTotal: `$${original.toFixed(2)} / ${period === "monthly" ? "mo" : "yr"}`,
+    originalTotal: formatCalculatorTotal(selectionTotal, period),
     savings:
-      discount > 0
-        ? `$${savingsAmount.toFixed(2)} (${discount}% placeholder)`
-        : "Amount TBA",
-    estimatedTotal: `$${estimated.toFixed(2)} / ${period === "monthly" ? "mo" : "yr"}`,
+      vsAllAccess > 0
+        ? `$${vsAllAccess.toFixed(2)}/${suffix} less than All Access now`
+        : `All Access saves $${Math.abs(vsAllAccess).toFixed(2)}/${suffix} at full ecosystem`,
+    estimatedTotal: formatCalculatorTotal(selectionTotal, period),
+    allAccessPrice: formatCalculatorTotal(allAccessAmount, period),
     tier,
   };
 }

@@ -32,6 +32,11 @@ export function ChildGrowthSection() {
           <h2 className="text-center text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl">
             {childGrowth.headline}
           </h2>
+          {childGrowth.subtext && (
+            <p className="mx-auto mt-4 max-w-xl text-center text-base text-neutral-400">
+              {childGrowth.subtext}
+            </p>
+          )}
         </StoryReveal>
 
         {/* Sticky visual */}

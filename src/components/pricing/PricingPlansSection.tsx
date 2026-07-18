@@ -60,13 +60,13 @@ interface PricingPlansSectionProps {
   onBillingChange: (period: BillingPeriod) => void;
 }
 
-/** Compact hero + pricing cards in one above-the-fold section */
-export function PricingPlansSection({
+/** Individual apps — secondary section below All Access */
+export function IndividualAppsSection({
   billingPeriod,
   onBillingChange,
 }: PricingPlansSectionProps) {
   return (
-    <section className="relative border-b border-neutral-100 bg-[#fafafa]">
+    <section id="individual-apps" className="scroll-mt-24 border-b border-neutral-100 bg-[#fafafa]">
       <div
         className="absolute inset-x-0 top-0 h-1"
         style={{
@@ -83,9 +83,9 @@ export function PricingPlansSection({
             <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500 sm:text-sm">
               {pricingHero.eyebrow}
             </p>
-            <h1 className="mt-2 text-2xl font-semibold tracking-tight text-neutral-900 sm:text-3xl lg:text-4xl">
+            <h2 className="mt-2 text-2xl font-semibold tracking-tight text-neutral-900 sm:text-3xl">
               {pricingHero.headline}
-            </h1>
+            </h2>
             <p className="mt-2 text-sm leading-relaxed text-neutral-600 sm:text-base">
               {pricingHero.supportingText}
             </p>
