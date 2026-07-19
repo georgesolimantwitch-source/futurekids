@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type Stripe from "stripe";
 import { applyVerifiedSubscriptionEvent } from "@/lib/subscriptions/store";
+import { syncEarnlyChildAccess } from "@/lib/subscriptions/earnly-sync";
 import {
   getStripe,
   stripeSubscriptionToVerified,
@@ -15,6 +16,11 @@ const HANDLED_EVENTS = new Set([
   "customer.subscription.deleted",
   "invoice.paid",
   "invoice.payment_failed",
+  "subscription_schedule.updated",
+  "subscription_schedule.completed",
+  "subscription_schedule.released",
+  "subscription_schedule.canceled",
+  "subscription_schedule.aborted",
 ]);
 
 function expandableId(
@@ -52,6 +58,14 @@ async function subscriptionFromEvent(
 
   if (event.type === "invoice.paid" || event.type === "invoice.payment_failed") {
     const subscriptionId = invoiceSubscriptionId(event.data.object as Stripe.Invoice);
+    return subscriptionId ? stripe.subscriptions.retrieve(subscriptionId) : null;
+  }
+
+  if (event.type.startsWith("subscription_schedule.")) {
+    const schedule = event.data.object as Stripe.SubscriptionSchedule;
+    const subscriptionId =
+      expandableId(schedule.subscription) ??
+      expandableId(schedule.released_subscription);
     return subscriptionId ? stripe.subscriptions.retrieve(subscriptionId) : null;
   }
 
@@ -101,6 +115,12 @@ export async function POST(request: Request) {
       },
       entitlement,
     );
+    if (
+      entitlement.appKey === "earnly" ||
+      entitlement.appKey === "futurekids_all_access"
+    ) {
+      await syncEarnlyChildAccess(entitlement.userId);
+    }
 
     console.info("[stripe-webhook] entitlement synchronized", {
       eventId: event.id,

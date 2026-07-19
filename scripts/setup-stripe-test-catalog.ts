@@ -44,20 +44,29 @@ async function main() {
       active: true,
       limit: 1,
     });
-    const price =
-      prices.data[0] ??
-      (await stripe.prices.create({
+    const currentPrice = prices.data[0];
+    const priceMatches =
+      currentPrice?.product === product.id &&
+      currentPrice.unit_amount === plan.expectedAmountCents &&
+      currentPrice.recurring?.interval === plan.interval;
+    const price = priceMatches
+      ? currentPrice
+      : await stripe.prices.create({
         product: product.id,
         currency: "usd",
         unit_amount: plan.expectedAmountCents,
         recurring: { interval: plan.interval },
         lookup_key: lookupKey,
+        transfer_lookup_key: Boolean(currentPrice),
         metadata: {
           future_kids_test_plan_key: plan.planKey,
           app_key: plan.appKey,
           sandbox: "true",
         },
-      }));
+      });
+    if (currentPrice && currentPrice.id !== price.id) {
+      await stripe.prices.update(currentPrice.id, { active: false });
+    }
 
     const prefix = plan.planKey.toUpperCase().replace(/[^A-Z0-9]+/g, "_");
     output.push(`STRIPE_${prefix}_PRICE_ID=${price.id}`);

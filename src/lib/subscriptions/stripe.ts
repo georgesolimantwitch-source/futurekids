@@ -57,12 +57,17 @@ export function stripeSubscriptionToVerified(
     throw new Error("Stripe app and plan metadata do not match the catalog");
   }
 
-  const item = subscription.items.data.find(
-    (candidate) => candidate.price.id === mapped.priceId,
-  );
+  const expectedProductId = configuredStripeProductId(mapped.plan);
+  const item =
+    subscription.items.data.find(
+      (candidate) => candidate.price.id === mapped.priceId,
+    ) ??
+    subscription.items.data.find(
+      (candidate) => productId(candidate.price.product) === expectedProductId,
+    );
   if (
     !item ||
-    productId(item.price.product) !== configuredStripeProductId(mapped.plan)
+    productId(item.price.product) !== expectedProductId
   ) {
     throw new Error("Stripe subscription item is not an existing Future Kids product");
   }

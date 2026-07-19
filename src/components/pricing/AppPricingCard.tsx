@@ -11,13 +11,19 @@ import {
 import { individualAppPlanKey } from "@/config/checkout-plans";
 import { postCheckout } from "@/lib/checkout/client";
 import { Button } from "@/components/ui/Button";
+import type { PlanManagementEntitlement } from "@/lib/subscriptions/plan-management";
 
 interface AppPricingCardProps {
   plan: PricingPlanConfig;
   billingPeriod: BillingPeriod;
+  currentEntitlement?: PlanManagementEntitlement;
 }
 
-export function AppPricingCard({ plan, billingPeriod }: AppPricingCardProps) {
+export function AppPricingCard({
+  plan,
+  billingPeriod,
+  currentEntitlement,
+}: AppPricingCardProps) {
   const [loading, setLoading] = useState(false);
   const price = getPriceForPeriod(plan, billingPeriod);
   const periodLabel = billingPeriod === "monthly" ? "month" : "year";
@@ -61,6 +67,12 @@ export function AppPricingCard({ plan, billingPeriod }: AppPricingCardProps) {
         </div>
       </div>
 
+      {currentEntitlement && (
+        <p className="mt-4 rounded-full bg-emerald-50 px-3 py-1.5 text-center text-xs font-semibold text-emerald-700">
+          Current plan · {currentEntitlement.provider === "apple" ? "Apple" : "Website"}
+        </p>
+      )}
+
       <p className="mt-3 text-sm leading-relaxed text-neutral-600">{plan.description}</p>
 
       <div className="mt-4">
@@ -100,7 +112,14 @@ export function AppPricingCard({ plan, billingPeriod }: AppPricingCardProps) {
       </p>
 
       <div className="mt-4 flex flex-col gap-2.5">
-        {plan.availability !== "waitlist" ? (
+        {currentEntitlement ? (
+          <Link
+            href={plan.appId === "earnly" ? "#top" : "/account"}
+            className="inline-flex w-full items-center justify-center rounded-full border border-neutral-300 px-6 py-3 text-sm font-medium text-neutral-900"
+          >
+            {plan.appId === "earnly" ? "Manage plan above" : "Manage current plan"}
+          </Link>
+        ) : plan.availability !== "waitlist" ? (
           <button
             type="button"
             onClick={handleSubscribe}

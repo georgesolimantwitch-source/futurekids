@@ -96,7 +96,11 @@ export function entitlementForApp(
         (entitlement.app_key === appId ||
           entitlement.app_key === "futurekids_all_access"),
     )
-    .sort((a, b) => b.entitlement_rank - a.entitlement_rank)[0];
+    .sort(
+      (a, b) =>
+        b.entitlement_rank - a.entitlement_rank ||
+        (b.child_limit ?? 0) - (a.child_limit ?? 0),
+    )[0];
 }
 
 export function countActivePlans(account: EcosystemAccount): number {

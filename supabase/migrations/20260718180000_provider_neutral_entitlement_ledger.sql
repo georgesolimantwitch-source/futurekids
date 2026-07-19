@@ -1,0 +1,2 @@
+-- Remote provider-neutral ledger history marker. The complete idempotent definition
+-- is restored by 20260719010000_live_family_plan_changes.sql.

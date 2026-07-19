@@ -25,6 +25,11 @@ import type {
   UserEntitlement,
 } from "@/lib/auth/types";
 import { createClient } from "@/lib/supabase/client";
+import {
+  EMPTY_PLAN_MANAGEMENT_CONTEXT,
+  type PendingPlanChange,
+  type PlanManagementContext,
+} from "@/lib/subscriptions/plan-management";
 
 const NAV_ITEMS = [
   { id: "overview", label: "Overview" },
@@ -81,6 +86,12 @@ export function AccountDashboard({
   const [signingOut, setSigningOut] = useState(false);
   const [repairing, setRepairing] = useState(false);
   const [openingPortal, setOpeningPortal] = useState(false);
+  const [managedPlan, setManagedPlan] = useState<UserEntitlement | null>(null);
+  const [updatingPlan, setUpdatingPlan] = useState(false);
+  const [managePlanError, setManagePlanError] = useState<string | null>(null);
+  const [planContext, setPlanContext] = useState<PlanManagementContext>(
+    EMPTY_PLAN_MANAGEMENT_CONTEXT,
+  );
 
   useEffect(() => {
     if (initialAccount?.profile) return;
@@ -183,6 +194,72 @@ export function AccountDashboard({
       }
     } finally {
       setOpeningPortal(false);
+    }
+  }
+
+  async function handleStripeRenewalChange(action: "cancel" | "resume") {
+    if (!managedPlan || managedPlan.provider !== "stripe") return;
+    setUpdatingPlan(true);
+    setManagePlanError(null);
+    try {
+      const response = await fetch("/api/subscriptions/stripe/manage", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          entitlementId: managedPlan.id,
+          action,
+        }),
+      });
+      const result = (await response.json()) as { error?: string };
+      if (!response.ok) {
+        setManagePlanError(result.error ?? "Could not update this subscription.");
+        return;
+      }
+      const refreshed = await loadCanonicalAccount();
+      if (refreshed) {
+        setRawAccount(refreshed);
+        setManagedPlan(
+          refreshed.entitlements.find((item) => item.id === managedPlan.id) ??
+            null,
+        );
+      }
+    } finally {
+      setUpdatingPlan(false);
+    }
+  }
+
+  function handleManagePlan(entitlement: UserEntitlement) {
+    setManagePlanError(null);
+    setManagedPlan(entitlement);
+    createClient()
+      .rpc("get_plan_management_context")
+      .then(({ data }) => {
+        if (data) setPlanContext(data as PlanManagementContext);
+      });
+  }
+
+  async function handleCancelPendingChange(change: PendingPlanChange) {
+    setUpdatingPlan(true);
+    setManagePlanError(null);
+    try {
+      const response = await fetch("/api/subscriptions/stripe/change-plan", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ changeId: change.id }),
+      });
+      const result = (await response.json()) as { error?: string };
+      if (!response.ok) {
+        setManagePlanError(result.error ?? "Could not cancel the pending change.");
+        return;
+      }
+      setPlanContext((current) => ({
+        ...current,
+        pendingChanges: current.pendingChanges.filter(
+          (pending) => pending.id !== change.id,
+        ),
+      }));
+    } finally {
+      setUpdatingPlan(false);
     }
   }
 
@@ -339,6 +416,11 @@ export function AccountDashboard({
                       entitlement={entitlement}
                       learnMore={brandApp.learnMorePath}
                       openHref={brandApp.appStoreUrl || brandApp.cta.href}
+                      onManagePlan={
+                        entitlement
+                          ? () => handleManagePlan(entitlement)
+                          : undefined
+                      }
                     />
                   );
                 })}
@@ -430,34 +512,13 @@ export function AccountDashboard({
                                 {formatAccountDate(entitlement.current_period_end)}
                               </td>
                               <td className="px-6 py-5">
-                                {entitlement.provider === "stripe" ? (
-                                  <button
-                                    type="button"
-                                    onClick={handleOpenBillingPortal}
-                                    disabled={openingPortal}
-                                    className="font-medium text-neutral-950 underline underline-offset-4 disabled:opacity-50"
-                                  >
-                                    {openingPortal ? "Opening…" : "Manage subscription"}
-                                  </button>
-                                ) : entitlement.provider === "apple" ? (
-                                  <a
-                                    href="https://apps.apple.com/account/subscriptions"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="font-medium text-neutral-950 underline underline-offset-4"
-                                  >
-                                    Manage in App Store
-                                  </a>
-                                ) : (
-                                  <a
-                                    href="https://play.google.com/store/account/subscriptions"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="font-medium text-neutral-950 underline underline-offset-4"
-                                  >
-                                    Manage in Google Play
-                                  </a>
-                                )}
+                                <button
+                                  type="button"
+                                  onClick={() => handleManagePlan(entitlement)}
+                                  className="font-medium text-neutral-950 underline underline-offset-4"
+                                >
+                                  Manage subscription
+                                </button>
                               </td>
                             </tr>
                           );
@@ -582,6 +643,26 @@ export function AccountDashboard({
           </div>
         </div>
       </div>
+      {managedPlan && (
+        <ManagePlanModal
+          entitlement={managedPlan}
+          entitlements={account.entitlements}
+          openingPortal={openingPortal}
+          updatingPlan={updatingPlan}
+          errorMessage={managePlanError}
+          pendingChange={planContext.pendingChanges.find(
+            (change) => change.entitlement_id === managedPlan.id,
+          )}
+          onClose={() => {
+            setManagePlanError(null);
+            setManagedPlan(null);
+          }}
+          onOpenBillingPortal={handleOpenBillingPortal}
+          onCancel={() => handleStripeRenewalChange("cancel")}
+          onResume={() => handleStripeRenewalChange("resume")}
+          onCancelPendingChange={handleCancelPendingChange}
+        />
+      )}
     </div>
   );
 }
@@ -751,6 +832,7 @@ function AppCard({
   entitlement,
   learnMore,
   openHref,
+  onManagePlan,
 }: {
   appId: EcosystemAppId;
   name: string;
@@ -761,6 +843,7 @@ function AppCard({
   entitlement?: UserEntitlement;
   learnMore: string;
   openHref: string;
+  onManagePlan?: () => void;
 }) {
   const label =
     status === "active" ? "Active" : status === "coming_soon" ? "Coming soon" : "Not subscribed";
@@ -805,13 +888,24 @@ function AppCard({
       </div>
 
       <div className="mt-6 flex flex-wrap gap-2">
-        <Link
-          href={`/pricing#${appId}`}
-          className="rounded-full px-4 py-2 text-xs font-medium text-white"
-          style={{ backgroundColor: accent }}
-        >
-          Manage plan
-        </Link>
+        {entitlement && onManagePlan ? (
+          <button
+            type="button"
+            onClick={onManagePlan}
+            className="rounded-full px-4 py-2 text-xs font-medium text-white"
+            style={{ backgroundColor: accent }}
+          >
+            Manage plan
+          </button>
+        ) : (
+          <Link
+            href={`/pricing#${appId}`}
+            className="rounded-full px-4 py-2 text-xs font-medium text-white"
+            style={{ backgroundColor: accent }}
+          >
+            Choose plan
+          </Link>
+        )}
         <a
           href={openHref}
           target="_blank"
@@ -828,5 +922,359 @@ function AppCard({
         </Link>
       </div>
     </article>
+  );
+}
+
+function ManagePlanModal({
+  entitlement,
+  entitlements,
+  openingPortal,
+  updatingPlan,
+  errorMessage,
+  pendingChange,
+  onClose,
+  onOpenBillingPortal,
+  onCancel,
+  onResume,
+  onCancelPendingChange,
+}: {
+  entitlement: UserEntitlement;
+  entitlements: UserEntitlement[];
+  openingPortal: boolean;
+  updatingPlan: boolean;
+  errorMessage: string | null;
+  pendingChange?: PendingPlanChange;
+  onClose: () => void;
+  onOpenBillingPortal: () => void;
+  onCancel: () => void;
+  onResume: () => void;
+  onCancelPendingChange: (change: PendingPlanChange) => void;
+}) {
+  const [confirmingCancel, setConfirmingCancel] = useState(false);
+  const brandApp = apps.find((app) => app.slug === entitlement.app_key);
+  const appName = brandApp?.name ?? "Future Kids All Access";
+  const otherApps = apps.filter((app) => app.slug !== entitlement.app_key);
+  const hasAllAccess = entitlements.some(
+    (item) =>
+      item.app_key === "futurekids_all_access" &&
+      ["active", "trialing", "grace_period"].includes(item.status),
+  );
+  const manageUrl =
+    entitlement.provider === "apple"
+      ? "https://apps.apple.com/account/subscriptions"
+      : "https://play.google.com/store/account/subscriptions";
+
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    function handleEscape(event: KeyboardEvent) {
+      if (event.key === "Escape") onClose();
+    }
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [onClose]);
+
+  return (
+    <div
+      className="fixed inset-0 z-50 grid place-items-center bg-neutral-950/45 px-4 py-8 backdrop-blur-[2px]"
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
+    >
+      <section
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="manage-plan-title"
+        className="max-h-full w-full max-w-2xl overflow-y-auto rounded-[2rem] bg-white shadow-2xl"
+      >
+        <div className="flex items-start justify-between gap-4 border-b border-neutral-100 px-6 py-5 sm:px-7">
+          <div className="flex items-center gap-3">
+            {brandApp ? (
+              <Image
+                src={brandApp.iconPath}
+                alt=""
+                width={40}
+                height={40}
+                className="h-10 w-10"
+                aria-hidden
+              />
+            ) : (
+              <div className="grid h-10 w-10 place-items-center rounded-xl bg-neutral-950 text-xs text-white">
+                FK
+              </div>
+            )}
+            <div>
+              <p className="text-xs font-medium uppercase tracking-[0.16em] text-neutral-500">
+                Manage plan
+              </p>
+              <h2
+                id="manage-plan-title"
+                className="mt-1 text-xl font-semibold tracking-tight text-neutral-950"
+              >
+                {appName}
+              </h2>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close manage plan"
+            className="grid h-9 w-9 place-items-center rounded-full text-xl font-light text-neutral-500 transition hover:bg-neutral-100 hover:text-neutral-950"
+          >
+            ×
+          </button>
+        </div>
+
+        <div className="space-y-5 px-6 py-6 sm:px-7">
+          <div className="rounded-2xl bg-[#f7f5f1] p-5">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-sm font-medium text-neutral-950">
+                  {planDisplayName(entitlement.plan_key)}
+                </p>
+                <p className="mt-1 text-sm capitalize text-neutral-600">
+                  Billed through {entitlement.provider}
+                </p>
+              </div>
+              <Badge tone={entitlementTone(entitlement.status)}>
+                {entitlement.cancel_at_period_end
+                  ? "Ends soon"
+                  : entitlementStatusLabel(entitlement.status)}
+              </Badge>
+            </div>
+            <dl className="mt-5 grid grid-cols-2 gap-4 border-t border-neutral-200/70 pt-4 text-sm">
+              <div>
+                <dt className="text-neutral-500">Plan includes</dt>
+                <dd className="mt-1 font-medium capitalize text-neutral-900">
+                  {entitlementAccessSummary(entitlement)}
+                </dd>
+              </div>
+              <div>
+                <dt className="text-neutral-500">
+                  {entitlement.cancel_at_period_end ? "Access until" : "Next renewal"}
+                </dt>
+                <dd className="mt-1 font-medium text-neutral-900">
+                  {formatAccountDate(entitlement.current_period_end)}
+                </dd>
+              </div>
+            </dl>
+          </div>
+
+          {entitlement.cancel_at_period_end && (
+            <p className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-relaxed text-amber-900">
+              Renewal is canceled. You will keep access through{" "}
+              {formatAccountDate(entitlement.current_period_end)}.
+            </p>
+          )}
+
+          {pendingChange && (
+            <div className="rounded-2xl border border-indigo-200 bg-indigo-50 px-4 py-3 text-sm text-indigo-950">
+              <p className="font-medium">Plan change scheduled</p>
+              <p className="mt-1 text-xs leading-relaxed text-indigo-800">
+                Your child limit changes from {pendingChange.from_child_limit} to{" "}
+                {pendingChange.target_child_limit} on{" "}
+                {formatAccountDate(pendingChange.effective_at)}. Unselected child
+                profiles and data will be paused in Earnly, not deleted.
+              </p>
+              <button
+                type="button"
+                onClick={() => onCancelPendingChange(pendingChange)}
+                disabled={updatingPlan}
+                className="mt-2 text-xs font-medium underline underline-offset-2 disabled:opacity-50"
+              >
+                Cancel pending change
+              </button>
+            </div>
+          )}
+
+          {entitlement.provider === "stripe" &&
+            ["earnly", "futurekids_all_access"].includes(entitlement.app_key) && (
+              <Link
+                href={`/pricing?app=${entitlement.app_key === "earnly" ? "earnly" : "all-access"}`}
+                className="flex items-center justify-between rounded-2xl border border-neutral-200 px-4 py-3 text-sm font-medium text-neutral-950 transition hover:border-neutral-400"
+              >
+                Change child count or billing period
+                <span aria-hidden>→</span>
+              </Link>
+            )}
+
+          <div>
+            <p className="text-sm font-medium text-neutral-950">
+              Explore more with Future Kids
+            </p>
+            <p className="mt-1 text-xs leading-relaxed text-neutral-500">
+              Add another app or bring everything together with All Access.
+            </p>
+          </div>
+
+          {!hasAllAccess && entitlement.app_key !== "futurekids_all_access" && (
+            <Link
+              href="/pricing"
+              className="group block overflow-hidden rounded-2xl bg-neutral-950 p-5 text-white transition hover:bg-neutral-800"
+            >
+              <div className="flex items-center justify-between gap-5">
+                <div>
+                  <span className="inline-flex rounded-full bg-white/10 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.14em] text-emerald-300">
+                    Best value
+                  </span>
+                  <p className="mt-3 text-base font-semibold">
+                    Future Kids All Access
+                  </p>
+                  <p className="mt-1 text-xs leading-relaxed text-neutral-300">
+                    Unlock Earnly, Scholars Notes, Ballr, and TinyPal with one family plan.
+                  </p>
+                </div>
+                <span className="shrink-0 text-xl text-white/70 transition group-hover:translate-x-1">
+                  →
+                </span>
+              </div>
+            </Link>
+          )}
+
+          <div className="grid gap-3 sm:grid-cols-3">
+            {otherApps.map((app) => {
+              const active =
+                entitlement.app_key === "futurekids_all_access" ||
+                entitlements.some(
+                  (item) =>
+                    item.app_key === app.slug &&
+                    ["active", "trialing", "grace_period"].includes(item.status),
+                );
+              return (
+                <Link
+                  key={app.slug}
+                  href="/pricing#individual-apps"
+                  className="rounded-2xl border border-neutral-200 p-4 transition hover:-translate-y-0.5 hover:border-neutral-300 hover:shadow-sm"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <Image
+                      src={app.iconPath}
+                      alt=""
+                      width={30}
+                      height={30}
+                      className="h-[30px] w-[30px]"
+                      aria-hidden
+                    />
+                    <p className="text-sm font-medium text-neutral-950">
+                      {app.name}
+                    </p>
+                  </div>
+                  <p className="mt-3 line-clamp-2 text-xs leading-relaxed text-neutral-500">
+                    {app.tagline}
+                  </p>
+                  <p
+                    className="mt-3 text-xs font-medium"
+                    style={{ color: active ? "#059669" : app.accentColor }}
+                  >
+                    {active ? "Included" : "View plans →"}
+                  </p>
+                </Link>
+              );
+            })}
+          </div>
+
+          {entitlement.provider === "stripe" ? (
+            <button
+              type="button"
+              onClick={onOpenBillingPortal}
+              disabled={openingPortal || updatingPlan}
+              className="text-left text-xs font-normal text-neutral-500 underline decoration-neutral-300 underline-offset-4 transition hover:text-neutral-900 disabled:opacity-50"
+            >
+              {openingPortal
+                ? "Opening Stripe…"
+                : "Update payment method or billing details"}
+            </button>
+          ) : (
+            <a
+              href={manageUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs font-normal text-neutral-500 underline decoration-neutral-300 underline-offset-4 transition hover:text-neutral-900"
+            >
+              Manage billing with{" "}
+              {entitlement.provider === "apple" ? "Apple" : "Google Play"}
+            </a>
+          )}
+
+          {errorMessage && (
+            <p role="alert" className="text-sm text-red-600">
+              {errorMessage}
+            </p>
+          )}
+
+          {confirmingCancel && !entitlement.cancel_at_period_end && (
+            <div className="rounded-2xl border border-red-100 bg-red-50/70 p-4">
+              <p className="text-sm font-medium text-neutral-950">Cancel this plan?</p>
+              <p className="mt-1 text-xs leading-relaxed text-neutral-600">
+                You will keep access until{" "}
+                {formatAccountDate(entitlement.current_period_end)} and will not be charged again.
+              </p>
+            </div>
+          )}
+        </div>
+
+        <div className="flex items-center justify-between gap-4 border-t border-neutral-100 px-6 py-5 sm:px-7">
+          <button
+            type="button"
+            onClick={onClose}
+            className="text-sm font-normal text-neutral-600 transition hover:text-neutral-950"
+          >
+            Close
+          </button>
+
+          {entitlement.provider === "stripe" ? (
+            entitlement.cancel_at_period_end ? (
+              <button
+                type="button"
+                onClick={onResume}
+                disabled={updatingPlan}
+                className="text-sm font-normal text-emerald-700 transition hover:text-emerald-900 disabled:opacity-50"
+              >
+                {updatingPlan ? "Updating…" : "Resume renewal"}
+              </button>
+            ) : confirmingCancel ? (
+              <div className="flex items-center gap-4">
+                <button
+                  type="button"
+                  onClick={() => setConfirmingCancel(false)}
+                  disabled={updatingPlan}
+                  className="text-sm font-normal text-neutral-600"
+                >
+                  Keep plan
+                </button>
+                <button
+                  type="button"
+                  onClick={onCancel}
+                  disabled={updatingPlan}
+                  className="text-sm font-normal text-red-600 transition hover:text-red-800 disabled:opacity-50"
+                >
+                  {updatingPlan ? "Canceling…" : "Confirm cancellation"}
+                </button>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setConfirmingCancel(true)}
+                className="text-sm font-normal text-neutral-500 transition hover:text-red-600"
+              >
+                Cancel plan
+              </button>
+            )
+          ) : (
+            <a
+              href={manageUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-normal text-neutral-500 transition hover:text-red-600"
+            >
+              Cancel with {entitlement.provider === "apple" ? "Apple" : "Google Play"}
+            </a>
+          )}
+        </div>
+      </section>
+    </div>
   );
 }

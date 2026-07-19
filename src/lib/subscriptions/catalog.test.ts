@@ -12,7 +12,7 @@ test("catalog uses all 34 existing Stripe prices without setup", () => {
   assert.equal(
     productCatalog.find((plan) => plan.planKey === "earnly_kids1_monthly")
       ?.stripePriceId,
-    "price_1TsUh7LD305HTgIx3noteXjw",
+    "price_1TuiCJLD305HTgIxk0Ni7gVH",
   );
   assert.equal(
     productCatalog.find(
@@ -20,6 +20,19 @@ test("catalog uses all 34 existing Stripe prices without setup", () => {
     )?.stripeProductId,
     "prod_UsFMZVziq3wNAv",
   );
+});
+
+test("Earnly charges $1.99 monthly per child and ten months yearly", () => {
+  for (let childCount = 1; childCount <= 6; childCount += 1) {
+    const monthly = productCatalog.find(
+      (plan) => plan.planKey === `earnly_kids${childCount}_monthly`,
+    );
+    const yearly = productCatalog.find(
+      (plan) => plan.planKey === `earnly_kids${childCount}_yearly`,
+    );
+    assert.equal(monthly?.expectedAmountCents, 199 * childCount);
+    assert.equal(yearly?.expectedAmountCents, 1_990 * childCount);
+  }
 });
 
 test("separate Stripe subscriptions produce separate app entitlements", () => {

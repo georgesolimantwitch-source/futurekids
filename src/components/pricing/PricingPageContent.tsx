@@ -9,16 +9,27 @@ import { ExistingSubscriberSection } from "./ExistingSubscriberSection";
 import { PricingComparison } from "./PricingComparison";
 import { PricingFAQ } from "./PricingFAQ";
 import { PricingCTA } from "./PricingCTA";
+import type { PlanManagementContext } from "@/lib/subscriptions/plan-management";
 
-export function PricingPageContent() {
+export function PricingPageContent({
+  planContext,
+  initialSelectedPlan,
+}: {
+  planContext: PlanManagementContext;
+  initialSelectedPlan?: string;
+}) {
   const [billingPeriod, setBillingPeriod] = useState<BillingPeriod>("monthly");
 
   return (
     <>
-      <EcosystemAllAccessHero />
+      <EcosystemAllAccessHero
+        planContext={planContext}
+        initialSelectedPlan={initialSelectedPlan}
+      />
       <IndividualAppsSection
         billingPeriod={billingPeriod}
         onBillingChange={setBillingPeriod}
+        planContext={planContext}
       />
       <EcosystemPlanBuilder billingPeriod={billingPeriod} />
       <ExistingSubscriberSection />

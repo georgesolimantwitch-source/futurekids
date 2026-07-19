@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
       .from("user_entitlements")
       .select("id, status, current_period_end")
       .eq("provider", "stripe")
-      .eq("plan_key", plan.planKey)
+      .eq("app_key", plan.appKey)
       .in("status", ["active", "trialing", "grace_period", "canceled"]);
     if (
       existingEntitlements?.some(
@@ -83,7 +83,10 @@ export async function POST(request: NextRequest) {
       )
     ) {
       return NextResponse.json(
-        { error: "This Stripe plan is already attached to your account" },
+        {
+          error:
+            "A website subscription for this app is already attached to your account. Manage that plan instead.",
+        },
         { status: 409 },
       );
     }

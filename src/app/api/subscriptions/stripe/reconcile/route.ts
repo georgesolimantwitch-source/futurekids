@@ -49,9 +49,19 @@ export async function POST() {
         if (subscription.userId !== user.id) continue;
         await applyVerifiedSubscriptionEvent(
           {
-            eventId: `reconcile:${stripeSubscription.id}:${stripeSubscription.status}:${
-              subscription.currentPeriodEnd ?? "none"
-            }`,
+            eventId: [
+              "reconcile",
+              stripeSubscription.id,
+              stripeSubscription.status,
+              subscription.planKey,
+              subscription.providerPriceId ?? "no-price",
+              subscription.currentPeriodStart ?? "no-start",
+              subscription.currentPeriodEnd ?? "no-end",
+              typeof stripeSubscription.schedule === "string"
+                ? stripeSubscription.schedule
+                : (stripeSubscription.schedule?.id ?? "no-schedule"),
+              String(subscription.cancelAtPeriodEnd),
+            ].join(":"),
             eventType: "stripe.reconciliation",
             occurredAt: new Date().toISOString(),
           },

@@ -1,16 +1,16 @@
 /**
  * Earnly Live fixed child-count tiers already configured in Stripe.
- * One child starts at $0.99/mo or $9.99/yr; each extra child adds
- * $1/mo or $10/yr.
+ * Earnly is $1.99 per child each month. Yearly plans charge for
+ * 10 months, so each child is $19.90 per year.
  */
 
 export const earnlyLivePricing = {
   minChildren: 1,
   maxChildren: 6,
-  unitMonthly: 0.99,
-  unitYearly: 9.99,
-  additionalChildMonthly: 1,
-  additionalChildYearly: 10,
+  unitMonthly: 1.99,
+  unitYearly: 19.9,
+  additionalChildMonthly: 1.99,
+  additionalChildYearly: 19.9,
   billedMonthsInYearlyPlan: 10,
   productName: "Earnly Live",
   description:

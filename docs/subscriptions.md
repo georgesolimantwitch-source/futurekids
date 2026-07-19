@@ -98,6 +98,29 @@ another Future Kids user. The effective-access RPC merges complementary feature
 flags and selects the highest `entitlement_rank`; Future Kids All Access has the
 highest rank without deleting individual provider subscriptions.
 
+## Family child-limit changes
+
+Earnly and Future Kids All Access use fixed 1–6 child tiers. Existing Stripe
+subscriptions are changed in place through
+`POST /api/subscriptions/stripe/change-plan`; checkout is only for a new app
+subscription.
+
+- Same-interval child-count upgrades apply immediately with Stripe prorating.
+- Child-count reductions and monthly/yearly changes use a Stripe Subscription
+  Schedule at the current period end.
+- A downgrade requires the parent to select exactly which children remain
+  active. Unselected Earnly profiles, wallets, chores, savings, and history are
+  retained and marked `paused_by_plan` only when the scheduled phase begins.
+- `DELETE /api/subscriptions/stripe/change-plan` releases the schedule without
+  canceling the underlying subscription.
+- Schedule webhook events and ordinary subscription updates both reconcile the
+  canonical entitlement ledger. Effective child access is the union of valid
+  Earnly and All Access entitlements, so a weaker plan cannot pause access
+  granted by a stronger plan.
+
+For cross-project enforcement, configure `EARNLY_BRIDGE_URL` and the same
+server-only `ENTITLEMENT_SYNC_SECRET` in the website and Earnly Edge Function.
+
 ## Local Stripe sandbox
 
 Put only `sk_test_...` and `pk_test_...` values in `.env.local`. The sandbox

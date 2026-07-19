@@ -1,0 +1,2 @@
+-- Remote canonical ledger history marker. The idempotent consolidated ledger is
+-- restored and extended by 20260719010000_live_family_plan_changes.sql.

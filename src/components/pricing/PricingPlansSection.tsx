@@ -7,6 +7,10 @@ import {
   type BillingPeriod,
 } from "@/config/pricing";
 import { AppPricingCard } from "./AppPricingCard";
+import {
+  activeEntitlementForApp,
+  type PlanManagementContext,
+} from "@/lib/subscriptions/plan-management";
 
 interface BillingToggleProps {
   value: BillingPeriod;
@@ -58,12 +62,14 @@ export function BillingToggle({ value, onChange, className = "" }: BillingToggle
 interface PricingPlansSectionProps {
   billingPeriod: BillingPeriod;
   onBillingChange: (period: BillingPeriod) => void;
+  planContext: PlanManagementContext;
 }
 
 /** Individual apps — secondary section below All Access */
 export function IndividualAppsSection({
   billingPeriod,
   onBillingChange,
+  planContext,
 }: PricingPlansSectionProps) {
   return (
     <section id="individual-apps" className="scroll-mt-24 border-b border-neutral-100 bg-[#fafafa]">
@@ -99,7 +105,12 @@ export function IndividualAppsSection({
         {/* Plans — immediately below */}
         <div className="mt-8 grid gap-4 sm:mt-10 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
           {pricingPlans.map((plan) => (
-            <AppPricingCard key={plan.appId} plan={plan} billingPeriod={billingPeriod} />
+            <AppPricingCard
+              key={plan.appId}
+              plan={plan}
+              billingPeriod={billingPeriod}
+              currentEntitlement={activeEntitlementForApp(planContext, plan.appId)}
+            />
           ))}
         </div>
       </div>

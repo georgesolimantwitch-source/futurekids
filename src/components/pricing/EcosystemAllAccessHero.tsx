@@ -31,6 +31,10 @@ import {
 } from "@/config/scholars-pricing";
 import { getPricingPlan } from "@/config/pricing";
 import { postCheckout } from "@/lib/checkout/client";
+import {
+  activeEntitlementForApp,
+  type PlanManagementContext,
+} from "@/lib/subscriptions/plan-management";
 import { BillingToggle } from "./PricingPlansSection";
 
 type SelectedPlan = "all-access" | AppSlug;
@@ -44,13 +48,37 @@ const planTabs: { id: SelectedPlan; label: string; icon?: string }[] = [
   })),
 ];
 
-export function EcosystemAllAccessHero() {
-  const [selectedPlan, setSelectedPlan] = useState<SelectedPlan>("all-access");
+export function EcosystemAllAccessHero({
+  planContext,
+  initialSelectedPlan = "all-access",
+}: {
+  planContext: PlanManagementContext;
+  initialSelectedPlan?: string;
+}) {
+  const normalizedInitialPlan = planTabs.some(
+    (tab) => tab.id === initialSelectedPlan,
+  )
+    ? (initialSelectedPlan as SelectedPlan)
+    : "all-access";
+  const initialEntitlement = activeEntitlementForApp(
+    planContext,
+    normalizedInitialPlan === "all-access"
+      ? "futurekids_all_access"
+      : normalizedInitialPlan,
+  );
+  const [selectedPlan, setSelectedPlan] =
+    useState<SelectedPlan>(normalizedInitialPlan);
   const [scholarsTier, setScholarsTier] = useState<ScholarsTierId>("full");
-  const [childCount, setChildCount] = useState(1);
-  const [billingPeriod, setBillingPeriod] = useState<EarnlyBillingPeriod>("monthly");
+  const [childCount, setChildCount] = useState(
+    initialEntitlement?.child_limit ?? 1,
+  );
+  const [billingPeriod, setBillingPeriod] = useState<EarnlyBillingPeriod>(
+    initialEntitlement?.plan_key.endsWith("_yearly") ? "yearly" : "monthly",
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showChildPicker, setShowChildPicker] = useState(false);
+  const [selectedChildIds, setSelectedChildIds] = useState<string[]>([]);
 
   const count = clampEarnlyChildCount(childCount);
   const isBundle = selectedPlan === "all-access";
@@ -58,6 +86,23 @@ export function EcosystemAllAccessHero() {
   const isScholars = selectedPlan === "scholars";
   const showChildStepper = isBundle || isEarnly;
   const activeScholarsTier = getScholarsTier(scholarsTier);
+  const selectedAppKey =
+    selectedPlan === "all-access" ? "futurekids_all_access" : selectedPlan;
+  const currentEntitlement = activeEntitlementForApp(
+    planContext,
+    selectedAppKey,
+  );
+  const pendingChange = currentEntitlement
+    ? planContext.pendingChanges.find(
+        (change) => change.entitlement_id === currentEntitlement.id,
+      )
+    : undefined;
+  const requiredActiveChildCount = Math.min(planContext.children.length, count);
+  const activeChildCount = planContext.children.filter(
+    (child) => child.earnlyStatus === "active",
+  ).length;
+  const currentChildSelectionComplete =
+    activeChildCount >= requiredActiveChildCount;
 
   const individualPlan =
     !isBundle ? getPricingPlan(selectedPlan as AppSlug) : undefined;
@@ -85,6 +130,20 @@ export function EcosystemAllAccessHero() {
   function selectPlan(plan: SelectedPlan) {
     setSelectedPlan(plan);
     setError(null);
+    const entitlement = activeEntitlementForApp(
+      planContext,
+      plan === "all-access" ? "futurekids_all_access" : plan,
+    );
+    if (entitlement?.child_limit) {
+      setChildCount(entitlement.child_limit);
+    } else if (plan === "all-access" || plan === "earnly") {
+      setChildCount(1);
+    }
+    if (entitlement) {
+      setBillingPeriod(
+        entitlement.plan_key.endsWith("_yearly") ? "yearly" : "monthly",
+      );
+    }
     if (plan === "scholars") {
       setScholarsTier("full");
     }
@@ -95,6 +154,38 @@ export function EcosystemAllAccessHero() {
     setError(null);
 
     try {
+      if (currentEntitlement) {
+        if (currentEntitlement.provider === "apple") {
+          throw new Error(
+            "This subscription is managed through Apple. Change it in App Store subscriptions.",
+          );
+        }
+        if (
+          currentEntitlement.plan_key === checkoutPlanKey &&
+          currentChildSelectionComplete
+        ) {
+          throw new Error("This is already your current plan.");
+        }
+        if (pendingChange) {
+          throw new Error("Cancel or update your pending change before choosing another plan.");
+        }
+
+        const requiredCount = requiredActiveChildCount;
+        const currentlyActive = planContext.children
+          .filter((child) => child.earnlyStatus === "active")
+          .map((child) => child.id);
+        const initial = [
+          ...currentlyActive,
+          ...planContext.children.map((child) => child.id),
+        ]
+          .filter((childId, index, all) => all.indexOf(childId) === index)
+          .slice(0, requiredCount);
+        setSelectedChildIds(initial);
+        setShowChildPicker(true);
+        setLoading(false);
+        return;
+      }
+
       const url = await postCheckout({
         planKey: checkoutPlanKey,
         ...(showChildStepper ? { childCount: count } : {}),
@@ -107,6 +198,69 @@ export function EcosystemAllAccessHero() {
       setLoading(false);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Checkout failed");
+      setLoading(false);
+    }
+  }
+
+  function toggleChild(childId: string) {
+    setSelectedChildIds((current) =>
+      current.includes(childId)
+        ? current.filter((id) => id !== childId)
+        : current.length < Math.min(planContext.children.length, count)
+          ? [...current, childId]
+          : current,
+    );
+  }
+
+  async function submitPlanChange() {
+    if (!currentEntitlement) return;
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch("/api/subscriptions/stripe/change-plan", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          entitlementId: currentEntitlement.id,
+          targetPlanKey: checkoutPlanKey,
+          activeChildIds: selectedChildIds,
+          requestId: crypto.randomUUID(),
+        }),
+      });
+      const result = (await response.json()) as {
+        error?: string;
+        outcome?: string;
+      };
+      if (!response.ok) throw new Error(result.error ?? "Plan change failed");
+      setShowChildPicker(false);
+      globalThis.location.reload();
+    } catch (changeError) {
+      setError(
+        changeError instanceof Error ? changeError.message : "Plan change failed",
+      );
+      setLoading(false);
+    }
+  }
+
+  async function cancelPendingChange() {
+    if (!pendingChange) return;
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch("/api/subscriptions/stripe/change-plan", {
+        method: "DELETE",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ changeId: pendingChange.id }),
+      });
+      const result = (await response.json()) as { error?: string };
+      if (!response.ok) throw new Error(result.error ?? "Could not cancel change");
+      globalThis.location.reload();
+    } catch (cancelError) {
+      setError(
+        cancelError instanceof Error
+          ? cancelError.message
+          : "Could not cancel change",
+      );
       setLoading(false);
     }
   }
@@ -215,14 +369,25 @@ export function EcosystemAllAccessHero() {
     );
   }
 
-  const ctaLabel = isBundle
-    ? "Get All Access"
-    : isScholars
-      ? `Get ${activeScholarsTier.name}`
-      : `Get ${individualPlan?.name ?? "Plan"}`;
+  const ctaLabel = currentEntitlement
+    ? currentEntitlement.plan_key === checkoutPlanKey
+      ? currentChildSelectionComplete
+        ? "Current Plan"
+        : "Choose Active Children"
+      : count < (currentEntitlement.child_limit ?? count) ||
+          currentEntitlement.plan_key.endsWith("_monthly") !==
+            checkoutPlanKey.endsWith("_monthly")
+        ? "Schedule Plan Change"
+        : "Upgrade Plan"
+    : isBundle
+      ? "Get All Access"
+      : isScholars
+        ? `Get ${activeScholarsTier.name}`
+        : `Get ${individualPlan?.name ?? "Plan"}`;
 
   return (
-    <section className="relative overflow-hidden border-b border-neutral-100 bg-neutral-950 text-white">
+    <>
+    <section id="top" className="relative overflow-hidden border-b border-neutral-100 bg-neutral-950 text-white">
       <div
         className="absolute inset-0 opacity-40"
         style={{
@@ -291,6 +456,43 @@ export function EcosystemAllAccessHero() {
           className="mx-auto mt-10 max-w-md overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur-xl sm:p-8"
           role="tabpanel"
         >
+          {currentEntitlement && (
+            <div className="mb-5 rounded-2xl border border-emerald-400/30 bg-emerald-400/10 px-4 py-3">
+              <p className="text-xs font-semibold uppercase tracking-wider text-emerald-300">
+                Current plan
+              </p>
+              <p className="mt-1 text-sm text-white">
+                {currentEntitlement.plan_key.replaceAll("_", " ")}
+                {currentEntitlement.child_limit
+                  ? ` · ${currentEntitlement.child_limit} ${
+                      currentEntitlement.child_limit === 1 ? "child" : "children"
+                    }`
+                  : ""}
+              </p>
+              {currentEntitlement.child_limit && (
+                <p className="mt-1 text-xs text-emerald-100/80">
+                  {activeChildCount}{" "}
+                  active child profiles
+                </p>
+              )}
+              {pendingChange && (
+                <div className="mt-3 border-t border-emerald-300/20 pt-3 text-xs text-emerald-100">
+                  <p>
+                    Change to {pendingChange.target_child_limit} children on{" "}
+                    {new Date(pendingChange.effective_at).toLocaleDateString()}.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={cancelPendingChange}
+                    disabled={loading}
+                    className="mt-2 font-medium underline underline-offset-2"
+                  >
+                    Cancel pending change
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
           {!isBundle && individualPlan && (
             <div className="mb-6 flex items-center gap-3 border-b border-white/10 pb-5">
               <div
@@ -411,7 +613,12 @@ export function EcosystemAllAccessHero() {
           <button
             type="button"
             onClick={handleCheckout}
-            disabled={loading}
+            disabled={
+              loading ||
+              (currentEntitlement?.plan_key === checkoutPlanKey &&
+                currentChildSelectionComplete) ||
+              Boolean(pendingChange)
+            }
             className="mt-6 flex w-full items-center justify-center rounded-2xl bg-white px-6 py-4 text-base font-semibold text-neutral-900 shadow-lg transition hover:bg-neutral-100 disabled:opacity-60"
           >
             {loading ? "Redirecting…" : ctaLabel}
@@ -422,5 +629,86 @@ export function EcosystemAllAccessHero() {
         </div>
       </div>
     </section>
+    {showChildPicker && currentEntitlement && (
+      <div
+        className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 p-4 sm:items-center"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="plan-change-title"
+      >
+        <div className="w-full max-w-lg rounded-3xl bg-white p-6 text-neutral-900 shadow-2xl sm:p-8">
+          <h2 id="plan-change-title" className="text-xl font-semibold">
+            Choose children who stay active
+          </h2>
+          <p className="mt-2 text-sm leading-relaxed text-neutral-600">
+            Select exactly {Math.min(planContext.children.length, count)}. Profiles,
+            wallets, chores, savings, and history are not deleted. Children outside
+            the new limit are paused only in Earnly when the change takes effect.
+          </p>
+          {count < (currentEntitlement.child_limit ?? count) && (
+            <p className="mt-3 rounded-xl bg-amber-50 px-3 py-2 text-sm text-amber-900">
+              Your current {currentEntitlement.child_limit}-child access stays active
+              until{" "}
+              {currentEntitlement.current_period_end
+                ? new Date(currentEntitlement.current_period_end).toLocaleDateString()
+                : "your next renewal"}.
+            </p>
+          )}
+          <div className="mt-5 max-h-64 space-y-2 overflow-y-auto">
+            {planContext.children.map((child) => {
+              const selected = selectedChildIds.includes(child.id);
+              return (
+                <button
+                  key={child.id}
+                  type="button"
+                  onClick={() => toggleChild(child.id)}
+                  className={`flex w-full items-center justify-between rounded-xl border px-4 py-3 text-left ${
+                    selected
+                      ? "border-neutral-900 bg-neutral-900 text-white"
+                      : "border-neutral-200 bg-white"
+                  }`}
+                  aria-pressed={selected}
+                >
+                  <span className="font-medium">{child.name}</span>
+                  <span className="text-sm">{selected ? "Stays active" : "Paused"}</span>
+                </button>
+              );
+            })}
+          </div>
+          {error && (
+            <p className="mt-4 rounded-xl bg-red-50 px-3 py-2 text-sm text-red-700">
+              {error}
+            </p>
+          )}
+          <div className="mt-6 flex gap-3">
+            <button
+              type="button"
+              onClick={() => setShowChildPicker(false)}
+              disabled={loading}
+              className="flex-1 rounded-xl border border-neutral-200 px-4 py-3 font-medium"
+            >
+              Not now
+            </button>
+            <button
+              type="button"
+              onClick={submitPlanChange}
+              disabled={
+                loading ||
+                selectedChildIds.length !==
+                  Math.min(planContext.children.length, count)
+              }
+              className="flex-1 rounded-xl bg-neutral-900 px-4 py-3 font-semibold text-white disabled:opacity-50"
+            >
+              {loading
+                ? "Saving…"
+                : count < (currentEntitlement.child_limit ?? count)
+                  ? "Schedule downgrade"
+                  : "Confirm change"}
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
+    </>
   );
 }

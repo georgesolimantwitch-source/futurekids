@@ -40,6 +40,11 @@ async function main() {
       "customer.subscription.deleted",
       "invoice.paid",
       "invoice.payment_failed",
+      "subscription_schedule.updated",
+      "subscription_schedule.completed",
+      "subscription_schedule.released",
+      "subscription_schedule.canceled",
+      "subscription_schedule.aborted",
     ],
   });
   if (!endpoint.secret) {

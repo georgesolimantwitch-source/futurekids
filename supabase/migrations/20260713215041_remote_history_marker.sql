@@ -1,0 +1,1 @@
+-- Remote migration history marker. The consolidated schema is defined by later migrations.

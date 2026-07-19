@@ -51,51 +51,51 @@ const EXISTING_STRIPE_IDS: Record<
   { priceId: string; productId: string }
 > = {
   earnly_kids1_monthly: {
-    priceId: "price_1TsUh7LD305HTgIx3noteXjw",
+    priceId: "price_1TuiCJLD305HTgIxk0Ni7gVH",
     productId: "prod_UsFBozbxDdl1v6",
   },
   earnly_kids1_yearly: {
-    priceId: "price_1TsUhCLD305HTgIxPJLs0I2F",
+    priceId: "price_1TuiCKLD305HTgIxliIyLjp5",
     productId: "prod_UsFBeXiPCZRY1V",
   },
   earnly_kids2_monthly: {
-    priceId: "price_1TsUh7LD305HTgIxKrtzEBbq",
+    priceId: "price_1TuiCKLD305HTgIx3KSXxoE4",
     productId: "prod_UsFBBQJLwT8SuJ",
   },
   earnly_kids2_yearly: {
-    priceId: "price_1TsUhDLD305HTgIx9bcd6Sf9",
+    priceId: "price_1TuiCKLD305HTgIxynB8yYye",
     productId: "prod_UsFB85TLFClSjz",
   },
   earnly_kids3_monthly: {
-    priceId: "price_1TsUh9LD305HTgIxTcWDOWOd",
+    priceId: "price_1TuiCLLD305HTgIxeY98ZIpJ",
     productId: "prod_UsFBX0LUDwHwgz",
   },
   earnly_kids3_yearly: {
-    priceId: "price_1TsUhDLD305HTgIxInwdq4z5",
+    priceId: "price_1TuiCLLD305HTgIxVueggjkJ",
     productId: "prod_UsFBOlcFx3ZeDl",
   },
   earnly_kids4_monthly: {
-    priceId: "price_1TsUhALD305HTgIxYobb9hOr",
+    priceId: "price_1TuiCMLD305HTgIxQU2nx58e",
     productId: "prod_UsFBPFrZD8YuWO",
   },
   earnly_kids4_yearly: {
-    priceId: "price_1TsUhELD305HTgIxlZfAYNft",
+    priceId: "price_1TuiCMLD305HTgIxfq4e763q",
     productId: "prod_UsFBzAGHt2ukju",
   },
   earnly_kids5_monthly: {
-    priceId: "price_1TsUhALD305HTgIxWW0i3jH3",
+    priceId: "price_1TuiCMLD305HTgIxYYLXSb1a",
     productId: "prod_UsFBUlpZqdsO3i",
   },
   earnly_kids5_yearly: {
-    priceId: "price_1TsUhFLD305HTgIxv7DV4AlY",
+    priceId: "price_1TuiCNLD305HTgIx2bFX44wX",
     productId: "prod_UsFBsD73LrNBeg",
   },
   earnly_kids6_monthly: {
-    priceId: "price_1TsUhBLD305HTgIx4KwFJ2Ua",
+    priceId: "price_1TuiCNLD305HTgIxcyM3YfGX",
     productId: "prod_UsFBYMY8WuXC5z",
   },
   earnly_kids6_yearly: {
-    priceId: "price_1TsUhGLD305HTgIx5tSruxg6",
+    priceId: "price_1TuiCOLD305HTgIxykhrAw8Y",
     productId: "prod_UsFBKvluLL6FYw",
   },
   scholars_all_access_monthly: {
