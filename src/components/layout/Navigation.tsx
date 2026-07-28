@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 import { apps, brand, navigationLinks } from "@/config/brand";
+import { BrandLogo } from "@/components/brand/BrandLogo";
 import { AuthNav, AuthNavMobile } from "@/components/auth/AuthNav";
 import { Button } from "@/components/ui/Button";
 
@@ -65,10 +66,11 @@ export function Navigation() {
       >
         <Link
           href="/"
-          className="min-w-0 truncate text-lg font-semibold tracking-tight text-neutral-900 transition-opacity hover:opacity-70 sm:text-xl"
+          className="min-w-0 shrink-0 transition-opacity hover:opacity-80"
           onClick={closeMobile}
+          aria-label={brand.productName}
         >
-          {brand.logo.text}
+          <BrandLogo size="nav" priority />
         </Link>
 
         <ul className="hidden items-center gap-1 lg:flex">

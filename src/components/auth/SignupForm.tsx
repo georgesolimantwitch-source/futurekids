@@ -3,14 +3,17 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { brand } from "@/config/brand";
 import { buildOAuthCallbackUrl } from "@/lib/auth/redirect";
 import { metadataForAccountType, persistSignupAccountType } from "@/lib/auth/signup";
-import type { AccountType } from "@/lib/auth/types";
 import { createClient } from "@/lib/supabase/client";
-import { AccountTypeSelector } from "./AccountTypeSelector";
+import { AppleAuthButton } from "./AppleAuthButton";
 import { AuthDivider, GoogleAuthButton } from "./GoogleAuthButton";
 import { AuthField, AuthLink, AuthShell, authInputClass } from "./AuthShell";
 import { PasswordInput } from "./PasswordInput";
+
+/** Genlyn website signup is parent/family accounts only. */
+const WEB_ACCOUNT_TYPE = "parent" as const;
 
 export function SignupForm() {
   const router = useRouter();
@@ -18,7 +21,6 @@ export function SignupForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [accountType, setAccountType] = useState<AccountType>("parent");
   const [agreed, setAgreed] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -41,7 +43,7 @@ export function SignupForm() {
     }
 
     setLoading(true);
-    persistSignupAccountType(accountType);
+    persistSignupAccountType(WEB_ACCOUNT_TYPE);
     const supabase = createClient();
 
     const { data, error: signUpError } = await supabase.auth.signUp({
@@ -51,7 +53,7 @@ export function SignupForm() {
         emailRedirectTo: buildOAuthCallbackUrl("/account/setup"),
         data: {
           full_name: fullName.trim(),
-          ...metadataForAccountType(accountType),
+          ...metadataForAccountType(WEB_ACCOUNT_TYPE),
         },
       },
     });
@@ -74,26 +76,36 @@ export function SignupForm() {
 
   return (
     <AuthShell
-      size="wide"
-      title="Create your account"
-      subtitle="One account for every app — Earnly, Scholars Notes, Ballr, and TinyPal."
+      title="Create your family account"
+      subtitle={`${brand.productName} is for parents and families. Students and individuals create a Personal account inside Ballr or Scholars Notes.`}
       footer={
         <>
           Already have an account? <AuthLink href="/login">Sign in</AuthLink>
         </>
       }
     >
-      <AccountTypeSelector value={accountType} onChange={setAccountType} />
+      <div className="rounded-2xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-sm text-neutral-600">
+        <p className="font-medium text-neutral-900">Family account</p>
+        <p className="mt-1 leading-relaxed">
+          Manage kids, Kids Login usernames, and subscriptions for Earnly, Scholars Notes, Ballr,
+          and TinyPal from one place.
+        </p>
+      </div>
 
-      <div className="mt-5">
+      <div className="mt-5 space-y-3">
+        <AppleAuthButton
+          next="/account/setup"
+          label="Sign up with Apple"
+          accountType={WEB_ACCOUNT_TYPE}
+        />
         <GoogleAuthButton
           next="/account/setup"
           label="Sign up with Google"
-          accountType={accountType}
+          accountType={WEB_ACCOUNT_TYPE}
         />
       </div>
       <p className="mt-3 text-center text-xs text-neutral-500">
-        By continuing with Google, you agree to our{" "}
+        By continuing with Apple or Google, you agree to our{" "}
         <Link href="/terms" className="underline underline-offset-2">
           Terms
         </Link>{" "}
@@ -187,7 +199,7 @@ export function SignupForm() {
           disabled={loading}
           className="flex w-full items-center justify-center rounded-full bg-neutral-900 px-6 py-3.5 text-sm font-medium text-white transition hover:bg-neutral-800 disabled:opacity-60"
         >
-          {loading ? "Creating account…" : "Create account"}
+          {loading ? "Creating account…" : "Create family account"}
         </button>
       </form>
     </AuthShell>

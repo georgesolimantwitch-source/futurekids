@@ -1,6 +1,6 @@
 import type { AppKey } from "./product-catalog";
 
-export type ProviderName = "apple" | "stripe";
+export type ProviderName = "apple" | "google" | "stripe";
 export type EntitlementStatus =
   | "active"
   | "trialing"
@@ -61,4 +61,32 @@ export function statusFromAppleTransaction(input: {
   if (input.notificationStatus === 2) return "expired";
   if (!input.expiresDate || input.expiresDate <= Date.now()) return "expired";
   return "active";
+}
+
+export function statusFromGoogleSubscriptionState(
+  subscriptionState: string | null | undefined,
+  expiryTime: string | null | undefined,
+): EntitlementStatus {
+  const expired =
+    !!expiryTime && Number.isFinite(Date.parse(expiryTime))
+      ? Date.parse(expiryTime) <= Date.now()
+      : false;
+
+  switch (subscriptionState) {
+    case "SUBSCRIPTION_STATE_ACTIVE":
+    case "SUBSCRIPTION_STATE_PENDING":
+      return expired ? "expired" : "active";
+    case "SUBSCRIPTION_STATE_IN_GRACE_PERIOD":
+      return "grace_period";
+    case "SUBSCRIPTION_STATE_ON_HOLD":
+      return "past_due";
+    case "SUBSCRIPTION_STATE_CANCELED":
+      return expired ? "expired" : "canceled";
+    case "SUBSCRIPTION_STATE_EXPIRED":
+      return "expired";
+    case "SUBSCRIPTION_STATE_PAUSED":
+      return "canceled";
+    default:
+      return expired ? "expired" : "incomplete";
+  }
 }

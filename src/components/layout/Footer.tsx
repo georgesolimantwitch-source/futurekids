@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { brand, footerLinks } from "@/config/brand";
+import { BrandLogo } from "@/components/brand/BrandLogo";
 
 function FooterColumn({
   title,
@@ -35,8 +36,8 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
         <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-2">
-            <Link href="/" className="text-xl font-semibold text-neutral-900">
-              {brand.logo.text}
+            <Link href="/" className="inline-block transition-opacity hover:opacity-80" aria-label={brand.productName}>
+              <BrandLogo size="footer" />
             </Link>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-neutral-600">
               {brand.description}

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { BrandLogo } from "@/components/brand/BrandLogo";
 import { clearSignupAccountType, readSignupAccountType } from "@/lib/auth/signup";
 import type { AccountType } from "@/lib/auth/types";
 
@@ -54,11 +55,11 @@ export default function AccountSetupPage() {
       setError(null);
 
       try {
-        const accountType = readSignupAccountType();
+        // Website setup always provisions a parent/family account.
         const response = await fetch("/api/account/setup", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(accountType ? { accountType } : {}),
+          body: JSON.stringify({ accountType: "parent", source: "website" }),
         });
         const data = (await response.json()) as { ok?: boolean; error?: string };
 
@@ -106,7 +107,7 @@ export default function AccountSetupPage() {
   }
 
   return (
-    <main className="min-h-[calc(100vh-4rem)] overflow-hidden bg-[#f7f5f1] px-4 py-12 text-neutral-950">
+    <main className="min-h-[calc(100vh-4rem)] overflow-hidden bg-[#fefbf6] px-4 py-12 text-neutral-950">
       <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.95),transparent_38%),radial-gradient(circle_at_15%_20%,rgba(34,197,94,0.14),transparent_28%),radial-gradient(circle_at_85%_25%,rgba(59,130,246,0.12),transparent_26%)]" />
 
       <section className="relative mx-auto flex min-h-[calc(100vh-10rem)] max-w-2xl flex-col items-center justify-center text-center">
@@ -133,11 +134,12 @@ export default function AccountSetupPage() {
         </div>
 
         <div className="mt-10">
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-emerald-700">
+          <BrandLogo size="hero" className="mx-auto" />
+          <p className="mt-6 text-xs font-semibold uppercase tracking-[0.24em] text-emerald-700">
             Account Ready
           </p>
           <h1 className="mt-4 text-4xl font-semibold tracking-tight text-neutral-950 sm:text-6xl">
-            Welcome to Future Kids!
+            Welcome!
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-neutral-600 sm:text-lg">
             Your account has been created successfully.
@@ -177,7 +179,7 @@ function SetupRecoveryCard({
   onRetry: () => void;
 }) {
   return (
-    <main className="min-h-[calc(100vh-4rem)] bg-[#f7f5f1] px-4 py-16">
+    <main className="min-h-[calc(100vh-4rem)] bg-[#fefbf6] px-4 py-16">
       <section className="mx-auto flex min-h-[60vh] max-w-xl items-center">
         <div className="w-full rounded-[2rem] border border-neutral-200/80 bg-white p-8 text-center shadow-[0_30px_90px_rgba(15,23,42,0.12)]">
           <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-amber-100 text-2xl text-amber-700">
@@ -187,7 +189,7 @@ function SetupRecoveryCard({
             We&apos;re almost finished setting up your account.
           </h1>
           <p className="mt-4 text-sm leading-relaxed text-neutral-600">
-            Your Future Kids sign-in worked, but a few account details are still being prepared.
+            Your Genlyn sign-in worked, but a few account details are still being prepared.
             This can happen right after a new signup. {message}
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">

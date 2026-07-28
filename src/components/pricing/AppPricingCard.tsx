@@ -12,21 +12,45 @@ import { individualAppPlanKey } from "@/config/checkout-plans";
 import { postCheckout } from "@/lib/checkout/client";
 import { Button } from "@/components/ui/Button";
 import type { PlanManagementEntitlement } from "@/lib/subscriptions/plan-management";
+import {
+  monthlyAmountFromPlanKey,
+  subscribeUpgradeDowngradeLabel,
+} from "@/lib/subscriptions/plan-cta";
 
 interface AppPricingCardProps {
   plan: PricingPlanConfig;
   billingPeriod: BillingPeriod;
   currentEntitlement?: PlanManagementEntitlement;
+  hasExistingPlan?: boolean;
 }
 
 export function AppPricingCard({
   plan,
   billingPeriod,
   currentEntitlement,
+  hasExistingPlan = Boolean(currentEntitlement),
 }: AppPricingCardProps) {
   const [loading, setLoading] = useState(false);
   const price = getPriceForPeriod(plan, billingPeriod);
   const periodLabel = billingPeriod === "monthly" ? "month" : "year";
+  const planKey = individualAppPlanKey(plan.appId, billingPeriod);
+  const selectedMonthly =
+    price.amount == null
+      ? monthlyAmountFromPlanKey(planKey)
+      : billingPeriod === "yearly"
+        ? price.amount / 12
+        : price.amount;
+  const currentMonthly = currentEntitlement
+    ? monthlyAmountFromPlanKey(currentEntitlement.plan_key)
+    : null;
+  const isCurrent =
+    Boolean(currentEntitlement) && currentEntitlement!.plan_key === planKey;
+  const ctaLabel = subscribeUpgradeDowngradeLabel({
+    hasExistingPlan,
+    isCurrentSelection: isCurrent,
+    selectedMonthly: Number.isFinite(selectedMonthly) ? selectedMonthly : null,
+    currentMonthly,
+  });
 
   async function handleSubscribe() {
     setLoading(true);
@@ -76,15 +100,27 @@ export function AppPricingCard({
       <p className="mt-3 text-sm leading-relaxed text-neutral-600">{plan.description}</p>
 
       <div className="mt-4">
-        <p className="text-xl font-semibold tracking-tight text-neutral-900 sm:text-2xl">
-          {price.display}
-        </p>
+        <div className="flex flex-wrap items-center gap-2">
+          <p className="text-xl font-semibold tracking-tight text-neutral-900 sm:text-2xl">
+            {price.display}
+          </p>
+          {billingPeriod === "yearly" && plan.yearlyBadge ? (
+            <span
+              className="rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white"
+              style={{ backgroundColor: plan.accentColor }}
+            >
+              {plan.yearlyBadge}
+            </span>
+          ) : null}
+        </div>
         <p className="mt-0.5 text-xs text-neutral-500 sm:text-sm">
           {plan.appId === "earnly"
             ? `per child / ${periodLabel}`
             : plan.appId === "scholars" && billingPeriod === "yearly"
               ? `All Access · pay 10 mo, get 12`
-              : `per ${periodLabel}`}
+              : plan.appId === "fresher" && billingPeriod === "yearly"
+                ? "Recommended · best value"
+                : `per ${periodLabel}`}
         </p>
       </div>
 
@@ -112,14 +148,23 @@ export function AppPricingCard({
       </p>
 
       <div className="mt-4 flex flex-col gap-2.5">
-        {currentEntitlement ? (
+        {plan.availability === "waitlist" ? (
+          <Button
+            href={plan.cta.href}
+            size="md"
+            accentColor={plan.accentColor}
+            className="w-full"
+          >
+            {plan.cta.label}
+          </Button>
+        ) : isCurrent ? (
           <Link
             href={plan.appId === "earnly" ? "#top" : "/account"}
             className="inline-flex w-full items-center justify-center rounded-full border border-neutral-300 px-6 py-3 text-sm font-medium text-neutral-900"
           >
-            {plan.appId === "earnly" ? "Manage plan above" : "Manage current plan"}
+            Current Plan
           </Link>
-        ) : plan.availability !== "waitlist" ? (
+        ) : (
           <button
             type="button"
             onClick={handleSubscribe}
@@ -127,27 +172,8 @@ export function AppPricingCard({
             className="inline-flex w-full items-center justify-center rounded-full px-6 py-3 text-sm font-medium text-white transition disabled:opacity-60"
             style={{ backgroundColor: plan.accentColor }}
           >
-            {loading ? "Loading…" : `Get ${plan.name}`}
+            {loading ? "Loading…" : ctaLabel}
           </button>
-        ) : plan.availability === "waitlist" ? (
-          <Button
-            href={plan.cta.href}
-            size="md"
-            accentColor={plan.accentColor}
-            className="w-full"
-          >
-            {plan.cta.label}
-          </Button>
-        ) : (
-          <Button
-            href={plan.cta.href}
-            external={plan.cta.external}
-            size="md"
-            accentColor={plan.accentColor}
-            className="w-full"
-          >
-            {plan.cta.label}
-          </Button>
         )}
         <Link
           href={plan.learnMorePath}

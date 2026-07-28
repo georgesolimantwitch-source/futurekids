@@ -24,7 +24,7 @@ function CellValue({ value }: { value: boolean | string }) {
 
 export function PricingComparison() {
   return (
-    <section id="comparison" className="scroll-mt-24 bg-[#fafafa] py-16 sm:py-24">
+    <section id="comparison" className="scroll-mt-24 bg-[#fefbf6] py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Compare"

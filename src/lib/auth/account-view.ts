@@ -6,7 +6,13 @@ import type {
 } from "@/lib/auth/types";
 import type { User } from "@supabase/supabase-js";
 
-export const REQUIRED_APP_IDS: EcosystemAppId[] = ["earnly", "scholars", "ballr", "tinypal"];
+export const REQUIRED_APP_IDS: EcosystemAppId[] = [
+  "earnly",
+  "scholars",
+  "ballr",
+  "tinypal",
+  "fresher",
+];
 
 export const SETUP_PENDING_MESSAGE =
   "Your account was created, but setup needs one more moment. Please try again.";
@@ -35,6 +41,28 @@ function accountTypeFromUser(user: User): AccountType {
   return value === "individual" ? "individual" : "parent";
 }
 
+function isSyntheticEmail(email: string | null | undefined): boolean {
+  if (!email) return true;
+  const value = email.trim().toLowerCase();
+  return (
+    value.endsWith("@users.local") ||
+    value.endsWith("@users.futurekids.internal") ||
+    value === "unknown@users.local"
+  );
+}
+
+function preferredEmail(profileEmail: string | null | undefined, user: User): string {
+  const authEmail = user.email?.trim() || null;
+  if (!isSyntheticEmail(profileEmail)) return profileEmail!.trim();
+  if (authEmail && !isSyntheticEmail(authEmail)) return authEmail;
+  const metaEmail =
+    typeof user.user_metadata?.email === "string"
+      ? user.user_metadata.email.trim()
+      : null;
+  if (metaEmail && !isSyntheticEmail(metaEmail)) return metaEmail;
+  return authEmail || profileEmail || "";
+}
+
 export function buildAccountViewModel(
   account: EcosystemAccount | null,
   user: User,
@@ -42,6 +70,10 @@ export function buildAccountViewModel(
   if (account?.profile) {
     return {
       ...account,
+      profile: {
+        ...account.profile,
+        email: preferredEmail(account.profile.email, user),
+      },
       entitlements: account.entitlements ?? [],
       effective_access: account.effective_access ?? [],
     };
@@ -54,7 +86,7 @@ export function buildAccountViewModel(
     user_id: user.id,
     profile: {
       id: user.id,
-      email: user.email ?? "",
+      email: preferredEmail(null, user),
       full_name: fullName,
       avatar_url: avatarFromUser(user),
       account_type: accountTypeFromUser(user),

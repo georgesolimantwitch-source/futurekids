@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { BrandLogo } from "@/components/brand/BrandLogo";
 
 interface AuthShellProps {
   title: string;
@@ -20,13 +21,11 @@ export function AuthShell({
   size = "default",
 }: AuthShellProps) {
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-[#fafafa] px-4 py-12 sm:py-16">
+    <div className="min-h-[calc(100vh-4rem)] bg-[#fefbf6] px-4 py-12 sm:py-16">
       <div className={`mx-auto w-full ${size === "wide" ? "max-w-2xl" : "max-w-md"}`}>
         <div className="mb-8 text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-neutral-500">
-            Future Kids
-          </p>
-          <h1 className="mt-3 text-3xl font-semibold tracking-tight text-neutral-900">{title}</h1>
+          <BrandLogo size="auth" priority />
+          <h1 className="mt-5 text-3xl font-semibold tracking-tight text-neutral-900">{title}</h1>
           {subtitle && (
             <p className="mt-3 text-sm leading-relaxed text-neutral-600 sm:text-base">
               {subtitle}

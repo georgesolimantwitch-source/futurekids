@@ -10,7 +10,7 @@ export function AppProductSafety({ app }: AppProductSafetyProps) {
   if (!app.safety) return null;
 
   return (
-    <section id="safety" className="scroll-mt-32 bg-[#fafafa] py-20 sm:py-28">
+    <section id="safety" className="scroll-mt-32 bg-[#fefbf6] py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <AnimateOnScroll>
           <SectionHeading

@@ -3,6 +3,7 @@ import test from "node:test";
 import {
   activeEntitlementForApp,
   planChangeTiming,
+  requiredFamilyChildCount,
   type PlanManagementContext,
 } from "./plan-management";
 
@@ -88,4 +89,15 @@ test("child reductions and interval changes wait for renewal", () => {
     ),
     "scheduled",
   );
+});
+
+test("new Earnly and All Access checkout cannot undercount active children", () => {
+  assert.equal(
+    requiredFamilyChildCount(
+      ["active", "active", "paused_by_plan", "active"],
+      4,
+    ),
+    3,
+  );
+  assert.equal(requiredFamilyChildCount([], 4), 4);
 });

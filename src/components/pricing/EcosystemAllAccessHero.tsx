@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { apps, type AppSlug } from "@/config/brand";
 import {
   allAccessPlanKey,
@@ -9,7 +9,7 @@ import {
 } from "@/config/checkout-plans";
 import {
   ecosystemBundle,
-  bundlePriceLine,
+  bundlePrice,
   bundleSavings,
   bundleSavingsPercent,
   bundleValueLine,
@@ -24,17 +24,46 @@ import {
   type EarnlyBillingPeriod,
 } from "@/config/earnly-pricing";
 import {
+  ballrPriceLine,
+  ballrPricing,
+  clampBallrChildCount,
+} from "@/config/ballr-pricing";
+import {
+  clampTinyPalChildCount,
+  tinypalPriceLine,
+  tinypalPricing,
+} from "@/config/tinypal-pricing";
+import {
+  clampAllAccessScholarsChildCount,
+  clampScholarsChildCount,
   getScholarsTier,
+  scholarsTierPrice,
   scholarsTierPriceLine,
+  scholarsTierTotalPriceLine,
   scholarsTiers,
   type ScholarsTierId,
 } from "@/config/scholars-pricing";
+import {
+  clampGenerations,
+  clampTutorMinutes,
+  combinedCreditPrice,
+  creditPriceLine,
+  scholarsCreditPricing,
+  type ScholarsCreditPeriod,
+} from "@/config/scholars-credits";
 import { getPricingPlan } from "@/config/pricing";
 import { postCheckout } from "@/lib/checkout/client";
+import { ScholarsCreditBuilder } from "@/components/pricing/ScholarsCreditBuilder";
 import {
   activeEntitlementForApp,
+  activePlanEntitlements,
+  requiredFamilyChildCount,
   type PlanManagementContext,
 } from "@/lib/subscriptions/plan-management";
+import {
+  monthlyAmountFromPlanKey,
+  subscribeUpgradeDowngradeLabel,
+} from "@/lib/subscriptions/plan-cta";
 import { BillingToggle } from "./PricingPlansSection";
 
 type SelectedPlan = "all-access" | AppSlug;
@@ -50,7 +79,7 @@ const planTabs: { id: SelectedPlan; label: string; icon?: string }[] = [
 
 export function EcosystemAllAccessHero({
   planContext,
-  initialSelectedPlan = "all-access",
+  initialSelectedPlan = "scholars",
 }: {
   planContext: PlanManagementContext;
   initialSelectedPlan?: string;
@@ -59,19 +88,63 @@ export function EcosystemAllAccessHero({
     (tab) => tab.id === initialSelectedPlan,
   )
     ? (initialSelectedPlan as SelectedPlan)
-    : "all-access";
+    : "scholars";
   const initialEntitlement = activeEntitlementForApp(
     planContext,
     normalizedInitialPlan === "all-access"
       ? "futurekids_all_access"
       : normalizedInitialPlan,
   );
+  const initialActiveChildCount = requiredFamilyChildCount(
+    planContext.children.map((child) => child.earnlyStatus),
+    planContext.children.length,
+  );
+  const familyChildFloor = Math.max(1, initialActiveChildCount);
   const [selectedPlan, setSelectedPlan] =
     useState<SelectedPlan>(normalizedInitialPlan);
   const [scholarsTier, setScholarsTier] = useState<ScholarsTierId>("full");
-  const [childCount, setChildCount] = useState(
-    initialEntitlement?.child_limit ?? 1,
+  const [scholarsGens, setScholarsGens] = useState<number>(
+    scholarsCreditPricing.generations.default,
   );
+  const [scholarsMins, setScholarsMins] = useState<number>(
+    scholarsCreditPricing.tutorMinutes.default,
+  );
+  const [childCount, setChildCount] = useState(
+    initialEntitlement?.child_limit ?? familyChildFloor,
+  );
+  const [tinypalChildCount, setTinypalChildCount] = useState(() => {
+    const match = /_tinypal(\d+)_|_t(\d+)_/.exec(initialEntitlement?.plan_key ?? "");
+    if (match) return Number(match[1] ?? match[2]);
+    if (
+      initialEntitlement?.app_key === "tinypal" &&
+      initialEntitlement.child_limit
+    ) {
+      return initialEntitlement.child_limit;
+    }
+    return 1;
+  });
+  const [scholarsChildCount, setScholarsChildCount] = useState(() => {
+    const match = /_s(\d+)_/.exec(initialEntitlement?.plan_key ?? "");
+    if (match) return Number(match[1]);
+    if (
+      initialEntitlement?.app_key === "scholars" &&
+      initialEntitlement.child_limit
+    ) {
+      return initialEntitlement.child_limit;
+    }
+    return 1;
+  });
+  const [ballrChildCount, setBallrChildCount] = useState(() => {
+    const match = /_b(\d+)_/.exec(initialEntitlement?.plan_key ?? "");
+    if (match) return Number(match[1]);
+    if (
+      initialEntitlement?.app_key === "ballr" &&
+      initialEntitlement.child_limit
+    ) {
+      return initialEntitlement.child_limit;
+    }
+    return 1;
+  });
   const [billingPeriod, setBillingPeriod] = useState<EarnlyBillingPeriod>(
     initialEntitlement?.plan_key.endsWith("_yearly") ? "yearly" : "monthly",
   );
@@ -79,12 +152,20 @@ export function EcosystemAllAccessHero({
   const [error, setError] = useState<string | null>(null);
   const [showChildPicker, setShowChildPicker] = useState(false);
   const [selectedChildIds, setSelectedChildIds] = useState<string[]>([]);
+  const [showAllAccessSwitch, setShowAllAccessSwitch] = useState(false);
 
-  const count = clampEarnlyChildCount(childCount);
+  const tinypalCount = clampTinyPalChildCount(tinypalChildCount);
   const isBundle = selectedPlan === "all-access";
   const isEarnly = selectedPlan === "earnly";
+  const isTinyPal = selectedPlan === "tinypal";
   const isScholars = selectedPlan === "scholars";
-  const showChildStepper = isBundle || isEarnly;
+  const isBallr = selectedPlan === "ballr";
+  const scholarsCount = isBundle
+    ? clampAllAccessScholarsChildCount(scholarsChildCount)
+    : clampScholarsChildCount(scholarsChildCount);
+  const ballrCount = clampBallrChildCount(ballrChildCount);
+  const showChildStepper =
+    isBundle || isEarnly || isTinyPal || isBallr || isScholars;
   const activeScholarsTier = getScholarsTier(scholarsTier);
   const selectedAppKey =
     selectedPlan === "all-access" ? "futurekids_all_access" : selectedPlan;
@@ -92,42 +173,178 @@ export function EcosystemAllAccessHero({
     planContext,
     selectedAppKey,
   );
+  const count = clampEarnlyChildCount(
+    Math.max(
+      childCount,
+      (isBundle || isEarnly) && showChildStepper && !currentEntitlement
+        ? familyChildFloor
+        : 1,
+    ),
+  );
   const pendingChange = currentEntitlement
     ? planContext.pendingChanges.find(
         (change) => change.entitlement_id === currentEntitlement.id,
       )
     : undefined;
-  const requiredActiveChildCount = Math.min(planContext.children.length, count);
+  const activeDirectEntitlements = activePlanEntitlements(planContext).filter(
+    (entitlement) => entitlement.app_key !== "futurekids_all_access",
+  );
+  const stripePlansToConsolidate = activeDirectEntitlements.filter(
+    (entitlement) => entitlement.provider === "stripe",
+  );
+  const applePlansToCancelManually = activeDirectEntitlements.filter(
+    (entitlement) => entitlement.provider === "apple",
+  );
+  const requiredActiveChildCount = Math.min(
+    planContext.children.length,
+    isTinyPal
+      ? tinypalCount
+      : isBallr
+        ? ballrCount
+        : isScholars
+          ? scholarsCount
+          : count,
+  );
   const activeChildCount = planContext.children.filter(
     (child) => child.earnlyStatus === "active",
   ).length;
   const currentChildSelectionComplete =
     activeChildCount >= requiredActiveChildCount;
+  const minimumChildCount =
+    showChildStepper && !currentEntitlement ? familyChildFloor : 1;
+
+  useEffect(() => {
+    if (
+      (isBundle || isEarnly) &&
+      !currentEntitlement &&
+      childCount < familyChildFloor
+    ) {
+      setChildCount(familyChildFloor);
+    }
+  }, [
+    isBundle,
+    isEarnly,
+    currentEntitlement,
+    childCount,
+    familyChildFloor,
+  ]);
 
   const individualPlan =
     !isBundle ? getPricingPlan(selectedPlan as AppSlug) : undefined;
 
   const checkoutPlanKey = isBundle
-    ? allAccessPlanKey(count, billingPeriod)
+    ? allAccessPlanKey(
+        count,
+        billingPeriod,
+        tinypalCount,
+        scholarsCount,
+        ballrCount,
+      )
     : individualAppPlanKey(
         selectedPlan as AppSlug,
         billingPeriod,
         isScholars ? scholarsTier : undefined,
-        count,
+        isTinyPal
+          ? tinypalCount
+          : isBallr
+            ? ballrCount
+            : isScholars
+              ? scholarsCount
+              : count,
       );
+
+  const bundleCreditPeriod: ScholarsCreditPeriod =
+    billingPeriod === "yearly" ? "yearly" : "monthly";
+  // All Access requires both gens and mins (no 0 / 0, and no zero on either side).
+  const bundleCreditGens = Math.max(
+    scholarsCreditPricing.generations.step,
+    clampGenerations(scholarsGens),
+  );
+  const bundleCreditMins = Math.max(
+    scholarsCreditPricing.tutorMinutes.step,
+    clampTutorMinutes(scholarsMins),
+  );
+  const bundleCreditAmount = isBundle
+    ? combinedCreditPrice(
+        bundleCreditGens,
+        bundleCreditMins,
+        bundleCreditPeriod,
+      ) * scholarsCount
+    : 0;
 
   const individualTotal =
     billingPeriod === "monthly"
-      ? individualMonthlyTotal(count)
-      : individualYearlyTotal(count);
-  const savings = isBundle ? bundleSavings(count, billingPeriod) : 0;
-  const savingsPct = isBundle ? bundleSavingsPercent(count, billingPeriod) : 0;
+      ? individualMonthlyTotal(
+          isBundle
+            ? {
+                earnly: count,
+                tinypal: tinypalCount,
+                scholars: scholarsCount,
+                ballr: ballrCount,
+              }
+            : { earnly: count },
+          "full",
+        )
+      : individualYearlyTotal(
+          isBundle
+            ? {
+                earnly: count,
+                tinypal: tinypalCount,
+                scholars: scholarsCount,
+                ballr: ballrCount,
+              }
+            : { earnly: count },
+          "full",
+        );
+  const savings = isBundle
+    ? bundleSavings(
+        count,
+        billingPeriod,
+        tinypalCount,
+        scholarsCount,
+        ballrCount,
+        "full",
+      )
+    : 0;
+  const savingsPct = isBundle
+    ? bundleSavingsPercent(
+        count,
+        billingPeriod,
+        tinypalCount,
+        scholarsCount,
+        ballrCount,
+        "full",
+      )
+    : 0;
 
   function adjustChildren(delta: number) {
-    setChildCount((c) => clampEarnlyChildCount(c + delta));
+    if (isTinyPal && !isBundle) {
+      setTinypalChildCount((current) =>
+        Math.max(1, clampTinyPalChildCount(current + delta)),
+      );
+      return;
+    }
+    if (isBallr && !isBundle) {
+      setBallrChildCount((current) =>
+        Math.max(1, clampBallrChildCount(current + delta)),
+      );
+      return;
+    }
+    if (isScholars && !isBundle) {
+      setScholarsChildCount((current) =>
+        Math.max(1, clampScholarsChildCount(current + delta)),
+      );
+      return;
+    }
+    setChildCount((current) =>
+      Math.max(minimumChildCount, clampEarnlyChildCount(current + delta)),
+    );
   }
 
-  function selectPlan(plan: SelectedPlan) {
+  function selectPlan(
+    plan: SelectedPlan,
+    options?: { scholarsTier?: ScholarsTierId },
+  ) {
     setSelectedPlan(plan);
     setError(null);
     const entitlement = activeEntitlementForApp(
@@ -135,9 +352,37 @@ export function EcosystemAllAccessHero({
       plan === "all-access" ? "futurekids_all_access" : plan,
     );
     if (entitlement?.child_limit) {
-      setChildCount(entitlement.child_limit);
+      setChildCount(
+        plan === "all-access" || plan === "earnly"
+          ? Math.max(entitlement.child_limit, familyChildFloor)
+          : entitlement.child_limit,
+      );
     } else if (plan === "all-access" || plan === "earnly") {
-      setChildCount(1);
+      setChildCount(familyChildFloor);
+    }
+    const tinyMatch = /_tinypal(\d+)_|_t(\d+)_/.exec(entitlement?.plan_key ?? "");
+    if (tinyMatch) {
+      setTinypalChildCount(Number(tinyMatch[1] ?? tinyMatch[2]));
+    } else if (plan === "tinypal") {
+      setTinypalChildCount(entitlement?.child_limit ?? 1);
+    } else if (plan === "all-access") {
+      setTinypalChildCount(1);
+    }
+    const scholarsMatch = /_s(\d+)_/.exec(entitlement?.plan_key ?? "");
+    if (scholarsMatch) {
+      setScholarsChildCount(Number(scholarsMatch[1]));
+    } else if (plan === "scholars") {
+      setScholarsChildCount(entitlement?.child_limit ?? 1);
+    } else if (plan === "all-access") {
+      setScholarsChildCount(1);
+    }
+    const ballrMatch = /_b(\d+)_/.exec(entitlement?.plan_key ?? "");
+    if (ballrMatch) {
+      setBallrChildCount(Number(ballrMatch[1]));
+    } else if (plan === "ballr") {
+      setBallrChildCount(entitlement?.child_limit ?? 1);
+    } else if (plan === "all-access") {
+      setBallrChildCount(1);
     }
     if (entitlement) {
       setBillingPeriod(
@@ -145,8 +390,10 @@ export function EcosystemAllAccessHero({
       );
     }
     if (plan === "scholars") {
-      setScholarsTier("full");
+      setScholarsTier(options?.scholarsTier ?? "full");
     }
+    // Keep scholarsTier preference when switching to All Access so parents
+    // can choose Full / Tutor / Study Guide without leaving the bundle.
   }
 
   async function handleCheckout() {
@@ -154,6 +401,15 @@ export function EcosystemAllAccessHero({
     setError(null);
 
     try {
+      if (
+        isBundle &&
+        !currentEntitlement &&
+        activeDirectEntitlements.length > 0
+      ) {
+        setShowAllAccessSwitch(true);
+        setLoading(false);
+        return;
+      }
       if (currentEntitlement) {
         if (currentEntitlement.provider === "apple") {
           throw new Error(
@@ -188,7 +444,28 @@ export function EcosystemAllAccessHero({
 
       const url = await postCheckout({
         planKey: checkoutPlanKey,
-        ...(showChildStepper ? { childCount: count } : {}),
+        ...(showChildStepper
+          ? {
+              childCount: isTinyPal && !isBundle
+                ? tinypalCount
+                : isBallr && !isBundle
+                  ? ballrCount
+                  : isScholars && !isBundle
+                    ? scholarsCount
+                    : count,
+              ...(isBundle
+                ? {
+                    tinypalChildCount: tinypalCount,
+                    scholarsChildCount: scholarsCount,
+                    ballrChildCount: ballrCount,
+                    scholarsGenerations: bundleCreditGens,
+                    scholarsTutorMinutes: bundleCreditMins,
+                  }
+                : isScholars
+                  ? { scholarsTier }
+                  : {}),
+            }
+          : {}),
       });
 
       if (url) {
@@ -206,7 +483,7 @@ export function EcosystemAllAccessHero({
     setSelectedChildIds((current) =>
       current.includes(childId)
         ? current.filter((id) => id !== childId)
-        : current.length < Math.min(planContext.children.length, count)
+        : current.length < requiredActiveChildCount
           ? [...current, childId]
           : current,
     );
@@ -227,10 +504,17 @@ export function EcosystemAllAccessHero({
           requestId: crypto.randomUUID(),
         }),
       });
-      const result = (await response.json()) as {
-        error?: string;
-        outcome?: string;
-      };
+      const raw = await response.text();
+      let result: { error?: string; outcome?: string } = {};
+      try {
+        result = raw ? (JSON.parse(raw) as typeof result) : {};
+      } catch {
+        throw new Error(
+          response.ok
+            ? "Plan change failed"
+            : `Plan change failed (${response.status})`,
+        );
+      }
       if (!response.ok) throw new Error(result.error ?? "Plan change failed");
       setShowChildPicker(false);
       globalThis.location.reload();
@@ -265,26 +549,129 @@ export function EcosystemAllAccessHero({
     }
   }
 
+  async function confirmAllAccessSwitch() {
+    setLoading(true);
+    setError(null);
+    try {
+      if (stripePlansToConsolidate.length === 0) {
+        const url = await postCheckout({
+          planKey: checkoutPlanKey,
+          childCount: count,
+          tinypalChildCount: tinypalCount,
+          scholarsChildCount: scholarsCount,
+          ballrChildCount: ballrCount,
+          scholarsTier,
+        });
+        if (url) {
+          globalThis.location.assign(url);
+          return;
+        }
+        setLoading(false);
+        return;
+      }
+
+      const requiredCount = Math.min(planContext.children.length, count);
+      const activeChildIds = [
+        ...planContext.children
+          .filter((child) => child.earnlyStatus === "active")
+          .map((child) => child.id),
+        ...planContext.children.map((child) => child.id),
+      ]
+        .filter((childId, index, all) => all.indexOf(childId) === index)
+        .slice(0, requiredCount);
+      const response = await fetch(
+        "/api/subscriptions/stripe/switch-all-access",
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            targetPlanKey: checkoutPlanKey,
+            activeChildIds,
+            requestId: crypto.randomUUID(),
+          }),
+        },
+      );
+      const raw = await response.text();
+      let result: { error?: string; code?: string } = {};
+      try {
+        result = raw ? (JSON.parse(raw) as typeof result) : {};
+      } catch {
+        throw new Error(
+          response.ok
+            ? "Could not switch plans"
+            : `Could not switch plans (${response.status})`,
+        );
+      }
+      if (
+        !response.ok &&
+        result.code === "stripe_subscription_mode_mismatch"
+      ) {
+        // Existing Ballr/Earnly rows are from the other Stripe mode — start a
+        // fresh live All Access checkout instead of consolidating.
+        const url = await postCheckout({
+          planKey: checkoutPlanKey,
+          childCount: count,
+          tinypalChildCount: tinypalCount,
+          scholarsChildCount: scholarsCount,
+          ballrChildCount: ballrCount,
+          scholarsGenerations: bundleCreditGens,
+          scholarsTutorMinutes: bundleCreditMins,
+        });
+        if (url) {
+          globalThis.location.assign(url);
+          return;
+        }
+      }
+      if (!response.ok) throw new Error(result.error ?? "Could not switch plans");
+      setShowAllAccessSwitch(false);
+      globalThis.location.assign("/account?plan=switch-complete");
+    } catch (switchError) {
+      setError(
+        switchError instanceof Error
+          ? switchError.message
+          : "Could not switch plans",
+      );
+      setLoading(false);
+    }
+  }
+
   function renderPriceDisplay() {
     const suffix = billingPeriod === "monthly" ? "mo" : "yr";
 
     if (isBundle) {
+      const base = bundlePrice(
+        count,
+        billingPeriod,
+        tinypalCount,
+        scholarsCount,
+        ballrCount,
+        "full",
+      );
+      const total = Math.round((base + bundleCreditAmount) * 100) / 100;
       return (
         <>
           {savings > 0 && (
-            <span className="mb-3 inline-block rounded-full bg-emerald-500/20 px-3 py-1 text-xs font-semibold text-emerald-300">
+            <span className="mb-1.5 inline-block rounded-full bg-emerald-100 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-800">
               Save {formatUsd(savings)}/ {suffix} ({savingsPct}% off)
             </span>
           )}
-          <p className="text-4xl font-semibold tracking-tight">
-            {bundlePriceLine(count, billingPeriod)}
+          <p className="text-3xl font-semibold tracking-tight text-[#2a1e12] sm:text-4xl">
+            {formatUsd(total)} / {suffix}
           </p>
+          {bundleCreditAmount > 0 && (
+            <p className="mt-0.5 text-xs text-[#8a735a] sm:text-sm">
+              Includes Scholars AI{" "}
+              {creditPriceLine(bundleCreditAmount, bundleCreditPeriod)}
+            </p>
+          )}
           {savings > 0 ? (
-            <p className="mt-1 text-sm text-neutral-400 line-through">
+            <p className="mt-0.5 text-xs text-[#8a735a] line-through sm:text-sm">
               {formatUsd(individualTotal)} if purchased separately
             </p>
           ) : (
-            <p className="mt-1 text-sm text-neutral-400">{bundleValueLine(count)}</p>
+            <p className="mt-0.5 text-xs text-[#8a735a] sm:text-sm">
+              {bundleValueLine(count, tinypalCount, scholarsCount, ballrCount)}
+            </p>
           )}
         </>
       );
@@ -293,11 +680,28 @@ export function EcosystemAllAccessHero({
     if (isEarnly) {
       return (
         <>
-          <p className="text-4xl font-semibold tracking-tight">
+          <p className="text-4xl font-semibold tracking-tight text-[#2a1e12]">
             {earnlyPriceLine(count, billingPeriod).replace("month", "mo").replace("year", "yr")}
           </p>
-          <p className="mt-1 text-sm text-neutral-400">
+          <p className="mt-1 text-sm text-[#8a735a]">
             {earnlyUnitPriceLine(billingPeriod).replace("month", "mo").replace("year", "yr")}
+          </p>
+        </>
+      );
+    }
+
+    if (isTinyPal) {
+      return (
+        <>
+          <p className="text-4xl font-semibold tracking-tight text-[#2a1e12]">
+            {tinypalPriceLine(tinypalCount, billingPeriod)
+              .replace("month", "mo")
+              .replace("year", "yr")}
+          </p>
+          <p className="mt-1 text-sm text-[#8a735a]">
+            ${tinypalPricing.firstChildMonthly.toFixed(2)} first child · +$
+            {tinypalPricing.additionalChildMonthly.toFixed(2)} each additional
+            {billingPeriod === "yearly" ? " · pay 10 mo, get 12" : ""}
           </p>
         </>
       );
@@ -306,11 +710,29 @@ export function EcosystemAllAccessHero({
     if (isScholars) {
       return (
         <>
-          <p className="text-4xl font-semibold tracking-tight">
-            {scholarsTierPriceLine(activeScholarsTier, billingPeriod)}
+          <p className="text-4xl font-semibold tracking-tight text-[#2a1e12]">
+            {scholarsTierTotalPriceLine(scholarsTier, scholarsCount, billingPeriod)}
           </p>
-          <p className="mt-1 text-sm text-neutral-400">
+          <p className="mt-1 text-sm text-[#8a735a]">
             {activeScholarsTier.name}
+            {` · $${scholarsTierPrice(activeScholarsTier, "monthly").toFixed(2)} per child`}
+            {billingPeriod === "yearly" ? " · pay 10 mo, get 12" : ""}
+          </p>
+        </>
+      );
+    }
+
+    if (isBallr) {
+      return (
+        <>
+          <p className="text-4xl font-semibold tracking-tight text-[#2a1e12]">
+            {ballrPriceLine(ballrCount, billingPeriod)
+              .replace("month", "mo")
+              .replace("year", "yr")}
+          </p>
+          <p className="mt-1 text-sm text-[#8a735a]">
+            ${ballrPricing.firstChildMonthly.toFixed(2)} first child · +$
+            {ballrPricing.additionalChildMonthly.toFixed(2)} each additional
             {billingPeriod === "yearly" ? " · pay 10 mo, get 12" : ""}
           </p>
         </>
@@ -325,8 +747,8 @@ export function EcosystemAllAccessHero({
 
       return (
         <>
-          <p className="text-4xl font-semibold tracking-tight">{price.display}</p>
-          <p className="mt-1 text-sm text-neutral-400">per {suffix}</p>
+          <p className="text-4xl font-semibold tracking-tight text-[#2a1e12]">{price.display}</p>
+          <p className="mt-1 text-sm text-[#8a735a]">per {suffix}</p>
         </>
       );
     }
@@ -344,15 +766,26 @@ export function EcosystemAllAccessHero({
           : individualPlan?.features.slice(0, 5) ?? [];
 
     const accent = isBundle
-      ? "#34d399"
-      : individualPlan?.accentColor ?? apps.find((a) => a.slug === selectedPlan)?.accentColor ?? "#fff";
+      ? "#059669"
+      : individualPlan?.accentColor ?? apps.find((a) => a.slug === selectedPlan)?.accentColor ?? "#2a1e12";
 
     return (
-      <ul className="mt-6 space-y-2">
+      <ul
+        className={
+          isBundle
+            ? "mt-3 grid grid-cols-1 gap-x-3 gap-y-1 sm:grid-cols-2"
+            : "mt-6 space-y-2"
+        }
+      >
         {items.map((item) => (
-          <li key={item} className="flex items-center gap-2 text-sm text-neutral-200">
+          <li
+            key={item}
+            className={`flex items-center gap-2 text-[#5b4a37] ${
+              isBundle ? "text-xs" : "text-sm"
+            }`}
+          >
             <svg
-              className="h-4 w-4 shrink-0"
+              className={`shrink-0 ${isBundle ? "h-3.5 w-3.5" : "h-4 w-4"}`}
               style={{ color: accent }}
               fill="none"
               viewBox="0 0 24 24"
@@ -369,52 +802,103 @@ export function EcosystemAllAccessHero({
     );
   }
 
-  const ctaLabel = currentEntitlement
-    ? currentEntitlement.plan_key === checkoutPlanKey
-      ? currentChildSelectionComplete
-        ? "Current Plan"
-        : "Choose Active Children"
-      : count < (currentEntitlement.child_limit ?? count) ||
-          currentEntitlement.plan_key.endsWith("_monthly") !==
-            checkoutPlanKey.endsWith("_monthly")
-        ? "Schedule Plan Change"
-        : "Upgrade Plan"
-    : isBundle
-      ? "Get All Access"
-      : isScholars
-        ? `Get ${activeScholarsTier.name}`
-        : `Get ${individualPlan?.name ?? "Plan"}`;
+  const isViewingCurrentPlan =
+    Boolean(currentEntitlement) &&
+    currentEntitlement!.plan_key === checkoutPlanKey;
+
+  const hasExistingPlan = planContext.entitlements.some((entitlement) =>
+    ["active", "trialing", "grace_period", "canceled"].includes(
+      entitlement.status,
+    ),
+  );
+
+  const selectedDisplayTotal = isBundle
+    ? bundlePrice(
+        count,
+        billingPeriod,
+        tinypalCount,
+        scholarsCount,
+        ballrCount,
+        "full",
+      ) + bundleCreditAmount
+    : null;
+
+  const selectedMonthly = (() => {
+    if (isBundle && selectedDisplayTotal != null) {
+      return billingPeriod === "yearly"
+        ? selectedDisplayTotal / 12
+        : selectedDisplayTotal;
+    }
+    if (isEarnly) {
+      const line = earnlyPriceLine(count, billingPeriod);
+      const amount = Number(line.replace(/[^0-9.]/g, ""));
+      if (!Number.isFinite(amount)) return monthlyAmountFromPlanKey(checkoutPlanKey);
+      return billingPeriod === "yearly" ? amount / 12 : amount;
+    }
+    return monthlyAmountFromPlanKey(checkoutPlanKey);
+  })();
+
+  const currentMonthly = currentEntitlement
+    ? monthlyAmountFromPlanKey(currentEntitlement.plan_key)
+    : null;
+
+  const changeVerb = subscribeUpgradeDowngradeLabel({
+    hasExistingPlan,
+    isCurrentSelection: isViewingCurrentPlan && currentChildSelectionComplete,
+    selectedMonthly,
+    currentMonthly,
+  });
+
+  const ctaLabel =
+    isViewingCurrentPlan && !currentChildSelectionComplete
+      ? "Manage Active Children"
+      : changeVerb;
 
   return (
     <>
-    <section id="top" className="relative overflow-hidden border-b border-neutral-100 bg-neutral-950 text-white">
-      <div
-        className="absolute inset-0 opacity-40"
-        style={{
-          background:
-            "radial-gradient(ellipse 80% 60% at 50% -10%, #6366f1 0%, transparent 50%), radial-gradient(ellipse 60% 40% at 80% 100%, #059669 0%, transparent 45%), radial-gradient(ellipse 50% 35% at 10% 90%, #ea580c 0%, transparent 40%)",
-        }}
-        aria-hidden
-      />
+    <section id="top" className="paper-bg relative overflow-hidden border-b border-neutral-200/80 text-[#2a1e12]">
+      <div className="paper-vignette pointer-events-none absolute inset-0" aria-hidden />
 
-      <div className="relative mx-auto max-w-4xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+      <div
+        className={`relative mx-auto max-w-4xl px-4 ${
+          isBundle
+            ? "py-6 sm:px-6 sm:py-8 lg:px-8"
+            : "py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20"
+        }`}
+      >
         <div className="text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-neutral-400">
-            Recommended
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#c0873c]">
+            {isScholars ? "Scholars Notes" : "Recommended"}
           </p>
-          <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
-            {ecosystemBundle.productName}
+          <h1
+            className={`font-display mt-2 font-semibold tracking-tight text-[#2a1e12] ${
+              isBundle || isScholars
+                ? "text-2xl sm:text-3xl"
+                : "mt-3 text-3xl sm:text-4xl lg:text-5xl"
+            }`}
+          >
+            {isScholars ? "Plans & Pricing" : ecosystemBundle.productName}
           </h1>
-          <p className="mx-auto mt-3 max-w-xl text-base text-neutral-300 sm:text-lg">
-            {ecosystemBundle.description}
+          <p
+            className={`mx-auto text-[#5b4a37] ${
+              isBundle || isScholars
+                ? "mt-1.5 max-w-lg text-sm sm:text-base"
+                : "mt-3 max-w-xl text-base sm:text-lg"
+            }`}
+          >
+            {isScholars
+              ? "Build your AI plan with generations and tutor minutes."
+              : isBundle
+                ? ecosystemBundle.tagline
+                : ecosystemBundle.description}
           </p>
         </div>
 
-        <p className="mt-6 text-center text-xs text-neutral-500">
+        <p className={`${isBundle ? "mt-4" : "mt-6"} text-center text-xs text-[#8a735a]`}>
           Choose a plan
         </p>
         <div
-          className="mt-3 flex flex-wrap items-center justify-center gap-2 sm:gap-3"
+          className="mt-2 flex flex-wrap items-center justify-center gap-1.5 sm:mt-3 sm:gap-3"
           role="tablist"
           aria-label="Select plan"
         >
@@ -428,20 +912,20 @@ export function EcosystemAllAccessHero({
                 role="tab"
                 aria-selected={selected}
                 onClick={() => selectPlan(tab.id)}
-                className={`flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm font-medium backdrop-blur-sm transition ${
+                className={`flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm font-medium transition ${
                   selected
-                    ? "border-white bg-white text-neutral-900 shadow-sm"
-                    : "border-white/10 bg-white/5 text-white/90 hover:border-white/30 hover:bg-white/10"
+                    ? "border-neutral-900 bg-neutral-900 text-white shadow-sm"
+                    : "border-neutral-200/80 bg-white/80 text-[#5b4a37] shadow-sm hover:border-neutral-300 hover:bg-white"
                 }`}
               >
                 {tab.id === "all-access" ? (
                   <span
                     className={`flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold ${
-                      selected ? "bg-neutral-900 text-white" : "bg-white/20 text-white"
+                      selected ? "bg-white text-neutral-900" : "bg-[#fefbf6] text-[#5b4a37]"
                     }`}
                     aria-hidden
                   >
-                    4
+                    5
                   </span>
                 ) : tab.icon ? (
                   <Image src={tab.icon} alt="" width={20} height={20} className="h-5 w-5" aria-hidden />
@@ -453,15 +937,32 @@ export function EcosystemAllAccessHero({
         </div>
 
         <div
-          className="mx-auto mt-10 max-w-md overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur-xl sm:p-8"
+          className={`mx-auto overflow-hidden rounded-3xl border border-neutral-200/80 bg-white shadow-lg ${
+            isScholars
+              ? "mt-6 max-w-2xl p-5 sm:p-7"
+              : isBundle
+                ? "mt-4 max-w-lg p-4 sm:p-5"
+                : "mt-10 max-w-md p-6 sm:p-8"
+          }`}
           role="tabpanel"
         >
-          {currentEntitlement && (
-            <div className="mb-5 rounded-2xl border border-emerald-400/30 bg-emerald-400/10 px-4 py-3">
-              <p className="text-xs font-semibold uppercase tracking-wider text-emerald-300">
+          {isScholars ? (
+            <ScholarsCreditBuilder
+              embedded
+              hasExistingPlan={planContext.entitlements.some((entitlement) =>
+                ["active", "trialing", "grace_period", "canceled"].includes(
+                  entitlement.status,
+                ),
+              )}
+            />
+          ) : (
+          <>
+          {isViewingCurrentPlan && currentEntitlement && (
+            <div className="mb-5 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3">
+              <p className="text-xs font-semibold uppercase tracking-wider text-emerald-700">
                 Current plan
               </p>
-              <p className="mt-1 text-sm text-white">
+              <p className="mt-1 text-sm text-[#2a1e12]">
                 {currentEntitlement.plan_key.replaceAll("_", " ")}
                 {currentEntitlement.child_limit
                   ? ` · ${currentEntitlement.child_limit} ${
@@ -470,13 +971,16 @@ export function EcosystemAllAccessHero({
                   : ""}
               </p>
               {currentEntitlement.child_limit && (
-                <p className="mt-1 text-xs text-emerald-100/80">
-                  {activeChildCount}{" "}
-                  active child profiles
+                <p className="mt-1 text-xs text-emerald-800/80">
+                  {activeChildCount} active child{" "}
+                  {activeChildCount === 1 ? "profile" : "profiles"}
+                  {!currentChildSelectionComplete
+                    ? ` · select ${requiredActiveChildCount} to use this plan`
+                    : ""}
                 </p>
               )}
               {pendingChange && (
-                <div className="mt-3 border-t border-emerald-300/20 pt-3 text-xs text-emerald-100">
+                <div className="mt-3 border-t border-emerald-200 pt-3 text-xs text-emerald-900">
                   <p>
                     Change to {pendingChange.target_child_limit} children on{" "}
                     {new Date(pendingChange.effective_at).toLocaleDateString()}.
@@ -493,8 +997,28 @@ export function EcosystemAllAccessHero({
               )}
             </div>
           )}
+          {currentEntitlement && !isViewingCurrentPlan && (
+            <div className="mb-5 rounded-2xl border border-neutral-200 bg-[#fefbf6] px-4 py-3">
+              <p className="text-xs font-semibold uppercase tracking-wider text-[#8a735a]">
+                Your current plan
+              </p>
+              <p className="mt-1 text-sm text-[#2a1e12]">
+                {currentEntitlement.plan_key.replaceAll("_", " ")}
+                {currentEntitlement.child_limit
+                  ? ` · ${currentEntitlement.child_limit} ${
+                      currentEntitlement.child_limit === 1 ? "child" : "children"
+                    }`
+                  : ""}
+              </p>
+              <p className="mt-1 text-xs text-[#8a735a]">
+                Showing a different child count below. Set it to{" "}
+                {currentEntitlement.child_limit ?? "your plan"} to view your
+                current plan.
+              </p>
+            </div>
+          )}
           {!isBundle && individualPlan && (
-            <div className="mb-6 flex items-center gap-3 border-b border-white/10 pb-5">
+            <div className="mb-6 flex items-center gap-3 border-b border-neutral-200 pb-5">
               <div
                 className="flex h-11 w-11 items-center justify-center rounded-2xl"
                 style={{ backgroundColor: `${individualPlan.accentColor}22` }}
@@ -509,19 +1033,110 @@ export function EcosystemAllAccessHero({
                 />
               </div>
               <div>
-                <p className="text-xs uppercase tracking-wider text-neutral-500">Individual plan</p>
-                <p className="text-lg font-semibold">{individualPlan.name}</p>
+                <p className="text-xs uppercase tracking-wider text-[#8a735a]">Individual plan</p>
+                <p className="text-lg font-semibold text-[#2a1e12]">{individualPlan.name}</p>
               </div>
             </div>
           )}
 
+          {/* Individual-app child stepper — Scholars kids handled under tier grid */}
+          {showChildStepper && !isBundle && !isScholars && (
+            <div>
+              <label className="text-sm font-medium text-[#2a1e12]">
+                {isTinyPal
+                  ? "Children on TinyPal"
+                  : isBallr
+                    ? "Children on Ballr"
+                    : "Children on your plan"}
+              </label>
+              <div className="mt-3 flex items-center justify-between rounded-2xl border border-neutral-200 bg-[#fefbf6] px-4 py-3">
+                <button
+                  type="button"
+                  onClick={() => adjustChildren(-1)}
+                  disabled={
+                    isTinyPal
+                      ? tinypalCount <= 1
+                      : isBallr
+                        ? ballrCount <= 1
+                        : count <= minimumChildCount
+                  }
+                  className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-xl font-medium text-[#2a1e12] shadow-sm ring-1 ring-neutral-200 transition hover:bg-neutral-50 disabled:opacity-40"
+                  aria-label="Fewer children"
+                >
+                  −
+                </button>
+                <div className="min-w-[3rem] text-center">
+                  <span className="block text-2xl font-semibold tabular-nums text-[#2a1e12]">
+                    {isTinyPal ? tinypalCount : isBallr ? ballrCount : count}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => adjustChildren(1)}
+                  disabled={
+                    (isTinyPal ? tinypalCount : isBallr ? ballrCount : count) >= 6
+                  }
+                  className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-xl font-medium text-[#2a1e12] shadow-sm ring-1 ring-neutral-200 transition hover:bg-neutral-50 disabled:opacity-40"
+                  aria-label="More children"
+                >
+                  +
+                </button>
+              </div>
+              <p className="mt-2 text-center text-xs text-[#8a735a]">
+                {isTinyPal
+                  ? `$${tinypalPricing.firstChildMonthly.toFixed(2)}/mo for 1 child · +$${tinypalPricing.additionalChildMonthly.toFixed(2)}/mo per extra · up to 6`
+                  : isBallr
+                    ? `$${ballrPricing.firstChildMonthly.toFixed(2)}/mo for 1 child · +$${ballrPricing.additionalChildMonthly.toFixed(2)}/mo per extra · up to 6`
+                    : `$1.99/mo or $19.90/yr per child · up to 6 children · yearly includes 2 months free`}
+              </p>
+              {!currentEntitlement &&
+                familyChildFloor > 1 &&
+                isEarnly && (
+                <p className="mt-2 text-center text-xs font-medium text-amber-800">
+                  Your family currently has {familyChildFloor} active children, so
+                  this plan must cover all {familyChildFloor}.
+                </p>
+              )}
+            </div>
+          )}
+
+          <div
+            className={
+              showChildStepper || isScholars || isBundle
+                ? isBundle
+                  ? "mt-3"
+                  : "mt-6"
+                : ""
+            }
+          >
+            <BillingToggle value={billingPeriod} onChange={setBillingPeriod} className="w-full max-w-none" />
+          </div>
+
+          <div className={`${isBundle ? "mt-3" : "mt-6"} text-center`}>
+            {renderPriceDisplay()}
+          </div>
+
+          {/* Scholars Notes: 3 plan options in a compact row under the price */}
           {isScholars && (
-            <div className="mb-6">
-              <label className="text-sm font-medium text-white/90">Choose your plan</label>
-              <div className="mt-3 space-y-2" role="radiogroup" aria-label="Scholars plan tier">
+            <div className="mt-6">
+              <p className="mb-3 text-center text-xs font-medium uppercase tracking-wider text-[#8a735a]">
+                Choose a Scholars plan
+              </p>
+              <div
+                className="grid grid-cols-3 gap-2"
+                role="radiogroup"
+                aria-label="Scholars plan tier"
+              >
                 {scholarsTiers.map((tier) => {
                   const selected = scholarsTier === tier.id;
+                  // Unit price on cards so Tutor/Study Guide clearly show $9.99
                   const price = scholarsTierPriceLine(tier, billingPeriod);
+                  const shortName =
+                    tier.id === "full"
+                      ? "Full"
+                      : tier.id === "tutor"
+                        ? "Tutor"
+                        : "Study Guide";
 
                   return (
                     <button
@@ -530,82 +1145,241 @@ export function EcosystemAllAccessHero({
                       role="radio"
                       aria-checked={selected}
                       onClick={() => setScholarsTier(tier.id)}
-                      className={`flex w-full items-center justify-between gap-3 rounded-2xl border px-4 py-3 text-left transition ${
+                      className={`rounded-2xl border px-2.5 py-3 text-left transition sm:px-3 ${
                         selected
-                          ? "border-indigo-400/60 bg-indigo-500/15"
-                          : "border-white/10 bg-black/20 hover:border-white/20"
+                          ? "border-indigo-400 bg-indigo-50 ring-1 ring-indigo-200"
+                          : "border-neutral-200 bg-[#fefbf6] hover:border-neutral-300"
                       }`}
                     >
-                      <div className="min-w-0">
-                        <p className="font-medium text-white">{tier.name}</p>
-                        <p className="mt-0.5 text-xs text-neutral-400">{tier.description}</p>
-                      </div>
-                      <span
-                        className={`shrink-0 text-sm font-semibold tabular-nums ${
-                          selected ? "text-white" : "text-neutral-300"
+                      <p className="text-xs font-semibold text-[#2a1e12] sm:text-sm">
+                        {shortName}
+                      </p>
+                      <p
+                        className={`mt-1 text-sm font-semibold tabular-nums sm:text-base ${
+                          selected ? "text-[#2a1e12]" : "text-[#5b4a37]"
                         }`}
                       >
                         {price}
-                      </span>
+                      </p>
+                      <p className="mt-1 hidden text-[10px] leading-snug text-[#8a735a] sm:block">
+                        {tier.id === "full"
+                          ? "Everything included"
+                          : tier.id === "tutor"
+                            ? "AI voice tutor"
+                            : "Guides & quizzes"}
+                      </p>
                     </button>
                   );
                 })}
               </div>
-            </div>
-          )}
 
-          {showChildStepper && (
-            <div>
-              <label className="text-sm font-medium text-white/90">
-                {isBundle ? "Children on Earnly" : "Children on your plan"}
-              </label>
-              <div className="mt-3 flex items-center justify-between rounded-2xl border border-white/10 bg-black/20 px-4 py-3">
-                <button
-                  type="button"
-                  onClick={() => adjustChildren(-1)}
-                  disabled={count <= 1}
-                  className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/10 text-xl font-medium transition hover:bg-white/20 disabled:opacity-40"
-                  aria-label="Fewer children"
-                >
-                  −
-                </button>
-                <span className="min-w-[3rem] text-center text-2xl font-semibold tabular-nums">
-                  {count}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => adjustChildren(1)}
-                  disabled={count >= 6}
-                  className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/10 text-xl font-medium transition hover:bg-white/20 disabled:opacity-40"
-                  aria-label="More children"
-                >
-                  +
-                </button>
+              <div className="mt-3 rounded-2xl border border-neutral-200 bg-[#fefbf6] px-4 py-3">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-sm font-medium text-[#2a1e12]">Children</p>
+                    <p className="text-[11px] text-[#8a735a]">
+                      +
+                      {formatUsd(
+                        scholarsTierPrice(activeScholarsTier, "monthly"),
+                      )}
+                      /mo each child
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => adjustChildren(-1)}
+                      disabled={scholarsCount <= 1}
+                      className="flex h-9 w-9 items-center justify-center rounded-xl bg-white text-lg text-[#2a1e12] shadow-sm ring-1 ring-neutral-200 transition hover:bg-neutral-50 disabled:opacity-40"
+                      aria-label="Fewer Scholars children"
+                    >
+                      −
+                    </button>
+                    <span className="min-w-[1.75rem] text-center text-xl font-semibold tabular-nums text-[#2a1e12]">
+                      {scholarsCount}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => adjustChildren(1)}
+                      disabled={scholarsCount >= 6}
+                      className="flex h-9 w-9 items-center justify-center rounded-xl bg-white text-lg text-[#2a1e12] shadow-sm ring-1 ring-neutral-200 transition hover:bg-neutral-50 disabled:opacity-40"
+                      aria-label="More Scholars children"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
               </div>
-              <p className="mt-2 text-center text-xs text-neutral-400">
-                {isBundle
-                  ? `${formatUsd(ecosystemBundle.monthlyBase)}/mo for all apps · +${formatUsd(ecosystemBundle.monthlyPerExtraChild)}/mo per extra child`
-                  : `$1.99/mo or $19.90/yr per child · up to 6 children · yearly includes 2 months free`}
-              </p>
             </div>
           )}
 
-          <div className={showChildStepper || isScholars ? "mt-6" : ""}>
-            <BillingToggle value={billingPeriod} onChange={setBillingPeriod} className="w-full max-w-none" />
-          </div>
+          {/* All Access: compact per-app seat dropdowns */}
+          {isBundle && (
+            <div className="mt-3">
+              <p className="mb-2 text-center text-[11px] font-medium uppercase tracking-wider text-[#8a735a]">
+                Kids per app · first seat included
+              </p>
+              <div className="overflow-hidden rounded-xl border border-neutral-200 bg-[#fefbf6]">
+                {(
+                  [
+                    {
+                      key: "earnly",
+                      label: "Earnly",
+                      value: count,
+                      hint: `+${formatUsd(ecosystemBundle.monthlyPerExtraChild)}/extra`,
+                      min: minimumChildCount,
+                      max: 6,
+                      onChange: (next: number) =>
+                        setChildCount(clampEarnlyChildCount(next)),
+                    },
+                    {
+                      key: "ballr",
+                      label: "Ballr",
+                      value: ballrCount,
+                      hint: `+${formatUsd(ecosystemBundle.monthlyPerExtraBallrChild)}/extra`,
+                      min: 1,
+                      max: 6,
+                      onChange: (next: number) =>
+                        setBallrChildCount(clampBallrChildCount(next)),
+                    },
+                    {
+                      key: "tinypal",
+                      label: "TinyPal",
+                      value: tinypalCount,
+                      hint: `+${formatUsd(ecosystemBundle.monthlyPerExtraTinyPalChild)}/extra`,
+                      min: 1,
+                      max: 6,
+                      onChange: (next: number) =>
+                        setTinypalChildCount(clampTinyPalChildCount(next)),
+                    },
+                  ] as const
+                ).map((seat, index) => (
+                  <div
+                    key={seat.key}
+                    className={`flex items-center justify-between gap-3 px-3 py-2.5 ${
+                      index > 0 ? "border-t border-neutral-200/80" : ""
+                    }`}
+                  >
+                    <div className="min-w-0">
+                      <p className="text-xs font-medium text-[#2a1e12]">{seat.label}</p>
+                      <p className="text-[10px] tabular-nums text-[#8a735a]">
+                        {seat.hint}
+                      </p>
+                    </div>
+                    <label className="shrink-0">
+                      <span className="sr-only">{seat.label} kids</span>
+                      <select
+                        value={seat.value}
+                        onChange={(e) => seat.onChange(Number(e.target.value))}
+                        className="rounded-lg border border-neutral-200 bg-white px-2 py-1.5 text-xs font-semibold tabular-nums text-[#2a1e12] outline-none focus:border-neutral-400"
+                      >
+                        {Array.from(
+                          { length: seat.max - seat.min + 1 },
+                          (_, i) => seat.min + i,
+                        ).map((n) => (
+                          <option key={n} value={n}>
+                            {n} {n === 1 ? "kid" : "kids"}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                  </div>
+                ))}
 
-          <div className="mt-6 text-center">{renderPriceDisplay()}</div>
+                <div className="flex items-center justify-between gap-3 border-t border-neutral-200/80 px-3 py-2.5">
+                  <div className="min-w-0">
+                    <p className="text-xs font-medium text-[#2a1e12]">Scholars</p>
+                    <p className="text-[10px] tabular-nums text-[#8a735a]">
+                      +
+                      {creditPriceLine(bundleCreditAmount, bundleCreditPeriod)}
+                      {scholarsCount > 1
+                        ? ` · ${scholarsCount} seats`
+                        : ""}
+                    </p>
+                  </div>
+                  <div className="flex shrink-0 flex-wrap items-center justify-end gap-1.5">
+                    <label>
+                      <span className="sr-only">Scholars kids</span>
+                      <select
+                        value={scholarsCount}
+                        onChange={(e) =>
+                          setScholarsChildCount(
+                            clampAllAccessScholarsChildCount(
+                              Number(e.target.value),
+                            ),
+                          )
+                        }
+                        className="rounded-lg border border-neutral-200 bg-white px-2 py-1.5 text-xs font-semibold tabular-nums text-[#2a1e12] outline-none focus:border-neutral-400"
+                      >
+                        {Array.from({ length: 5 }, (_, i) => i + 1).map((n) => (
+                          <option key={n} value={n}>
+                            {n} {n === 1 ? "kid" : "kids"}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    <label>
+                      <span className="sr-only">Scholars generations</span>
+                      <select
+                        value={bundleCreditGens}
+                        onChange={(e) =>
+                          setScholarsGens(
+                            Math.max(
+                              scholarsCreditPricing.generations.step,
+                              clampGenerations(Number(e.target.value)),
+                            ),
+                          )
+                        }
+                        className="rounded-lg border border-neutral-200 bg-white px-2 py-1.5 text-xs font-semibold tabular-nums text-[#2a1e12] outline-none focus:border-neutral-400"
+                      >
+                        {Array.from({ length: 12 }, (_, i) => (i + 1) * 5).map(
+                          (n) => (
+                            <option key={n} value={n}>
+                              {n} generations
+                            </option>
+                          ),
+                        )}
+                      </select>
+                    </label>
+                    <label>
+                      <span className="sr-only">Scholars tutor minutes</span>
+                      <select
+                        value={bundleCreditMins}
+                        onChange={(e) =>
+                          setScholarsMins(
+                            Math.max(
+                              scholarsCreditPricing.tutorMinutes.step,
+                              clampTutorMinutes(Number(e.target.value)),
+                            ),
+                          )
+                        }
+                        className="rounded-lg border border-neutral-200 bg-white px-2 py-1.5 text-xs font-semibold tabular-nums text-[#2a1e12] outline-none focus:border-neutral-400"
+                      >
+                        {Array.from({ length: 6 }, (_, i) => (i + 1) * 30).map(
+                          (n) => (
+                            <option key={n} value={n}>
+                              {n} min
+                            </option>
+                          ),
+                        )}
+                      </select>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
 
           {renderFeatures()}
 
           {!isBundle && individualPlan && (
-            <p className="mt-4 rounded-lg bg-amber-500/10 px-3 py-2 text-xs leading-relaxed text-amber-100/80">
+            <p className="mt-4 rounded-lg bg-amber-50 px-3 py-2 text-xs leading-relaxed text-amber-900">
               All Access includes every app — often the better deal for families using more than one.
             </p>
           )}
 
           {error && (
-            <p className="mt-4 rounded-lg bg-red-500/20 px-3 py-2 text-sm text-red-200" role="alert">
+            <p className="mt-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">
               {error}
             </p>
           )}
@@ -615,17 +1389,20 @@ export function EcosystemAllAccessHero({
             onClick={handleCheckout}
             disabled={
               loading ||
-              (currentEntitlement?.plan_key === checkoutPlanKey &&
-                currentChildSelectionComplete) ||
+              (isViewingCurrentPlan && currentChildSelectionComplete) ||
               Boolean(pendingChange)
             }
-            className="mt-6 flex w-full items-center justify-center rounded-2xl bg-white px-6 py-4 text-base font-semibold text-neutral-900 shadow-lg transition hover:bg-neutral-100 disabled:opacity-60"
+            className={`flex w-full items-center justify-center rounded-2xl bg-[#0071e3] px-6 text-base font-semibold text-white shadow-lg transition hover:bg-[#0077ed] disabled:opacity-60 ${
+              isBundle ? "mt-3 py-3" : "mt-6 py-4"
+            }`}
           >
             {loading ? "Redirecting…" : ctaLabel}
           </button>
-          <p className="mt-3 text-center text-xs text-neutral-500">
+          <p className={`${isBundle ? "mt-1.5" : "mt-3"} text-center text-xs text-[#8a735a]`}>
             Secure checkout · Cancel anytime
           </p>
+          </>
+          )}
         </div>
       </div>
     </section>
@@ -694,16 +1471,88 @@ export function EcosystemAllAccessHero({
               onClick={submitPlanChange}
               disabled={
                 loading ||
-                selectedChildIds.length !==
-                  Math.min(planContext.children.length, count)
+                selectedChildIds.length !== requiredActiveChildCount
               }
               className="flex-1 rounded-xl bg-neutral-900 px-4 py-3 font-semibold text-white disabled:opacity-50"
             >
               {loading
                 ? "Saving…"
-                : count < (currentEntitlement.child_limit ?? count)
+                : requiredActiveChildCount < (currentEntitlement.child_limit ?? requiredActiveChildCount)
                   ? "Schedule downgrade"
                   : "Confirm change"}
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
+    {showAllAccessSwitch && (
+      <div
+        className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 p-4 sm:items-center"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="switch-all-access-title"
+      >
+        <div className="w-full max-w-lg rounded-3xl bg-white p-6 text-neutral-900 shadow-2xl sm:p-8">
+          <h2 id="switch-all-access-title" className="text-xl font-semibold">
+            Switch everything to All Access
+          </h2>
+          <p className="mt-2 text-sm leading-relaxed text-neutral-600">
+            Your website subscriptions will be consolidated into one All Access
+            plan. Stripe will prorate the switch so you are not left paying for
+            duplicate website plans.
+          </p>
+          <div className="mt-5 space-y-2">
+            {stripePlansToConsolidate.map((entitlement) => (
+              <div
+                key={entitlement.id}
+                className="flex items-center justify-between rounded-xl bg-emerald-50 px-4 py-3 text-sm"
+              >
+                <span className="font-medium capitalize">
+                  {entitlement.app_key.replaceAll("_", " ")}
+                </span>
+                <span className="text-emerald-700">Consolidated automatically</span>
+              </div>
+            ))}
+            {applePlansToCancelManually.map((entitlement) => (
+              <div
+                key={entitlement.id}
+                className="rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-950"
+              >
+                <p className="font-medium capitalize">
+                  {entitlement.app_key.replaceAll("_", " ")} through Apple
+                </p>
+                <p className="mt-1 text-xs">
+                  Apple does not allow websites to cancel App Store subscriptions.
+                  Cancel this separately in App Store subscriptions to avoid renewal.
+                </p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-4 text-xs leading-relaxed text-neutral-500">
+            All Access will cover {count} {count === 1 ? "child" : "children"} on
+            Earnly and unlock every included app immediately.
+          </p>
+          {error && (
+            <p className="mt-4 rounded-xl bg-red-50 px-3 py-2 text-sm text-red-700">
+              {error}
+            </p>
+          )}
+          <div className="mt-6 flex gap-3">
+            <button
+              type="button"
+              onClick={() => setShowAllAccessSwitch(false)}
+              disabled={loading}
+              className="flex-1 rounded-xl border border-neutral-200 px-4 py-3 font-medium"
+            >
+              Not now
+            </button>
+            <button
+              type="button"
+              onClick={confirmAllAccessSwitch}
+              disabled={loading}
+              className="flex-1 rounded-xl bg-neutral-900 px-4 py-3 font-semibold text-white disabled:opacity-50"
+            >
+              {loading ? "Switching…" : "Confirm switch"}
             </button>
           </div>
         </div>

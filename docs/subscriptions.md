@@ -50,13 +50,13 @@ Submit the signed transaction JWS and the host app key to
 
 App Store Server Notification V2 URLs are:
 
-- `https://kidsfuture.vercel.app/api/webhooks/apple/earnly`
-- `https://kidsfuture.vercel.app/api/webhooks/apple/scholars`
-- `https://kidsfuture.vercel.app/api/webhooks/apple/ballr`
-- `https://kidsfuture.vercel.app/api/webhooks/apple/tinypal`
+- `https://genlyn.app/api/webhooks/apple/earnly`
+- `https://genlyn.app/api/webhooks/apple/scholars`
+- `https://genlyn.app/api/webhooks/apple/ballr`
+- `https://genlyn.app/api/webhooks/apple/tinypal`
 
 The Stripe webhook URL is
-`https://kidsfuture.vercel.app/api/webhooks/stripe`. Replace this origin in
+`https://genlyn.app/api/webhooks/stripe`. Replace this origin in
 App Store Connect only after a custom production domain is live and verified.
 
 For Restore Purchases, require authentication, run `AppStore.sync()`, iterate
@@ -141,3 +141,53 @@ current HTTPS tunnel, and starts Next.js with the returned signing secret.
 Sandbox checkout is rejected on non-local hosts; only Stripe webhooks may use
 the tunnel. Use Stripe test card `4242 4242 4242 4242`, any future expiration,
 and any CVC. Test entitlements should use a dedicated Future Kids test account.
+
+## Google Play (Earnly Android)
+
+Catalog (Play Console):
+
+- Product `earnly.premium.monthly` with base plans `kids1`…`kids6`
+- Product `earnly.premium.yearly` with base plans `kids1`…`kids6`
+
+Server mapping: `{productId, basePlanId}` → `earnly_kids{N}_{monthly|yearly}` with
+`provider=google`. `provider_product_id` stores the Play product ID;
+`provider_price_id` stores the base plan ID; `provider_subscription_id` stores
+the purchase token.
+
+Client flow:
+
+1. Query the two subscription product IDs.
+2. Match `basePlanId` for the selected child count.
+3. Launch billing with that offer’s `offerToken`.
+4. On `PurchaseState.PURCHASED`, POST to
+   `/api/subscriptions/google/verify` with bearer auth:
+   `{ packageName, productId, purchaseToken, basePlanId, appKey: "earnly" }`.
+5. After server success, acknowledge locally if still needed, then refresh
+   `user_entitlements` (never trust client-only unlock).
+
+RTDN endpoint: `POST /api/subscriptions/google/rtdn`
+
+### Manual Google Cloud + Play Console setup
+
+1. **Google Cloud project** linked to the Play Console developer account.
+2. Enable **Google Play Android Developer API**.
+3. Create a **service account**, download JSON, grant Play Console
+   **Admin / Financial / View financial data / Manage orders** (or equivalent
+   monetization permissions) under Users and permissions → Invite users →
+   Service account.
+4. Set server env vars (never in the Android app):
+   - `GOOGLE_PLAY_SERVICE_ACCOUNT_EMAIL`
+   - `GOOGLE_PLAY_SERVICE_ACCOUNT_PRIVATE_KEY` (PEM with `\n` escapes)
+   - `GOOGLE_PLAY_PACKAGE_NAME_EARNLY=com.earnly.family`
+5. Create a **Pub/Sub topic** (e.g. `earnly-play-rtdn`).
+6. Grant `google-play-developer-notifications@system.gserviceaccount.com`
+   **Pub/Sub Publisher** on that topic.
+7. Create a **push subscription** to
+   `https://kidsfuture.vercel.app/api/subscriptions/google/rtdn`
+   (or your production Genlyn origin) with **OIDC authentication** enabled.
+   Audience must equal that full URL; set the same value as
+   `GOOGLE_PUBSUB_PUSH_AUDIENCE`. Optionally set
+   `GOOGLE_PUBSUB_SERVICE_ACCOUNT_EMAIL` to the push authenticator email.
+8. In Play Console → Monetize → Monetization setup → **Real-time developer
+   notifications**, select the topic and send a test notification.
+9. License testers + internal testing track for purchase QA.

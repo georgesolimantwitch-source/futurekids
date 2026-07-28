@@ -71,8 +71,12 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     const authError = error instanceof SubscriptionAuthError ? error : null;
+    const message =
+      authError?.message ??
+      (error instanceof Error ? error.message : "Apple purchase verification failed");
+    console.error("[apple/verify]", message, error);
     return NextResponse.json(
-      { error: authError?.message ?? "Apple purchase verification failed" },
+      { error: message },
       { status: authError?.status ?? 400 },
     );
   }

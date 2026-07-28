@@ -13,7 +13,7 @@ export function AppProductFaq({ app }: AppProductFaqProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="scroll-mt-32 bg-[#fafafa] py-20 sm:py-28">
+    <section id="faq" className="scroll-mt-32 bg-[#fefbf6] py-20 sm:py-28">
       <div className="mx-auto max-w-3xl px-6 lg:px-8">
         <AnimateOnScroll>
           <SectionHeading

@@ -1,30 +1,33 @@
 /**
- * About page — mission-focused content.
+ * About page — short, Genlyn-focused story.
  */
 
 import { apps, brand, type AppSlug } from "./brand";
 
 export const aboutPageMeta = {
-  title: "Our Mission",
-  description: `${brand.companyName} helps parents raise healthy, successful, experienced kids through apps built for real-world growth.`,
+  title: "About Genlyn",
+  description: `${brand.productName} helps parents raise healthy, capable kids with apps for money skills, studying, sports, safe connection, and local food.`,
 };
 
-/* ── Hero ── */
 export const cinematicHero = {
-  headline: "Helping parents raise healthy, successful, experienced kids.",
+  headline: "Healthy kids. Capable kids. Ready for everything ahead.",
   subtext:
-    "We build apps that prepare children for real life — with tools for earning, learning, playing, and connecting safely.",
-  illustration: "/images/about/hero-four-stages.svg",
+    "Genlyn is a family of apps that help kids earn, learn, play, and connect — with parents in control.",
+  outcomes: [
+    "Money skills",
+    "Smarter studying",
+    "Local runs",
+    "Safe messaging",
+    "Real food nearby",
+  ],
 };
 
-/* ── Mission statement ── */
 export const missionSection = {
   eyebrow: "Our mission",
-  headline: "Give every child the skills, habits, and experiences they need to thrive.",
+  headline: "Give families practical tools for real-world growth.",
   paragraphs: [
-    "Parents want more than entertainment. They want kids who understand money, love learning, stay active, and build real friendships — safely.",
-    "Future Brand exists to support that journey. Our ecosystem gives families practical tools at every stage, from first allowance to teenage independence.",
-    "We believe technology should help kids grow up prepared — not keep them stuck on a screen.",
+    "Parents don’t need another distraction. They need apps that teach responsibility, build confidence, keep kids active, protect how they connect online, and make healthier food easier to find.",
+    "That’s what Genlyn is built for — five focused products, one shared account, and a clear purpose: help kids grow into capable young people.",
   ],
   commitments: [
     {
@@ -33,158 +36,103 @@ export const missionSection = {
     },
     {
       title: "Successful",
-      description: "Build money skills, academic confidence, and habits that last.",
+      description: "Build money skills, study habits, and confidence that lasts.",
     },
     {
       title: "Experienced",
-      description: "Get kids into sports, communities, and real-world practice early.",
+      description: "Get kids into real games, real practice, and real communities.",
     },
   ],
 };
 
-/* ── How we help (mapped to apps) ── */
 export const familyChallenges = {
-  eyebrow: "Built for real family life",
-  headline: "Four apps. One purpose: helping you raise capable kids.",
+  eyebrow: "The Genlyn apps",
+  headline: "Five apps. One mission for your family.",
   subtext:
-    "Each app gives parents a practical way to teach, guide, and protect — while children build skills they can use in the real world.",
+    "Each product solves a real part of growing up — and they work better together.",
   cards: [
     {
       id: "money",
-      title: "Money & responsibility",
+      title: "Earn, save, and grow",
       description:
-        "Turn everyday chores into early money lessons. Parents guide the routine while kids practice earning, saving, spending, and giving.",
+        "Earnly turns chores and allowances into money lessons kids can practice every week — with parents approving the important moves.",
       app: "Earnly",
       illustration: "/images/about/earnly-family.jpg",
-      illustrationAlt:
-        "A parent helping their child sort allowance into saving, spending, and giving jars",
-      parentBenefit: "You set the structure",
-      childBenefit: "They build responsibility",
-      accent: "#059669",
-      accentLight: "#ecfdf5",
+      illustrationAlt: "A parent helping their child manage allowance and savings",
+      parentBenefit: "You set the rules and approve spending",
+      childBenefit: "They learn to earn, save, and stay accountable",
+      accent: "#24C0FC",
+      accentLight: "#E6F7FE",
     },
     {
       id: "school",
-      title: "Learning & academics",
+      title: "Study smarter with AI",
       description:
-        "Give students support that builds independence instead of doing the work for them. Better study habits make school feel manageable.",
+        "Scholars Notes helps students capture notes, get AI tutoring, build study guides, and quiz themselves — so studying feels clearer and more doable.",
       app: "Scholars Notes",
       illustration: "/images/about/scholars-family.jpg",
-      illustrationAlt: "A parent encouraging their child while they study with notes and a laptop",
-      parentBenefit: "You encourage progress",
-      childBenefit: "They learn with confidence",
-      accent: "#6366f1",
-      accentLight: "#eef2ff",
+      illustrationAlt: "A student studying with notes and digital tools",
+      parentBenefit: "You support progress without doing the work for them",
+      childBenefit: "They study with focus and confidence",
+      accent: "#009CFC",
+      accentLight: "#E6F5FF",
     },
     {
       id: "activity",
-      title: "Sports & activity",
+      title: "Find local runs",
       description:
-        "Help kids find opportunities to play, practice, and belong. Activity becomes a source of confidence, friendship, and healthy routine.",
+        "Ballr helps athletes find nearby pickup games and runs, join the local community, and build a player card that shows who they are on the field.",
       app: "Ballr",
       illustration: "/images/about/ballr-family.jpg",
-      illustrationAlt: "A parent cheering as children play a neighborhood soccer game",
-      parentBenefit: "You help them participate",
-      childBenefit: "They get active together",
-      accent: "#ea580c",
-      accentLight: "#fff7ed",
+      illustrationAlt: "Kids playing a neighborhood sports game",
+      parentBenefit: "You help them get outside and involved",
+      childBenefit: "They find games and grow their player card",
+      accent: "#E8B400",
+      accentLight: "#FFF6D6",
     },
     {
       id: "communication",
-      title: "Safe connection",
+      title: "Stay connected, safely",
       description:
-        "Introduce digital communication with guardrails from the beginning. Kids connect with trusted people while parents stay involved.",
+        "TinyPal is messaging built for kids — with parent-managed setup, trusted contacts, and guardrails designed for safer conversations.",
       app: "TinyPal",
       illustration: "/images/about/tinypal-family.jpg",
-      illustrationAlt: "A parent and child using devices together for safe family messaging",
-      parentBenefit: "You choose trusted connections",
-      childBenefit: "They communicate safely",
-      accent: "#0ea5e9",
-      accentLight: "#e0f2fe",
+      illustrationAlt: "A parent and child using devices for safe family messaging",
+      parentBenefit: "You choose who they can talk to",
+      childBenefit: "They stay connected with people you trust",
+      accent: "#FC6C0C",
+      accentLight: "#FFF1E6",
+    },
+    {
+      id: "food",
+      title: "Find real food nearby",
+      description:
+        "Freshys helps families discover nearby farms, farm stores, farmers markets, and locally produced food on an interactive map.",
+      app: "Freshys",
+      illustration: "/images/apps/fresher/screenshot.png",
+      illustrationAlt: "Freshys map highlighting nearby farms and markets",
+      parentBenefit: "You find local food without the research rabbit hole",
+      childBenefit: "They grow up closer to real, local food",
+      accent: "#248A45",
+      accentLight: "#EDF7EF",
     },
   ],
 };
 
-/* ── Ecosystem ── */
 export const ecosystemCircle = {
-  headline: "One ecosystem. Every part of growing up.",
-  subtext: "Four apps designed to work together — one account, one mission.",
-  apps: ["earnly", "scholars", "ballr", "tinypal"] as AppSlug[],
+  headline: "One account. Five apps that work together.",
+  subtext: "Start with one product, or unlock the ecosystem as your family grows.",
+  apps: ["earnly", "scholars", "ballr", "tinypal", "fresher"] as AppSlug[],
 };
 
 export function getEcosystemCircleApps() {
   return ecosystemCircle.apps.map((slug) => apps.find((a) => a.slug === slug)!);
 }
 
-/* ── Child growth ── */
-export const childGrowth = {
-  headline: "Growing with your child.",
-  subtext: "The right tools at the right age — from first chores to college prep.",
-  stages: [
-    { age: 6, apps: ["TinyPal", "Earnly"], note: "Safe communication and first money lessons" },
-    { age: 9, apps: ["Earnly", "Scholars Notes"], note: "Habits form — saving, studying, responsibility" },
-    { age: 12, apps: ["Scholars Notes", "Ballr"], note: "Independence grows — school, sports, friends" },
-    { age: 15, apps: ["Ballr", "Scholars Notes", "Earnly"], note: "Real-world skills for teenage life" },
-    { age: 18, apps: ["Earnly", "Scholars Notes", "Ballr"], note: "Prepared for adulthood" },
-  ],
-};
-
-/* ── Values we build toward ── */
-export const valuePillars = {
-  headline: "What we help kids become.",
-  subtext: "Every app in our ecosystem supports a different part of a well-rounded childhood.",
-  pillars: [
-    {
-      label: "Responsible",
-      description: "Kids who understand earning, saving, and accountability.",
-      illustration: "/images/about/pillar-responsibility.svg",
-      accent: "#059669",
-    },
-    {
-      label: "Curious",
-      description: "Learners who ask questions and love discovering new things.",
-      illustration: "/images/about/pillar-curiosity.svg",
-      accent: "#6366f1",
-    },
-    {
-      label: "Confident",
-      description: "Students who believe they can tackle hard subjects.",
-      illustration: "/images/about/pillar-confidence.svg",
-      accent: "#8b5cf6",
-    },
-    {
-      label: "Active",
-      description: "Kids who play, train, and show up for their community.",
-      illustration: "/images/about/pillar-health.svg",
-      accent: "#ea580c",
-    },
-    {
-      label: "Connected",
-      description: "Children who build safe, meaningful friendships.",
-      illustration: "/images/about/pillar-friendship.svg",
-      accent: "#0ea5e9",
-    },
-    {
-      label: "Prepared",
-      description: "Young adults ready for money, school, and life on their own.",
-      illustration: "/images/about/pillar-growth.svg",
-      accent: "#10b981",
-    },
-  ],
-};
-
-/* ── Vision ── */
-export const visionSection = {
-  eyebrow: "Why we exist",
-  headline:
-    "Parents shouldn't have to choose between technology and a healthy childhood. We're building both.",
-};
-
-/* ── CTA ── */
 export const aboutFinalCta = {
-  headline: ["Healthy kids.", "Successful kids.", "Experienced kids."],
-  subtext: "Join families using Future Brand to raise the next generation — for real.",
-  illustration: "/images/about/cta-families.svg",
+  headline: ["Healthy kids.", "Capable kids.", "Ready for what’s next."],
+  subtext: `Explore the Genlyn apps and pick the plan that fits your family.`,
+  illustration: "/images/about/earnly-family.jpg",
   primary: { label: "Explore Apps", href: "/#apps" },
   secondary: { label: "Plans & Pricing", href: "/pricing" },
 };

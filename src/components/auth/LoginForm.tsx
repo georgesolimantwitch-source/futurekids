@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { safeNextPath } from "@/lib/auth/safe-next";
+import { AppleAuthButton } from "./AppleAuthButton";
 import { AuthDivider, GoogleAuthButton } from "./GoogleAuthButton";
 import { AuthField, AuthLink, AuthShell, authInputClass } from "./AuthShell";
 import { PasswordInput } from "./PasswordInput";
@@ -15,7 +16,7 @@ export function LoginForm() {
   const callbackError = searchParams.get("error");
   const callbackErrorMessage =
     callbackError === "auth_callback_failed"
-      ? "Google sign-in could not be completed. Please try again."
+      ? "Sign-in could not be completed. Please try again."
       : null;
 
   const [email, setEmail] = useState("");
@@ -54,14 +55,17 @@ export function LoginForm() {
   return (
     <AuthShell
       title="Welcome back"
-      subtitle="Sign in with your Future Kids account to access every app."
+      subtitle="Sign in with your Genlyn account to access every app."
       footer={
         <>
           New here? <AuthLink href="/signup">Create account</AuthLink>
         </>
       }
     >
-      <GoogleAuthButton next={next} label="Sign in with Google" />
+      <div className="space-y-3">
+        <AppleAuthButton next={next} label="Sign in with Apple" />
+        <GoogleAuthButton next={next} label="Sign in with Google" />
+      </div>
       <AuthDivider />
 
       <form onSubmit={handleSubmit} className="space-y-5">

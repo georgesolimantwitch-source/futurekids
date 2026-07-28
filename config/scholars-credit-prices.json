@@ -1,0 +1,2436 @@
+{
+  "generatedAt": "2026-07-26T00:29:34.376Z",
+  "mode": "live",
+  "plans": [
+    {
+      "lookupKey": "com.scholarsnotes.plan.g0.m30.refill",
+      "generations": 0,
+      "tutorMinutes": 30,
+      "period": "refill",
+      "amount": 7.99,
+      "stripePriceId": "price_1TxFurLD305HTgIxXmoU7ftX",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g0.m30.monthly",
+      "generations": 0,
+      "tutorMinutes": 30,
+      "period": "monthly",
+      "amount": 6.99,
+      "stripePriceId": "price_1TxFusLD305HTgIxkt8Yxunr",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g0.m30.yearly",
+      "generations": 0,
+      "tutorMinutes": 30,
+      "period": "yearly",
+      "amount": 65.88,
+      "stripePriceId": "price_1TxFusLD305HTgIxIgOak2Fi",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g0.m60.refill",
+      "generations": 0,
+      "tutorMinutes": 60,
+      "period": "refill",
+      "amount": 15.98,
+      "stripePriceId": "price_1TxFusLD305HTgIxFJVwbBCJ",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g0.m60.monthly",
+      "generations": 0,
+      "tutorMinutes": 60,
+      "period": "monthly",
+      "amount": 13.98,
+      "stripePriceId": "price_1TxFutLD305HTgIxsxcoMx8U",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g0.m60.yearly",
+      "generations": 0,
+      "tutorMinutes": 60,
+      "period": "yearly",
+      "amount": 131.76,
+      "stripePriceId": "price_1TxFutLD305HTgIxdurSkJTN",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g0.m90.refill",
+      "generations": 0,
+      "tutorMinutes": 90,
+      "period": "refill",
+      "amount": 23.97,
+      "stripePriceId": "price_1TxFuuLD305HTgIxcipvthuH",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g0.m90.monthly",
+      "generations": 0,
+      "tutorMinutes": 90,
+      "period": "monthly",
+      "amount": 20.97,
+      "stripePriceId": "price_1TxFuuLD305HTgIxA7SqeJll",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g0.m90.yearly",
+      "generations": 0,
+      "tutorMinutes": 90,
+      "period": "yearly",
+      "amount": 197.64,
+      "stripePriceId": "price_1TxFuvLD305HTgIx1svPJScA",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g0.m120.refill",
+      "generations": 0,
+      "tutorMinutes": 120,
+      "period": "refill",
+      "amount": 31.96,
+      "stripePriceId": "price_1TxFuvLD305HTgIxqfAUKRLh",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g0.m120.monthly",
+      "generations": 0,
+      "tutorMinutes": 120,
+      "period": "monthly",
+      "amount": 27.96,
+      "stripePriceId": "price_1TxFuvLD305HTgIxbf7QImwJ",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g0.m120.yearly",
+      "generations": 0,
+      "tutorMinutes": 120,
+      "period": "yearly",
+      "amount": 263.52,
+      "stripePriceId": "price_1TxFuwLD305HTgIxZYKffuId",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g0.m150.refill",
+      "generations": 0,
+      "tutorMinutes": 150,
+      "period": "refill",
+      "amount": 39.95,
+      "stripePriceId": "price_1TxFuwLD305HTgIxvxwwroqN",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g0.m150.monthly",
+      "generations": 0,
+      "tutorMinutes": 150,
+      "period": "monthly",
+      "amount": 34.95,
+      "stripePriceId": "price_1TxFuxLD305HTgIxLFAHQDrV",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g0.m150.yearly",
+      "generations": 0,
+      "tutorMinutes": 150,
+      "period": "yearly",
+      "amount": 329.4,
+      "stripePriceId": "price_1TxFuxLD305HTgIxPJ75xOSa",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g0.m180.refill",
+      "generations": 0,
+      "tutorMinutes": 180,
+      "period": "refill",
+      "amount": 47.94,
+      "stripePriceId": "price_1TxFuyLD305HTgIx5lPnb1aC",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g0.m180.monthly",
+      "generations": 0,
+      "tutorMinutes": 180,
+      "period": "monthly",
+      "amount": 41.94,
+      "stripePriceId": "price_1TxFuyLD305HTgIxm10XvAAR",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g0.m180.yearly",
+      "generations": 0,
+      "tutorMinutes": 180,
+      "period": "yearly",
+      "amount": 395.28,
+      "stripePriceId": "price_1TxFuyLD305HTgIxZhJpYkrT",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g5.m0.refill",
+      "generations": 5,
+      "tutorMinutes": 0,
+      "period": "refill",
+      "amount": 2.99,
+      "stripePriceId": "price_1TxFuzLD305HTgIxZcGFLUzO",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g5.m0.monthly",
+      "generations": 5,
+      "tutorMinutes": 0,
+      "period": "monthly",
+      "amount": 1.99,
+      "stripePriceId": "price_1TxFuzLD305HTgIxuJeKAIGv",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g5.m0.yearly",
+      "generations": 5,
+      "tutorMinutes": 0,
+      "period": "yearly",
+      "amount": 17.88,
+      "stripePriceId": "price_1TxFuzLD305HTgIxFU5MjOvC",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g5.m30.refill",
+      "generations": 5,
+      "tutorMinutes": 30,
+      "period": "refill",
+      "amount": 10.98,
+      "stripePriceId": "price_1TxFv0LD305HTgIxlZrOjbEF",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g5.m30.monthly",
+      "generations": 5,
+      "tutorMinutes": 30,
+      "period": "monthly",
+      "amount": 8.98,
+      "stripePriceId": "price_1TxFv0LD305HTgIxAlv9EVot",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g5.m30.yearly",
+      "generations": 5,
+      "tutorMinutes": 30,
+      "period": "yearly",
+      "amount": 83.76,
+      "stripePriceId": "price_1TxFv1LD305HTgIx7hgH47P2",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g5.m60.refill",
+      "generations": 5,
+      "tutorMinutes": 60,
+      "period": "refill",
+      "amount": 18.97,
+      "stripePriceId": "price_1TxFv1LD305HTgIxoeu7BpUp",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g5.m60.monthly",
+      "generations": 5,
+      "tutorMinutes": 60,
+      "period": "monthly",
+      "amount": 15.97,
+      "stripePriceId": "price_1TxFv1LD305HTgIxAWuOF8pE",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g5.m60.yearly",
+      "generations": 5,
+      "tutorMinutes": 60,
+      "period": "yearly",
+      "amount": 149.64,
+      "stripePriceId": "price_1TxFv2LD305HTgIx41MSzy24",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g5.m90.refill",
+      "generations": 5,
+      "tutorMinutes": 90,
+      "period": "refill",
+      "amount": 26.96,
+      "stripePriceId": "price_1TxFv2LD305HTgIxv7EjUM9X",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g5.m90.monthly",
+      "generations": 5,
+      "tutorMinutes": 90,
+      "period": "monthly",
+      "amount": 22.96,
+      "stripePriceId": "price_1TxFv3LD305HTgIx1oNaJIsp",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g5.m90.yearly",
+      "generations": 5,
+      "tutorMinutes": 90,
+      "period": "yearly",
+      "amount": 215.52,
+      "stripePriceId": "price_1TxFv3LD305HTgIxEPF5NPDM",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g5.m120.refill",
+      "generations": 5,
+      "tutorMinutes": 120,
+      "period": "refill",
+      "amount": 34.95,
+      "stripePriceId": "price_1TxFv4LD305HTgIxKTFSvGa5",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g5.m120.monthly",
+      "generations": 5,
+      "tutorMinutes": 120,
+      "period": "monthly",
+      "amount": 29.95,
+      "stripePriceId": "price_1TxFv4LD305HTgIxcev7wOo2",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g5.m120.yearly",
+      "generations": 5,
+      "tutorMinutes": 120,
+      "period": "yearly",
+      "amount": 281.4,
+      "stripePriceId": "price_1TxFv4LD305HTgIxDA4J4kyP",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g5.m150.refill",
+      "generations": 5,
+      "tutorMinutes": 150,
+      "period": "refill",
+      "amount": 42.94,
+      "stripePriceId": "price_1TxFv5LD305HTgIxGn2HV1fv",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g5.m150.monthly",
+      "generations": 5,
+      "tutorMinutes": 150,
+      "period": "monthly",
+      "amount": 36.94,
+      "stripePriceId": "price_1TxFv5LD305HTgIx7f07tne2",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g5.m150.yearly",
+      "generations": 5,
+      "tutorMinutes": 150,
+      "period": "yearly",
+      "amount": 347.28,
+      "stripePriceId": "price_1TxFv6LD305HTgIxSwFpKxuy",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g5.m180.refill",
+      "generations": 5,
+      "tutorMinutes": 180,
+      "period": "refill",
+      "amount": 50.93,
+      "stripePriceId": "price_1TxFv6LD305HTgIxmfquPR8q",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g5.m180.monthly",
+      "generations": 5,
+      "tutorMinutes": 180,
+      "period": "monthly",
+      "amount": 43.93,
+      "stripePriceId": "price_1TxFv6LD305HTgIxuex70zzR",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g5.m180.yearly",
+      "generations": 5,
+      "tutorMinutes": 180,
+      "period": "yearly",
+      "amount": 413.16,
+      "stripePriceId": "price_1TxFv7LD305HTgIx48ImGQz3",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g10.m0.refill",
+      "generations": 10,
+      "tutorMinutes": 0,
+      "period": "refill",
+      "amount": 5.98,
+      "stripePriceId": "price_1TxFv7LD305HTgIxYPaqsV0Q",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g10.m0.monthly",
+      "generations": 10,
+      "tutorMinutes": 0,
+      "period": "monthly",
+      "amount": 3.98,
+      "stripePriceId": "price_1TxFv8LD305HTgIxWoDXIHg5",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g10.m0.yearly",
+      "generations": 10,
+      "tutorMinutes": 0,
+      "period": "yearly",
+      "amount": 35.76,
+      "stripePriceId": "price_1TxFv8LD305HTgIxLjUaIKEH",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g10.m30.refill",
+      "generations": 10,
+      "tutorMinutes": 30,
+      "period": "refill",
+      "amount": 13.97,
+      "stripePriceId": "price_1TxFv8LD305HTgIxtKLK10sm",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g10.m30.monthly",
+      "generations": 10,
+      "tutorMinutes": 30,
+      "period": "monthly",
+      "amount": 10.97,
+      "stripePriceId": "price_1TxFv9LD305HTgIxW7FemR3V",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g10.m30.yearly",
+      "generations": 10,
+      "tutorMinutes": 30,
+      "period": "yearly",
+      "amount": 101.64,
+      "stripePriceId": "price_1TxFv9LD305HTgIx5qoc9Sij",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g10.m60.refill",
+      "generations": 10,
+      "tutorMinutes": 60,
+      "period": "refill",
+      "amount": 21.96,
+      "stripePriceId": "price_1TxFvALD305HTgIxv3m4ruol",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g10.m60.monthly",
+      "generations": 10,
+      "tutorMinutes": 60,
+      "period": "monthly",
+      "amount": 17.96,
+      "stripePriceId": "price_1TxFvALD305HTgIxipJThoXF",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g10.m60.yearly",
+      "generations": 10,
+      "tutorMinutes": 60,
+      "period": "yearly",
+      "amount": 167.52,
+      "stripePriceId": "price_1TxFvALD305HTgIx3bZcgwTY",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g10.m90.refill",
+      "generations": 10,
+      "tutorMinutes": 90,
+      "period": "refill",
+      "amount": 29.95,
+      "stripePriceId": "price_1TxFvBLD305HTgIx2CTdVW7f",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g10.m90.monthly",
+      "generations": 10,
+      "tutorMinutes": 90,
+      "period": "monthly",
+      "amount": 24.95,
+      "stripePriceId": "price_1TxFvCLD305HTgIxPIHZ5fmc",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g10.m90.yearly",
+      "generations": 10,
+      "tutorMinutes": 90,
+      "period": "yearly",
+      "amount": 233.4,
+      "stripePriceId": "price_1TxFvDLD305HTgIxYj5qituN",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g10.m120.refill",
+      "generations": 10,
+      "tutorMinutes": 120,
+      "period": "refill",
+      "amount": 37.94,
+      "stripePriceId": "price_1TxFvELD305HTgIxYvzOhlQ9",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g10.m120.monthly",
+      "generations": 10,
+      "tutorMinutes": 120,
+      "period": "monthly",
+      "amount": 31.94,
+      "stripePriceId": "price_1TxFvFLD305HTgIxqAPITanh",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g10.m120.yearly",
+      "generations": 10,
+      "tutorMinutes": 120,
+      "period": "yearly",
+      "amount": 299.28,
+      "stripePriceId": "price_1TxFvGLD305HTgIxDVLLlmcf",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g10.m150.refill",
+      "generations": 10,
+      "tutorMinutes": 150,
+      "period": "refill",
+      "amount": 45.93,
+      "stripePriceId": "price_1TxFvGLD305HTgIxcIsa6ZUy",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g10.m150.monthly",
+      "generations": 10,
+      "tutorMinutes": 150,
+      "period": "monthly",
+      "amount": 38.93,
+      "stripePriceId": "price_1TxFvHLD305HTgIxQs1mvOcR",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g10.m150.yearly",
+      "generations": 10,
+      "tutorMinutes": 150,
+      "period": "yearly",
+      "amount": 365.16,
+      "stripePriceId": "price_1TxFvHLD305HTgIxBBGSriTl",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g10.m180.refill",
+      "generations": 10,
+      "tutorMinutes": 180,
+      "period": "refill",
+      "amount": 53.92,
+      "stripePriceId": "price_1TxFvILD305HTgIxjSIyH3Fj",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g10.m180.monthly",
+      "generations": 10,
+      "tutorMinutes": 180,
+      "period": "monthly",
+      "amount": 45.92,
+      "stripePriceId": "price_1TxFvILD305HTgIxm7GQKDrS",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g10.m180.yearly",
+      "generations": 10,
+      "tutorMinutes": 180,
+      "period": "yearly",
+      "amount": 431.04,
+      "stripePriceId": "price_1TxFvJLD305HTgIxDCQJAbJG",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g15.m0.refill",
+      "generations": 15,
+      "tutorMinutes": 0,
+      "period": "refill",
+      "amount": 8.97,
+      "stripePriceId": "price_1TxFvJLD305HTgIxCcoh27aG",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g15.m0.monthly",
+      "generations": 15,
+      "tutorMinutes": 0,
+      "period": "monthly",
+      "amount": 5.97,
+      "stripePriceId": "price_1TxFvJLD305HTgIxRYH6u9UM",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g15.m0.yearly",
+      "generations": 15,
+      "tutorMinutes": 0,
+      "period": "yearly",
+      "amount": 53.64,
+      "stripePriceId": "price_1TxFvKLD305HTgIxpSi9kwps",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g15.m30.refill",
+      "generations": 15,
+      "tutorMinutes": 30,
+      "period": "refill",
+      "amount": 16.96,
+      "stripePriceId": "price_1TxFvKLD305HTgIxk7ueK4Ik",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g15.m30.monthly",
+      "generations": 15,
+      "tutorMinutes": 30,
+      "period": "monthly",
+      "amount": 12.96,
+      "stripePriceId": "price_1TxFvLLD305HTgIxy4y43DO4",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g15.m30.yearly",
+      "generations": 15,
+      "tutorMinutes": 30,
+      "period": "yearly",
+      "amount": 119.52,
+      "stripePriceId": "price_1TxFvLLD305HTgIxrZcyG3Dg",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g15.m60.refill",
+      "generations": 15,
+      "tutorMinutes": 60,
+      "period": "refill",
+      "amount": 24.95,
+      "stripePriceId": "price_1TxFvMLD305HTgIxtHvjobGc",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g15.m60.monthly",
+      "generations": 15,
+      "tutorMinutes": 60,
+      "period": "monthly",
+      "amount": 19.95,
+      "stripePriceId": "price_1TxFvMLD305HTgIx7JjZOspT",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g15.m60.yearly",
+      "generations": 15,
+      "tutorMinutes": 60,
+      "period": "yearly",
+      "amount": 185.4,
+      "stripePriceId": "price_1TxFvNLD305HTgIx2LQcXNcg",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g15.m90.refill",
+      "generations": 15,
+      "tutorMinutes": 90,
+      "period": "refill",
+      "amount": 32.94,
+      "stripePriceId": "price_1TxFvNLD305HTgIxTbmUy6oB",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g15.m90.monthly",
+      "generations": 15,
+      "tutorMinutes": 90,
+      "period": "monthly",
+      "amount": 26.94,
+      "stripePriceId": "price_1TxFvNLD305HTgIxAYGzHoR7",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g15.m90.yearly",
+      "generations": 15,
+      "tutorMinutes": 90,
+      "period": "yearly",
+      "amount": 251.28,
+      "stripePriceId": "price_1TxFvOLD305HTgIxfxK6QZek",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g15.m120.refill",
+      "generations": 15,
+      "tutorMinutes": 120,
+      "period": "refill",
+      "amount": 40.93,
+      "stripePriceId": "price_1TxFvOLD305HTgIxsiSYc6KO",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g15.m120.monthly",
+      "generations": 15,
+      "tutorMinutes": 120,
+      "period": "monthly",
+      "amount": 33.93,
+      "stripePriceId": "price_1TxFvPLD305HTgIxZMv1gTZt",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g15.m120.yearly",
+      "generations": 15,
+      "tutorMinutes": 120,
+      "period": "yearly",
+      "amount": 317.16,
+      "stripePriceId": "price_1TxFvPLD305HTgIxqHVf5XeY",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g15.m150.refill",
+      "generations": 15,
+      "tutorMinutes": 150,
+      "period": "refill",
+      "amount": 48.92,
+      "stripePriceId": "price_1TxFvPLD305HTgIxAgizsgGV",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g15.m150.monthly",
+      "generations": 15,
+      "tutorMinutes": 150,
+      "period": "monthly",
+      "amount": 40.92,
+      "stripePriceId": "price_1TxFvQLD305HTgIxpmt5Ky4J",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g15.m150.yearly",
+      "generations": 15,
+      "tutorMinutes": 150,
+      "period": "yearly",
+      "amount": 383.04,
+      "stripePriceId": "price_1TxFvQLD305HTgIxDuX6XD2r",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g15.m180.refill",
+      "generations": 15,
+      "tutorMinutes": 180,
+      "period": "refill",
+      "amount": 56.91,
+      "stripePriceId": "price_1TxFvRLD305HTgIx0B2wPdF6",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g15.m180.monthly",
+      "generations": 15,
+      "tutorMinutes": 180,
+      "period": "monthly",
+      "amount": 47.91,
+      "stripePriceId": "price_1TxFvRLD305HTgIxbmmAGRHA",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g15.m180.yearly",
+      "generations": 15,
+      "tutorMinutes": 180,
+      "period": "yearly",
+      "amount": 448.92,
+      "stripePriceId": "price_1TxFvSLD305HTgIxacWDefPn",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g20.m0.refill",
+      "generations": 20,
+      "tutorMinutes": 0,
+      "period": "refill",
+      "amount": 11.96,
+      "stripePriceId": "price_1TxFvSLD305HTgIxl1kGcneD",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g20.m0.monthly",
+      "generations": 20,
+      "tutorMinutes": 0,
+      "period": "monthly",
+      "amount": 7.96,
+      "stripePriceId": "price_1TxFvTLD305HTgIxAClsNpH7",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g20.m0.yearly",
+      "generations": 20,
+      "tutorMinutes": 0,
+      "period": "yearly",
+      "amount": 71.52,
+      "stripePriceId": "price_1TxFvTLD305HTgIxLnQodtlo",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g20.m30.refill",
+      "generations": 20,
+      "tutorMinutes": 30,
+      "period": "refill",
+      "amount": 19.95,
+      "stripePriceId": "price_1TxFvULD305HTgIxtWnIm8kU",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g20.m30.monthly",
+      "generations": 20,
+      "tutorMinutes": 30,
+      "period": "monthly",
+      "amount": 14.95,
+      "stripePriceId": "price_1TxFvULD305HTgIxf2bOGhDN",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g20.m30.yearly",
+      "generations": 20,
+      "tutorMinutes": 30,
+      "period": "yearly",
+      "amount": 137.4,
+      "stripePriceId": "price_1TxFvULD305HTgIxQkdwbuPv",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g20.m60.refill",
+      "generations": 20,
+      "tutorMinutes": 60,
+      "period": "refill",
+      "amount": 27.94,
+      "stripePriceId": "price_1TxFvVLD305HTgIxZZhTORma",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g20.m60.monthly",
+      "generations": 20,
+      "tutorMinutes": 60,
+      "period": "monthly",
+      "amount": 21.94,
+      "stripePriceId": "price_1TxFvVLD305HTgIxMrphiNlr",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g20.m60.yearly",
+      "generations": 20,
+      "tutorMinutes": 60,
+      "period": "yearly",
+      "amount": 203.28,
+      "stripePriceId": "price_1TxFvVLD305HTgIxzUrk79T4",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g20.m90.refill",
+      "generations": 20,
+      "tutorMinutes": 90,
+      "period": "refill",
+      "amount": 35.93,
+      "stripePriceId": "price_1TxFvWLD305HTgIxwYM2JvfB",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g20.m90.monthly",
+      "generations": 20,
+      "tutorMinutes": 90,
+      "period": "monthly",
+      "amount": 28.93,
+      "stripePriceId": "price_1TxFvWLD305HTgIx1Eu0Mq73",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g20.m90.yearly",
+      "generations": 20,
+      "tutorMinutes": 90,
+      "period": "yearly",
+      "amount": 269.16,
+      "stripePriceId": "price_1TxFvXLD305HTgIxuAdLNOkp",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g20.m120.refill",
+      "generations": 20,
+      "tutorMinutes": 120,
+      "period": "refill",
+      "amount": 43.92,
+      "stripePriceId": "price_1TxFvXLD305HTgIxGSYy2Y81",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g20.m120.monthly",
+      "generations": 20,
+      "tutorMinutes": 120,
+      "period": "monthly",
+      "amount": 35.92,
+      "stripePriceId": "price_1TxFvYLD305HTgIxb1uwafj2",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g20.m120.yearly",
+      "generations": 20,
+      "tutorMinutes": 120,
+      "period": "yearly",
+      "amount": 335.04,
+      "stripePriceId": "price_1TxFvYLD305HTgIx1CSCbVGH",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g20.m150.refill",
+      "generations": 20,
+      "tutorMinutes": 150,
+      "period": "refill",
+      "amount": 51.91,
+      "stripePriceId": "price_1TxFvYLD305HTgIxC92eFZ3n",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g20.m150.monthly",
+      "generations": 20,
+      "tutorMinutes": 150,
+      "period": "monthly",
+      "amount": 42.91,
+      "stripePriceId": "price_1TxFvZLD305HTgIxFge9tqEM",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g20.m150.yearly",
+      "generations": 20,
+      "tutorMinutes": 150,
+      "period": "yearly",
+      "amount": 400.92,
+      "stripePriceId": "price_1TxFvZLD305HTgIxT3NkkAB8",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g20.m180.refill",
+      "generations": 20,
+      "tutorMinutes": 180,
+      "period": "refill",
+      "amount": 59.9,
+      "stripePriceId": "price_1TxFvZLD305HTgIx2wpYyyh3",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g20.m180.monthly",
+      "generations": 20,
+      "tutorMinutes": 180,
+      "period": "monthly",
+      "amount": 49.9,
+      "stripePriceId": "price_1TxFvaLD305HTgIxI6kTtR99",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g20.m180.yearly",
+      "generations": 20,
+      "tutorMinutes": 180,
+      "period": "yearly",
+      "amount": 466.8,
+      "stripePriceId": "price_1TxFvaLD305HTgIxNiX5JWN6",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g25.m0.refill",
+      "generations": 25,
+      "tutorMinutes": 0,
+      "period": "refill",
+      "amount": 14.95,
+      "stripePriceId": "price_1TxFvbLD305HTgIxHiGZwYdP",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g25.m0.monthly",
+      "generations": 25,
+      "tutorMinutes": 0,
+      "period": "monthly",
+      "amount": 9.95,
+      "stripePriceId": "price_1TxFvbLD305HTgIxEny7rbau",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g25.m0.yearly",
+      "generations": 25,
+      "tutorMinutes": 0,
+      "period": "yearly",
+      "amount": 89.4,
+      "stripePriceId": "price_1TxFvbLD305HTgIxCHLbSUjH",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g25.m30.refill",
+      "generations": 25,
+      "tutorMinutes": 30,
+      "period": "refill",
+      "amount": 22.94,
+      "stripePriceId": "price_1TxFvcLD305HTgIxJUscScdx",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g25.m30.monthly",
+      "generations": 25,
+      "tutorMinutes": 30,
+      "period": "monthly",
+      "amount": 16.94,
+      "stripePriceId": "price_1TxFvcLD305HTgIxsYZO7yvN",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g25.m30.yearly",
+      "generations": 25,
+      "tutorMinutes": 30,
+      "period": "yearly",
+      "amount": 155.28,
+      "stripePriceId": "price_1TxFvdLD305HTgIxxjryGNSi",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g25.m60.refill",
+      "generations": 25,
+      "tutorMinutes": 60,
+      "period": "refill",
+      "amount": 30.93,
+      "stripePriceId": "price_1TxFvdLD305HTgIx6y6oEYl1",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g25.m60.monthly",
+      "generations": 25,
+      "tutorMinutes": 60,
+      "period": "monthly",
+      "amount": 23.93,
+      "stripePriceId": "price_1TxFvdLD305HTgIx6xqs02Bp",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g25.m60.yearly",
+      "generations": 25,
+      "tutorMinutes": 60,
+      "period": "yearly",
+      "amount": 221.16,
+      "stripePriceId": "price_1TxFveLD305HTgIxS17qO4mj",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g25.m90.refill",
+      "generations": 25,
+      "tutorMinutes": 90,
+      "period": "refill",
+      "amount": 38.92,
+      "stripePriceId": "price_1TxFveLD305HTgIxc2w9NBDS",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g25.m90.monthly",
+      "generations": 25,
+      "tutorMinutes": 90,
+      "period": "monthly",
+      "amount": 30.92,
+      "stripePriceId": "price_1TxFvfLD305HTgIxOZ2g0NfN",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g25.m90.yearly",
+      "generations": 25,
+      "tutorMinutes": 90,
+      "period": "yearly",
+      "amount": 287.04,
+      "stripePriceId": "price_1TxFvfLD305HTgIxxKnhm4kD",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g25.m120.refill",
+      "generations": 25,
+      "tutorMinutes": 120,
+      "period": "refill",
+      "amount": 46.91,
+      "stripePriceId": "price_1TxFvgLD305HTgIxmHDMjLhh",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g25.m120.monthly",
+      "generations": 25,
+      "tutorMinutes": 120,
+      "period": "monthly",
+      "amount": 37.91,
+      "stripePriceId": "price_1TxFvgLD305HTgIx34Tqn7yd",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g25.m120.yearly",
+      "generations": 25,
+      "tutorMinutes": 120,
+      "period": "yearly",
+      "amount": 352.92,
+      "stripePriceId": "price_1TxFvgLD305HTgIxrINE6sBt",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g25.m150.refill",
+      "generations": 25,
+      "tutorMinutes": 150,
+      "period": "refill",
+      "amount": 54.9,
+      "stripePriceId": "price_1TxFvhLD305HTgIxJ9vCVtKJ",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g25.m150.monthly",
+      "generations": 25,
+      "tutorMinutes": 150,
+      "period": "monthly",
+      "amount": 44.9,
+      "stripePriceId": "price_1TxFvhLD305HTgIxywYmPHe1",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g25.m150.yearly",
+      "generations": 25,
+      "tutorMinutes": 150,
+      "period": "yearly",
+      "amount": 418.8,
+      "stripePriceId": "price_1TxFviLD305HTgIxmcSezHsS",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g25.m180.refill",
+      "generations": 25,
+      "tutorMinutes": 180,
+      "period": "refill",
+      "amount": 62.89,
+      "stripePriceId": "price_1TxFviLD305HTgIx2alNk80s",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g25.m180.monthly",
+      "generations": 25,
+      "tutorMinutes": 180,
+      "period": "monthly",
+      "amount": 51.89,
+      "stripePriceId": "price_1TxFvjLD305HTgIxPdAJF4oT",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g25.m180.yearly",
+      "generations": 25,
+      "tutorMinutes": 180,
+      "period": "yearly",
+      "amount": 484.68,
+      "stripePriceId": "price_1TxFvjLD305HTgIxjxK3ot9D",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g30.m0.refill",
+      "generations": 30,
+      "tutorMinutes": 0,
+      "period": "refill",
+      "amount": 17.94,
+      "stripePriceId": "price_1TxFvjLD305HTgIxjgZuXoPF",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g30.m0.monthly",
+      "generations": 30,
+      "tutorMinutes": 0,
+      "period": "monthly",
+      "amount": 11.94,
+      "stripePriceId": "price_1TxFvkLD305HTgIxWq52rsW1",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g30.m0.yearly",
+      "generations": 30,
+      "tutorMinutes": 0,
+      "period": "yearly",
+      "amount": 107.28,
+      "stripePriceId": "price_1TxFvkLD305HTgIxbJjFKiAJ",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g30.m30.refill",
+      "generations": 30,
+      "tutorMinutes": 30,
+      "period": "refill",
+      "amount": 25.93,
+      "stripePriceId": "price_1TxFvlLD305HTgIxkWrXEm4p",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g30.m30.monthly",
+      "generations": 30,
+      "tutorMinutes": 30,
+      "period": "monthly",
+      "amount": 18.93,
+      "stripePriceId": "price_1TxFvlLD305HTgIxoqOLkn06",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g30.m30.yearly",
+      "generations": 30,
+      "tutorMinutes": 30,
+      "period": "yearly",
+      "amount": 173.16,
+      "stripePriceId": "price_1TxFvlLD305HTgIx9slri338",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g30.m60.refill",
+      "generations": 30,
+      "tutorMinutes": 60,
+      "period": "refill",
+      "amount": 33.92,
+      "stripePriceId": "price_1TxFvmLD305HTgIx685v5t4x",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g30.m60.monthly",
+      "generations": 30,
+      "tutorMinutes": 60,
+      "period": "monthly",
+      "amount": 25.92,
+      "stripePriceId": "price_1TxFvmLD305HTgIx8hmQ2dFq",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g30.m60.yearly",
+      "generations": 30,
+      "tutorMinutes": 60,
+      "period": "yearly",
+      "amount": 239.04,
+      "stripePriceId": "price_1TxFvnLD305HTgIxsa831rSx",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g30.m90.refill",
+      "generations": 30,
+      "tutorMinutes": 90,
+      "period": "refill",
+      "amount": 41.91,
+      "stripePriceId": "price_1TxFvnLD305HTgIxsQsvTSOu",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g30.m90.monthly",
+      "generations": 30,
+      "tutorMinutes": 90,
+      "period": "monthly",
+      "amount": 32.91,
+      "stripePriceId": "price_1TxFvnLD305HTgIx6U9sixiU",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g30.m90.yearly",
+      "generations": 30,
+      "tutorMinutes": 90,
+      "period": "yearly",
+      "amount": 304.92,
+      "stripePriceId": "price_1TxFvoLD305HTgIxudhyW7qo",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g30.m120.refill",
+      "generations": 30,
+      "tutorMinutes": 120,
+      "period": "refill",
+      "amount": 49.9,
+      "stripePriceId": "price_1TxFvoLD305HTgIxlsTeQKiB",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g30.m120.monthly",
+      "generations": 30,
+      "tutorMinutes": 120,
+      "period": "monthly",
+      "amount": 39.9,
+      "stripePriceId": "price_1TxFvpLD305HTgIxP4JnFnyB",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g30.m120.yearly",
+      "generations": 30,
+      "tutorMinutes": 120,
+      "period": "yearly",
+      "amount": 370.8,
+      "stripePriceId": "price_1TxFvpLD305HTgIxwXQDJ5QJ",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g30.m150.refill",
+      "generations": 30,
+      "tutorMinutes": 150,
+      "period": "refill",
+      "amount": 57.89,
+      "stripePriceId": "price_1TxFvpLD305HTgIxE9VEJfpW",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g30.m150.monthly",
+      "generations": 30,
+      "tutorMinutes": 150,
+      "period": "monthly",
+      "amount": 46.89,
+      "stripePriceId": "price_1TxFvqLD305HTgIx5APS4hgA",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g30.m150.yearly",
+      "generations": 30,
+      "tutorMinutes": 150,
+      "period": "yearly",
+      "amount": 436.68,
+      "stripePriceId": "price_1TxFvqLD305HTgIxDqMOiJwZ",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g30.m180.refill",
+      "generations": 30,
+      "tutorMinutes": 180,
+      "period": "refill",
+      "amount": 65.88,
+      "stripePriceId": "price_1TxFvqLD305HTgIxzIXb4kEH",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g30.m180.monthly",
+      "generations": 30,
+      "tutorMinutes": 180,
+      "period": "monthly",
+      "amount": 53.88,
+      "stripePriceId": "price_1TxFvrLD305HTgIxJ7rj1tpu",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g30.m180.yearly",
+      "generations": 30,
+      "tutorMinutes": 180,
+      "period": "yearly",
+      "amount": 502.56,
+      "stripePriceId": "price_1TxFvrLD305HTgIxxLMRcRbj",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g35.m0.refill",
+      "generations": 35,
+      "tutorMinutes": 0,
+      "period": "refill",
+      "amount": 20.93,
+      "stripePriceId": "price_1TxFvsLD305HTgIxRbeWv8Iv",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g35.m0.monthly",
+      "generations": 35,
+      "tutorMinutes": 0,
+      "period": "monthly",
+      "amount": 13.93,
+      "stripePriceId": "price_1TxFvsLD305HTgIxMyAEiuB6",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g35.m0.yearly",
+      "generations": 35,
+      "tutorMinutes": 0,
+      "period": "yearly",
+      "amount": 125.16,
+      "stripePriceId": "price_1TxFvsLD305HTgIx2MseirGj",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g35.m30.refill",
+      "generations": 35,
+      "tutorMinutes": 30,
+      "period": "refill",
+      "amount": 28.92,
+      "stripePriceId": "price_1TxFvtLD305HTgIxvBOZIH0f",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g35.m30.monthly",
+      "generations": 35,
+      "tutorMinutes": 30,
+      "period": "monthly",
+      "amount": 20.92,
+      "stripePriceId": "price_1TxFvtLD305HTgIxtyQibMWq",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g35.m30.yearly",
+      "generations": 35,
+      "tutorMinutes": 30,
+      "period": "yearly",
+      "amount": 191.04,
+      "stripePriceId": "price_1TxFvuLD305HTgIxmYxKcPOw",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g35.m60.refill",
+      "generations": 35,
+      "tutorMinutes": 60,
+      "period": "refill",
+      "amount": 36.91,
+      "stripePriceId": "price_1TxFvuLD305HTgIxTlAUyAxs",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g35.m60.monthly",
+      "generations": 35,
+      "tutorMinutes": 60,
+      "period": "monthly",
+      "amount": 27.91,
+      "stripePriceId": "price_1TxFvuLD305HTgIxsLsn0JWI",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g35.m60.yearly",
+      "generations": 35,
+      "tutorMinutes": 60,
+      "period": "yearly",
+      "amount": 256.92,
+      "stripePriceId": "price_1TxFvvLD305HTgIxv1POhB12",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g35.m90.refill",
+      "generations": 35,
+      "tutorMinutes": 90,
+      "period": "refill",
+      "amount": 44.9,
+      "stripePriceId": "price_1TxFvvLD305HTgIxawliV3S6",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g35.m90.monthly",
+      "generations": 35,
+      "tutorMinutes": 90,
+      "period": "monthly",
+      "amount": 34.9,
+      "stripePriceId": "price_1TxFvvLD305HTgIx45ZRkuz6",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g35.m90.yearly",
+      "generations": 35,
+      "tutorMinutes": 90,
+      "period": "yearly",
+      "amount": 322.8,
+      "stripePriceId": "price_1TxFvwLD305HTgIx6R0tpl4s",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g35.m120.refill",
+      "generations": 35,
+      "tutorMinutes": 120,
+      "period": "refill",
+      "amount": 52.89,
+      "stripePriceId": "price_1TxFvwLD305HTgIxaseh6B00",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g35.m120.monthly",
+      "generations": 35,
+      "tutorMinutes": 120,
+      "period": "monthly",
+      "amount": 41.89,
+      "stripePriceId": "price_1TxFvxLD305HTgIx6J5ieL3L",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g35.m120.yearly",
+      "generations": 35,
+      "tutorMinutes": 120,
+      "period": "yearly",
+      "amount": 388.68,
+      "stripePriceId": "price_1TxFvxLD305HTgIx4c1SDueI",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g35.m150.refill",
+      "generations": 35,
+      "tutorMinutes": 150,
+      "period": "refill",
+      "amount": 60.88,
+      "stripePriceId": "price_1TxFvxLD305HTgIx3jfuzLKh",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g35.m150.monthly",
+      "generations": 35,
+      "tutorMinutes": 150,
+      "period": "monthly",
+      "amount": 48.88,
+      "stripePriceId": "price_1TxFvyLD305HTgIxlCJRm3oN",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g35.m150.yearly",
+      "generations": 35,
+      "tutorMinutes": 150,
+      "period": "yearly",
+      "amount": 454.56,
+      "stripePriceId": "price_1TxFvyLD305HTgIxafObO3SH",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g35.m180.refill",
+      "generations": 35,
+      "tutorMinutes": 180,
+      "period": "refill",
+      "amount": 68.87,
+      "stripePriceId": "price_1TxFvyLD305HTgIx7p7dhKWQ",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g35.m180.monthly",
+      "generations": 35,
+      "tutorMinutes": 180,
+      "period": "monthly",
+      "amount": 55.87,
+      "stripePriceId": "price_1TxFvzLD305HTgIxeKhFmSx4",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g35.m180.yearly",
+      "generations": 35,
+      "tutorMinutes": 180,
+      "period": "yearly",
+      "amount": 520.44,
+      "stripePriceId": "price_1TxFvzLD305HTgIxra28dwA3",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g40.m0.refill",
+      "generations": 40,
+      "tutorMinutes": 0,
+      "period": "refill",
+      "amount": 23.92,
+      "stripePriceId": "price_1TxFw0LD305HTgIxL62tP8lU",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g40.m0.monthly",
+      "generations": 40,
+      "tutorMinutes": 0,
+      "period": "monthly",
+      "amount": 15.92,
+      "stripePriceId": "price_1TxFw0LD305HTgIxF2AZumoU",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g40.m0.yearly",
+      "generations": 40,
+      "tutorMinutes": 0,
+      "period": "yearly",
+      "amount": 143.04,
+      "stripePriceId": "price_1TxFw0LD305HTgIxd5xON3ox",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g40.m30.refill",
+      "generations": 40,
+      "tutorMinutes": 30,
+      "period": "refill",
+      "amount": 31.91,
+      "stripePriceId": "price_1TxFw1LD305HTgIxf1VkdNux",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g40.m30.monthly",
+      "generations": 40,
+      "tutorMinutes": 30,
+      "period": "monthly",
+      "amount": 22.91,
+      "stripePriceId": "price_1TxFw1LD305HTgIxrciNdkk1",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g40.m30.yearly",
+      "generations": 40,
+      "tutorMinutes": 30,
+      "period": "yearly",
+      "amount": 208.92,
+      "stripePriceId": "price_1TxFw1LD305HTgIxRl6gEbNs",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g40.m60.refill",
+      "generations": 40,
+      "tutorMinutes": 60,
+      "period": "refill",
+      "amount": 39.9,
+      "stripePriceId": "price_1TxFw2LD305HTgIxNO9sSind",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g40.m60.monthly",
+      "generations": 40,
+      "tutorMinutes": 60,
+      "period": "monthly",
+      "amount": 29.9,
+      "stripePriceId": "price_1TxFw2LD305HTgIxIRT7aUih",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g40.m60.yearly",
+      "generations": 40,
+      "tutorMinutes": 60,
+      "period": "yearly",
+      "amount": 274.8,
+      "stripePriceId": "price_1TxFw3LD305HTgIxeoIYvszM",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g40.m90.refill",
+      "generations": 40,
+      "tutorMinutes": 90,
+      "period": "refill",
+      "amount": 47.89,
+      "stripePriceId": "price_1TxFw3LD305HTgIxQny6X6o0",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g40.m90.monthly",
+      "generations": 40,
+      "tutorMinutes": 90,
+      "period": "monthly",
+      "amount": 36.89,
+      "stripePriceId": "price_1TxFw3LD305HTgIxbC9D2ZgR",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g40.m90.yearly",
+      "generations": 40,
+      "tutorMinutes": 90,
+      "period": "yearly",
+      "amount": 340.68,
+      "stripePriceId": "price_1TxFw4LD305HTgIxlReYcqhG",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g40.m120.refill",
+      "generations": 40,
+      "tutorMinutes": 120,
+      "period": "refill",
+      "amount": 55.88,
+      "stripePriceId": "price_1TxFw4LD305HTgIxLe8gRNhx",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g40.m120.monthly",
+      "generations": 40,
+      "tutorMinutes": 120,
+      "period": "monthly",
+      "amount": 43.88,
+      "stripePriceId": "price_1TxFw5LD305HTgIxNlgRQvvt",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g40.m120.yearly",
+      "generations": 40,
+      "tutorMinutes": 120,
+      "period": "yearly",
+      "amount": 406.56,
+      "stripePriceId": "price_1TxFw5LD305HTgIxlKY6BTrR",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g40.m150.refill",
+      "generations": 40,
+      "tutorMinutes": 150,
+      "period": "refill",
+      "amount": 63.87,
+      "stripePriceId": "price_1TxFw5LD305HTgIx4Dj5l4VD",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g40.m150.monthly",
+      "generations": 40,
+      "tutorMinutes": 150,
+      "period": "monthly",
+      "amount": 50.87,
+      "stripePriceId": "price_1TxFw6LD305HTgIx5OP7buTv",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g40.m150.yearly",
+      "generations": 40,
+      "tutorMinutes": 150,
+      "period": "yearly",
+      "amount": 472.44,
+      "stripePriceId": "price_1TxFw6LD305HTgIxnnzErQYD",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g40.m180.refill",
+      "generations": 40,
+      "tutorMinutes": 180,
+      "period": "refill",
+      "amount": 71.86,
+      "stripePriceId": "price_1TxFw6LD305HTgIxd3Y1ZlIl",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g40.m180.monthly",
+      "generations": 40,
+      "tutorMinutes": 180,
+      "period": "monthly",
+      "amount": 57.86,
+      "stripePriceId": "price_1TxFw7LD305HTgIxPrJ1yVXU",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g40.m180.yearly",
+      "generations": 40,
+      "tutorMinutes": 180,
+      "period": "yearly",
+      "amount": 538.32,
+      "stripePriceId": "price_1TxFw7LD305HTgIxUKoP9GVl",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g45.m0.refill",
+      "generations": 45,
+      "tutorMinutes": 0,
+      "period": "refill",
+      "amount": 26.91,
+      "stripePriceId": "price_1TxFw8LD305HTgIxvRshGelZ",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g45.m0.monthly",
+      "generations": 45,
+      "tutorMinutes": 0,
+      "period": "monthly",
+      "amount": 17.91,
+      "stripePriceId": "price_1TxFw8LD305HTgIxKI0XDm1p",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g45.m0.yearly",
+      "generations": 45,
+      "tutorMinutes": 0,
+      "period": "yearly",
+      "amount": 160.92,
+      "stripePriceId": "price_1TxFw8LD305HTgIxlqawVdjf",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g45.m30.refill",
+      "generations": 45,
+      "tutorMinutes": 30,
+      "period": "refill",
+      "amount": 34.9,
+      "stripePriceId": "price_1TxFw9LD305HTgIx4Qrp4PbW",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g45.m30.monthly",
+      "generations": 45,
+      "tutorMinutes": 30,
+      "period": "monthly",
+      "amount": 24.9,
+      "stripePriceId": "price_1TxFw9LD305HTgIxLbCrnEuK",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g45.m30.yearly",
+      "generations": 45,
+      "tutorMinutes": 30,
+      "period": "yearly",
+      "amount": 226.8,
+      "stripePriceId": "price_1TxFwALD305HTgIxtwYOe5XT",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g45.m60.refill",
+      "generations": 45,
+      "tutorMinutes": 60,
+      "period": "refill",
+      "amount": 42.89,
+      "stripePriceId": "price_1TxFwALD305HTgIxuvNvhg4Y",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g45.m60.monthly",
+      "generations": 45,
+      "tutorMinutes": 60,
+      "period": "monthly",
+      "amount": 31.89,
+      "stripePriceId": "price_1TxFwALD305HTgIxpP5IPuqp",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g45.m60.yearly",
+      "generations": 45,
+      "tutorMinutes": 60,
+      "period": "yearly",
+      "amount": 292.68,
+      "stripePriceId": "price_1TxFwBLD305HTgIxQSvnN1q8",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g45.m90.refill",
+      "generations": 45,
+      "tutorMinutes": 90,
+      "period": "refill",
+      "amount": 50.88,
+      "stripePriceId": "price_1TxFwBLD305HTgIxQOUZFDqu",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g45.m90.monthly",
+      "generations": 45,
+      "tutorMinutes": 90,
+      "period": "monthly",
+      "amount": 38.88,
+      "stripePriceId": "price_1TxFwCLD305HTgIx99sI7w7F",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g45.m90.yearly",
+      "generations": 45,
+      "tutorMinutes": 90,
+      "period": "yearly",
+      "amount": 358.56,
+      "stripePriceId": "price_1TxFwCLD305HTgIxEPlB8Qmt",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g45.m120.refill",
+      "generations": 45,
+      "tutorMinutes": 120,
+      "period": "refill",
+      "amount": 58.87,
+      "stripePriceId": "price_1TxFwCLD305HTgIxBvRtpsMV",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g45.m120.monthly",
+      "generations": 45,
+      "tutorMinutes": 120,
+      "period": "monthly",
+      "amount": 45.87,
+      "stripePriceId": "price_1TxFwDLD305HTgIxDxu0NGdP",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g45.m120.yearly",
+      "generations": 45,
+      "tutorMinutes": 120,
+      "period": "yearly",
+      "amount": 424.44,
+      "stripePriceId": "price_1TxFwDLD305HTgIxeSL6UArM",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g45.m150.refill",
+      "generations": 45,
+      "tutorMinutes": 150,
+      "period": "refill",
+      "amount": 66.86,
+      "stripePriceId": "price_1TxFwELD305HTgIxPtHYtFgt",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g45.m150.monthly",
+      "generations": 45,
+      "tutorMinutes": 150,
+      "period": "monthly",
+      "amount": 52.86,
+      "stripePriceId": "price_1TxFwELD305HTgIxqUKwyi9u",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g45.m150.yearly",
+      "generations": 45,
+      "tutorMinutes": 150,
+      "period": "yearly",
+      "amount": 490.32,
+      "stripePriceId": "price_1TxFwELD305HTgIxMGb80QMT",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g45.m180.refill",
+      "generations": 45,
+      "tutorMinutes": 180,
+      "period": "refill",
+      "amount": 74.85,
+      "stripePriceId": "price_1TxFwFLD305HTgIxNCp5HSeu",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g45.m180.monthly",
+      "generations": 45,
+      "tutorMinutes": 180,
+      "period": "monthly",
+      "amount": 59.85,
+      "stripePriceId": "price_1TxFwFLD305HTgIxtVjdzQDw",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g45.m180.yearly",
+      "generations": 45,
+      "tutorMinutes": 180,
+      "period": "yearly",
+      "amount": 556.2,
+      "stripePriceId": "price_1TxFwGLD305HTgIx1P8WelGY",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g50.m0.refill",
+      "generations": 50,
+      "tutorMinutes": 0,
+      "period": "refill",
+      "amount": 29.9,
+      "stripePriceId": "price_1TxFwGLD305HTgIx3Qx3wTqx",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g50.m0.monthly",
+      "generations": 50,
+      "tutorMinutes": 0,
+      "period": "monthly",
+      "amount": 19.9,
+      "stripePriceId": "price_1TxFwHLD305HTgIxRvyfDmXi",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g50.m0.yearly",
+      "generations": 50,
+      "tutorMinutes": 0,
+      "period": "yearly",
+      "amount": 178.8,
+      "stripePriceId": "price_1TxFwHLD305HTgIxoE0Bz6kk",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g50.m30.refill",
+      "generations": 50,
+      "tutorMinutes": 30,
+      "period": "refill",
+      "amount": 37.89,
+      "stripePriceId": "price_1TxFwILD305HTgIxhtyclfjK",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g50.m30.monthly",
+      "generations": 50,
+      "tutorMinutes": 30,
+      "period": "monthly",
+      "amount": 26.89,
+      "stripePriceId": "price_1TxFwILD305HTgIxhEn1b1fj",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g50.m30.yearly",
+      "generations": 50,
+      "tutorMinutes": 30,
+      "period": "yearly",
+      "amount": 244.68,
+      "stripePriceId": "price_1TxFwJLD305HTgIxBAKssmYx",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g50.m60.refill",
+      "generations": 50,
+      "tutorMinutes": 60,
+      "period": "refill",
+      "amount": 45.88,
+      "stripePriceId": "price_1TxFwJLD305HTgIxZCOXcDId",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g50.m60.monthly",
+      "generations": 50,
+      "tutorMinutes": 60,
+      "period": "monthly",
+      "amount": 33.88,
+      "stripePriceId": "price_1TxFwKLD305HTgIxQrZeqfZK",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g50.m60.yearly",
+      "generations": 50,
+      "tutorMinutes": 60,
+      "period": "yearly",
+      "amount": 310.56,
+      "stripePriceId": "price_1TxFwKLD305HTgIxgqVMDGUz",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g50.m90.refill",
+      "generations": 50,
+      "tutorMinutes": 90,
+      "period": "refill",
+      "amount": 53.87,
+      "stripePriceId": "price_1TxFwLLD305HTgIxGhciHZKl",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g50.m90.monthly",
+      "generations": 50,
+      "tutorMinutes": 90,
+      "period": "monthly",
+      "amount": 40.87,
+      "stripePriceId": "price_1TxFwLLD305HTgIxD18nrZTg",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g50.m90.yearly",
+      "generations": 50,
+      "tutorMinutes": 90,
+      "period": "yearly",
+      "amount": 376.44,
+      "stripePriceId": "price_1TxFwLLD305HTgIxXUkGbuI1",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g50.m120.refill",
+      "generations": 50,
+      "tutorMinutes": 120,
+      "period": "refill",
+      "amount": 61.86,
+      "stripePriceId": "price_1TxFwMLD305HTgIxlBq4lOcz",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g50.m120.monthly",
+      "generations": 50,
+      "tutorMinutes": 120,
+      "period": "monthly",
+      "amount": 47.86,
+      "stripePriceId": "price_1TxFwMLD305HTgIx58eNrpTY",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g50.m120.yearly",
+      "generations": 50,
+      "tutorMinutes": 120,
+      "period": "yearly",
+      "amount": 442.32,
+      "stripePriceId": "price_1TxFwMLD305HTgIxhtZDI71F",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g50.m150.refill",
+      "generations": 50,
+      "tutorMinutes": 150,
+      "period": "refill",
+      "amount": 69.85,
+      "stripePriceId": "price_1TxFwNLD305HTgIx7rBIrXDL",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g50.m150.monthly",
+      "generations": 50,
+      "tutorMinutes": 150,
+      "period": "monthly",
+      "amount": 54.85,
+      "stripePriceId": "price_1TxFwOLD305HTgIxgPUYBoD9",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g50.m150.yearly",
+      "generations": 50,
+      "tutorMinutes": 150,
+      "period": "yearly",
+      "amount": 508.2,
+      "stripePriceId": "price_1TxFwOLD305HTgIx5AI5T7Wf",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g50.m180.refill",
+      "generations": 50,
+      "tutorMinutes": 180,
+      "period": "refill",
+      "amount": 77.84,
+      "stripePriceId": "price_1TxFwOLD305HTgIxRHSYPP9j",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g50.m180.monthly",
+      "generations": 50,
+      "tutorMinutes": 180,
+      "period": "monthly",
+      "amount": 61.84,
+      "stripePriceId": "price_1TxFwPLD305HTgIxXow7eW6w",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g50.m180.yearly",
+      "generations": 50,
+      "tutorMinutes": 180,
+      "period": "yearly",
+      "amount": 574.08,
+      "stripePriceId": "price_1TxFwPLD305HTgIxLq1DC7O6",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g55.m0.refill",
+      "generations": 55,
+      "tutorMinutes": 0,
+      "period": "refill",
+      "amount": 32.89,
+      "stripePriceId": "price_1TxFwQLD305HTgIxkyFqndvf",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g55.m0.monthly",
+      "generations": 55,
+      "tutorMinutes": 0,
+      "period": "monthly",
+      "amount": 21.89,
+      "stripePriceId": "price_1TxFwQLD305HTgIxN5rEBnie",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g55.m0.yearly",
+      "generations": 55,
+      "tutorMinutes": 0,
+      "period": "yearly",
+      "amount": 196.68,
+      "stripePriceId": "price_1TxFwRLD305HTgIx75tGzu4K",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g55.m30.refill",
+      "generations": 55,
+      "tutorMinutes": 30,
+      "period": "refill",
+      "amount": 40.88,
+      "stripePriceId": "price_1TxFwRLD305HTgIxsFYdaixR",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g55.m30.monthly",
+      "generations": 55,
+      "tutorMinutes": 30,
+      "period": "monthly",
+      "amount": 28.88,
+      "stripePriceId": "price_1TxFwRLD305HTgIxmkuZrWLb",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g55.m30.yearly",
+      "generations": 55,
+      "tutorMinutes": 30,
+      "period": "yearly",
+      "amount": 262.56,
+      "stripePriceId": "price_1TxFwSLD305HTgIx4xwvjR0R",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g55.m60.refill",
+      "generations": 55,
+      "tutorMinutes": 60,
+      "period": "refill",
+      "amount": 48.87,
+      "stripePriceId": "price_1TxFwSLD305HTgIxhlldbPD6",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g55.m60.monthly",
+      "generations": 55,
+      "tutorMinutes": 60,
+      "period": "monthly",
+      "amount": 35.87,
+      "stripePriceId": "price_1TxFwSLD305HTgIx6wOHVgCw",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g55.m60.yearly",
+      "generations": 55,
+      "tutorMinutes": 60,
+      "period": "yearly",
+      "amount": 328.44,
+      "stripePriceId": "price_1TxFwTLD305HTgIxlNaNC8OM",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g55.m90.refill",
+      "generations": 55,
+      "tutorMinutes": 90,
+      "period": "refill",
+      "amount": 56.86,
+      "stripePriceId": "price_1TxFwTLD305HTgIxMNso3hjS",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g55.m90.monthly",
+      "generations": 55,
+      "tutorMinutes": 90,
+      "period": "monthly",
+      "amount": 42.86,
+      "stripePriceId": "price_1TxFwULD305HTgIxJRqkQFoh",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g55.m90.yearly",
+      "generations": 55,
+      "tutorMinutes": 90,
+      "period": "yearly",
+      "amount": 394.32,
+      "stripePriceId": "price_1TxFwULD305HTgIx4tRhBX0E",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g55.m120.refill",
+      "generations": 55,
+      "tutorMinutes": 120,
+      "period": "refill",
+      "amount": 64.85,
+      "stripePriceId": "price_1TxFwVLD305HTgIxOLbUf4op",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g55.m120.monthly",
+      "generations": 55,
+      "tutorMinutes": 120,
+      "period": "monthly",
+      "amount": 49.85,
+      "stripePriceId": "price_1TxFwVLD305HTgIx7nsKWXsQ",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g55.m120.yearly",
+      "generations": 55,
+      "tutorMinutes": 120,
+      "period": "yearly",
+      "amount": 460.2,
+      "stripePriceId": "price_1TxFwVLD305HTgIxxog9anZ7",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g55.m150.refill",
+      "generations": 55,
+      "tutorMinutes": 150,
+      "period": "refill",
+      "amount": 72.84,
+      "stripePriceId": "price_1TxFwWLD305HTgIxB9PlDWTr",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g55.m150.monthly",
+      "generations": 55,
+      "tutorMinutes": 150,
+      "period": "monthly",
+      "amount": 56.84,
+      "stripePriceId": "price_1TxFwWLD305HTgIx5hzkPXr6",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g55.m150.yearly",
+      "generations": 55,
+      "tutorMinutes": 150,
+      "period": "yearly",
+      "amount": 526.08,
+      "stripePriceId": "price_1TxFwXLD305HTgIxE9FV0MHD",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g55.m180.refill",
+      "generations": 55,
+      "tutorMinutes": 180,
+      "period": "refill",
+      "amount": 80.83,
+      "stripePriceId": "price_1TxFwXLD305HTgIx0ek3f6mz",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g55.m180.monthly",
+      "generations": 55,
+      "tutorMinutes": 180,
+      "period": "monthly",
+      "amount": 63.83,
+      "stripePriceId": "price_1TxFwXLD305HTgIxjdYdbH80",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g55.m180.yearly",
+      "generations": 55,
+      "tutorMinutes": 180,
+      "period": "yearly",
+      "amount": 591.96,
+      "stripePriceId": "price_1TxFwYLD305HTgIx46miIfdh",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g60.m0.refill",
+      "generations": 60,
+      "tutorMinutes": 0,
+      "period": "refill",
+      "amount": 35.88,
+      "stripePriceId": "price_1TxFwYLD305HTgIx80nApIZn",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g60.m0.monthly",
+      "generations": 60,
+      "tutorMinutes": 0,
+      "period": "monthly",
+      "amount": 23.88,
+      "stripePriceId": "price_1TxFwYLD305HTgIxRdYXwQW6",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g60.m0.yearly",
+      "generations": 60,
+      "tutorMinutes": 0,
+      "period": "yearly",
+      "amount": 214.56,
+      "stripePriceId": "price_1TxFwZLD305HTgIxii66TNh0",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g60.m30.refill",
+      "generations": 60,
+      "tutorMinutes": 30,
+      "period": "refill",
+      "amount": 43.87,
+      "stripePriceId": "price_1TxFwZLD305HTgIx1ZDOwZWM",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g60.m30.monthly",
+      "generations": 60,
+      "tutorMinutes": 30,
+      "period": "monthly",
+      "amount": 30.87,
+      "stripePriceId": "price_1TxFwaLD305HTgIxKaYR9EMr",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g60.m30.yearly",
+      "generations": 60,
+      "tutorMinutes": 30,
+      "period": "yearly",
+      "amount": 280.44,
+      "stripePriceId": "price_1TxFwaLD305HTgIxpkS49nVq",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g60.m60.refill",
+      "generations": 60,
+      "tutorMinutes": 60,
+      "period": "refill",
+      "amount": 51.86,
+      "stripePriceId": "price_1TxFwaLD305HTgIxMn66QvW3",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g60.m60.monthly",
+      "generations": 60,
+      "tutorMinutes": 60,
+      "period": "monthly",
+      "amount": 37.86,
+      "stripePriceId": "price_1TxFwbLD305HTgIxXuzJwhsd",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g60.m60.yearly",
+      "generations": 60,
+      "tutorMinutes": 60,
+      "period": "yearly",
+      "amount": 346.32,
+      "stripePriceId": "price_1TxFwbLD305HTgIxOw67X6bN",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g60.m90.refill",
+      "generations": 60,
+      "tutorMinutes": 90,
+      "period": "refill",
+      "amount": 59.85,
+      "stripePriceId": "price_1TxFwcLD305HTgIxTBwXXxKm",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g60.m90.monthly",
+      "generations": 60,
+      "tutorMinutes": 90,
+      "period": "monthly",
+      "amount": 44.85,
+      "stripePriceId": "price_1TxFwcLD305HTgIx6s3IQvV5",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g60.m90.yearly",
+      "generations": 60,
+      "tutorMinutes": 90,
+      "period": "yearly",
+      "amount": 412.2,
+      "stripePriceId": "price_1TxFwcLD305HTgIxo6VAVzm5",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g60.m120.refill",
+      "generations": 60,
+      "tutorMinutes": 120,
+      "period": "refill",
+      "amount": 67.84,
+      "stripePriceId": "price_1TxFwdLD305HTgIx6QdZ1XVC",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g60.m120.monthly",
+      "generations": 60,
+      "tutorMinutes": 120,
+      "period": "monthly",
+      "amount": 51.84,
+      "stripePriceId": "price_1TxFwdLD305HTgIxwTqOZJwI",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g60.m120.yearly",
+      "generations": 60,
+      "tutorMinutes": 120,
+      "period": "yearly",
+      "amount": 478.08,
+      "stripePriceId": "price_1TxFweLD305HTgIxzlS4WQFg",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g60.m150.refill",
+      "generations": 60,
+      "tutorMinutes": 150,
+      "period": "refill",
+      "amount": 75.83,
+      "stripePriceId": "price_1TxFweLD305HTgIxY7eLVZC6",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g60.m150.monthly",
+      "generations": 60,
+      "tutorMinutes": 150,
+      "period": "monthly",
+      "amount": 58.83,
+      "stripePriceId": "price_1TxFweLD305HTgIxU4A9pskw",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g60.m150.yearly",
+      "generations": 60,
+      "tutorMinutes": 150,
+      "period": "yearly",
+      "amount": 543.96,
+      "stripePriceId": "price_1TxFwfLD305HTgIxViTdwSZT",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g60.m180.refill",
+      "generations": 60,
+      "tutorMinutes": 180,
+      "period": "refill",
+      "amount": 83.82,
+      "stripePriceId": "price_1TxFwfLD305HTgIxVeqT0NXy",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g60.m180.monthly",
+      "generations": 60,
+      "tutorMinutes": 180,
+      "period": "monthly",
+      "amount": 65.82,
+      "stripePriceId": "price_1TxFwfLD305HTgIxUlHPj73D",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    },
+    {
+      "lookupKey": "com.scholarsnotes.plan.g60.m180.yearly",
+      "generations": 60,
+      "tutorMinutes": 180,
+      "period": "yearly",
+      "amount": 609.84,
+      "stripePriceId": "price_1TxFwgLD305HTgIxDTRj7NcR",
+      "stripeProductId": "prod_UxAFnIU5pBGlol"
+    }
+  ]
+}

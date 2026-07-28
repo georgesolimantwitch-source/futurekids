@@ -5,7 +5,7 @@ import { StoryReveal } from "./StoryReveal";
 
 export function MissionSection() {
   return (
-    <section className="relative overflow-hidden bg-white py-24 sm:py-32">
+    <section className="relative overflow-hidden bg-white py-20 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <StoryReveal variant="fade-up">
@@ -31,7 +31,7 @@ export function MissionSection() {
         <div className="mt-16 grid gap-6 sm:grid-cols-3 sm:gap-8">
           {missionSection.commitments.map((item, i) => (
             <StoryReveal key={item.title} variant="scale" delay={i * 80}>
-              <article className="rounded-3xl border border-neutral-100 bg-[#fafafa] p-6 sm:p-8">
+              <article className="rounded-3xl border border-neutral-100 bg-[#fefbf6] p-6 sm:p-8">
                 <h3 className="text-xl font-semibold text-neutral-900">{item.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-neutral-600 sm:text-base">
                   {item.description}

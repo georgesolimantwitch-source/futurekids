@@ -19,7 +19,15 @@ export async function postCheckout(body: Record<string, unknown>) {
     body: JSON.stringify(body),
   });
 
-  const data = (await res.json()) as { url?: string; error?: string; code?: string };
+  const raw = await res.text();
+  let data: { url?: string; error?: string; code?: string } = {};
+  try {
+    data = raw ? (JSON.parse(raw) as typeof data) : {};
+  } catch {
+    throw new Error(
+      res.ok ? "Could not start checkout" : `Could not start checkout (${res.status})`,
+    );
+  }
 
   if (res.status === 401 || data.code === "AUTH_REQUIRED") {
     redirectToLoginForCheckout(body);

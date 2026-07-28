@@ -1,7 +1,16 @@
-import { type NextRequest } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
 
 export async function middleware(request: NextRequest) {
+  const hostname = request.nextUrl.hostname.toLowerCase();
+
+  if (hostname === "www.genlyn.app" || hostname === "kidsfuture.vercel.app") {
+    const canonicalUrl = request.nextUrl.clone();
+    canonicalUrl.protocol = "https:";
+    canonicalUrl.host = "genlyn.app";
+    return NextResponse.redirect(canonicalUrl, 308);
+  }
+
   return updateSession(request);
 }
 

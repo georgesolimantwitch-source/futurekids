@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { applyVerifiedSubscriptionEvent } from "@/lib/subscriptions/store";
 import {
   getStripe,
+  isMissingStripeCustomerError,
   stripeSubscriptionToVerified,
 } from "@/lib/subscriptions/stripe";
 
@@ -28,10 +29,20 @@ export async function POST() {
     }
 
     const stripe = getStripe();
-    const customer = await stripe.customers.retrieve(profile.stripe_customer_id);
+    let customer: Awaited<ReturnType<typeof stripe.customers.retrieve>>;
+    try {
+      customer = await stripe.customers.retrieve(profile.stripe_customer_id);
+    } catch (error) {
+      if (isMissingStripeCustomerError(error)) {
+        // Test-mode customer left after switching to live keys — nothing to reconcile yet.
+        return NextResponse.json({ reconciled: 0, repaired: true });
+      }
+      throw error;
+    }
     if (
       customer.deleted ||
-      (customer.metadata.future_kids_user_id &&
+      ("metadata" in customer &&
+        customer.metadata.future_kids_user_id &&
         customer.metadata.future_kids_user_id !== user.id)
     ) {
       return NextResponse.json({ error: "Billing identity mismatch" }, { status: 409 });

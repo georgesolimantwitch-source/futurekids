@@ -4,7 +4,7 @@ import { SavingsTierCard } from "./SavingsTierCard";
 
 export function MultiAppSavingsSection() {
   return (
-    <section className="bg-[#fafafa] py-16 sm:py-24">
+    <section className="bg-[#fefbf6] py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           title={multiAppSavingsSection.headline}

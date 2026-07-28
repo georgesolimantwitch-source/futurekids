@@ -55,7 +55,7 @@ export function EcosystemPlanBuilder({ billingPeriod }: EcosystemPlanBuilderProp
                   className={`flex min-h-[72px] items-center gap-3 rounded-2xl border p-4 text-left transition-all duration-200 ${
                     isSelected
                       ? "shadow-md"
-                      : "border-neutral-100 bg-[#fafafa] hover:border-neutral-200 hover:bg-white"
+                      : "border-neutral-100 bg-[#fefbf6] hover:border-neutral-200 hover:bg-white"
                   }`}
                   style={
                     isSelected

@@ -159,6 +159,14 @@ BEGIN
     '''entitlements'''
     IN pg_get_functiondef('public.get_ecosystem_account()'::regprocedure)
   ) > 0, 'account RPC must include authoritative entitlements';
+  ASSERT position(
+    'fresher'
+    IN pg_get_functiondef('public.get_effective_app_access()'::regprocedure)
+  ) > 0, 'effective access must include Freshys';
+  ASSERT position(
+    'fresher'
+    IN pg_get_functiondef('public.get_ecosystem_account()'::regprocedure)
+  ) > 0, 'account effective_access must include Freshys';
 
   ASSERT NOT has_column_privilege(
     'authenticated',

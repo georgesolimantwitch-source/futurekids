@@ -1,6 +1,6 @@
 import { safeNextPath } from "@/lib/auth/safe-next";
 
-const PRODUCTION_SITE_URL = "https://kidsfuture.vercel.app";
+const PRODUCTION_SITE_URL = "https://genlyn.app";
 
 /** Client-side OAuth / password-reset callback URL. Uses the current browser origin. */
 export function buildOAuthCallbackUrl(next = "/account"): string {

@@ -4,7 +4,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 
 export function EcosystemSection() {
   return (
-    <section id="ecosystem" className="scroll-mt-24 bg-[#fafafa] py-16 sm:py-24">
+    <section id="ecosystem" className="scroll-mt-24 bg-[#fefbf6] py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="The Ecosystem"

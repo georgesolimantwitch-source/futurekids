@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { type ReactNode } from "react";
+import { accentForegroundColor } from "@/config/brand";
 
 type ButtonVariant = "primary" | "secondary" | "ghost" | "app-store" | "inverted";
 type ButtonSize = "sm" | "md" | "lg";
@@ -63,7 +64,10 @@ export function Button({
 
   const style =
     variant === "primary" && accentColor
-      ? { backgroundColor: accentColor }
+      ? {
+          backgroundColor: accentColor,
+          color: accentForegroundColor(accentColor),
+        }
       : undefined;
 
   if ("href" in props && props.href) {

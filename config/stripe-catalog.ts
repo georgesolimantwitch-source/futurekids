@@ -1,20 +1,27 @@
 /**
- * Stripe catalog — Earnly uses one product + per-child quantity pricing.
- * Scholars keeps separate tier products.
+ * Stripe catalog — Earnly / TinyPal / Ballr / Scholars use fixed child-count tiers.
+ * All Access encodes Earnly + Scholars + Ballr + TinyPal seat counts.
  */
 
-import { ecosystemBundle, ecosystemMonthlyByChild, ecosystemYearlyByChild } from "./ecosystem-bundle";
+import { ecosystemBundle, bundlePrice, bundleCatalogId } from "./ecosystem-bundle";
 import { earnlyLivePricing, earnlyTotalPrice } from "./earnly-pricing";
+import { ballrTotalPrice } from "./ballr-pricing";
 import {
-  scholarsAllAccessMonthly,
-  scholarsAllAccessYearly,
+  scholarsFullTotalPrice,
   scholarsStudyGuideMonthly,
   scholarsStudyGuideYearly,
   scholarsTutorMonthly,
   scholarsTutorYearly,
 } from "./scholars-pricing";
+import { tinypalTotalPrice } from "./tinypal-pricing";
 
-export type StripeCatalogApp = "earnly" | "scholars" | "ballr" | "tinypal" | "ecosystem";
+export type StripeCatalogApp =
+  | "earnly"
+  | "scholars"
+  | "ballr"
+  | "tinypal"
+  | "fresher"
+  | "ecosystem";
 
 export interface StripeCatalogPlan {
   app: StripeCatalogApp;
@@ -63,26 +70,45 @@ export const earnlyStripePlans: StripeCatalogPlan[] = Array.from(
   },
 ]);
 
+/** Scholars Full — fixed child-count tiers; Tutor/Study Guide bill per child */
 export const scholarsStripePlans: StripeCatalogPlan[] = [
-  {
-    app: "scholars",
-    catalogId: "com.scholarsnotes.full.monthly",
-    name: "Scholars All Access",
-    description:
-      "AI Tutor, AI Study Podcast, AI Study Guides, Handwriting Practice, and all premium tools.",
-    unitAmount: scholarsAllAccessMonthly,
-    interval: "month",
-    metadata: { tier: "full", billing_period: "monthly" },
-  },
-  {
-    app: "scholars",
-    catalogId: "com.scholarsnotes.full.yearly",
-    name: "Scholars All Access",
-    description: "Annual All Access — pay for 10 months, get 12.",
-    unitAmount: scholarsAllAccessYearly,
-    interval: "year",
-    metadata: { tier: "full", billing_period: "yearly" },
-  },
+  ...Array.from({ length: 6 }, (_, index) => index + 1).flatMap((childCount) => [
+    {
+      app: "scholars" as const,
+      catalogId:
+        childCount === 1
+          ? "com.scholarsnotes.full.monthly"
+          : `scholars.full.kids${childCount}.monthly`,
+      name: `Scholars Full — ${childCount} ${childCount === 1 ? "Child" : "Children"} Monthly`,
+      description:
+        "AI Tutor, AI Study Podcast, AI Study Guides, Handwriting Practice, and all premium tools.",
+      unitAmount: scholarsFullTotalPrice(childCount, "monthly"),
+      interval: "month" as const,
+      metadata: {
+        tier: "full",
+        billing_period: "monthly",
+        pricing_model: "fixed_child_count",
+        child_count: String(childCount),
+      },
+    },
+    {
+      app: "scholars" as const,
+      catalogId:
+        childCount === 1
+          ? "com.scholarsnotes.full.yearly"
+          : `scholars.full.kids${childCount}.yearly`,
+      name: `Scholars Full — ${childCount} ${childCount === 1 ? "Child" : "Children"} Yearly`,
+      description: "Annual Full plan — pay for 10 months, get 12.",
+      unitAmount: scholarsFullTotalPrice(childCount, "yearly"),
+      interval: "year" as const,
+      metadata: {
+        tier: "full",
+        billing_period: "yearly",
+        pricing_model: "fixed_child_count",
+        child_count: String(childCount),
+      },
+    },
+  ]),
   {
     app: "scholars",
     catalogId: "com.scholarsnotes.tutor.monthly",
@@ -90,7 +116,8 @@ export const scholarsStripePlans: StripeCatalogPlan[] = [
     description: "AI voice tutor, personalized help, and study conversations.",
     unitAmount: scholarsTutorMonthly,
     interval: "month",
-    metadata: { tier: "tutor", billing_period: "monthly" },
+    perChildQuantity: true,
+    metadata: { tier: "tutor", billing_period: "monthly", pricing_model: "per_child" },
   },
   {
     app: "scholars",
@@ -99,7 +126,8 @@ export const scholarsStripePlans: StripeCatalogPlan[] = [
     description: "Annual Scholar Tutor — pay for 10 months, get 12.",
     unitAmount: scholarsTutorYearly,
     interval: "year",
-    metadata: { tier: "tutor", billing_period: "yearly" },
+    perChildQuantity: true,
+    metadata: { tier: "tutor", billing_period: "yearly", pricing_model: "per_child" },
   },
   {
     app: "scholars",
@@ -108,7 +136,8 @@ export const scholarsStripePlans: StripeCatalogPlan[] = [
     description: "Upload notes, AI study guides, and smart summaries.",
     unitAmount: scholarsStudyGuideMonthly,
     interval: "month",
-    metadata: { tier: "study_guide", billing_period: "monthly" },
+    perChildQuantity: true,
+    metadata: { tier: "study_guide", billing_period: "monthly", pricing_model: "per_child" },
   },
   {
     app: "scholars",
@@ -117,77 +146,139 @@ export const scholarsStripePlans: StripeCatalogPlan[] = [
     description: "Annual Study Guide — pay for 10 months, get 12.",
     unitAmount: scholarsStudyGuideYearly,
     interval: "year",
-    metadata: { tier: "study_guide", billing_period: "yearly" },
+    perChildQuantity: true,
+    metadata: { tier: "study_guide", billing_period: "yearly", pricing_model: "per_child" },
   },
 ];
 
-/** Ballr Live — flat monthly / yearly */
-export const ballrStripePlans: StripeCatalogPlan[] = [
+/** Ballr Live — fixed child-count tiers ($4.99 first + $1.99 each additional) */
+export const ballrStripePlans: StripeCatalogPlan[] = Array.from(
+  { length: 6 },
+  (_, index) => index + 1,
+).flatMap((childCount) => [
   {
-    app: "ballr",
-    catalogId: "ballr.live.monthly",
-    name: "Ballr Live",
+    app: "ballr" as const,
+    catalogId:
+      childCount === 1 ? "ballr.live.monthly" : `ballr.kids${childCount}.monthly`,
+    name: `Ballr Live — ${childCount} ${childCount === 1 ? "Child" : "Children"} Monthly`,
     description:
       "Find pickup games, train, compete, and grow your sports community.",
-    unitAmount: 4.99,
-    interval: "month",
-    metadata: { billing_period: "monthly" },
+    unitAmount: ballrTotalPrice(childCount, "monthly"),
+    interval: "month" as const,
+    metadata: {
+      billing_period: "monthly",
+      pricing_model: "fixed_child_count",
+      child_count: String(childCount),
+    },
   },
   {
-    app: "ballr",
-    catalogId: "ballr.live.yearly",
-    name: "Ballr Live",
-    description: "Annual Ballr Live plan.",
-    unitAmount: 49.99,
-    interval: "year",
-    metadata: { billing_period: "yearly" },
+    app: "ballr" as const,
+    catalogId:
+      childCount === 1 ? "ballr.live.yearly" : `ballr.kids${childCount}.yearly`,
+    name: `Ballr Live — ${childCount} ${childCount === 1 ? "Child" : "Children"} Yearly`,
+    description: "Annual Ballr Live plan — pay for 10 months, get 12.",
+    // Keep kids1 yearly at legacy $49.99 to match existing live Stripe price
+    unitAmount: childCount === 1 ? 49.99 : ballrTotalPrice(childCount, "yearly"),
+    interval: "year" as const,
+    metadata: {
+      billing_period: "yearly",
+      pricing_model: "fixed_child_count",
+      child_count: String(childCount),
+    },
   },
-];
+]);
 
-/** TinyPal — flat monthly / yearly */
-export const tinypalStripePlans: StripeCatalogPlan[] = [
+/** TinyPal — fixed child-count tiers ($4.99 first + $1.99 each additional) */
+export const tinypalStripePlans: StripeCatalogPlan[] = Array.from(
+  { length: 6 },
+  (_, index) => index + 1,
+).flatMap((childCount) => [
   {
-    app: "tinypal",
-    catalogId: "tinypal.monthly",
-    name: "TinyPal",
+    app: "tinypal" as const,
+    catalogId: `tinypal.kids${childCount}.monthly`,
+    name: `TinyPal — ${childCount} ${childCount === 1 ? "Child" : "Children"} Monthly`,
     description:
       "Safe communication designed for kids and managed by parents.",
-    unitAmount: 4.99,
+    unitAmount: tinypalTotalPrice(childCount, "monthly"),
+    interval: "month" as const,
+    metadata: {
+      billing_period: "monthly",
+      pricing_model: "fixed_child_count",
+      child_count: String(childCount),
+    },
+  },
+  {
+    app: "tinypal" as const,
+    catalogId: `tinypal.kids${childCount}.yearly`,
+    name: `TinyPal — ${childCount} ${childCount === 1 ? "Child" : "Children"} Yearly`,
+    description: "Annual TinyPal plan — pay for 10 months, get 12.",
+    unitAmount: tinypalTotalPrice(childCount, "yearly"),
+    interval: "year" as const,
+    metadata: {
+      billing_period: "yearly",
+      pricing_model: "fixed_child_count",
+      child_count: String(childCount),
+    },
+  },
+]);
+
+/** Freshys — flat monthly / yearly (family health / local food) */
+export const fresherStripePlans: StripeCatalogPlan[] = [
+  {
+    app: "fresher",
+    catalogId: "fresher.monthly",
+    name: "Freshys",
+    description: "Find real food near your family on an interactive map.",
+    unitAmount: 1.5,
     interval: "month",
     metadata: { billing_period: "monthly" },
   },
   {
-    app: "tinypal",
-    catalogId: "tinypal.yearly",
-    name: "TinyPal",
-    description: "Annual TinyPal plan.",
-    unitAmount: 49.99,
+    app: "fresher",
+    catalogId: "fresher.yearly",
+    name: "Freshys",
+    description: "Annual Freshys plan — best value.",
+    unitAmount: 9.99,
     interval: "year",
-    metadata: { billing_period: "yearly" },
+    metadata: { billing_period: "yearly", recommended: "true" },
   },
 ];
 
 function buildEcosystemStripePlans(): StripeCatalogPlan[] {
   const plans: StripeCatalogPlan[] = [];
-  for (let n = 1; n <= 6; n += 1) {
-    plans.push({
-      app: "ecosystem",
-      catalogId: `ecosystem.all.kids${n}.monthly`,
-      name: "Future Kids All Access",
-      description: ecosystemBundle.description,
-      unitAmount: ecosystemMonthlyByChild[n],
-      interval: "month",
-      metadata: { child_count: String(n), billing_period: "monthly", bundle: "all_access" },
-    });
-    plans.push({
-      app: "ecosystem",
-      catalogId: `ecosystem.all.kids${n}.yearly`,
-      name: "Future Kids All Access",
-      description: ecosystemBundle.description,
-      unitAmount: ecosystemYearlyByChild[n],
-      interval: "year",
-      metadata: { child_count: String(n), billing_period: "yearly", bundle: "all_access" },
-    });
+  for (let earnly = 1; earnly <= 6; earnly += 1) {
+    for (let scholars = 1; scholars <= 6; scholars += 1) {
+      for (let ballr = 1; ballr <= 6; ballr += 1) {
+        for (let tinypal = 1; tinypal <= 6; tinypal += 1) {
+          for (const period of ["monthly", "yearly"] as const) {
+            const catalogId = bundleCatalogId(
+              earnly,
+              period,
+              tinypal,
+              scholars,
+              ballr,
+            );
+            plans.push({
+              app: "ecosystem",
+              catalogId,
+              name: "Genlyn All Access",
+              description: ecosystemBundle.description,
+              unitAmount: bundlePrice(earnly, period, tinypal, scholars, ballr),
+              interval: period === "monthly" ? "month" : "year",
+              metadata: {
+                child_count: String(earnly),
+                earnly_child_count: String(earnly),
+                scholars_child_count: String(scholars),
+                ballr_child_count: String(ballr),
+                tinypal_child_count: String(tinypal),
+                billing_period: period,
+                bundle: "all_access",
+              },
+            });
+          }
+        }
+      }
+    }
   }
   return plans;
 }
@@ -199,6 +290,7 @@ export const stripeCatalogPlans: StripeCatalogPlan[] = [
   ...scholarsStripePlans,
   ...ballrStripePlans,
   ...tinypalStripePlans,
+  ...fresherStripePlans,
   ...ecosystemStripePlans,
 ];
 

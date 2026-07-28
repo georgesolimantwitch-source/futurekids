@@ -18,6 +18,9 @@ async function main() {
   const productsByLiveGroup = new Map<string, Stripe.Product>();
 
   for (const plan of productCatalog) {
+    if (!plan.stripeProductId || plan.stripeProductId.startsWith("pending:")) {
+      continue;
+    }
     let product = productsByLiveGroup.get(plan.stripeProductId);
     if (!product) {
       product =

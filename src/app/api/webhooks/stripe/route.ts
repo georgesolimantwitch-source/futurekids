@@ -6,6 +6,11 @@ import {
   getStripe,
   stripeSubscriptionToVerified,
 } from "@/lib/subscriptions/stripe";
+import {
+  handleScholarsCreditCheckoutCompleted,
+  handleScholarsCreditInvoicePaid,
+  handleScholarsCreditSubscriptionDeleted,
+} from "@/lib/scholars/credit-webhooks";
 
 export const runtime = "nodejs";
 
@@ -101,9 +106,70 @@ export async function POST(request: Request) {
 
   try {
     const stripe = getStripe();
+
+    if (event.type === "checkout.session.completed") {
+      const session = event.data.object as Stripe.Checkout.Session;
+      const creditHandled = await handleScholarsCreditCheckoutCompleted(
+        session,
+        event.id,
+      );
+      // Credit-only sessions (no All Access / app plan_key) finish here.
+      if (
+        creditHandled &&
+        session.metadata?.credit_checkout === "true" &&
+        !session.metadata?.plan_key
+      ) {
+        return NextResponse.json({ received: true, scholarsCredits: true });
+      }
+    }
+
+    if (event.type === "invoice.paid") {
+      const invoice = event.data.object as Stripe.Invoice;
+      const creditHandled = await handleScholarsCreditInvoicePaid(
+        invoice,
+        event.id,
+      );
+      if (creditHandled) {
+        const subscriptionId = invoiceSubscriptionId(invoice);
+        const sub = subscriptionId
+          ? await stripe.subscriptions.retrieve(subscriptionId)
+          : null;
+        if (
+          sub?.metadata?.credit_checkout === "true" &&
+          !sub.metadata?.plan_key
+        ) {
+          return NextResponse.json({ received: true, scholarsCredits: true });
+        }
+      }
+    }
+
+    if (event.type === "customer.subscription.deleted") {
+      const subscription = event.data.object as Stripe.Subscription;
+      const handled = await handleScholarsCreditSubscriptionDeleted(subscription);
+      if (
+        handled &&
+        subscription.metadata.credit_checkout === "true" &&
+        !subscription.metadata.plan_key
+      ) {
+        return NextResponse.json({ received: true, scholarsCredits: true });
+      }
+    }
+
     const subscription = await subscriptionFromEvent(stripe, event);
     if (!subscription) {
+      // One-time payment without subscription already handled above, or unrelated
+      if (event.type === "checkout.session.completed") {
+        return NextResponse.json({ received: true, ignored: true });
+      }
       throw new Error("Event did not resolve to a Stripe subscription");
+    }
+
+    // Credit-only subscriptions skip entitlement mapping.
+    if (
+      subscription.metadata.credit_checkout === "true" &&
+      !subscription.metadata.plan_key
+    ) {
+      return NextResponse.json({ received: true, scholarsCredits: true });
     }
 
     const entitlement = stripeSubscriptionToVerified(subscription);
@@ -145,4 +211,3 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Webhook processing failed" }, { status: 500 });
   }
 }
-

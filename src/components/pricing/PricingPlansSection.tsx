@@ -72,12 +72,12 @@ export function IndividualAppsSection({
   planContext,
 }: PricingPlansSectionProps) {
   return (
-    <section id="individual-apps" className="scroll-mt-24 border-b border-neutral-100 bg-[#fafafa]">
+    <section id="individual-apps" className="scroll-mt-24 border-b border-neutral-100 bg-[#fefbf6]">
       <div
         className="absolute inset-x-0 top-0 h-1"
         style={{
           background:
-            "linear-gradient(90deg, #059669 0%, #6366f1 33%, #ea580c 66%, #0ea5e9 100%)",
+            "linear-gradient(90deg, #24C0FC 0%, #009CFC 25%, #E8B400 50%, #FC6C0C 75%, #248A45 100%)",
         }}
         aria-hidden="true"
       />
@@ -103,13 +103,18 @@ export function IndividualAppsSection({
         </div>
 
         {/* Plans — immediately below */}
-        <div className="mt-8 grid gap-4 sm:mt-10 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
+        <div className="mt-8 grid gap-4 sm:mt-10 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-5">
           {pricingPlans.map((plan) => (
             <AppPricingCard
               key={plan.appId}
               plan={plan}
               billingPeriod={billingPeriod}
               currentEntitlement={activeEntitlementForApp(planContext, plan.appId)}
+              hasExistingPlan={planContext.entitlements.some((entitlement) =>
+                ["active", "trialing", "grace_period", "canceled"].includes(
+                  entitlement.status,
+                ),
+              )}
             />
           ))}
         </div>

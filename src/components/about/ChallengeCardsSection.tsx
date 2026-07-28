@@ -6,7 +6,7 @@ import { StoryReveal } from "./StoryReveal";
 
 export function ChallengeCardsSection() {
   return (
-    <section className="relative overflow-hidden bg-[#f7f7f5] py-24 sm:py-32">
+    <section className="relative overflow-hidden bg-[#f7f7f5] py-20 sm:py-24">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,white,transparent_42%)]" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

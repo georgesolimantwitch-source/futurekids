@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { apps } from "@/config/brand";
+import { BrandLogo } from "@/components/brand/BrandLogo";
 import {
   formatAccountDate,
   initialsFromName,
@@ -30,12 +31,13 @@ import {
   type PendingPlanChange,
   type PlanManagementContext,
 } from "@/lib/subscriptions/plan-management";
+import { AppKidsManager } from "@/components/account/AppKidsManager";
+import { isKidAppKey, type KidAppKey } from "@/lib/kids/types";
 
 const NAV_ITEMS = [
   { id: "overview", label: "Overview" },
   { id: "my-apps", label: "My Apps" },
   { id: "plans", label: "Plans & Billing" },
-  { id: "family", label: "Family" },
   { id: "profile", label: "Profile" },
   { id: "security", label: "Security" },
 ] as const;
@@ -92,6 +94,11 @@ export function AccountDashboard({
   const [planContext, setPlanContext] = useState<PlanManagementContext>(
     EMPTY_PLAN_MANAGEMENT_CONTEXT,
   );
+  const [managedKidsApp, setManagedKidsApp] = useState<{
+    appKey: KidAppKey;
+    appName: string;
+    accent: string;
+  } | null>(null);
 
   useEffect(() => {
     if (initialAccount?.profile) return;
@@ -158,8 +165,6 @@ export function AccountDashboard({
   );
 
   const profile = account.profile!;
-  const family = account.families[0];
-  const members = account.family_members.filter((m) => m.family_id === family?.id);
   const activePlans = countActivePlans(account);
   const activeApps = countActiveApps(account);
   const showSetupBanner = Boolean(setupError) && !rawAccount?.profile;
@@ -268,7 +273,7 @@ export function AccountDashboard({
   }
 
   return (
-    <div className="min-h-screen bg-[#f7f5f1]">
+    <div className="min-h-screen bg-[#fefbf6]">
       <section className="border-b border-neutral-200/70 bg-white">
         <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
@@ -287,9 +292,9 @@ export function AccountDashboard({
                 </div>
               )}
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-neutral-500">
-                  Future Kids Account
-                </p>
+                <div className="mb-1">
+                  <BrandLogo size="account" />
+                </div>
                 <h1 className="mt-2 text-3xl font-semibold tracking-tight text-neutral-950 sm:text-4xl">
                   {profile.full_name ?? "Your account"}
                 </h1>
@@ -362,7 +367,7 @@ export function AccountDashboard({
                 <a
                   key={item.id}
                   href={`#${item.id}`}
-                  className="block rounded-2xl px-4 py-2.5 text-sm font-medium text-neutral-600 transition hover:bg-[#fafafa] hover:text-neutral-950"
+                  className="block rounded-2xl px-4 py-2.5 text-sm font-medium text-neutral-600 transition hover:bg-[#fefbf6] hover:text-neutral-950"
                 >
                   {item.label}
                 </a>
@@ -375,15 +380,14 @@ export function AccountDashboard({
               <OverviewCard label="Active plans" value={String(activePlans)} hint="Paid subscriptions" />
               <OverviewCard label="Apps with access" value={String(activeApps)} hint="Across the ecosystem" />
               <OverviewCard
-                label="Family"
+                label="Account type"
                 value={
-                  family?.family_name ??
-                  (profile.account_type === "individual" ? "Individual" : "Setting up")
+                  profile.account_type === "individual" ? "Individual" : "Parent"
                 }
                 hint={
                   profile.account_type === "individual"
                     ? "Personal account"
-                    : `${members.length || 1} member${members.length === 1 ? "" : "s"}`
+                    : "Kids are managed per app"
                 }
               />
               <OverviewCard
@@ -396,7 +400,11 @@ export function AccountDashboard({
             <section id="my-apps">
               <SectionHeading
                 title="My Apps"
-                description="One Future Kids account unlocks Earnly, Scholars Notes, Ballr, and TinyPal."
+                description={
+                  profile.account_type === "individual"
+                    ? "One Genlyn account unlocks Earnly, Scholars Notes, Ballr, and TinyPal."
+                    : "Manage plans and choose which kids can use each app."
+                }
               />
               <div className="mt-6 grid gap-4 md:grid-cols-2">
                 {REQUIRED_APP_IDS.map((appId) => {
@@ -421,6 +429,17 @@ export function AccountDashboard({
                           ? () => handleManagePlan(entitlement)
                           : undefined
                       }
+                      onManageKids={
+                        profile.account_type !== "individual" &&
+                        isKidAppKey(appId)
+                          ? () =>
+                              setManagedKidsApp({
+                                appKey: appId,
+                                appName: brandApp.name,
+                                accent: brandApp.accentColor,
+                              })
+                          : undefined
+                      }
                     />
                   );
                 })}
@@ -433,7 +452,7 @@ export function AccountDashboard({
                 description="Manage subscriptions, billing intervals, and renewal dates."
               />
               <div className="mt-6 overflow-hidden rounded-[2rem] border border-neutral-200/80 bg-white shadow-sm">
-                <div className="border-b border-neutral-100 bg-[#fafafa] px-6 py-5">
+                <div className="border-b border-neutral-100 bg-[#fefbf6] px-6 py-5">
                   <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                       <p className="text-sm font-medium text-neutral-900">All Access bundle</p>
@@ -490,7 +509,7 @@ export function AccountDashboard({
                                     </div>
                                   )}
                                   <p className="font-medium text-neutral-950">
-                                    {brandApp?.name ?? "Future Kids All Access"}
+                                    {brandApp?.name ?? "Genlyn All Access"}
                                   </p>
                                 </div>
                               </td>
@@ -533,72 +552,6 @@ export function AccountDashboard({
                     </tbody>
                   </table>
                 </div>
-              </div>
-            </section>
-
-            <section id="family">
-              <SectionHeading
-                title="Family"
-                description="Your household connected to this Future Kids account."
-              />
-              <div className="mt-6 rounded-[2rem] border border-neutral-200/80 bg-white p-6 shadow-sm">
-                {family ? (
-                  <>
-                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                      <div>
-                        <p className="text-lg font-semibold text-neutral-950">{family.family_name}</p>
-                        <p className="mt-1 text-sm text-neutral-600">
-                          Created {formatAccountDate(family.created_at)}
-                        </p>
-                      </div>
-                      <Badge tone="neutral">{members.length} member{members.length === 1 ? "" : "s"}</Badge>
-                    </div>
-                    <ul className="mt-6 space-y-3">
-                      {members.map((member) => (
-                        <li
-                          key={member.id}
-                          className="flex items-center justify-between rounded-2xl bg-[#fafafa] px-4 py-3"
-                        >
-                          <div>
-                            <p className="text-sm font-medium text-neutral-900">
-                              {member.user_id === profile.id
-                                ? profile.full_name ?? profile.email
-                                : "Family member"}
-                            </p>
-                            <p className="text-xs text-neutral-500">
-                              Joined {formatAccountDate(member.joined_at)}
-                            </p>
-                          </div>
-                          <span className="rounded-full bg-white px-3 py-1 text-xs font-medium capitalize text-neutral-600 ring-1 ring-neutral-200">
-                            {member.role}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  </>
-                ) : profile.account_type === "individual" ? (
-                  <div className="text-center">
-                    <p className="text-sm text-neutral-600">
-                      Individual accounts are for personal use — perfect for Ballr and your own app
-                      access. Family features are available if you switch to a parent account later.
-                    </p>
-                  </div>
-                ) : (
-                  <div className="text-center">
-                    <p className="text-sm text-neutral-600">
-                      Your family is still being prepared. This usually completes automatically after
-                      signup.
-                    </p>
-                    <button
-                      type="button"
-                      onClick={handleRepairSetup}
-                      disabled={repairing}
-                      className="mt-4 rounded-full border border-neutral-200 px-5 py-2.5 text-sm font-medium text-neutral-800"
-                    >
-                      {repairing ? "Setting up…" : "Finish family setup"}
-                    </button>
-                  </div>
-                )}
               </div>
             </section>
 
@@ -663,13 +616,22 @@ export function AccountDashboard({
           onCancelPendingChange={handleCancelPendingChange}
         />
       )}
+      {managedKidsApp && (
+        <AppKidsManager
+          appKey={managedKidsApp.appKey}
+          appName={managedKidsApp.appName}
+          accent={managedKidsApp.accent}
+          open
+          onClose={() => setManagedKidsApp(null)}
+        />
+      )}
     </div>
   );
 }
 
 export function AccountDashboardSkeleton() {
   return (
-    <div className="min-h-screen bg-[#f7f5f1]">
+    <div className="min-h-screen bg-[#fefbf6]">
       <div className="border-b border-neutral-200/70 bg-white">
         <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
           <div className="flex items-start gap-5">
@@ -802,8 +764,23 @@ function entitlementTone(
 }
 
 function planDisplayName(planKey: string): string {
+  const scholarsKids = /^scholars_all_access_kids(\d+)_(monthly|yearly)$/.exec(
+    planKey,
+  );
+  if (scholarsKids) {
+    const kids = Number(scholarsKids[1]);
+    const period = scholarsKids[2] === "yearly" ? "Yearly" : "Monthly";
+    return `Scholars Full · ${kids} ${kids === 1 ? "kid" : "kids"} · ${period}`;
+  }
+  if (planKey === "scholars_all_access_monthly") {
+    return "Scholars Full · Monthly";
+  }
+  if (planKey === "scholars_all_access_yearly") {
+    return "Scholars Full · Yearly";
+  }
+
   return planKey
-    .replace(/^futurekids_/, "Future Kids ")
+    .replace(/^futurekids_/, "Genlyn ")
     .replace(/_/g, " ")
     .replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
@@ -833,6 +810,7 @@ function AppCard({
   learnMore,
   openHref,
   onManagePlan,
+  onManageKids,
 }: {
   appId: EcosystemAppId;
   name: string;
@@ -844,6 +822,7 @@ function AppCard({
   learnMore: string;
   openHref: string;
   onManagePlan?: () => void;
+  onManageKids?: () => void;
 }) {
   const label =
     status === "active" ? "Active" : status === "coming_soon" ? "Coming soon" : "Not subscribed";
@@ -906,6 +885,15 @@ function AppCard({
             Choose plan
           </Link>
         )}
+        {onManageKids && (
+          <button
+            type="button"
+            onClick={onManageKids}
+            className="rounded-full border border-neutral-200 px-4 py-2 text-xs font-medium text-neutral-700 hover:bg-neutral-50"
+          >
+            Manage kids
+          </button>
+        )}
         <a
           href={openHref}
           target="_blank"
@@ -952,7 +940,7 @@ function ManagePlanModal({
 }) {
   const [confirmingCancel, setConfirmingCancel] = useState(false);
   const brandApp = apps.find((app) => app.slug === entitlement.app_key);
-  const appName = brandApp?.name ?? "Future Kids All Access";
+  const appName = brandApp?.name ?? "Genlyn All Access";
   const otherApps = apps.filter((app) => app.slug !== entitlement.app_key);
   const hasAllAccess = entitlements.some(
     (item) =>
@@ -1029,7 +1017,7 @@ function ManagePlanModal({
         </div>
 
         <div className="space-y-5 px-6 py-6 sm:px-7">
-          <div className="rounded-2xl bg-[#f7f5f1] p-5">
+          <div className="rounded-2xl bg-[#fefbf6] p-5">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-sm font-medium text-neutral-950">
@@ -1103,7 +1091,7 @@ function ManagePlanModal({
 
           <div>
             <p className="text-sm font-medium text-neutral-950">
-              Explore more with Future Kids
+              Explore more with Genlyn
             </p>
             <p className="mt-1 text-xs leading-relaxed text-neutral-500">
               Add another app or bring everything together with All Access.
@@ -1121,7 +1109,7 @@ function ManagePlanModal({
                     Best value
                   </span>
                   <p className="mt-3 text-base font-semibold">
-                    Future Kids All Access
+                    Genlyn All Access
                   </p>
                   <p className="mt-1 text-xs leading-relaxed text-neutral-300">
                     Unlock Earnly, Scholars Notes, Ballr, and TinyPal with one family plan.
@@ -1167,7 +1155,7 @@ function ManagePlanModal({
                   </p>
                   <p
                     className="mt-3 text-xs font-medium"
-                    style={{ color: active ? "#059669" : app.accentColor }}
+                    style={{ color: app.accentColor }}
                   >
                     {active ? "Included" : "View plans →"}
                   </p>

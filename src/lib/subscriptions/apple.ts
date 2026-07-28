@@ -118,7 +118,7 @@ export function appleTransactionToSubscription(
     !transaction.appAccountToken ||
     transaction.appAccountToken.toLowerCase() !== userId.toLowerCase()
   ) {
-    throw new Error("Apple purchase is not linked to this Future Kids account");
+    throw new Error("Apple purchase is not linked to this Genlyn account");
   }
 
   return {

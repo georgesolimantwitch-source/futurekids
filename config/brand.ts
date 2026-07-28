@@ -5,17 +5,27 @@
 
 export const brand = {
   companyName: "Future Brand",
-  tagline: "One ecosystem. Every part of growing up.",
+  /** Shared parent account product name (user-facing). */
+  productName: "Genlyn",
+  tagline: "Raise kids ready for everything.",
   description:
-    "Apps designed to help the next generation learn, earn, play, and connect.",
-  /** Canonical site URL — update before production launch */
-  siteUrl: "https://futurebrand.com",
+    "Experienced, healthy, smart, fit, and safe — with every app parents need in one place.",
+  /** Canonical production site URL */
+  siteUrl: "https://genlyn.app",
   supportEmail: "support@futurebrand.com",
   logo: {
-    /** Text logo used in navigation and footer */
-    text: "Future Brand",
-    /** Path to image logo — replace when ready */
-    imagePath: "/images/brand/logo.svg",
+    /** Text fallback when an image logo is unavailable */
+    text: "Genlyn",
+    /**
+     * Wordmark for light UI surfaces (nav, footer, auth).
+     * Use wordmarkLight on dark backgrounds.
+     */
+    imagePath: "/images/brand/wordmark-dark.png",
+    wordmarkDark: "/images/brand/wordmark-dark.png",
+    wordmarkLight: "/images/brand/wordmark-light.png",
+    /** Symbol mark — dark for light Chrome tabs, light for dark tabs */
+    markDark: "/images/brand/mark-dark.png",
+    markLight: "/images/brand/mark-light.png",
   },
   social: {
     instagram: "https://instagram.com/futurebrand",
@@ -27,7 +37,7 @@ export const brand = {
   },
 } as const;
 
-export type AppSlug = "earnly" | "scholars" | "ballr" | "tinypal";
+export type AppSlug = "earnly" | "scholars" | "ballr" | "tinypal" | "fresher";
 export type AppAvailability = "live" | "waitlist";
 export type AppCtaType = "download" | "waitlist";
 
@@ -113,8 +123,8 @@ export const apps: AppConfig[] = [
     description:
       "Helps parents teach children how to earn, save, and manage money through chores, allowances, savings goals, and school rewards.",
     features: ["Chores", "Allowances", "Savings Goals", "School Rewards"],
-    accentColor: "#059669",
-    accentColorLight: "#ecfdf5",
+    accentColor: "#24C0FC",
+    accentColorLight: "#E6F7FE",
     iconPath: "/images/apps/earnly/icon.png",
     screenshotPath: "/images/apps/earnly/screenshot.png",
     screenshotDevice: "phone",
@@ -255,8 +265,8 @@ export const apps: AppConfig[] = [
     description:
       "An AI-powered notes and studying app with notes, an AI tutor, study guides, quizzes, assignments, podcasts generated from notes, and handwriting practice.",
     features: ["AI Tutor", "Study Guides", "Quizzes", "Podcasts"],
-    accentColor: "#6366f1",
-    accentColorLight: "#eef2ff",
+    accentColor: "#009CFC",
+    accentColorLight: "#E6F5FF",
     iconPath: "/images/apps/scholars/icon.png",
     screenshotPath: "/images/apps/scholars/screenshot.png",
     screenshotDevice: "tablet",
@@ -383,19 +393,20 @@ export const apps: AppConfig[] = [
   {
     slug: "ballr",
     name: "Ballr",
-    tagline: "Find your game. Find your crew.",
+    tagline: "Discover pickup games near you and build your personal player card.",
     description:
-      "A social sports app that helps users find pickup games, nearby parks, friends, training sessions, player ratings, and local sports communities.",
-    features: ["Pickup Games", "Nearby Parks", "Player Ratings", "Communities"],
-    accentColor: "#ea580c",
-    accentColorLight: "#fff7ed",
+      "A social sports app that helps you find local pickup games and runs, nearby parks, friends, training sessions, and build your own player card with ratings in your community.",
+    features: ["Local Runs", "Player Cards", "Nearby Parks", "Communities"],
+    accentColor: "#E8B400",
+    accentColorLight: "#FFF6D6",
     iconPath: "/images/apps/ballr/icon.png",
-    screenshotPath: "/images/apps/ballr/screenshot.svg",
+    screenshotPath: "/images/apps/ballr/screenshot.png",
+    screenshotDevice: "phone",
     appStoreUrl: "https://apps.apple.com/app/ballr",
     /** Update when Android launches */
     playStoreUrl: "https://play.google.com/store/apps/details?id=com.ballr.app",
     learnMorePath: "/apps/ballr",
-    positioning: "Find games, train, compete, and build your sports community",
+    positioning: "Find local runs, build your player card, and grow your sports community",
     audience: "Athletes and sports enthusiasts of all ages",
     availability: "live",
     cta: {
@@ -476,19 +487,14 @@ export const apps: AppConfig[] = [
     ],
     screenshots: [
       {
-        path: "/images/apps/ballr/screenshot.svg",
-        alt: "Ballr game finder",
-        caption: "Find games",
-      },
-      {
-        path: "/images/apps/ballr/screenshot-2.svg",
-        alt: "Ballr park map",
-        caption: "Nearby parks",
-      },
-      {
-        path: "/images/apps/ballr/screenshot-3.svg",
-        alt: "Ballr player profile",
+        path: "/images/apps/ballr/screenshot.png",
+        alt: "Ballr player profile card with overall rating and OVR progress",
         caption: "Player profile",
+      },
+      {
+        path: "/images/apps/ballr/screenshot-2.png",
+        alt: "Ballr map showing nearby parks, courts, and fields",
+        caption: "Find parks & games",
       },
     ],
     faqs: [
@@ -521,8 +527,8 @@ export const apps: AppConfig[] = [
     description:
       "A safe messaging and social app for kids with parent-controlled setup, verified family information, secure communication, and child-safety protections.",
     features: ["Parent Controls", "Verified Family", "Safe Messaging", "Child Safety"],
-    accentColor: "#0ea5e9",
-    accentColorLight: "#e0f2fe",
+    accentColor: "#FC6C0C",
+    accentColorLight: "#FFF1E6",
     iconPath: "/images/apps/tinypal/icon.png",
     screenshotPath: "/images/apps/tinypal/screenshot.svg",
     appStoreUrl: "",
@@ -656,6 +662,125 @@ export const apps: AppConfig[] = [
       },
     ],
   },
+  {
+    slug: "fresher",
+    name: "Freshys",
+    tagline: "Find real food near your family.",
+    description:
+      "Freshys helps families discover nearby farms, farm stores, farmers markets, and locally produced food using an interactive map.",
+    features: ["Local Farms", "Farmers Markets", "Farm Stores", "Interactive Map"],
+    accentColor: "#248A45",
+    accentColorLight: "#EDF7EF",
+    iconPath: "/images/apps/fresher/icon.png",
+    screenshotPath: "/images/apps/fresher/screenshot.png",
+    screenshotDevice: "phone",
+    appStoreUrl: "",
+    playStoreUrl: "",
+    learnMorePath: "/apps/fresher",
+    positioning: "Find real food near your family on an interactive map",
+    audience: "Parents and families",
+    availability: "live",
+    cta: {
+      type: "download",
+      label: "Get Freshys",
+      href: "/pricing?app=fresher",
+    },
+    productFeatures: [
+      {
+        title: "Interactive local map",
+        description: "See farms, farm stores, and markets near your family in one place.",
+      },
+      {
+        title: "Farmers markets",
+        description: "Discover market days, locations, and what’s growing nearby.",
+      },
+      {
+        title: "Farm stores",
+        description: "Find roadside stands and farm shops with fresh, local products.",
+      },
+      {
+        title: "Locally produced food",
+        description: "Filter for produce, dairy, meat, and more from nearby producers.",
+      },
+      {
+        title: "Family-friendly discovery",
+        description: "Built for parents who want healthier food choices without the research rabbit hole.",
+      },
+      {
+        title: "Save favorites",
+        description: "Bookmark the farms and markets your family returns to again and again.",
+      },
+    ],
+    howItWorks: [
+      {
+        step: 1,
+        title: "Open the map",
+        description: "See local food sources around your home or wherever you are.",
+      },
+      {
+        step: 2,
+        title: "Explore what’s nearby",
+        description: "Browse farms, farm stores, and farmers markets with clear details.",
+      },
+      {
+        step: 3,
+        title: "Pick real food",
+        description: "Choose places that fit your family’s routine and preferences.",
+      },
+      {
+        step: 4,
+        title: "Come back anytime",
+        description: "Save favorites and return when you need the next fresh haul.",
+      },
+    ],
+    benefits: [
+      {
+        title: "Fresh food, closer to home",
+        description: "Skip the guesswork and find real local sources quickly.",
+      },
+      {
+        title: "Built for families",
+        description: "Simple discovery that fits busy parent schedules.",
+      },
+      {
+        title: "Support local producers",
+        description: "Put your dollars toward nearby farms and markets.",
+      },
+      {
+        title: "One clear map",
+        description: "Everything you need in a single, easy-to-use view.",
+      },
+    ],
+    screenshots: [
+      {
+        path: "/images/apps/fresher/screenshot.png",
+        alt: "Freshys map showing nearby farms and markets",
+        caption: "Local food map",
+      },
+    ],
+    faqs: [
+      {
+        question: "What is Freshys?",
+        answer:
+          "Freshys helps families find nearby farms, farm stores, farmers markets, and locally produced food on an interactive map.",
+      },
+      {
+        question: "How much does Freshys cost?",
+        answer:
+          "Freshys is $1.50 per month or $9.99 per year. Yearly is the best value. It’s also included with Genlyn All Access.",
+      },
+      {
+        question: "Does Freshys deliver food?",
+        answer:
+          "No. Freshys helps you discover local sources — you visit or buy directly from the farm, store, or market.",
+      },
+      {
+        question: "Is Freshys included in All Access?",
+        answer:
+          "Yes. An active Genlyn All Access subscription unlocks Freshys along with the rest of the ecosystem.",
+      },
+    ],
+  },
 ];
 
 export const ecosystemPillars = [
@@ -682,6 +807,12 @@ export const ecosystemPillars = [
     description: "TinyPal keeps kids connected safely with family-verified, parent-controlled messaging.",
     appSlug: "tinypal" as AppSlug,
     icon: "💬",
+  },
+  {
+    title: "Family Health",
+    description: "Freshys helps families find real food nearby — farms, markets, and local producers.",
+    appSlug: "fresher" as AppSlug,
+    icon: "🌿",
   },
 ];
 
@@ -813,6 +944,17 @@ export const footerLinks = {
   ],
   support: [{ label: "Support", href: "/support" }],
 };
+
+/** Readable text/icon color on top of an app accent fill. */
+export function accentForegroundColor(accent: string): string {
+  const hex = accent.replace("#", "").trim();
+  if (hex.length !== 6) return "#ffffff";
+  const r = Number.parseInt(hex.slice(0, 2), 16);
+  const g = Number.parseInt(hex.slice(2, 4), 16);
+  const b = Number.parseInt(hex.slice(4, 6), 16);
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return luminance > 0.55 ? "#1d1d1f" : "#ffffff";
+}
 
 export function getAppBySlug(slug: string): AppConfig | undefined {
   return apps.find((app) => app.slug === slug);

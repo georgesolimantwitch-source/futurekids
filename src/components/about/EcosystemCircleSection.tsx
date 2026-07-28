@@ -22,7 +22,7 @@ export function EcosystemCircleSection() {
   ];
 
   return (
-    <section className="relative min-h-screen overflow-hidden bg-white py-24 sm:py-32">
+    <section className="relative overflow-hidden bg-white py-20 sm:py-24">
       <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/30 via-indigo-50/20 to-sky-50/30" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -43,10 +43,10 @@ export function EcosystemCircleSection() {
           <svg className="absolute inset-0 h-full w-full" viewBox="0 0 600 600" aria-hidden="true">
             <defs>
               <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#059669" stopOpacity="0.6" />
-                <stop offset="33%" stopColor="#6366f1" stopOpacity="0.6" />
-                <stop offset="66%" stopColor="#ea580c" stopOpacity="0.6" />
-                <stop offset="100%" stopColor="#0ea5e9" stopOpacity="0.6" />
+                <stop offset="0%" stopColor="#24C0FC" stopOpacity="0.6" />
+                <stop offset="33%" stopColor="#009CFC" stopOpacity="0.6" />
+                <stop offset="66%" stopColor="#E8B400" stopOpacity="0.6" />
+                <stop offset="100%" stopColor="#FC6C0C" stopOpacity="0.6" />
               </linearGradient>
             </defs>
             <circle

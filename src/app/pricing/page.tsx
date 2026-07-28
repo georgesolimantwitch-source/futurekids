@@ -40,6 +40,7 @@ export default async function PricingPage({
     "scholars",
     "ballr",
     "tinypal",
+    "fresher",
   ].includes(requestedApp ?? "")
     ? requestedApp
     : "all-access";

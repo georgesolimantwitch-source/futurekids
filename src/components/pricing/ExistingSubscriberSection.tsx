@@ -29,7 +29,7 @@ export function ExistingSubscriberSection() {
           </Button>
         </div>
         <p className="mt-4 text-xs text-neutral-500">
-          Sign in with your Future Kids account to manage plans and app access.
+          Sign in with your Genlyn account to manage plans and app access.
         </p>
       </div>
     </section>

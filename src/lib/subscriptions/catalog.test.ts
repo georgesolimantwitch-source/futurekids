@@ -6,19 +6,43 @@ import { stripeSubscriptionToVerified } from "./stripe";
 import { statusFromAppleTransaction } from "./catalog";
 import { appleTransactionToSubscription } from "./apple";
 
-test("catalog uses all 34 existing Stripe prices without setup", () => {
-  assert.equal(productCatalog.length, 34);
-  assert.equal(new Set(productCatalog.map((plan) => plan.stripePriceId)).size, 34);
+test("catalog includes existing Stripe prices including Freshys and TinyPal child tiers", () => {
+  assert.ok(productCatalog.length >= 106);
   assert.equal(
-    productCatalog.find((plan) => plan.planKey === "earnly_kids1_monthly")
-      ?.stripePriceId,
-    "price_1TuiCJLD305HTgIxk0Ni7gVH",
+    new Set(productCatalog.map((plan) => plan.stripePriceId)).size,
+    productCatalog.length,
+  );
+  // TinyPal kids1 monthly reuses the original $4.99 price id
+  assert.equal(
+    productCatalog.find((plan) => plan.planKey === "tinypal_kids1_monthly")
+      ?.expectedAmountCents,
+    499,
+  );
+  assert.equal(
+    productCatalog.find((plan) => plan.planKey === "tinypal_kids2_monthly")
+      ?.expectedAmountCents,
+    698,
   );
   assert.equal(
     productCatalog.find(
-      (plan) => plan.planKey === "futurekids_all_access_kids1_monthly",
-    )?.stripeProductId,
-    "prod_UsFMZVziq3wNAv",
+      (plan) => plan.planKey === "futurekids_all_access_earnly1_tinypal2_monthly",
+    )?.expectedAmountCents,
+    2198,
+  );
+  assert.equal(
+    productCatalog.find((plan) => plan.planKey === "ballr_kids2_monthly")
+      ?.expectedAmountCents,
+    698,
+  );
+  assert.equal(
+    productCatalog.find((plan) => plan.planKey === "scholars_all_access_kids2_monthly")
+      ?.expectedAmountCents,
+    2998,
+  );
+  assert.ok(
+    productCatalog.find(
+      (plan) => plan.planKey === "futurekids_all_access_e1_s2_b2_t1_monthly",
+    ),
   );
 });
 
@@ -40,7 +64,7 @@ test("separate Stripe subscriptions produce separate app entitlements", () => {
     subscription("sub_earnly", "earnly", "earnly_kids2_monthly", 2),
   );
   const tinypal = stripeSubscriptionToVerified(
-    subscription("sub_tinypal", "tinypal", "tinypal_monthly", 1),
+    subscription("sub_tinypal", "tinypal", "tinypal_kids1_monthly", 1),
   );
 
   assert.equal(earnly.appKey, "earnly");

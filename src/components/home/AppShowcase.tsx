@@ -41,7 +41,7 @@ export function AppShowcase() {
         </div>
 
         <div
-          className="overflow-hidden rounded-3xl border border-neutral-100 bg-[#fafafa] shadow-sm"
+          className="overflow-hidden rounded-3xl border border-neutral-100 bg-[#fefbf6] shadow-sm"
           style={{ borderColor: `${active.accentColor}22` }}
         >
           <div className="grid items-center gap-8 p-6 sm:p-8 lg:grid-cols-2 lg:gap-12 lg:p-12">

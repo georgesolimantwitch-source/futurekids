@@ -45,7 +45,7 @@ export function ParentTrustSection() {
           {trustFeatures.map((feature, index) => (
             <article
               key={feature.title}
-              className="rounded-2xl border border-neutral-100 bg-[#fafafa] p-6 transition-shadow duration-300 hover:shadow-md sm:p-8"
+              className="rounded-2xl border border-neutral-100 bg-[#fefbf6] p-6 transition-shadow duration-300 hover:shadow-md sm:p-8"
             >
               <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-neutral-900 text-white sm:h-12 sm:w-12">
                 {trustIcons[index]}

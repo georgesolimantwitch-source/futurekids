@@ -98,7 +98,7 @@ export async function applyVerifiedSubscriptionEvent(
   });
   if (error) throw error;
   if ((data as { outcome?: string } | null)?.outcome === "rejected") {
-    throw new Error("Subscription is already linked to another Future Kids account");
+    throw new Error("Subscription is already linked to another Genlyn account");
   }
   return data as {
     outcome: "applied" | "duplicate" | "stale";
@@ -142,7 +142,7 @@ export async function saveVerifiedSubscription(subscription: VerifiedSubscriptio
     subscription.providerSubscriptionId,
   );
   if (owner && owner !== subscription.userId) {
-    throw new Error("Subscription is already linked to another Future Kids account");
+    throw new Error("Subscription is already linked to another Genlyn account");
   }
 
   const admin = createAdminClient();

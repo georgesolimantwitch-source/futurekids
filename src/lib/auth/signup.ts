@@ -24,3 +24,18 @@ export function metadataForAccountType(accountType: AccountType) {
     ecosystem_role: accountType === "parent" ? "parent" : "individual",
   };
 }
+
+/**
+ * Genlyn website signup is parent-only. Ignore any client-supplied `individual`
+ * so account type cannot be tampered via the web setup flow.
+ * Native Ballr/Scholars signup must send `source: "native_app"`.
+ */
+export function resolveSetupAccountType(input: {
+  accountType?: AccountType | null;
+  source?: string | null;
+}): AccountType {
+  if (input.source === "native_app" && input.accountType === "individual") {
+    return "individual";
+  }
+  return "parent";
+}

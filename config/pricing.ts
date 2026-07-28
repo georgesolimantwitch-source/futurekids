@@ -6,7 +6,13 @@
 import { apps, type AppSlug, getAppCtaHref, isAppLive } from "./brand";
 import { bundlePrice } from "./ecosystem-bundle";
 import { earnlyTotalPrice } from "./earnly-pricing";
-import { scholarsAllAccessMonthly, scholarsAllAccessYearly } from "./scholars-pricing";
+import { ballrTotalPrice } from "./ballr-pricing";
+import {
+  scholarsFullTotalPrice,
+  scholarsTutorMonthly,
+  scholarsTutorYearly,
+} from "./scholars-pricing";
+import { tinypalTotalPrice } from "./tinypal-pricing";
 
 export type { AppSlug };
 
@@ -40,6 +46,10 @@ export interface PricingPlanConfig {
     external?: boolean;
   };
   memberSavingsMessage: string;
+  /** Optional badge shown when yearly is selected (e.g. Freshys Best Value) */
+  yearlyBadge?: string;
+  /** Prefer this period in the UI when present */
+  recommendedPeriod?: BillingPeriod;
 }
 
 export interface SavingsTierConfig {
@@ -70,7 +80,7 @@ export interface PricingFaq {
 export const pricingPageMeta = {
   title: "Plans & Pricing",
   description:
-    "Future Kids All Access — every app in one subscription. Or choose individual plans for Earnly, Scholars Notes, Ballr Live, and TinyPal.",
+    "Genlyn All Access — every app in one subscription. Or choose individual plans for Earnly, Scholars Notes, Ballr Live, TinyPal, and Freshys.",
 };
 
 export const pricingHero = {
@@ -123,17 +133,19 @@ const pricingPlanOverrides: Record<
   scholars: {
     description:
       "AI-powered tools that make learning and studying easier.",
-    monthlyPrice: { display: "$14.99 / mo", amount: scholarsAllAccessMonthly },
+    monthlyPrice: {
+      display: "From $9.99 / mo",
+      amount: scholarsTutorMonthly,
+    },
     yearlyPrice: {
-      display: `$${scholarsAllAccessYearly.toFixed(2)} / yr`,
-      amount: scholarsAllAccessYearly,
+      display: `From $${scholarsTutorYearly.toFixed(2)} / yr`,
+      amount: scholarsTutorYearly,
     },
     features: [
+      "Full $14.99 · Tutor & Study Guide $9.99 / child",
+      "AI tutor, study guides & quizzes",
       "Notes workspace",
-      "AI tutor",
-      "Study guides & quizzes",
-      "Assignments tracker",
-      "Podcasts from notes",
+      "Handwriting practice (Full)",
     ],
     memberSavingsMessage:
       "Already subscribed to another app? Unlock member savings.",
@@ -141,14 +153,14 @@ const pricingPlanOverrides: Record<
   ballr: {
     description:
       "Find games, train, compete, and grow your sports community.",
-    monthlyPrice: { display: "$4.99 / mo", amount: 4.99 },
-    yearlyPrice: { display: "$49.99 / yr", amount: 49.99 },
+    monthlyPrice: { display: "From $4.99 / mo", amount: 4.99 },
+    yearlyPrice: { display: "From $49.90 / yr", amount: 49.9 },
     features: [
+      "$4.99 for 1 child",
+      "+$1.99 per additional child",
       "Pickup game finder",
       "Nearby parks",
       "Sports communities",
-      "Player ratings",
-      "Training progress",
     ],
     memberSavingsMessage:
       "Already subscribed to another app? Unlock member savings.",
@@ -156,17 +168,33 @@ const pricingPlanOverrides: Record<
   tinypal: {
     description:
       "Safe communication designed for kids and managed by parents.",
-    monthlyPrice: { display: "$4.99 / mo", amount: 4.99 },
-    yearlyPrice: { display: "$49.99 / yr", amount: 49.99 },
+    monthlyPrice: { display: "From $4.99 / mo", amount: 4.99 },
+    yearlyPrice: { display: "From $49.90 / yr", amount: 49.9 },
     features: [
+      "$4.99 for 1 child",
+      "+$1.99 per additional child",
       "Parent-managed setup",
       "Verified family contacts",
       "Safe messaging",
-      "Family controls",
-      "Child-focused privacy",
     ],
     memberSavingsMessage:
       "Already subscribed to another app? Unlock member savings.",
+  },
+  fresher: {
+    description: "Find real food near your family.",
+    monthlyPrice: { display: "$1.50 / mo", amount: 1.5 },
+    yearlyPrice: { display: "$9.99 / yr", amount: 9.99 },
+    features: [
+      "Interactive local map",
+      "Nearby farms",
+      "Farmers markets",
+      "Farm stores",
+      "Locally produced food",
+    ],
+    memberSavingsMessage:
+      "Already subscribed to another app? Unlock member savings.",
+    yearlyBadge: "Best Value · Save 44%",
+    recommendedPeriod: "yearly",
   },
 };
 
@@ -198,6 +226,8 @@ export const pricingPlans: PricingPlanConfig[] = apps.map((app) => {
           external: false,
         },
     memberSavingsMessage: override.memberSavingsMessage,
+    yearlyBadge: override.yearlyBadge,
+    recommendedPeriod: override.recommendedPeriod,
   };
 });
 
@@ -233,12 +263,12 @@ export const savingsTiers: SavingsTierConfig[] = [
   {
     id: "three_plus",
     title: "Three or More Apps",
-    subtitle: "Combine three or all four apps",
+    subtitle: "Combine three or more apps",
     minApps: 3,
-    maxApps: 4,
+    maxApps: 5,
     benefits: [
-      "Combine three or all four apps",
-      "Compare vs Future Kids All Access",
+      "Combine three or more apps",
+      "Compare vs Genlyn All Access",
       "Centralized subscription management",
       "Early access to future ecosystem benefits",
     ],
@@ -250,10 +280,10 @@ export const savingsTiers: SavingsTierConfig[] = [
 export const ecosystemBuilderCopy = {
   title: "Build your ecosystem",
   description:
-    "Select the apps your family uses. Totals use real app prices — Scholars All Access at $14.99/mo.",
+    "Select the apps your family uses. Totals use real app prices — Scholars Full at $14.99/mo.",
   empty: "Select an app to begin building your plan.",
   oneApp: "Add another app to compare with All Access.",
-  multiApp: "Compare your selection with Future Kids All Access.",
+  multiApp: "Compare your selection with Genlyn All Access.",
   labels: {
     selectedCount: "Apps selected",
     includedApps: "Included apps",
@@ -261,7 +291,7 @@ export const ecosystemBuilderCopy = {
     ecosystemSavings: "vs All Access",
     estimatedTotal: "Your selection",
     currentTier: "Current tier",
-    allAccessPrice: "Future Kids All Access",
+    allAccessPrice: "Genlyn All Access",
   },
 };
 
@@ -289,7 +319,7 @@ export const comparisonRows: ComparisonRow[] = [
     feature: "Flexible app selection",
     oneApp: "One app",
     twoApps: "Any two apps",
-    threePlus: "Any three or four apps",
+    threePlus: "Any three or more apps",
   },
   {
     feature: "Additional-app savings",
@@ -343,7 +373,7 @@ export const pricingFaqs: PricingFaq[] = [
   {
     question: "Can I choose which apps are included?",
     answer:
-      "Yes. You can mix and match any combination of Earnly, Scholars Notes, Ballr, and TinyPal based on what your family needs.",
+      "Yes. You can mix and match any combination of Earnly, Scholars Notes, Ballr, TinyPal, and Freshys based on what your family needs.",
   },
   {
     question: "Can I change my apps later?",
@@ -397,9 +427,15 @@ export function getPriceForPeriod(
   return period === "monthly" ? plan.monthlyPrice : plan.yearlyPrice;
 }
 
-const ALL_APP_SLUGS: AppSlug[] = ["earnly", "scholars", "ballr", "tinypal"];
+const ALL_APP_SLUGS: AppSlug[] = [
+  "earnly",
+  "scholars",
+  "ballr",
+  "tinypal",
+  "fresher",
+];
 
-/** Real per-app price for the ecosystem calculator (1 Earnly child, Scholars All Access) */
+/** Real per-app price for the ecosystem calculator (1 Earnly child, Scholars Full) */
 export function getCalculatorAppAmount(
   appId: AppSlug,
   period: BillingPeriod,
@@ -409,11 +445,13 @@ export function getCalculatorAppAmount(
     case "earnly":
       return earnlyTotalPrice(earnlyChildren, period);
     case "scholars":
-      return period === "monthly" ? scholarsAllAccessMonthly : scholarsAllAccessYearly;
+      return scholarsFullTotalPrice(1, period);
     case "ballr":
-      return period === "monthly" ? 4.99 : 49.99;
+      return ballrTotalPrice(1, period);
     case "tinypal":
-      return period === "monthly" ? 4.99 : 49.99;
+      return tinypalTotalPrice(1, period);
+    case "fresher":
+      return period === "monthly" ? 1.5 : 9.99;
     default:
       return 0;
   }

@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getRequestOrigin } from "@/lib/auth/redirect";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
-import { getStripe } from "@/lib/subscriptions/stripe";
+import {
+  ensureStripeCustomerId,
+  getStripe,
+  isMissingStripeCustomerError,
+} from "@/lib/subscriptions/stripe";
 
 export async function POST(request: NextRequest) {
   try {
@@ -20,11 +25,11 @@ export async function POST(request: NextRequest) {
 
     const { data: profile, error: profileError } = await supabase
       .from("profiles")
-      .select("stripe_customer_id")
+      .select("stripe_customer_id, email, full_name")
       .eq("id", user.id)
       .single();
 
-    if (profileError || !profile?.stripe_customer_id) {
+    if (profileError) {
       return NextResponse.json(
         { error: "No Stripe billing account is connected" },
         { status: 404 },
@@ -36,8 +41,25 @@ export async function POST(request: NextRequest) {
       ? new URL(configuredOrigin).origin
       : getRequestOrigin(request);
 
-    const session = await getStripe().billingPortal.sessions.create({
-      customer: profile.stripe_customer_id,
+    const stripe = getStripe();
+    const admin = createAdminClient();
+    const customerId = await ensureStripeCustomerId({
+      stripe,
+      userId: user.id,
+      existingCustomerId: profile.stripe_customer_id,
+      email: user.email ?? profile.email,
+      name: profile.full_name,
+      persist: async (nextCustomerId) => {
+        const { error } = await admin.rpc("set_profile_stripe_customer_id", {
+          p_user_id: user.id,
+          p_stripe_customer_id: nextCustomerId,
+        });
+        if (error) throw new Error("Could not link billing profile");
+      },
+    });
+
+    const session = await stripe.billingPortal.sessions.create({
+      customer: customerId,
       return_url: `${origin}/account#plans`,
     });
 
@@ -46,9 +68,10 @@ export async function POST(request: NextRequest) {
     console.error("[billing-portal] failed", {
       message: error instanceof Error ? error.message : "unknown",
     });
+    const status = isMissingStripeCustomerError(error) ? 404 : 500;
     return NextResponse.json(
       { error: "Could not open billing management" },
-      { status: 500 },
+      { status },
     );
   }
 }

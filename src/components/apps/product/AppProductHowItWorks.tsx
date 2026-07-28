@@ -1,4 +1,4 @@
-import { type AppConfig } from "@/config/brand";
+import { accentForegroundColor, type AppConfig } from "@/config/brand";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
 
@@ -7,8 +7,10 @@ interface AppProductHowItWorksProps {
 }
 
 export function AppProductHowItWorks({ app }: AppProductHowItWorksProps) {
+  const foreground = accentForegroundColor(app.accentColor);
+
   return (
-    <section id="how-it-works" className="scroll-mt-32 bg-[#fafafa] py-20 sm:py-28">
+    <section id="how-it-works" className="scroll-mt-32 bg-[#fefbf6] py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <AnimateOnScroll>
           <SectionHeading
@@ -32,8 +34,8 @@ export function AppProductHowItWorks({ app }: AppProductHowItWorksProps) {
                 )}
                 <div className="text-center lg:text-left">
                   <div
-                    className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl text-2xl font-bold text-white shadow-sm lg:mx-0"
-                    style={{ backgroundColor: app.accentColor }}
+                    className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl text-2xl font-bold shadow-sm lg:mx-0"
+                    style={{ backgroundColor: app.accentColor, color: foreground }}
                   >
                     {step.step}
                   </div>

@@ -6,16 +6,16 @@ import { ScrollIndicator, StoryReveal } from "./StoryReveal";
 
 export function CinematicHero() {
   return (
-    <section className="relative flex min-h-screen items-center overflow-hidden bg-[#f8f8f6] py-24 sm:py-28">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_15%,rgba(16,185,129,0.12),transparent_28%),radial-gradient(circle_at_85%_20%,rgba(99,102,241,0.12),transparent_30%),radial-gradient(circle_at_75%_85%,rgba(249,115,22,0.10),transparent_28%)]" />
+    <section className="relative flex min-h-[85vh] items-center overflow-hidden bg-[#f8f8f6] py-20 sm:py-24">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_15%,rgba(36,192,252,0.12),transparent_28%),radial-gradient(circle_at_85%_20%,rgba(0,156,252,0.12),transparent_30%),radial-gradient(circle_at_75%_85%,rgba(252,108,12,0.10),transparent_28%)]" />
 
-      <div className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-14 px-4 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16 lg:px-8">
+      <div className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16 lg:px-8">
         <div>
           <StoryReveal variant="fade-up" duration={1200}>
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-neutral-500">
-              Technology that helps families grow
+              About Genlyn
             </p>
-            <h1 className="mt-5 text-4xl font-semibold leading-[1.04] tracking-tight text-neutral-950 sm:text-6xl lg:text-7xl">
+            <h1 className="mt-5 text-4xl font-semibold leading-[1.04] tracking-tight text-neutral-950 sm:text-5xl lg:text-6xl">
               {cinematicHero.headline}
             </h1>
           </StoryReveal>
@@ -24,16 +24,14 @@ export function CinematicHero() {
               {cinematicHero.subtext}
             </p>
             <div className="mt-8 flex flex-wrap gap-2">
-              {["Money skills", "Better study habits", "Active play", "Safe connection"].map(
-                (outcome) => (
-                  <span
-                    key={outcome}
-                    className="rounded-full border border-neutral-200 bg-white/80 px-4 py-2 text-sm font-medium text-neutral-700 shadow-sm backdrop-blur"
-                  >
-                    {outcome}
-                  </span>
-                ),
-              )}
+              {cinematicHero.outcomes.map((outcome) => (
+                <span
+                  key={outcome}
+                  className="rounded-full border border-neutral-200 bg-white/80 px-4 py-2 text-sm font-medium text-neutral-700 shadow-sm backdrop-blur"
+                >
+                  {outcome}
+                </span>
+              ))}
             </div>
           </StoryReveal>
         </div>

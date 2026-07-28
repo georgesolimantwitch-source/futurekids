@@ -1,6 +1,8 @@
 /**
- * Future Kids All Access — full ecosystem bundle (Creative Cloud style).
- * $19.99/mo for 1 Earnly child + $0.99/mo per additional child.
+ * Genlyn All Access — full ecosystem bundle (Creative Cloud style).
+ * Base includes 1 seat each for Earnly, Scholars, Ballr, TinyPal (+ Freshys).
+ * Extra seats: Earnly +$0.99, TinyPal +$1.99, Ballr +$1.99,
+ * Scholars Full +$14.99 / Tutor & Study Guide +$9.99 /mo.
  */
 
 import {
@@ -9,35 +11,77 @@ import {
   earnlyTotalPrice,
   type EarnlyBillingPeriod,
 } from "./earnly-pricing";
-import { scholarsAllAccessMonthly, scholarsAllAccessYearly } from "./scholars-pricing";
+import {
+  ballrExtraSeatPrice,
+  ballrPricing,
+  ballrTotalPrice,
+  clampBallrChildCount,
+} from "./ballr-pricing";
+import {
+  clampScholarsChildCount,
+  scholarsAllAccessYearly,
+  scholarsPricing,
+  scholarsTierExtraSeatPrice,
+  scholarsTierTotalPrice,
+  type ScholarsTierId,
+} from "./scholars-pricing";
+import {
+  clampTinyPalChildCount,
+  tinypalExtraSeatPrice,
+  tinypalPricing,
+  tinypalTotalPrice,
+} from "./tinypal-pricing";
 
 export const ecosystemBundle = {
   name: "All Access",
-  productName: "Future Kids All Access",
+  productName: "Genlyn All Access",
   tagline: "Every app. One subscription.",
   description:
-    "Earnly, Scholars Notes, Ballr Live, and TinyPal — the complete ecosystem for learning, earning, playing, and connecting.",
+    "Earnly, Scholars Notes, Ballr Live, TinyPal, and Freshys — the complete ecosystem for learning, earning, playing, connecting, and finding real food.",
   /** $19.99/mo with 1 Earnly child; +$0.99/mo per additional child */
   monthlyBase: 19.99,
   monthlyPerExtraChild: 0.99,
   /** Annual base + $9.99 per additional child */
   yearlyBase: 199.9,
   yearlyPerExtraChild: 9.99,
+  monthlyPerExtraTinyPalChild: tinypalPricing.additionalChildMonthly,
+  yearlyPerExtraTinyPalChild: tinypalPricing.additionalChildYearly,
+  monthlyPerExtraBallrChild: ballrPricing.additionalChildMonthly,
+  yearlyPerExtraBallrChild: ballrPricing.additionalChildYearly,
+  monthlyPerExtraScholarsChild: scholarsPricing.additionalChildMonthly,
+  yearlyPerExtraScholarsChild: scholarsPricing.additionalChildYearly,
   scholarsYearlyEquivalent: scholarsAllAccessYearly,
   includedApps: [
     { slug: "earnly" as const, name: "Earnly Live", icon: "/images/apps/earnly/icon.png" },
     { slug: "scholars" as const, name: "Scholars Notes", icon: "/images/apps/scholars/icon.png" },
     { slug: "ballr" as const, name: "Ballr Live", icon: "/images/apps/ballr/icon.png" },
     { slug: "tinypal" as const, name: "TinyPal", icon: "/images/apps/tinypal/icon.png" },
+    { slug: "fresher" as const, name: "Freshys", icon: "/images/apps/fresher/icon.png" },
   ],
   highlights: [
-    "All four apps included",
+    "All five apps included",
     "Every feature in each app",
     "One account across the ecosystem",
     "Best value for growing families",
     "Cancel anytime",
   ],
 } as const;
+
+export type BundleSeats = {
+  earnly: number;
+  scholars: number;
+  ballr: number;
+  tinypal: number;
+};
+
+export function normalizeBundleSeats(partial?: Partial<BundleSeats>): BundleSeats {
+  return {
+    earnly: clampEarnlyChildCount(partial?.earnly ?? 1),
+    scholars: clampScholarsChildCount(partial?.scholars ?? 1),
+    ballr: clampBallrChildCount(partial?.ballr ?? 1),
+    tinypal: clampTinyPalChildCount(partial?.tinypal ?? 1),
+  };
+}
 
 function buildBundleTable(base: number, perExtra: number): Record<number, number> {
   const table: Record<number, number> = {};
@@ -66,88 +110,184 @@ export function formatUsd(amount: number): string {
 }
 
 /** À la carte monthly total if subscribing to each app separately */
-export function individualMonthlyTotal(childCount: number): number {
-  const count = clampEarnlyChildCount(childCount);
-  const earnly = earnlyTotalPrice(count, "monthly");
-  const scholars = scholarsAllAccessMonthly;
-  const ballr = 4.99;
-  const tinypal = 4.99;
-  return Math.round((earnly + scholars + ballr + tinypal) * 100) / 100;
+export function individualMonthlyTotal(
+  seats: Partial<BundleSeats> = {},
+  scholarsTier: ScholarsTierId = "full",
+): number {
+  const s = normalizeBundleSeats(seats);
+  const earnly = earnlyTotalPrice(s.earnly, "monthly");
+  const scholars = scholarsTierTotalPrice(scholarsTier, s.scholars, "monthly");
+  const ballr = ballrTotalPrice(s.ballr, "monthly");
+  const tinypal = tinypalTotalPrice(s.tinypal, "monthly");
+  const fresher = 1.5;
+  return Math.round((earnly + scholars + ballr + tinypal + fresher) * 100) / 100;
 }
 
 /** À la carte yearly total */
-export function individualYearlyTotal(childCount: number): number {
-  const count = clampEarnlyChildCount(childCount);
-  const earnly = earnlyTotalPrice(count, "yearly");
-  const scholars = ecosystemBundle.scholarsYearlyEquivalent;
-  const ballr = 49.99;
-  const tinypal = 49.99;
-  return Math.round((earnly + scholars + ballr + tinypal) * 100) / 100;
+export function individualYearlyTotal(
+  seats: Partial<BundleSeats> = {},
+  scholarsTier: ScholarsTierId = "full",
+): number {
+  const s = normalizeBundleSeats(seats);
+  const earnly = earnlyTotalPrice(s.earnly, "yearly");
+  const scholars = scholarsTierTotalPrice(scholarsTier, s.scholars, "yearly");
+  const ballr = ballrTotalPrice(s.ballr, "yearly");
+  const tinypal = tinypalTotalPrice(s.tinypal, "yearly");
+  const fresher = 9.99;
+  return Math.round((earnly + scholars + ballr + tinypal + fresher) * 100) / 100;
 }
 
 export function bundlePrice(
-  childCount: number,
+  earnlyChildCount: number,
   period: EarnlyBillingPeriod,
+  tinypalChildCount = 1,
+  scholarsChildCount = 1,
+  ballrChildCount = 1,
+  scholarsTier: ScholarsTierId = "full",
 ): number {
-  const count = clampEarnlyChildCount(childCount);
+  const seats = normalizeBundleSeats({
+    earnly: earnlyChildCount,
+    tinypal: tinypalChildCount,
+    scholars: scholarsChildCount,
+    ballr: ballrChildCount,
+  });
   const table = period === "monthly" ? ecosystemMonthlyByChild : ecosystemYearlyByChild;
-  return table[count];
+  const base = table[seats.earnly];
+  const extras =
+    tinypalExtraSeatPrice(seats.tinypal, period) +
+    scholarsTierExtraSeatPrice(scholarsTier, seats.scholars, period) +
+    ballrExtraSeatPrice(seats.ballr, period);
+  return Math.round((base + extras) * 100) / 100;
 }
 
 export function bundleSavings(
-  childCount: number,
+  earnlyChildCount: number,
   period: EarnlyBillingPeriod,
+  tinypalChildCount = 1,
+  scholarsChildCount = 1,
+  ballrChildCount = 1,
+  scholarsTier: ScholarsTierId = "full",
 ): number {
+  const seats = {
+    earnly: earnlyChildCount,
+    tinypal: tinypalChildCount,
+    scholars: scholarsChildCount,
+    ballr: ballrChildCount,
+  };
   const individual =
     period === "monthly"
-      ? individualMonthlyTotal(childCount)
-      : individualYearlyTotal(childCount);
-  const bundle = bundlePrice(childCount, period);
+      ? individualMonthlyTotal(seats, scholarsTier)
+      : individualYearlyTotal(seats, scholarsTier);
+  const bundle = bundlePrice(
+    earnlyChildCount,
+    period,
+    tinypalChildCount,
+    scholarsChildCount,
+    ballrChildCount,
+    scholarsTier,
+  );
   return Math.max(0, Math.round((individual - bundle) * 100) / 100);
 }
 
 export function bundleSavingsPercent(
-  childCount: number,
+  earnlyChildCount: number,
   period: EarnlyBillingPeriod,
+  tinypalChildCount = 1,
+  scholarsChildCount = 1,
+  ballrChildCount = 1,
+  scholarsTier: ScholarsTierId = "full",
 ): number {
+  const seats = {
+    earnly: earnlyChildCount,
+    tinypal: tinypalChildCount,
+    scholars: scholarsChildCount,
+    ballr: ballrChildCount,
+  };
   const individual =
     period === "monthly"
-      ? individualMonthlyTotal(childCount)
-      : individualYearlyTotal(childCount);
+      ? individualMonthlyTotal(seats, scholarsTier)
+      : individualYearlyTotal(seats, scholarsTier);
   if (individual <= 0) return 0;
-  const savings = bundleSavings(childCount, period);
+  const savings = bundleSavings(
+    earnlyChildCount,
+    period,
+    tinypalChildCount,
+    scholarsChildCount,
+    ballrChildCount,
+    scholarsTier,
+  );
   return Math.round((savings / individual) * 100);
 }
 
 export function bundlePriceLine(
-  childCount: number,
+  earnlyChildCount: number,
   period: EarnlyBillingPeriod,
+  tinypalChildCount = 1,
+  scholarsChildCount = 1,
+  ballrChildCount = 1,
+  scholarsTier: ScholarsTierId = "full",
 ): string {
-  const total = bundlePrice(childCount, period);
+  const total = bundlePrice(
+    earnlyChildCount,
+    period,
+    tinypalChildCount,
+    scholarsChildCount,
+    ballrChildCount,
+    scholarsTier,
+  );
   const suffix = period === "monthly" ? "mo" : "yr";
   return `${formatUsd(total)} / ${suffix}`;
 }
 
 export function bundleCatalogId(
-  childCount: number,
+  earnlyChildCount: number,
   period: EarnlyBillingPeriod,
+  tinypalChildCount = 1,
+  scholarsChildCount = 1,
+  ballrChildCount = 1,
 ): string {
-  const count = clampEarnlyChildCount(childCount);
+  const seats = normalizeBundleSeats({
+    earnly: earnlyChildCount,
+    tinypal: tinypalChildCount,
+    scholars: scholarsChildCount,
+    ballr: ballrChildCount,
+  });
   const suffix = period === "monthly" ? "monthly" : "yearly";
-  return `ecosystem.all.kids${count}.${suffix}`;
+  if (seats.scholars === 1 && seats.ballr === 1 && seats.tinypal === 1) {
+    return `ecosystem.all.kids${seats.earnly}.${suffix}`;
+  }
+  if (seats.scholars === 1 && seats.ballr === 1) {
+    return `ecosystem.all.earnly${seats.earnly}.tinypal${seats.tinypal}.${suffix}`;
+  }
+  return `ecosystem.all.e${seats.earnly}.s${seats.scholars}.b${seats.ballr}.t${seats.tinypal}.${suffix}`;
 }
 
 export function bundleStartingPrice(period: EarnlyBillingPeriod): string {
-  const amount = bundlePrice(1, period);
+  const amount = bundlePrice(1, period, 1, 1, 1);
   const suffix = period === "monthly" ? "mo" : "yr";
   return `From ${formatUsd(amount)}/${suffix}`;
 }
 
 /** Shown under bundle price when à la carte is cheaper than the bundle */
-export function bundleValueLine(childCount: number): string {
-  const count = clampEarnlyChildCount(childCount);
-  if (count === 1) {
-    return "All 4 apps · one subscription · +$0.99/mo per extra Earnly child";
+export function bundleValueLine(
+  earnlyChildCount: number,
+  tinypalChildCount = 1,
+  scholarsChildCount = 1,
+  ballrChildCount = 1,
+): string {
+  const seats = normalizeBundleSeats({
+    earnly: earnlyChildCount,
+    tinypal: tinypalChildCount,
+    scholars: scholarsChildCount,
+    ballr: ballrChildCount,
+  });
+  if (
+    seats.earnly > 1 ||
+    seats.tinypal > 1 ||
+    seats.scholars > 1 ||
+    seats.ballr > 1
+  ) {
+    return `Includes ${seats.earnly} Earnly · ${seats.scholars} Scholars · ${seats.ballr} Ballr · ${seats.tinypal} TinyPal`;
   }
-  return `Includes ${count} Earnly children · +$0.99/mo per additional child`;
+  return "All 5 apps · one subscription · add seats per app as your family grows";
 }

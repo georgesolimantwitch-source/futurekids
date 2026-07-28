@@ -2,7 +2,7 @@ import fs from "node:fs";
 import { spawnSync } from "node:child_process";
 import Stripe from "stripe";
 
-const WEBHOOK_URL = "https://kidsfuture.vercel.app/api/webhooks/stripe";
+const WEBHOOK_URL = "https://genlyn.app/api/webhooks/stripe";
 
 function liveSecret(): string {
   const contents = fs.readFileSync("env.local", "utf8");

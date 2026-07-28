@@ -1,5 +1,6 @@
 /**
  * Scholars Notes pricing — yearly = 10 months (2 months free).
+ * Full (all-access) seats are flat quantity: $14.99 per child (no cheaper extras).
  */
 
 import type { EarnlyBillingPeriod } from "./earnly-pricing";
@@ -25,7 +26,82 @@ export const scholarsAllAccessYearly = scholarsYearlyFromMonthly(scholarsAllAcce
 export const scholarsTutorYearly = scholarsYearlyFromMonthly(scholarsTutorMonthly);
 export const scholarsStudyGuideYearly = scholarsYearlyFromMonthly(scholarsStudyGuideMonthly);
 
+/** Flat per-seat rate (same for every child). */
+export const scholarsSeatMonthly = scholarsAllAccessMonthly;
+export const scholarsSeatYearly = scholarsAllAccessYearly;
+
+export const scholarsPricing = {
+  minChildren: 1,
+  maxChildren: 6,
+  /** All Access Scholars seats (kids who can use Scholars + AI credits). */
+  allAccessMaxChildren: 5,
+  firstChildMonthly: scholarsSeatMonthly,
+  additionalChildMonthly: scholarsSeatMonthly,
+  firstChildYearly: scholarsSeatYearly,
+  additionalChildYearly: scholarsSeatYearly,
+  seatMonthly: scholarsSeatMonthly,
+  seatYearly: scholarsSeatYearly,
+} as const;
+
+export function clampScholarsChildCount(count: number): number {
+  return Math.min(
+    scholarsPricing.maxChildren,
+    Math.max(scholarsPricing.minChildren, count),
+  );
+}
+
+export function clampAllAccessScholarsChildCount(count: number): number {
+  return Math.min(
+    scholarsPricing.allAccessMaxChildren,
+    Math.max(scholarsPricing.minChildren, count),
+  );
+}
+
+export function scholarsSeatUnitPrice(period: EarnlyBillingPeriod): number {
+  return period === "monthly"
+    ? scholarsPricing.seatMonthly
+    : scholarsPricing.seatYearly;
+}
+
+export function scholarsFullTotalPrice(
+  childCount: number,
+  period: EarnlyBillingPeriod,
+): number {
+  const count = clampScholarsChildCount(childCount);
+  const unit = scholarsSeatUnitPrice(period);
+  return Math.round(count * unit * 100) / 100;
+}
+
+export function scholarsFullPriceLine(
+  childCount: number,
+  period: EarnlyBillingPeriod,
+): string {
+  const total = scholarsFullTotalPrice(childCount, period);
+  const suffix = period === "monthly" ? "mo" : "yr";
+  return `${formatUsd(total)} / ${suffix}`;
+}
+
 export type ScholarsTierId = "full" | "tutor" | "study_guide";
+
+/** Extra Scholars seats beyond the first (included in Genlyn All Access base). */
+export function scholarsExtraSeatPrice(
+  childCount: number,
+  period: EarnlyBillingPeriod,
+): number {
+  return scholarsTierExtraSeatPrice("full", childCount, period);
+}
+
+/** Extra Scholars seats at the selected tier rate (Full $14.99 · Tutor/Study Guide $9.99). */
+export function scholarsTierExtraSeatPrice(
+  tierId: ScholarsTierId,
+  childCount: number,
+  period: EarnlyBillingPeriod,
+): number {
+  const count = clampScholarsChildCount(childCount);
+  if (count <= 1) return 0;
+  const unit = scholarsTierPrice(getScholarsTier(tierId), period);
+  return Math.round((count - 1) * unit * 100) / 100;
+}
 
 export interface ScholarsTier {
   id: ScholarsTierId;
@@ -40,7 +116,7 @@ export interface ScholarsTier {
 export const scholarsTiers: ScholarsTier[] = [
   {
     id: "full",
-    name: "Scholars All Access",
+    name: "Scholars Full",
     description: "AI Tutor, Study Guides, Handwriting Practice, and all future premium tools.",
     monthly: scholarsAllAccessMonthly,
     yearly: scholarsAllAccessYearly,
@@ -98,10 +174,31 @@ export function scholarsTierPrice(tier: ScholarsTier, period: EarnlyBillingPerio
   return period === "monthly" ? tier.monthly : tier.yearly;
 }
 
+export function scholarsTierTotalPrice(
+  tierId: ScholarsTierId,
+  childCount: number,
+  period: EarnlyBillingPeriod,
+): number {
+  const tier = getScholarsTier(tierId);
+  const count = clampScholarsChildCount(childCount);
+  const unit = scholarsTierPrice(tier, period);
+  return Math.round(count * unit * 100) / 100;
+}
+
 export function scholarsTierPriceLine(tier: ScholarsTier, period: EarnlyBillingPeriod): string {
   const amount = scholarsTierPrice(tier, period);
   const suffix = period === "monthly" ? "mo" : "yr";
   return `${formatUsd(amount)} / ${suffix}`;
+}
+
+export function scholarsTierTotalPriceLine(
+  tierId: ScholarsTierId,
+  childCount: number,
+  period: EarnlyBillingPeriod,
+): string {
+  const total = scholarsTierTotalPrice(tierId, childCount, period);
+  const suffix = period === "monthly" ? "mo" : "yr";
+  return `${formatUsd(total)} / ${suffix}`;
 }
 
 export function scholarsTierCatalogId(

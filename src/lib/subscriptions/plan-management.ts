@@ -66,6 +66,20 @@ export function activeEntitlementForApp(
     )[0];
 }
 
+export function activePlanEntitlements(
+  context: PlanManagementContext,
+): PlanManagementEntitlement[] {
+  const now = Date.now();
+  return context.entitlements.filter(
+    (entitlement) =>
+      ["active", "trialing", "grace_period", "canceled"].includes(
+        entitlement.status,
+      ) &&
+      (!entitlement.current_period_end ||
+        Date.parse(entitlement.current_period_end) > now),
+  );
+}
+
 export function planChangeTiming(
   current: { planKey: string; childLimit: number; interval: string },
   target: { planKey: string; childLimit: number; interval: string },
@@ -78,4 +92,13 @@ export function planChangeTiming(
     return "scheduled";
   }
   return "immediate";
+}
+
+export function requiredFamilyChildCount(
+  accessStatuses: string[],
+  linkedChildCount: number,
+): number {
+  return accessStatuses.length > 0
+    ? accessStatuses.filter((status) => status === "active").length
+    : linkedChildCount;
 }

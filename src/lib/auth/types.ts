@@ -1,4 +1,9 @@
-export type EcosystemAppId = "earnly" | "scholars" | "ballr" | "tinypal";
+export type EcosystemAppId =
+  | "earnly"
+  | "scholars"
+  | "ballr"
+  | "tinypal"
+  | "fresher";
 export type SubscriptionAppId = EcosystemAppId | "futurekids_all_access";
 
 export type AccountType = "parent" | "individual";

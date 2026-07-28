@@ -146,6 +146,42 @@ export async function ensureEcosystemAccountForUser(user: User): Promise<Ecosyst
   }
 }
 
+function isSyntheticProfileEmail(email: string | null | undefined): boolean {
+  if (!email) return true;
+  const value = email.trim().toLowerCase();
+  return (
+    value.endsWith("@users.local") ||
+    value.endsWith("@users.futurekids.internal") ||
+    value === "unknown@users.local"
+  );
+}
+
+async function repairSyntheticProfileEmail(
+  user: User,
+  account: EcosystemAccount,
+): Promise<EcosystemAccount> {
+  const profileEmail = account.profile?.email;
+  const authEmail = user.email?.trim() || null;
+  if (!isSyntheticProfileEmail(profileEmail) || !authEmail || isSyntheticProfileEmail(authEmail)) {
+    return account;
+  }
+
+  try {
+    const admin = createAdminClient();
+    await admin.from("profiles").update({ email: authEmail }).eq("id", user.id);
+  } catch {
+    const supabase = await createClient();
+    await supabase.from("profiles").update({ email: authEmail }).eq("id", user.id);
+  }
+
+  return {
+    ...account,
+    profile: account.profile
+      ? { ...account.profile, email: authEmail }
+      : account.profile,
+  };
+}
+
 export async function getOrRepairEcosystemAccount(): Promise<{
   account: EcosystemAccount | null;
   user: User | null;
@@ -158,13 +194,23 @@ export async function getOrRepairEcosystemAccount(): Promise<{
   }
 
   let account = await getEcosystemAccount();
-  if (!accountNeedsSetup(account)) {
-    return { account, user, repaired: false, error: null };
+  if (!accountNeedsSetup(account) && account) {
+    const before = account.profile?.email;
+    account = await repairSyntheticProfileEmail(user, account);
+    return {
+      account,
+      user,
+      repaired: before !== account.profile?.email,
+      error: null,
+    };
   }
 
   account = await ensureEcosystemAccountForUser(user);
 
   if (!accountNeedsSetup(account)) {
+    if (account) {
+      account = await repairSyntheticProfileEmail(user, account);
+    }
     return { account, user, repaired: true, error: null };
   }
 

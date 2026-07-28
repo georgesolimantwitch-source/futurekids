@@ -15,7 +15,7 @@ export default function VerifyEmailPage() {
       <div className="space-y-4 text-sm leading-relaxed text-neutral-600">
         <p>Check your spam folder if you do not see the email within a few minutes.</p>
         <p>
-          Once verified, your Future Kids account will work across Earnly, Scholars Notes, Ballr,
+          Once verified, your Genlyn account will work across Earnly, Scholars Notes, Ballr,
           and TinyPal.
         </p>
       </div>

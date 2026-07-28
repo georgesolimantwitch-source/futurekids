@@ -8,7 +8,7 @@ export default async function AccountPage() {
   if (!user) redirect("/login?next=/account");
 
   return (
-    <Suspense fallback={<div className="min-h-[60vh] bg-[#fafafa]" />}>
+    <Suspense fallback={<div className="min-h-[60vh] bg-[#fefbf6]" />}>
       <AccountDashboard
         initialAccount={account}
         authUser={user}

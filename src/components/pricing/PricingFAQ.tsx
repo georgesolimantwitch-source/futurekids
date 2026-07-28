@@ -23,7 +23,7 @@ export function PricingFAQ() {
             return (
               <div
                 key={faq.question}
-                className="overflow-hidden rounded-2xl border border-neutral-100 bg-[#fafafa] shadow-sm"
+                className="overflow-hidden rounded-2xl border border-neutral-100 bg-[#fefbf6] shadow-sm"
               >
                 <button
                   type="button"

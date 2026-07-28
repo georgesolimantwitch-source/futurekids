@@ -29,7 +29,7 @@ export function PricingSummary({
   const { labels } = ecosystemBuilderCopy;
 
   return (
-    <div className="rounded-2xl border border-neutral-100 bg-[#fafafa] p-6 sm:p-8">
+    <div className="rounded-2xl border border-neutral-100 bg-[#fefbf6] p-6 sm:p-8">
       <p
         className={`rounded-xl px-4 py-3 text-sm font-medium ${
           selectedCount >= 2
@@ -95,7 +95,7 @@ export function PricingSummary({
 
       <p className="mt-6 text-xs leading-relaxed text-neutral-500">
         Billing: {billingPeriod}. Scholars uses All Access ($14.99/mo). Earnly priced per
-        child. Compare with Future Kids All Access above.
+        child. Compare with Genlyn All Access above.
       </p>
     </div>
   );
