@@ -2,10 +2,7 @@ import Image from "next/image";
 import { type AppConfig } from "@/config/brand";
 import { AppPlayStoreAction, AppPrimaryAction } from "@/components/apps/AppCard";
 import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
-import {
-  AppScreenshotImage,
-  getScreenshotContainerClass,
-} from "@/components/ui/AppScreenshotImage";
+import { AppHeroGallery } from "./AppHeroGallery";
 
 interface AppProductHeroProps {
   app: AppConfig;
@@ -100,18 +97,8 @@ export function AppProductHero({ app }: AppProductHeroProps) {
           </AnimateOnScroll>
 
           <AnimateOnScroll delay={150}>
-            <div
-              className={`flex items-center justify-center rounded-3xl p-5 sm:p-10 ${getScreenshotContainerClass(app.screenshotDevice ?? "phone")}`}
-              style={{ backgroundColor: app.accentColorLight }}
-            >
-              <div className="relative w-full overflow-hidden rounded-2xl shadow-2xl ring-1 ring-black/5 transition-transform duration-500 hover:scale-[1.02]">
-                <AppScreenshotImage
-                  app={app}
-                  src={app.screenshotPath}
-                  alt={`${app.name} app screenshot`}
-                  priority
-                />
-              </div>
+            <div id="screenshots" className="scroll-mt-40">
+              <AppHeroGallery app={app} />
             </div>
           </AnimateOnScroll>
         </div>

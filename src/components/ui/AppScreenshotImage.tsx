@@ -24,6 +24,11 @@ export function getScreenshotContainerClass(device: ScreenshotDevice): string {
     : "mx-auto w-full max-w-[280px] sm:max-w-xs";
 }
 
+/** The image optimizer rejects SVG, so placeholder art has to be served as-is. */
+export function isUnoptimizedScreenshot(src: string): boolean {
+  return src.endsWith(".svg");
+}
+
 interface AppScreenshotImageProps extends Omit<ImageProps, "width" | "height"> {
   app: Pick<AppConfig, "screenshotDevice">;
   src: string;
@@ -44,6 +49,7 @@ export function AppScreenshotImage({
 }: AppScreenshotImageProps) {
   const device = getScreenshotDevice(app);
   const { width, height } = SCREENSHOT_DIMENSIONS[device];
+  const unoptimized = isUnoptimizedScreenshot(src);
 
   if (fill) {
     return (
@@ -51,6 +57,7 @@ export function AppScreenshotImage({
         src={src}
         alt={alt}
         fill
+        unoptimized={unoptimized}
         className={`object-cover object-top ${className}`}
         sizes={sizes ?? (device === "tablet" ? "400px" : "280px")}
         priority={priority}
@@ -65,6 +72,7 @@ export function AppScreenshotImage({
       alt={alt}
       width={width}
       height={height}
+      unoptimized={unoptimized}
       className={`h-auto w-full ${className}`}
       sizes={sizes ?? (device === "tablet" ? "(max-width: 768px) 100vw, 480px" : "320px")}
       priority={priority}

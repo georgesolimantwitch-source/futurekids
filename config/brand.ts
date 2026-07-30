@@ -115,6 +115,8 @@ export interface AppConfig {
    * gallery shows them full-bleed instead of inside an accent-tinted frame.
    */
   screenshotGalleryStyle?: "device" | "marketing";
+  /** CSS aspect ratio shared by every image in `screenshots`, e.g. "9/16" */
+  screenshotAspect?: string;
   faqs: FaqItem[];
   /** Ballr only — list supported sports */
   supportedSports?: string[];
@@ -223,21 +225,33 @@ export const apps: AppConfig[] = [
         "Account and family data protected with industry-standard security practices",
       ],
     },
+    screenshotGalleryStyle: "marketing",
+    screenshotAspect: "37/80",
     screenshots: [
       {
-        path: "/images/apps/earnly/screenshot.png",
-        alt: "Earnly linked child dashboard with balance and quick actions",
+        path: "/images/apps/earnly/marketing-family-balance.png",
+        alt: "Earnly home screen with total family balance and a growth chart",
         caption: "Family dashboard",
       },
       {
-        path: "/images/apps/earnly/screenshot-2.png",
-        alt: "Earnly chore manager with assign and review workflow",
+        path: "/images/apps/earnly/marketing-chores.png",
+        alt: "Earnly chore manager assigning tasks and approving rewards",
         caption: "Chores & rewards",
       },
       {
-        path: "/images/apps/earnly/screenshot-3.png",
-        alt: "Earnly send money screen for simulated allowance",
-        caption: "Send allowance",
+        path: "/images/apps/earnly/marketing-kid-accounts.png",
+        alt: "Earnly accounts list showing a separate balance for each child",
+        caption: "Kid accounts",
+      },
+      {
+        path: "/images/apps/earnly/marketing-move-money.png",
+        alt: "Earnly balance screen with deposit, send money, and withdraw actions",
+        caption: "Deposits & transfers",
+      },
+      {
+        path: "/images/apps/earnly/marketing-safety-map.png",
+        alt: "Earnly family live map showing a child's location in real time",
+        caption: "Family live map",
       },
     ],
     faqs: [
@@ -355,21 +369,33 @@ export const apps: AppConfig[] = [
         description: "The more you use Scholars, the better it understands your subjects and style.",
       },
     ],
+    screenshotGalleryStyle: "marketing",
+    screenshotAspect: "37/80",
     screenshots: [
       {
-        path: "/images/apps/scholars/screenshot.png",
-        alt: "Scholars Notes Biology 101 class hub with notes and AI tools",
+        path: "/images/apps/scholars/marketing-classes.png",
+        alt: "Scholars Notes course dashboard listing every class in one place",
+        caption: "Class dashboard",
+      },
+      {
+        path: "/images/apps/scholars/marketing-class-detail.png",
+        alt: "Scholars Notes Biology 101 class hub with notes, resources, and quick actions",
         caption: "Class workspace",
       },
       {
-        path: "/images/apps/scholars/screenshot-2.png",
-        alt: "Scholars Notes AI study podcast with synced transcript",
-        caption: "Study podcasts",
+        path: "/images/apps/scholars/marketing-notes.png",
+        alt: "Scholars Notes handwritten study guide on iPad and iPhone",
+        caption: "Notes & study guides",
       },
       {
-        path: "/images/apps/scholars/screenshot-3.png",
-        alt: "Scholars Notes dashboard with course cards and progress",
-        caption: "Course dashboard",
+        path: "/images/apps/scholars/marketing-tutor.png",
+        alt: "Scholars Notes Live Tutor listening to a lesson page and answering questions",
+        caption: "Live AI tutor",
+      },
+      {
+        path: "/images/apps/scholars/marketing-road-to-college.png",
+        alt: "Scholars Notes Road to College planner with GPA, SAT targets, and goals",
+        caption: "Road to College",
       },
     ],
     faqs: [
@@ -491,6 +517,7 @@ export const apps: AppConfig[] = [
       },
     ],
     screenshotGalleryStyle: "marketing",
+    screenshotAspect: "9/16",
     screenshots: [
       {
         path: "/images/apps/ballr/marketing-games-map.png",
@@ -783,6 +810,7 @@ export const apps: AppConfig[] = [
       },
     ],
     screenshotGalleryStyle: "marketing",
+    screenshotAspect: "9/16",
     screenshots: [
       {
         path: "/images/apps/fresher/marketing-farm-map.png",
