@@ -14,7 +14,7 @@ export function AppProductScreenshots({ app }: AppProductScreenshotsProps) {
   const isMarketing = app.screenshotGalleryStyle === "marketing";
 
   return (
-    <section className="bg-white py-20 sm:py-28">
+    <section id="screenshots" className="scroll-mt-40 bg-white py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <AnimateOnScroll>
           <SectionHeading

@@ -15,16 +15,21 @@ interface AppProductPageProps {
 }
 
 export function AppProductPage({ app }: AppProductPageProps) {
+  // Marketing posters sell the app on their own, so they lead the page instead
+  // of sitting below the written sections.
+  const leadWithScreenshots = app.screenshotGalleryStyle === "marketing";
+
   return (
     <>
       <AppProductNav app={app} />
       <AppProductHero app={app} />
+      {leadWithScreenshots && <AppProductScreenshots app={app} />}
       <AppProductPricing app={app} />
       <AppProductFeatures app={app} />
       <AppProductHowItWorks app={app} />
       <AppProductBenefits app={app} />
       <AppProductSafety app={app} />
-      <AppProductScreenshots app={app} />
+      {!leadWithScreenshots && <AppProductScreenshots app={app} />}
       <AppProductFaq app={app} />
       <AppProductCta app={app} />
     </>

@@ -12,9 +12,14 @@ interface AppProductNavProps {
 
 export function AppProductNav({ app }: AppProductNavProps) {
   const pathname = usePathname();
-  const sections = app.safety
+  const baseSections = app.safety
     ? [...productPageSections.slice(0, 3), { id: "safety", label: "Safety" }, ...productPageSections.slice(3)]
     : [...productPageSections];
+  // Marketing galleries lead the page, so they lead the section links too.
+  const sections =
+    app.screenshotGalleryStyle === "marketing"
+      ? [{ id: "screenshots", label: "Screenshots" }, ...baseSections]
+      : baseSections;
 
   return (
     <div
