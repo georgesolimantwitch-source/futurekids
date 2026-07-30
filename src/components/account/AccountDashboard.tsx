@@ -31,8 +31,7 @@ import {
   type PendingPlanChange,
   type PlanManagementContext,
 } from "@/lib/subscriptions/plan-management";
-import { AppKidsManager } from "@/components/account/AppKidsManager";
-import { isKidAppKey, type KidAppKey } from "@/lib/kids/types";
+import { FamilyKidsSection } from "@/components/account/FamilyKidsSection";
 
 const NAV_ITEMS = [
   { id: "overview", label: "Overview" },
@@ -94,11 +93,6 @@ export function AccountDashboard({
   const [planContext, setPlanContext] = useState<PlanManagementContext>(
     EMPTY_PLAN_MANAGEMENT_CONTEXT,
   );
-  const [managedKidsApp, setManagedKidsApp] = useState<{
-    appKey: KidAppKey;
-    appName: string;
-    accent: string;
-  } | null>(null);
 
   useEffect(() => {
     if (initialAccount?.profile) return;
@@ -429,21 +423,23 @@ export function AccountDashboard({
                           ? () => handleManagePlan(entitlement)
                           : undefined
                       }
-                      onManageKids={
-                        profile.account_type !== "individual" &&
-                        isKidAppKey(appId)
-                          ? () =>
-                              setManagedKidsApp({
-                                appKey: appId,
-                                appName: brandApp.name,
-                                accent: brandApp.accentColor,
-                              })
-                          : undefined
-                      }
                     />
                   );
                 })}
               </div>
+
+              {profile.account_type !== "individual" && (
+                <div className="mt-10">
+                  <h3 className="text-lg font-semibold tracking-tight text-neutral-950">
+                    Kids &amp; app access
+                  </h3>
+                  <p className="mt-2 max-w-2xl text-sm leading-relaxed text-neutral-600">
+                    Add a kid whenever you like, then switch on the apps each of
+                    them can sign in to.
+                  </p>
+                  <FamilyKidsSection />
+                </div>
+              )}
             </section>
 
             <section id="plans">
@@ -614,15 +610,6 @@ export function AccountDashboard({
           onCancel={() => handleStripeRenewalChange("cancel")}
           onResume={() => handleStripeRenewalChange("resume")}
           onCancelPendingChange={handleCancelPendingChange}
-        />
-      )}
-      {managedKidsApp && (
-        <AppKidsManager
-          appKey={managedKidsApp.appKey}
-          appName={managedKidsApp.appName}
-          accent={managedKidsApp.accent}
-          open
-          onClose={() => setManagedKidsApp(null)}
         />
       )}
     </div>
@@ -810,7 +797,6 @@ function AppCard({
   learnMore,
   openHref,
   onManagePlan,
-  onManageKids,
 }: {
   appId: EcosystemAppId;
   name: string;
@@ -822,7 +808,6 @@ function AppCard({
   learnMore: string;
   openHref: string;
   onManagePlan?: () => void;
-  onManageKids?: () => void;
 }) {
   const label =
     status === "active" ? "Active" : status === "coming_soon" ? "Coming soon" : "Not subscribed";
@@ -884,15 +869,6 @@ function AppCard({
           >
             Choose plan
           </Link>
-        )}
-        {onManageKids && (
-          <button
-            type="button"
-            onClick={onManageKids}
-            className="rounded-full border border-neutral-200 px-4 py-2 text-xs font-medium text-neutral-700 hover:bg-neutral-50"
-          >
-            Manage kids
-          </button>
         )}
         <a
           href={openHref}

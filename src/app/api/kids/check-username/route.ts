@@ -1,11 +1,14 @@
 import { NextResponse } from "next/server";
-import { getAuthenticatedUser } from "@/lib/auth/account";
+import { requireParentFromRequest } from "@/lib/kids/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 export async function POST(request: Request) {
-  const user = await getAuthenticatedUser();
-  if (!user) {
-    return NextResponse.json({ error: "Authentication required" }, { status: 401 });
+  const auth = await requireParentFromRequest(request);
+  if ("error" in auth) {
+    return NextResponse.json(
+      { error: auth.error.message },
+      { status: auth.error.status },
+    );
   }
 
   let username = "";

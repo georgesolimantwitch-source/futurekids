@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getAuthenticatedUser } from "@/lib/auth/account";
+import { requireParentFromRequest } from "@/lib/kids/auth";
 import {
   createKidForParent,
   getScholarsSeatLimit,
@@ -8,43 +8,20 @@ import {
   listKidsForParent,
   type KidAppKey,
 } from "@/lib/kids/portal";
-import { createAdminClient } from "@/lib/supabase/admin";
 
-async function requireParent() {
-  const user = await getAuthenticatedUser();
-  if (!user) {
-    return { error: NextResponse.json({ error: "Authentication required" }, { status: 401 }) };
+export async function GET(request: Request) {
+  const auth = await requireParentFromRequest(request);
+  if ("error" in auth) {
+    return NextResponse.json(
+      { error: auth.error.message },
+      { status: auth.error.status },
+    );
   }
-
-  const admin = createAdminClient();
-  const { data: profile } = await admin
-    .from("profiles")
-    .select("account_type")
-    .eq("id", user.id)
-    .maybeSingle();
-
-  const metaType = user.user_metadata?.account_type ?? user.user_metadata?.ecosystem_role;
-  const accountType = profile?.account_type ?? metaType;
-  if (accountType === "individual" || accountType === "child") {
-    return {
-      error: NextResponse.json(
-        { error: "Kids are only available on family accounts." },
-        { status: 403 },
-      ),
-    };
-  }
-
-  return { user };
-}
-
-export async function GET() {
-  const auth = await requireParent();
-  if ("error" in auth && auth.error) return auth.error;
 
   try {
     const [children, scholarsSeatLimit] = await Promise.all([
-      listKidsForParent(auth.user!.id),
-      getScholarsSeatLimit(auth.user!.id),
+      listKidsForParent(auth.user.id),
+      getScholarsSeatLimit(auth.user.id),
     ]);
     return NextResponse.json({ ok: true, children, scholarsSeatLimit });
   } catch (error) {
@@ -54,8 +31,13 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  const auth = await requireParent();
-  if ("error" in auth && auth.error) return auth.error;
+  const auth = await requireParentFromRequest(request);
+  if ("error" in auth) {
+    return NextResponse.json(
+      { error: auth.error.message },
+      { status: auth.error.status },
+    );
+  }
 
   let body: {
     full_name?: string;
@@ -79,17 +61,18 @@ export async function POST(request: Request) {
     );
   }
 
-  const enabledApps =
-    Array.isArray(body.enabled_apps) && body.enabled_apps.length > 0
-      ? (body.enabled_apps
-          .map((a) => a.trim().toLowerCase())
-          .filter(isKidAppKey) as KidAppKey[])
-      : undefined;
+  // An empty array means "no apps yet" — only an omitted field falls back to
+  // unlocking everything the parent is subscribed to.
+  const enabledApps = Array.isArray(body.enabled_apps)
+    ? (body.enabled_apps
+        .map((a) => a.trim().toLowerCase())
+        .filter(isKidAppKey) as KidAppKey[])
+    : undefined;
 
   try {
     const child = await createKidForParent({
-      parentId: auth.user!.id,
-      parentEmail: auth.user!.email ?? null,
+      parentId: auth.user.id,
+      parentEmail: auth.user.email ?? null,
       fullName: body.full_name ?? "",
       username: body.username ?? "",
       password: body.password ?? "",

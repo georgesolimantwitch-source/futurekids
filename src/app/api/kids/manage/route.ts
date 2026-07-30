@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getAuthenticatedUser } from "@/lib/auth/account";
+import { requireParentFromRequest } from "@/lib/kids/auth";
 import {
   isKidAppKey,
   KidApiError,
@@ -9,16 +9,21 @@ import {
 } from "@/lib/kids/portal";
 
 export async function POST(request: Request) {
-  const user = await getAuthenticatedUser();
-  if (!user) {
-    return NextResponse.json({ error: "Authentication required" }, { status: 401 });
+  const auth = await requireParentFromRequest(request);
+  if ("error" in auth) {
+    return NextResponse.json(
+      { error: auth.error.message },
+      { status: auth.error.status },
+    );
   }
+  const user = auth.user;
 
   let body: {
     action?: string;
     child_id?: string;
     app_key?: string;
     enabled?: boolean;
+    allow_pending_plan?: boolean;
     transfer_from_child_id?: string;
     new_password?: string;
     new_username?: string;
@@ -46,6 +51,7 @@ export async function POST(request: Request) {
         childId,
         appKey,
         enabled: Boolean(body.enabled),
+        allowPendingPlan: Boolean(body.allow_pending_plan),
         transferFromChildId: body.transfer_from_child_id,
       });
       return NextResponse.json({ ok: true });

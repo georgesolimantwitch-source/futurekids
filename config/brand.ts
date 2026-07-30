@@ -110,6 +110,11 @@ export interface AppConfig {
   benefits: Benefit[];
   safety?: SafetySection;
   screenshots: Screenshot[];
+  /**
+   * Marketing posters already include their own background and headline, so the
+   * gallery shows them full-bleed instead of inside an accent-tinted frame.
+   */
+  screenshotGalleryStyle?: "device" | "marketing";
   faqs: FaqItem[];
   /** Ballr only — list supported sports */
   supportedSports?: string[];
@@ -485,16 +490,42 @@ export const apps: AppConfig[] = [
         description: "Training logs and friend notifications keep you motivated.",
       },
     ],
+    screenshotGalleryStyle: "marketing",
     screenshots: [
       {
-        path: "/images/apps/ballr/screenshot.png",
-        alt: "Ballr player profile card with overall rating and OVR progress",
-        caption: "Player profile",
+        path: "/images/apps/ballr/marketing-games-map.png",
+        alt: "Ballr map with pickup games pinned across downtown San Francisco",
+        caption: "Games near you",
       },
       {
-        path: "/images/apps/ballr/screenshot-2.png",
-        alt: "Ballr map showing nearby parks, courts, and fields",
-        caption: "Find parks & games",
+        path: "/images/apps/ballr/marketing-parks-map.png",
+        alt: "Ballr map search for nearby parks, courts, and fields",
+        caption: "Parks, courts & fields",
+      },
+      {
+        path: "/images/apps/ballr/marketing-create-run.png",
+        alt: "Ballr create run screen setting location, sport, time, and skill level",
+        caption: "Start your own run",
+      },
+      {
+        path: "/images/apps/ballr/marketing-player-card.png",
+        alt: "Ballr player card showing a 60 OVR rating and progress to the next level",
+        caption: "Your player card",
+      },
+      {
+        path: "/images/apps/ballr/marketing-badges.png",
+        alt: "Ballr badge collection with Rookie I badge and OVR range progress",
+        caption: "Badges & OVR",
+      },
+      {
+        path: "/images/apps/ballr/marketing-gym.png",
+        alt: "Ballr gym portal comparing current build with AI-generated potential physique",
+        caption: "Gym portal",
+      },
+      {
+        path: "/images/apps/ballr/marketing-fuel.png",
+        alt: "Ballr fuel screen listing a daily meal plan with calories and macros",
+        caption: "Fuel & meal plans",
       },
     ],
     faqs: [
@@ -751,11 +782,32 @@ export const apps: AppConfig[] = [
         description: "Everything you need in a single, easy-to-use view.",
       },
     ],
+    screenshotGalleryStyle: "marketing",
     screenshots: [
       {
-        path: "/images/apps/fresher/screenshot.png",
-        alt: "Freshys map showing nearby farms and markets",
-        caption: "Local food map",
+        path: "/images/apps/fresher/marketing-farm-map.png",
+        alt: "Freshys map showing nearby farms and markets with ratings",
+        caption: "Every farm on one map",
+      },
+      {
+        path: "/images/apps/fresher/marketing-discover.png",
+        alt: "Freshys discover list of farmers markets and food stores near you",
+        caption: "Discover nearby",
+      },
+      {
+        path: "/images/apps/fresher/marketing-farm-details.png",
+        alt: "Freshys farm details page with photos, rating, hours, and story",
+        caption: "Know your local farmer",
+      },
+      {
+        path: "/images/apps/fresher/marketing-directions.png",
+        alt: "Freshys market detail card with directions, call, and website actions",
+        caption: "Directions in a tap",
+      },
+      {
+        path: "/images/apps/fresher/marketing-shopping-list.png",
+        alt: "Freshys shopping list with a budget tracker and priced items",
+        caption: "Shop to a budget",
       },
     ],
     faqs: [
@@ -854,6 +906,7 @@ export const navigationLinks = [
 
 /** In-page section anchors used on product pages */
 export const productPageSections = [
+  { id: "pricing", label: "Pricing" },
   { id: "features", label: "Features" },
   { id: "how-it-works", label: "How It Works" },
   { id: "benefits", label: "Benefits" },

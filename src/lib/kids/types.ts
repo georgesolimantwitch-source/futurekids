@@ -13,6 +13,7 @@ export interface KidAppAccess {
   app_key: KidAppKey;
   status: KidAppAccessStatus;
   parent_has_entitlement: boolean;
+  is_linked: boolean;
 }
 
 export interface KidSummary {

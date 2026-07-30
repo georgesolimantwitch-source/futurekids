@@ -91,10 +91,10 @@ export function AppProductHero({ app }: AppProductHeroProps) {
               />
               <AppPlayStoreAction app={app} size="lg" className="w-full sm:w-auto" />
               <a
-                href="#features"
+                href="#pricing"
                 className="inline-flex w-full items-center justify-center rounded-full border border-neutral-200 bg-white px-8 py-4 text-base font-medium text-neutral-900 shadow-sm transition-all duration-200 hover:border-neutral-300 hover:bg-neutral-50 sm:w-auto"
               >
-                See Features
+                View Plans &amp; Pricing
               </a>
             </div>
           </AnimateOnScroll>

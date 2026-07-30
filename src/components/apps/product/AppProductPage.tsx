@@ -1,6 +1,7 @@
 import { type AppConfig } from "@/config/brand";
 import { AppProductNav } from "./AppProductNav";
 import { AppProductHero } from "./AppProductHero";
+import { AppProductPricing } from "./AppProductPricing";
 import { AppProductFeatures } from "./AppProductFeatures";
 import { AppProductHowItWorks } from "./AppProductHowItWorks";
 import { AppProductBenefits } from "./AppProductBenefits";
@@ -18,6 +19,7 @@ export function AppProductPage({ app }: AppProductPageProps) {
     <>
       <AppProductNav app={app} />
       <AppProductHero app={app} />
+      <AppProductPricing app={app} />
       <AppProductFeatures app={app} />
       <AppProductHowItWorks app={app} />
       <AppProductBenefits app={app} />

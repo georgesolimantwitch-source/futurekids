@@ -83,6 +83,60 @@ export async function getScholarsSeatLimit(parentId: string): Promise<number> {
   return Math.max(1, limit || 1);
 }
 
+export async function getTinyPalSeatLimit(parentId: string): Promise<number> {
+  const admin = createAdminClient();
+  const { data } = await admin
+    .from("user_entitlements")
+    .select("app_key, status, current_period_end, child_limit, limits")
+    .eq("user_id", parentId)
+    .in("app_key", ["tinypal", "futurekids_all_access"]);
+
+  const now = Date.now();
+  let limit = 0;
+  for (const row of data ?? []) {
+    if (!ACTIVE_ENTITLEMENT_STATUSES.has(String(row.status))) continue;
+    if (
+      row.current_period_end &&
+      Date.parse(String(row.current_period_end)) <= now
+    ) {
+      continue;
+    }
+    const limits = (row.limits ?? {}) as Record<string, unknown>;
+    const fromLimits = Number(limits.tinypalChildLimit);
+    const fromChild = Number(row.child_limit);
+    const seat =
+      Number.isFinite(fromLimits) && fromLimits >= 1
+        ? Math.trunc(fromLimits)
+        : row.app_key === "tinypal" && Number.isFinite(fromChild) && fromChild >= 1
+          ? Math.trunc(fromChild)
+          : row.app_key === "futurekids_all_access"
+            ? 1
+            : 0;
+    limit = Math.max(limit, Math.min(6, seat));
+  }
+  return limit;
+}
+
+export async function listActiveTinyPalChildIds(
+  parentId: string,
+): Promise<string[]> {
+  const admin = createAdminClient();
+  const { data: families } = await admin
+    .from("families")
+    .select("id")
+    .eq("owner_id", parentId)
+    .limit(1);
+  const familyId = families?.[0]?.id as string | undefined;
+  if (!familyId) return [];
+  const { data } = await admin
+    .from("family_child_app_access")
+    .select("child_id")
+    .eq("family_id", familyId)
+    .eq("app_key", "tinypal")
+    .eq("status", "active");
+  return (data ?? []).map((row) => String(row.child_id).toLowerCase());
+}
+
 export async function listActiveScholarsChildIds(
   parentId: string,
 ): Promise<string[]> {
@@ -323,9 +377,10 @@ export async function listKidsForParent(parentId: string): Promise<KidSummary[]>
     const apps: KidAppAccess[] = KID_APPS.map((app_key) => {
       const parent_has_entitlement = parentEntitlements[app_key];
       const raw = childAccess.get(app_key);
+      const is_linked = Boolean(raw && raw !== "revoked");
       let status: KidAppAccessStatus = "unavailable";
       if (!parent_has_entitlement) {
-        status = "unavailable";
+        status = is_linked ? "paused_by_plan" : "unavailable";
       } else if (raw === "active") {
         status = "active";
       } else if (raw === "paused_by_parent") {
@@ -337,7 +392,7 @@ export async function listKidsForParent(parentId: string): Promise<KidSummary[]>
       } else {
         status = "paused_by_parent";
       }
-      return { app_key, status, parent_has_entitlement };
+      return { app_key, status, parent_has_entitlement, is_linked };
     });
 
     return {
@@ -484,15 +539,20 @@ export async function createKidForParent(input: {
   );
 
   // Unlock only the apps the parent chose (or every subscribed app if omitted).
-  // Parents manage per-app access from each app card on the account page.
-  const appsToEnable =
-    input.enabledApps && input.enabledApps.length > 0
-      ? input.enabledApps
-      : [...KID_APPS];
+  // Parents manage per-app access from the Kids section on the account page.
+  const appsToEnable = input.enabledApps ?? [...KID_APPS];
 
   for (const app of KID_APPS) {
-    const allowed =
-      appsToEnable.includes(app) && (await parentHasAppEntitlement(input.parentId, app));
+    const selected = appsToEnable.includes(app);
+    let allowed =
+      selected && (await parentHasAppEntitlement(input.parentId, app));
+    if (app === "tinypal" && allowed) {
+      const [seatLimit, activeChildIds] = await Promise.all([
+        getTinyPalSeatLimit(input.parentId),
+        listActiveTinyPalChildIds(input.parentId),
+      ]);
+      allowed = activeChildIds.length < seatLimit;
+    }
     await admin.from("app_access").upsert(
       {
         user_id: childId,
@@ -503,16 +563,16 @@ export async function createKidForParent(input: {
       { onConflict: "user_id,app_name" },
     );
 
-    if (allowed) {
+    if (selected) {
       await admin.from("family_child_app_access").upsert(
         {
           family_id: familyId,
           child_id: childId,
           app_key: app,
-          status: "active",
-          status_reason: "enabled_by_parent",
-          activated_at: new Date().toISOString(),
-          paused_at: null,
+          status: allowed ? "active" : "paused_by_plan",
+          status_reason: allowed ? "enabled_by_parent" : "subscription_required",
+          activated_at: allowed ? new Date().toISOString() : null,
+          paused_at: allowed ? null : new Date().toISOString(),
           updated_at: new Date().toISOString(),
         },
         { onConflict: "family_id,child_id,app_key" },
@@ -535,6 +595,8 @@ export async function setKidAppEnabled(input: {
   enabled: boolean;
   /** When true, skip the active-subscription check (Stripe webhook seat grants). */
   bypassEntitlementCheck?: boolean;
+  /** Link the child now as paused_by_plan when the parent is not subscribed. */
+  allowPendingPlan?: boolean;
   /** When true, skip Scholars seat-capacity enforcement (Stripe webhook seat grants). */
   bypassSeatLimit?: boolean;
   /** When enabling Scholars at seat capacity, move seat + credits from this child. */
@@ -547,20 +609,42 @@ export async function setKidAppEnabled(input: {
     throw new KidApiError(403, "You can only manage children in your family.");
   }
 
-  if (
-    input.enabled &&
-    !input.bypassEntitlementCheck &&
-    !(await parentHasAppEntitlement(input.parentId, input.appKey))
-  ) {
+  const hasEntitlement =
+    input.bypassEntitlementCheck ||
+    (await parentHasAppEntitlement(input.parentId, input.appKey));
+  if (input.enabled && !hasEntitlement && !input.allowPendingPlan) {
     throw new KidApiError(
       403,
       `An active ${input.appKey} subscription (or Genlyn All Access) is required to enable this app.`,
     );
   }
 
+  let hasPlanCapacity = true;
+  if (
+    input.appKey === "tinypal" &&
+    input.enabled &&
+    hasEntitlement &&
+    !input.bypassSeatLimit
+  ) {
+    const [seatLimit, activeIds] = await Promise.all([
+      getTinyPalSeatLimit(input.parentId),
+      listActiveTinyPalChildIds(input.parentId),
+    ]);
+    const alreadyActive = activeIds.includes(input.childId.toLowerCase());
+    hasPlanCapacity = alreadyActive || activeIds.length < seatLimit;
+    if (!hasPlanCapacity && !input.allowPendingPlan) {
+      throw new KidApiError(
+        409,
+        `All ${seatLimit} TinyPal child seats are in use. Upgrade your plan to add another child.`,
+        "TINYPAL_SEAT_FULL",
+      );
+    }
+  }
+
   if (
     input.appKey === "scholars" &&
     input.enabled &&
+    hasEntitlement &&
     !input.bypassSeatLimit
   ) {
     const seatLimit = await getScholarsSeatLimit(input.parentId);
@@ -624,12 +708,13 @@ export async function setKidAppEnabled(input: {
   }
 
   const familyId = await ensureParentFamily(input.parentId, null);
+  const isActive = input.enabled && hasEntitlement && hasPlanCapacity;
 
   await admin.from("app_access").upsert(
     {
       user_id: input.childId,
       app_name: input.appKey,
-      has_access: input.enabled,
+      has_access: isActive,
       access_source: "parent_portal",
     },
     { onConflict: "user_id,app_name" },
@@ -640,10 +725,18 @@ export async function setKidAppEnabled(input: {
       family_id: familyId,
       child_id: input.childId,
       app_key: input.appKey,
-      status: input.enabled ? "active" : "paused_by_parent",
-      status_reason: input.enabled ? "enabled_by_parent" : "paused_by_parent",
-      activated_at: input.enabled ? new Date().toISOString() : null,
-      paused_at: input.enabled ? null : new Date().toISOString(),
+      status: isActive
+        ? "active"
+        : input.enabled
+          ? "paused_by_plan"
+          : "paused_by_parent",
+      status_reason: isActive
+        ? "enabled_by_parent"
+        : input.enabled
+          ? "subscription_required"
+          : "paused_by_parent",
+      activated_at: isActive ? new Date().toISOString() : null,
+      paused_at: isActive ? null : new Date().toISOString(),
       updated_at: new Date().toISOString(),
     },
     { onConflict: "family_id,child_id,app_key" },
