@@ -212,7 +212,7 @@ export function HomeTiles() {
         primary={{ label: "Learn more", href: earnly.learnMorePath }}
         secondary={{ label: "Download", href: earnly.appStoreUrl, external: true }}
         visual={
-          <div className="relative flex items-start justify-center gap-0 pt-2">
+          <div className="relative flex origin-top scale-[0.78] items-start justify-center gap-0 pt-2 min-[420px]:scale-90 sm:scale-100">
             <PhoneMock
               src="/images/apps/earnly/screenshot-2.png"
               alt="Earnly app"

@@ -54,7 +54,8 @@ export function CinematicHero() {
                     sizes="(min-width: 1024px) 28vw, 48vw"
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent" />
+                  {/* Narrow cards push the caption higher, so the scrim reaches further up */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent sm:from-black/65 sm:via-transparent" />
                   <div className="absolute inset-x-0 bottom-0 p-3 text-white sm:p-5">
                     <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/75 sm:text-xs">
                       {card.app}

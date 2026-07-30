@@ -92,7 +92,7 @@ export function useScrollProgress(ref: React.RefObject<HTMLElement | null>) {
 
 export function ScrollIndicator() {
   return (
-    <div className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2">
+    <div className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 lg:flex">
       <span className="text-xs font-medium uppercase tracking-widest text-neutral-400">
         Scroll
       </span>

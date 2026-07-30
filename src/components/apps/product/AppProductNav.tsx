@@ -18,7 +18,8 @@ export function AppProductNav({ app }: AppProductNavProps) {
 
   return (
     <div
-      className="sticky top-[65px] z-40 border-b border-neutral-100 bg-white/90 backdrop-blur-lg"
+      // Two stacked sticky bars eat too much of a phone screen, so this one only sticks from tablet up.
+      className="relative z-40 border-b border-neutral-100 bg-white/90 backdrop-blur-lg md:sticky md:top-[65px]"
       style={{ borderBottomColor: `${app.accentColor}15` }}
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">

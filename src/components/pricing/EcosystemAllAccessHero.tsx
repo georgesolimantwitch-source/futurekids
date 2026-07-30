@@ -1286,7 +1286,7 @@ export function EcosystemAllAccessHero({
                   </div>
                 ))}
 
-                <div className="flex items-center justify-between gap-3 border-t border-neutral-200/80 px-3 py-2.5">
+                <div className="flex flex-col gap-2 border-t border-neutral-200/80 px-3 py-2.5 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
                   <div className="min-w-0">
                     <p className="text-xs font-medium text-[#2a1e12]">Scholars</p>
                     <p className="text-[10px] tabular-nums text-[#8a735a]">
@@ -1297,7 +1297,7 @@ export function EcosystemAllAccessHero({
                         : ""}
                     </p>
                   </div>
-                  <div className="flex shrink-0 flex-wrap items-center justify-end gap-1.5">
+                  <div className="flex flex-wrap items-center gap-1.5 sm:shrink-0 sm:justify-end">
                     <label>
                       <span className="sr-only">Scholars kids</span>
                       <select

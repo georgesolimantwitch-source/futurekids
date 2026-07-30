@@ -227,62 +227,68 @@ export function StudyBoardHero() {
         onMouseLeave={handleLeave}
         className="relative mx-auto h-[460px] w-full max-w-6xl px-2 sm:h-[500px] sm:px-4"
       >
-        <AppRope stickers={APP_STICKERS} />
+        {/* Narrow screens pull the board in so the outer cards stay fully visible */}
+        <div className="absolute inset-y-0 inset-x-10 sm:inset-x-8 md:inset-x-5 lg:inset-x-0">
+          <AppRope stickers={APP_STICKERS} />
 
-        {DOODLES.map((doodle) => (
-          <div
-            key={doodle.emoji}
-            className="sticker-layer absolute -translate-x-1/2 -translate-y-1/2 select-none"
-            style={{ left: doodle.left, top: doodle.top, ...layerTransform(doodle.depth) }}
-            aria-hidden
-          >
-            <div className="sticker-float">
-              <span
-                className={`sticker inline-block ${doodle.size} drop-shadow-[0_8px_16px_rgba(90,60,20,0.25)]`}
-                style={{ ["--r" as string]: `${doodle.rotate}deg` }}
-              >
-                {doodle.emoji}
-              </span>
-            </div>
-          </div>
-        ))}
-
-        {APP_STICKERS.map((sticker) => (
-          <div
-            key={sticker.slug}
-            className="sticker-layer absolute z-[2] -translate-x-1/2 -translate-y-1/2"
-            style={{
-              left: `${sticker.left}%`,
-              top: `${sticker.top}%`,
-              ...layerTransform(sticker.depth),
-            }}
-          >
+          {DOODLES.map((doodle) => (
             <div
-              className="sticker-float"
-              style={{ animationDelay: sticker.delay }}
+              key={doodle.emoji}
+              className="sticker-layer absolute -translate-x-1/2 -translate-y-1/2 select-none"
+              style={{ left: doodle.left, top: doodle.top, ...layerTransform(doodle.depth) }}
+              aria-hidden
             >
-              <Link
-                href={sticker.href}
-                aria-label={`${sticker.name} — learn more`}
-                className="sticker paper-card group relative flex w-[112px] flex-col items-center gap-2 rounded-xl px-3 pb-3 pt-5 sm:w-[140px] sm:px-4"
-                style={{ ["--r" as string]: `${sticker.rotate}deg` }}
-              >
-                <span className="washi-tape" aria-hidden />
-                <Image
-                  src={sticker.icon}
-                  alt=""
-                  width={72}
-                  height={72}
-                  className="h-14 w-14 rounded-[22%] shadow-sm sm:h-[72px] sm:w-[72px]"
-                  aria-hidden
-                />
-                <span className="text-sm font-medium text-[#2a1e12]">
-                  {sticker.name}
+              <div className="sticker-float">
+                <span
+                  className={`sticker inline-block ${doodle.size} drop-shadow-[0_8px_16px_rgba(90,60,20,0.25)]`}
+                  style={{ ["--r" as string]: `${doodle.rotate}deg` }}
+                >
+                  {doodle.emoji}
                 </span>
-              </Link>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+
+          {APP_STICKERS.map((sticker) => (
+            <div
+              key={sticker.slug}
+              // Cards overlap on phones; the raised ones stack on top so no app name is hidden.
+              className={`sticker-layer absolute -translate-x-1/2 -translate-y-1/2 ${
+                sticker.top < 40 ? "z-[3]" : "z-[2]"
+              }`}
+              style={{
+                left: `${sticker.left}%`,
+                top: `${sticker.top}%`,
+                ...layerTransform(sticker.depth),
+              }}
+            >
+              <div
+                className="sticker-float"
+                style={{ animationDelay: sticker.delay }}
+              >
+                <Link
+                  href={sticker.href}
+                  aria-label={`${sticker.name} — learn more`}
+                  className="sticker paper-card group relative flex w-[96px] flex-col items-center gap-2 rounded-xl px-2 pb-3 pt-5 min-[360px]:w-[112px] min-[360px]:px-3 sm:w-[140px] sm:px-4"
+                  style={{ ["--r" as string]: `${sticker.rotate}deg` }}
+                >
+                  <span className="washi-tape" aria-hidden />
+                  <Image
+                    src={sticker.icon}
+                    alt=""
+                    width={72}
+                    height={72}
+                    className="h-14 w-14 rounded-[22%] shadow-sm sm:h-[72px] sm:w-[72px]"
+                    aria-hidden
+                  />
+                  <span className="text-sm font-medium text-[#2a1e12]">
+                    {sticker.name}
+                  </span>
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
       <div
