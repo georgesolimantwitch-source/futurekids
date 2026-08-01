@@ -4,9 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import type { AppConfig } from "@/config/brand";
-import {
-  individualAppPlanKey,
-} from "@/config/checkout-plans";
+import { individualAppPlanKey } from "@/config/checkout-plans";
 import {
   getPriceForPeriod,
   getPricingPlan,
@@ -15,19 +13,14 @@ import {
 import { earnlyTotalPrice } from "@/config/earnly-pricing";
 import { ballrTotalPrice } from "@/config/ballr-pricing";
 import { tinypalTotalPrice } from "@/config/tinypal-pricing";
-import {
-  getScholarsTier,
-  scholarsTierTotalPrice,
-  scholarsTiers,
-  type ScholarsTierId,
-} from "@/config/scholars-pricing";
 import { postCheckout } from "@/lib/checkout/client";
+import { ScholarsCreditBuilder } from "@/components/pricing/ScholarsCreditBuilder";
 
 interface AppProductPricingProps {
   app: AppConfig;
 }
 
-const FAMILY_APPS = new Set(["earnly", "ballr", "tinypal", "scholars"]);
+const FAMILY_APPS = new Set(["earnly", "ballr", "tinypal"]);
 
 function formatUsd(amount: number): string {
   return new Intl.NumberFormat("en-US", {
@@ -38,19 +31,60 @@ function formatUsd(amount: number): string {
 }
 
 export function AppProductPricing({ app }: AppProductPricingProps) {
+  if (app.slug === "scholars") {
+    return (
+      <section
+        id="pricing"
+        className="scroll-mt-40 border-y border-neutral-100 bg-[#fefbf6]"
+      >
+        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+          <div className="mx-auto max-w-3xl text-center">
+            <p
+              className="text-xs font-semibold uppercase tracking-[0.18em]"
+              style={{ color: app.accentColor }}
+            >
+              Plans &amp; pricing
+            </p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-tight text-neutral-950 sm:text-4xl">
+              Get {app.name}
+            </h2>
+            <p className="mt-3 text-base leading-relaxed text-neutral-600">
+              Pick how many generations and tutor minutes you need, then refill
+              once or subscribe monthly or yearly.
+            </p>
+          </div>
+
+          <div className="mx-auto mt-10 max-w-2xl overflow-hidden rounded-[2rem] border border-neutral-200 bg-white p-5 shadow-sm sm:p-7">
+            <ScholarsCreditBuilder embedded />
+          </div>
+
+          <p className="mt-6 text-center text-xs text-neutral-500">
+            Want every app?{" "}
+            <Link
+              href="/pricing?app=all-access"
+              className="font-medium text-neutral-800 underline underline-offset-2"
+            >
+              Compare Genlyn All Access
+            </Link>
+          </p>
+        </div>
+      </section>
+    );
+  }
+
+  return <IndividualAppPricing app={app} />;
+}
+
+function IndividualAppPricing({ app }: { app: AppConfig }) {
   const plan = getPricingPlan(app.slug);
   const [billingPeriod, setBillingPeriod] = useState<BillingPeriod>(
     plan?.recommendedPeriod ?? "yearly",
   );
   const [childCount, setChildCount] = useState(1);
-  const [scholarsTier, setScholarsTier] =
-    useState<ScholarsTierId>("full");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const allowsMultipleChildren =
-    FAMILY_APPS.has(app.slug) &&
-    (app.slug !== "scholars" || scholarsTier === "full");
+  const allowsMultipleChildren = FAMILY_APPS.has(app.slug);
 
   const total = useMemo(() => {
     if (!plan) return null;
@@ -63,28 +97,12 @@ export function AppProductPricing({ app }: AppProductPricingProps) {
     if (app.slug === "tinypal") {
       return tinypalTotalPrice(childCount, billingPeriod);
     }
-    if (app.slug === "scholars") {
-      return scholarsTierTotalPrice(
-        scholarsTier,
-        allowsMultipleChildren ? childCount : 1,
-        billingPeriod,
-      );
-    }
     return getPriceForPeriod(plan, billingPeriod).amount;
-  }, [
-    allowsMultipleChildren,
-    app.slug,
-    billingPeriod,
-    childCount,
-    plan,
-    scholarsTier,
-  ]);
+  }, [app.slug, billingPeriod, childCount, plan]);
 
   if (!plan) return null;
 
-  const selectedScholarsTier =
-    app.slug === "scholars" ? getScholarsTier(scholarsTier) : null;
-  const features = selectedScholarsTier?.features ?? plan.features;
+  const features = plan.features;
   const checkoutChildCount = allowsMultipleChildren ? childCount : 1;
 
   async function handleCheckout() {
@@ -95,7 +113,7 @@ export function AppProductPricing({ app }: AppProductPricingProps) {
         planKey: individualAppPlanKey(
           app.slug,
           billingPeriod,
-          scholarsTier,
+          undefined,
           checkoutChildCount,
         ),
         childCount: checkoutChildCount,
@@ -156,7 +174,7 @@ export function AppProductPricing({ app }: AppProductPricingProps) {
                 </div>
                 <div>
                   <h3 className="text-xl font-semibold text-neutral-950">
-                    {selectedScholarsTier?.name ?? app.name}
+                    {app.name}
                   </h3>
                   <p className="text-sm text-neutral-500">Individual app plan</p>
                 </div>
@@ -190,42 +208,6 @@ export function AppProductPricing({ app }: AppProductPricingProps) {
             </div>
 
             <div className="space-y-5">
-              {app.slug === "scholars" && (
-                <fieldset>
-                  <legend className="text-sm font-medium text-neutral-900">
-                    Choose a Scholars plan
-                  </legend>
-                  <div className="mt-2 grid gap-2">
-                    {scholarsTiers.map((tier) => {
-                      const selected = tier.id === scholarsTier;
-                      return (
-                        <button
-                          key={tier.id}
-                          type="button"
-                          onClick={() => {
-                            setScholarsTier(tier.id);
-                            if (tier.id !== "full") setChildCount(1);
-                          }}
-                          className={`flex items-center justify-between gap-3 rounded-xl border px-3 py-2.5 text-left transition ${
-                            selected
-                              ? "border-neutral-900 bg-neutral-50"
-                              : "border-neutral-200 hover:border-neutral-300"
-                          }`}
-                          aria-pressed={selected}
-                        >
-                          <span className="text-sm font-medium text-neutral-900">
-                            {tier.name}
-                          </span>
-                          <span className="text-xs font-semibold text-neutral-600">
-                            From {formatUsd(tier.monthly)}/mo
-                          </span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </fieldset>
-              )}
-
               <fieldset>
                 <legend className="text-sm font-medium text-neutral-900">
                   Billing
@@ -233,10 +215,7 @@ export function AppProductPricing({ app }: AppProductPricingProps) {
                 <div className="mt-2 grid grid-cols-2 gap-2">
                   {(["monthly", "yearly"] as const).map((period) => {
                     const selected = billingPeriod === period;
-                    const price =
-                      app.slug === "scholars"
-                        ? scholarsTierTotalPrice(scholarsTier, 1, period)
-                        : getPriceForPeriod(plan, period).amount;
+                    const price = getPriceForPeriod(plan, period).amount;
                     return (
                       <button
                         key={period}
