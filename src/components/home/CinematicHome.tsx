@@ -21,8 +21,8 @@ gsap.registerPlugin(ScrollTrigger);
 /** Scroll runway height in viewport units. Raise for slower / longer experience. */
 export const CINEMATIC_SCROLL_VH = 560;
 
-/** How long the all-apps blend holds before the first app takes over. */
-const COMBO_END = 0.1;
+/** How long the all-apps opening holds before the first app takes over. */
+const COMBO_END = 0.12;
 
 /** App order for the looping scroll commercial. */
 const APP_LOOP = ["earnly", "scholars", "ballr", "fresher"] as const;
@@ -32,6 +32,14 @@ const LOOP_COUNT = 2;
 const SCREENS = {
   earnly: "/images/home/cinematic/earnly.png",
   scholars: "/images/home/cinematic/scholars.png",
+  ballr: "/images/home/cinematic/ballr.png",
+  fresher: "/images/home/cinematic/fresher.png",
+} as const;
+
+/** Phone-shaped screenshots for the opening 4-up row. */
+const INTRO_SCREENS = {
+  earnly: "/images/home/cinematic/earnly.png",
+  scholars: "/images/home/cinematic/scholars-phone.png",
   ballr: "/images/home/cinematic/ballr.png",
   fresher: "/images/home/cinematic/fresher.png",
 } as const;
@@ -168,17 +176,11 @@ export function CinematicHome() {
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) {
-      gsap.set(el(root, '[data-bg-wash="combo"]'), { opacity: 0 });
-      gsap.set(el(root, "[data-phone]"), {
-        opacity: 1,
-        scale: 0.9,
-        y: 28,
-        x: 0,
-        rotate: 0,
-      });
-      gsap.set(el(root, '[data-phone-screen="earnly"]'), { opacity: 1 });
-      gsap.set(el(root, '[data-copy="earnly"]'), { opacity: 1, y: 0 });
-      gsap.set(el(root, '[data-bg-wash="earnly"]'), { opacity: 1 });
+      gsap.set(el(root, '[data-bg-wash="combo"]'), { opacity: 1 });
+      gsap.set(el(root, "[data-combo-phones]"), { opacity: 1 });
+      gsap.set(el(root, "[data-phone]"), { opacity: 0 });
+      gsap.set(el(root, "[data-ipad]"), { opacity: 0 });
+      gsap.set(els(root, "[data-copy]"), { opacity: 0 });
       return;
     }
 
@@ -206,6 +208,11 @@ export function CinematicHome() {
 
       gsap.set(els(root, "[data-bg-wash]"), { opacity: 0 });
       gsap.set(el(root, '[data-bg-wash="combo"]'), { opacity: 1 });
+      gsap.set(el(root, "[data-combo-phones]"), {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+      });
       gsap.set(el(root, "[data-phone]"), {
         opacity: 0,
         scale: 0.72,
@@ -223,7 +230,7 @@ export function CinematicHome() {
         transformOrigin: "50% 50%",
       });
       gsap.set(els(root, "[data-phone-screen]"), { opacity: 0 });
-      gsap.set(els(root, "[data-copy]"), { opacity: 0, y: 28 });
+      gsap.set(els(root, "[data-copy]"), { opacity: 0, y: 0 });
 
       const fadeCopy = (
         key: string,
@@ -242,13 +249,10 @@ export function CinematicHome() {
           }
         }
         if (copy) {
-          tl.to(copy, { opacity: 1, y: 0, duration: fadeIn }, start + 0.01);
+          // Opacity only — keep headlines locked so they never drift when a device fades in.
+          tl.to(copy, { opacity: 1, duration: fadeIn }, start + 0.01);
           if (!holdOut) {
-            tl.to(
-              copy,
-              { opacity: 0, y: -28, duration: 0.06 },
-              end - fadeOut,
-            );
+            tl.to(copy, { opacity: 0, duration: 0.06 }, end - fadeOut);
           }
         }
       };
@@ -268,6 +272,17 @@ export function CinematicHome() {
       };
 
       tl.to(
+        el(root, "[data-combo-phones]"),
+        {
+          opacity: 0,
+          y: -40,
+          scale: 0.92,
+          filter: "blur(6px)",
+          duration: 0.08,
+        },
+        COMBO_END - 0.07,
+      );
+      tl.to(
         el(root, '[data-bg-wash="combo"]'),
         { opacity: 0, duration: 0.08 },
         COMBO_END - 0.06,
@@ -279,7 +294,7 @@ export function CinematicHome() {
         {
           opacity: 1,
           scale: 1,
-          y: 28,
+          y: 0,
           rotate: -tilt * 0.2,
           duration: 0.08,
         },
@@ -311,7 +326,7 @@ export function CinematicHome() {
               opacity: 1,
               scale: 1,
               rotate: -2,
-              y: 20,
+              y: 0,
               x: 0,
               filter: "blur(0px)",
               duration: 0.1,
@@ -348,7 +363,7 @@ export function CinematicHome() {
                 scale: 1,
                 rotate: 0,
                 x: 0,
-                y: 28,
+                y: 0,
                 filter: "blur(0px)",
                 duration: 0.09,
               },
@@ -361,7 +376,7 @@ export function CinematicHome() {
             el(root, "[data-phone]"),
             {
               x: travel * 0.28 * dir,
-              y: 28,
+              y: 0,
               rotate: tilt * 0.35 * dir,
               scale: key === "ballr" ? 1.03 : 1,
               duration: end - start,
@@ -393,7 +408,9 @@ export function CinematicHome() {
           className="pointer-events-none absolute h-0 w-0 overflow-hidden"
           aria-hidden
         >
-          {Object.values(SCREENS).map((src) => (
+          {Array.from(
+            new Set([...Object.values(SCREENS), ...Object.values(INTRO_SCREENS)]),
+          ).map((src) => (
             // eslint-disable-next-line @next/next/no-img-element
             <img key={src} src={src} alt="" />
           ))}
@@ -499,11 +516,11 @@ export function CinematicHome() {
           <div
             key={stage.key}
             data-copy={stage.key}
-            className="pointer-events-none absolute inset-x-0 top-[max(4.75rem,9vh)] z-30 flex h-[18vh] max-h-[140px] flex-col items-center justify-end px-6 text-center will-change-transform md:top-[max(5.25rem,10vh)] md:h-[16vh]"
+            className="pointer-events-none absolute inset-x-0 top-[max(4.75rem,9vh)] z-30 flex h-[min(22vh,150px)] flex-col items-center justify-end px-6 text-center will-change-[opacity] md:top-[max(5.25rem,10vh)]"
             style={{ opacity: 0 }}
           >
             <p
-              className="text-xs font-semibold uppercase tracking-[0.22em]"
+              className="text-xs font-semibold uppercase tracking-[0.22em] drop-shadow-[0_1px_8px_rgba(0,0,0,0.65)]"
               style={{ color: stage.accent }}
             >
               {stage.eyebrow}
@@ -512,7 +529,7 @@ export function CinematicHome() {
               className="font-display mt-2 text-[clamp(1.75rem,4.5vw,3.5rem)] font-semibold leading-[1.05] tracking-tight text-white"
               style={{
                 textShadow:
-                  "0 2px 24px rgba(0,0,0,0.55), 0 0 40px rgba(0,0,0,0.25)",
+                  "0 1px 2px rgba(0,0,0,0.8), 0 4px 28px rgba(0,0,0,0.55), 0 0 48px rgba(0,0,0,0.35)",
               }}
             >
               {stage.headline}
@@ -520,7 +537,41 @@ export function CinematicHome() {
           </div>
         ))}
 
-        <div className="pointer-events-none absolute inset-x-0 bottom-[4%] top-[28%] z-20 flex items-center justify-center md:top-[26%]">
+        <div
+          data-combo-phones
+          className="pointer-events-none absolute inset-x-0 bottom-[5%] top-[max(5.25rem,11vh)] z-20 flex items-center justify-center px-3 will-change-transform sm:px-6 md:px-10"
+        >
+          <div className="flex w-full max-w-6xl items-end justify-between gap-2 sm:gap-4 md:gap-8">
+            {STAGE_COPY.map((stage) => (
+              <div
+                key={stage.key}
+                className="flex min-w-0 flex-1 flex-col items-center gap-2.5 sm:gap-3"
+              >
+                <p
+                  className="text-center text-[10px] font-semibold uppercase tracking-[0.18em] sm:text-xs"
+                  style={{
+                    color: stage.accent,
+                    textShadow: "0 2px 16px rgba(0,0,0,0.45)",
+                  }}
+                >
+                  {stage.eyebrow}
+                </p>
+                <ComboPhoneFrame>
+                  <Image
+                    src={INTRO_SCREENS[stage.key]}
+                    alt=""
+                    fill
+                    sizes="(max-width: 768px) 22vw, 160px"
+                    className="object-cover object-top"
+                    priority
+                  />
+                </ComboPhoneFrame>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="pointer-events-none absolute inset-x-0 bottom-[3%] top-[max(9.5rem,30vh)] z-20 flex items-start justify-center pt-2 md:top-[max(10rem,29vh)]">
           <div
             data-phone
             className="will-change-transform"
@@ -573,6 +624,27 @@ export function CinematicHome() {
   );
 }
 
+function ComboPhoneFrame({ children }: { children: ReactNode }) {
+  return (
+    <div
+      className="relative mx-auto"
+      style={{
+        width: "min(158px, 21vw)",
+        aspectRatio: "9 / 19.5",
+      }}
+    >
+      <div className="absolute inset-0 rounded-[1.65rem] bg-gradient-to-b from-neutral-200 via-neutral-500 to-neutral-800 p-[1.5px] shadow-[0_24px_50px_rgba(0,0,0,0.5)] sm:rounded-[1.85rem]">
+        <div className="relative h-full w-full overflow-hidden rounded-[1.55rem] bg-black sm:rounded-[1.75rem]">
+          <div className="absolute left-1/2 top-1.5 z-10 h-[14px] w-[28%] -translate-x-1/2 rounded-full bg-black sm:top-2 sm:h-[16px]" />
+          <div className="absolute inset-[2px] overflow-hidden rounded-[1.45rem] bg-neutral-950 sm:rounded-[1.65rem]">
+            {children}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function PhoneFrame({ children }: { children: ReactNode }) {
   return (
     <div
@@ -599,7 +671,7 @@ function IPadFrame({ children }: { children: ReactNode }) {
     <div
       className="relative mx-auto"
       style={{
-        width: "min(640px, 90vw)",
+        width: "min(560px, 82vw)",
         aspectRatio: "4 / 3",
       }}
     >
