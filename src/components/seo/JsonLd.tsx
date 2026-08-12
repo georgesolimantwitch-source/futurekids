@@ -1,4 +1,4 @@
-import { brand, apps } from "@/config/brand";
+import { brand, listedApps } from "@/config/brand";
 
 export function JsonLd() {
   const organization = {
@@ -12,7 +12,7 @@ export function JsonLd() {
     sameAs: [brand.social.instagram, brand.social.tiktok],
   };
 
-  const softwareApps = apps.map((app) => ({
+  const softwareApps = listedApps.map((app) => ({
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     name: app.name,

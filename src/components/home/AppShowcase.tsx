@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { apps, type AppConfig } from "@/config/brand";
+import { listedApps, type AppConfig } from "@/config/brand";
 import { AppPrimaryAction } from "@/components/apps/AppCard";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -12,8 +12,8 @@ import {
 } from "@/components/ui/AppScreenshotImage";
 
 export function AppShowcase() {
-  const [activeSlug, setActiveSlug] = useState(apps[0].slug);
-  const active = apps.find((app) => app.slug === activeSlug) ?? apps[0];
+  const [activeSlug, setActiveSlug] = useState(listedApps[0].slug);
+  const active = listedApps.find((app) => app.slug === activeSlug) ?? listedApps[0];
 
   return (
     <section id="apps" className="scroll-mt-24 bg-white py-16 sm:py-24">
@@ -30,7 +30,7 @@ export function AppShowcase() {
           role="tablist"
           aria-label="Select an app"
         >
-          {apps.map((app) => (
+          {listedApps.map((app) => (
             <AppTab
               key={app.slug}
               app={app}

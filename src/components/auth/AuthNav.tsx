@@ -38,15 +38,15 @@ export function AuthNav() {
   }
 
   if (loading) {
-    return <div className="hidden h-10 w-24 lg:block" aria-hidden />;
+    return <div className="h-9 w-24 shrink-0" aria-hidden />;
   }
 
   if (!user) {
     return (
-      <div className="hidden items-center gap-2 lg:flex">
+      <div className="flex items-center gap-1 sm:gap-2">
         <Link
           href="/login"
-          className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 transition hover:bg-neutral-50"
+          className="rounded-full px-2.5 py-2 text-xs font-medium text-neutral-700 transition hover:bg-neutral-50 sm:px-4 sm:text-sm"
         >
           Login
         </Link>
@@ -63,10 +63,10 @@ export function AuthNav() {
     "?";
 
   return (
-    <div className="hidden items-center gap-2 lg:flex">
+    <div className="flex items-center gap-1 sm:gap-2">
       <Link
         href="/account"
-        className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 transition hover:bg-neutral-50"
+        className="rounded-full px-2.5 py-2 text-xs font-medium text-neutral-700 transition hover:bg-neutral-50 sm:px-4 sm:text-sm"
       >
         Account
       </Link>
@@ -81,7 +81,7 @@ export function AuthNav() {
       <button
         type="button"
         onClick={handleSignOut}
-        className="rounded-full px-3 py-2 text-sm font-medium text-neutral-500 transition hover:text-neutral-900"
+        className="rounded-full px-2.5 py-2 text-xs font-medium text-neutral-500 transition hover:text-neutral-900 sm:px-3 sm:text-sm"
       >
         Logout
       </button>

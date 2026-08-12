@@ -28,7 +28,7 @@ export async function syncEarnlyChildAccess(userId: string): Promise<void> {
 
   const activeChildIds = (access ?? [])
     .filter((child) => child.status === "active")
-    .map((child) => child.child_id);
+    .map((child) => String(child.child_id).toLowerCase());
   const response = await fetch(bridgeUrl, {
     method: "POST",
     headers: {

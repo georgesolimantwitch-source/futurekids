@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { apps, type AppSlug } from "@/config/brand";
+import { listedApps, type AppSlug } from "@/config/brand";
 import {
   allAccessPlanKey,
   individualAppPlanKey,
@@ -767,7 +767,7 @@ export function EcosystemAllAccessHero({
 
     const accent = isBundle
       ? "#059669"
-      : individualPlan?.accentColor ?? apps.find((a) => a.slug === selectedPlan)?.accentColor ?? "#2a1e12";
+      : individualPlan?.accentColor ?? listedApps.find((a) => a.slug === selectedPlan)?.accentColor ?? "#2a1e12";
 
     return (
       <ul
@@ -925,7 +925,7 @@ export function EcosystemAllAccessHero({
                     }`}
                     aria-hidden
                   >
-                    5
+                    4
                   </span>
                 ) : tab.icon ? (
                   <Image src={tab.icon} alt="" width={20} height={20} className="h-5 w-5" aria-hidden />
@@ -1241,16 +1241,6 @@ export function EcosystemAllAccessHero({
                       max: 6,
                       onChange: (next: number) =>
                         setBallrChildCount(clampBallrChildCount(next)),
-                    },
-                    {
-                      key: "tinypal",
-                      label: "TinyPal",
-                      value: tinypalCount,
-                      hint: `+${formatUsd(ecosystemBundle.monthlyPerExtraTinyPalChild)}/extra`,
-                      min: 1,
-                      max: 6,
-                      onChange: (next: number) =>
-                        setTinypalChildCount(clampTinyPalChildCount(next)),
                     },
                   ] as const
                 ).map((seat, index) => (

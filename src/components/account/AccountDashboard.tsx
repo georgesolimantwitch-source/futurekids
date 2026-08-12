@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import type { User } from "@supabase/supabase-js";
-import { apps } from "@/config/brand";
+import { apps, isAppListed } from "@/config/brand";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import {
   formatAccountDate,
@@ -396,7 +396,7 @@ export function AccountDashboard({
                 title="My Apps"
                 description={
                   profile.account_type === "individual"
-                    ? "One Genlyn account unlocks Earnly, Scholars Notes, Ballr, and TinyPal."
+                    ? "One Genlyn account unlocks Earnly, Scholars Notes, Ballr, and Freshys."
                     : "Manage plans and choose which kids can use each app."
                 }
               />
@@ -917,7 +917,7 @@ function ManagePlanModal({
   const [confirmingCancel, setConfirmingCancel] = useState(false);
   const brandApp = apps.find((app) => app.slug === entitlement.app_key);
   const appName = brandApp?.name ?? "Genlyn All Access";
-  const otherApps = apps.filter((app) => app.slug !== entitlement.app_key);
+  const otherApps = apps.filter((app) => app.slug !== entitlement.app_key && isAppListed(app));
   const hasAllAccess = entitlements.some(
     (item) =>
       item.app_key === "futurekids_all_access" &&
@@ -1088,7 +1088,7 @@ function ManagePlanModal({
                     Genlyn All Access
                   </p>
                   <p className="mt-1 text-xs leading-relaxed text-neutral-300">
-                    Unlock Earnly, Scholars Notes, Ballr, and TinyPal with one family plan.
+                    Unlock Earnly, Scholars Notes, Ballr, and Freshys with one family plan.
                   </p>
                 </div>
                 <span className="shrink-0 text-xl text-white/70 transition group-hover:translate-x-1">

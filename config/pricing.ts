@@ -3,7 +3,7 @@
  * Replace placeholder prices, discounts, and CTA destinations when billing launches.
  */
 
-import { apps, type AppSlug, getAppCtaHref, isAppLive } from "./brand";
+import { listedApps, type AppSlug, getAppCtaHref, isAppLive } from "./brand";
 import { bundlePrice } from "./ecosystem-bundle";
 import { earnlyTotalPrice } from "./earnly-pricing";
 import { ballrTotalPrice } from "./ballr-pricing";
@@ -80,7 +80,7 @@ export interface PricingFaq {
 export const pricingPageMeta = {
   title: "Plans & Pricing",
   description:
-    "Genlyn All Access — every app in one subscription. Or choose individual plans for Earnly, Scholars Notes, Ballr Live, TinyPal, and Freshys.",
+    "Genlyn All Access — every app in one subscription. Or choose individual plans for Earnly, Scholars Notes, Ballr Live, and Freshys.",
 };
 
 export const pricingHero = {
@@ -198,7 +198,7 @@ const pricingPlanOverrides: Record<
   },
 };
 
-export const pricingPlans: PricingPlanConfig[] = apps.map((app) => {
+export const pricingPlans: PricingPlanConfig[] = listedApps.map((app) => {
   const override = pricingPlanOverrides[app.slug];
   const live = isAppLive(app);
 
@@ -265,7 +265,7 @@ export const savingsTiers: SavingsTierConfig[] = [
     title: "Three or More Apps",
     subtitle: "Combine three or more apps",
     minApps: 3,
-    maxApps: 5,
+    maxApps: 4,
     benefits: [
       "Combine three or more apps",
       "Compare vs Genlyn All Access",
@@ -373,7 +373,7 @@ export const pricingFaqs: PricingFaq[] = [
   {
     question: "Can I choose which apps are included?",
     answer:
-      "Yes. You can mix and match any combination of Earnly, Scholars Notes, Ballr, TinyPal, and Freshys based on what your family needs.",
+      "Yes. You can mix and match any combination of Earnly, Scholars Notes, Ballr, and Freshys based on what your family needs.",
   },
   {
     question: "Can I change my apps later?",
@@ -427,13 +427,7 @@ export function getPriceForPeriod(
   return period === "monthly" ? plan.monthlyPrice : plan.yearlyPrice;
 }
 
-const ALL_APP_SLUGS: AppSlug[] = [
-  "earnly",
-  "scholars",
-  "ballr",
-  "tinypal",
-  "fresher",
-];
+const ALL_APP_SLUGS: AppSlug[] = listedApps.map((app) => app.slug);
 
 /** Real per-app price for the ecosystem calculator (1 Earnly child, Scholars Full) */
 export function getCalculatorAppAmount(

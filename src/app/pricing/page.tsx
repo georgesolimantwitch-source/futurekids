@@ -39,7 +39,6 @@ export default async function PricingPage({
     "earnly",
     "scholars",
     "ballr",
-    "tinypal",
     "fresher",
   ].includes(requestedApp ?? "")
     ? requestedApp

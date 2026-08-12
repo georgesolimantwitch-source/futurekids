@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { apps, brand } from "@/config/brand";
+import { brand, listedApps } from "@/config/brand";
 
 type AppSticker = {
   slug: string;
@@ -35,7 +35,7 @@ const APP_LAYOUT = [
   { left: 93, top: 43, rotate: -7, depth: 48, delay: "1.4s" },
 ] as const;
 
-const APP_STICKERS: AppSticker[] = apps.map((app, index) => {
+const APP_STICKERS: AppSticker[] = listedApps.map((app, index) => {
   const layout = APP_LAYOUT[index] ?? APP_LAYOUT[2];
   return {
     slug: app.slug,

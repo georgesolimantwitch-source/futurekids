@@ -118,6 +118,8 @@ export interface AppConfig {
   /** CSS aspect ratio shared by every image in `screenshots`, e.g. "9/16" */
   screenshotAspect?: string;
   faqs: FaqItem[];
+  /** When false, hidden from marketing, nav, pricing UI, and public routes. */
+  listed?: boolean;
   /** Ballr only — list supported sports */
   supportedSports?: string[];
 }
@@ -591,6 +593,7 @@ export const apps: AppConfig[] = [
     screenshotPath: "/images/apps/tinypal/screenshot.svg",
     appStoreUrl: "",
     learnMorePath: "/apps/tinypal",
+    listed: false,
     positioning: "Safe communication designed for kids and controlled by parents",
     audience: "Kids and parents",
     availability: "waitlist",
@@ -863,6 +866,13 @@ export const apps: AppConfig[] = [
   },
 ];
 
+/** Marketing / public surfaces — excludes unlisted apps (e.g. TinyPal for now). */
+export function isAppListed(app: AppConfig): boolean {
+  return app.listed !== false;
+}
+
+export const listedApps: AppConfig[] = apps.filter(isAppListed);
+
 export const ecosystemPillars = [
   {
     title: "Money",
@@ -881,12 +891,6 @@ export const ecosystemPillars = [
     description: "Ballr connects young athletes to games, parks, and communities near them.",
     appSlug: "ballr" as AppSlug,
     icon: "⚽",
-  },
-  {
-    title: "Communication",
-    description: "TinyPal keeps kids connected safely with family-verified, parent-controlled messaging.",
-    appSlug: "tinypal" as AppSlug,
-    icon: "💬",
   },
   {
     title: "Family Health",
@@ -975,7 +979,7 @@ export const safetyPageSections = [
   },
 ];
 
-export const supportCategories = apps.map((app) => ({
+export const supportCategories = listedApps.map((app) => ({
   slug: app.slug,
   name: app.name,
   accentColor: app.accentColor,
@@ -1001,15 +1005,10 @@ export const supportFaqs = [
     answer:
       "See our Privacy Policy and Safety pages. Product-specific practices may also appear in each app’s settings once launched.",
   },
-  {
-    question: "Is TinyPal available yet?",
-    answer:
-      "TinyPal is on a waitlist. Join from the TinyPal product page or contact page, and we will notify you when it becomes available.",
-  },
 ];
 
 export const footerLinks = {
-  apps: apps.map((app) => ({
+  apps: listedApps.map((app) => ({
     label: app.name,
     href: app.learnMorePath,
   })),

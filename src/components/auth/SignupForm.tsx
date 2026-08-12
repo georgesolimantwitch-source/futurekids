@@ -88,7 +88,7 @@ export function SignupForm() {
         <p className="font-medium text-neutral-900">Family account</p>
         <p className="mt-1 leading-relaxed">
           Manage kids, Kids Login usernames, and subscriptions for Earnly, Scholars Notes, Ballr,
-          and TinyPal from one place.
+          and Freshys from one place.
         </p>
       </div>
 

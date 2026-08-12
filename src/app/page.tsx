@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import { StudyBoardHero } from "@/components/home/StudyBoardHero";
-import { HomeTiles } from "@/components/home/HomeTiles";
-import { ParentTrustSection } from "@/components/home/ParentTrustSection";
+import { CinematicHome } from "@/components/home/CinematicHome";
 import { brand } from "@/config/brand";
 
 export const metadata: Metadata = {
@@ -27,11 +25,5 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  return (
-    <>
-      <StudyBoardHero />
-      <HomeTiles />
-      <ParentTrustSection />
-    </>
-  );
+  return <CinematicHome />;
 }

@@ -16,7 +16,7 @@ export default function VerifyEmailPage() {
         <p>Check your spam folder if you do not see the email within a few minutes.</p>
         <p>
           Once verified, your Genlyn account will work across Earnly, Scholars Notes, Ballr,
-          and TinyPal.
+          and Freshys.
         </p>
       </div>
     </AuthShell>

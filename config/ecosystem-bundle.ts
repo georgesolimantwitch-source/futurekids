@@ -37,7 +37,7 @@ export const ecosystemBundle = {
   productName: "Genlyn All Access",
   tagline: "Every app. One subscription.",
   description:
-    "Earnly, Scholars Notes, Ballr Live, TinyPal, and Freshys — the complete ecosystem for learning, earning, playing, connecting, and finding real food.",
+    "Earnly, Scholars Notes, Ballr Live, and Freshys — the complete ecosystem for learning, earning, playing, and finding real food.",
   /** $19.99/mo with 1 Earnly child; +$0.99/mo per additional child */
   monthlyBase: 19.99,
   monthlyPerExtraChild: 0.99,
@@ -55,11 +55,10 @@ export const ecosystemBundle = {
     { slug: "earnly" as const, name: "Earnly Live", icon: "/images/apps/earnly/icon.png" },
     { slug: "scholars" as const, name: "Scholars Notes", icon: "/images/apps/scholars/icon.png" },
     { slug: "ballr" as const, name: "Ballr Live", icon: "/images/apps/ballr/icon.png" },
-    { slug: "tinypal" as const, name: "TinyPal", icon: "/images/apps/tinypal/icon.png" },
     { slug: "fresher" as const, name: "Freshys", icon: "/images/apps/fresher/icon.png" },
   ],
   highlights: [
-    "All five apps included",
+    "All four apps included",
     "Every feature in each app",
     "One account across the ecosystem",
     "Best value for growing families",

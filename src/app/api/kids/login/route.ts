@@ -208,6 +208,19 @@ export async function POST(request: Request) {
         { status: 403 },
       );
     }
+
+    // Genlyn may already show Earnly as on while Earnly product access is stale.
+    // Best-effort sync before the app mints an Earnly session.
+    if (appKey === "earnly" && access.parentId) {
+      try {
+        const { syncEarnlyChildAccess } = await import(
+          "@/lib/subscriptions/earnly-sync"
+        );
+        await syncEarnlyChildAccess(access.parentId);
+      } catch (error) {
+        console.error("Earnly sync on child login failed", error);
+      }
+    }
   }
 
   return NextResponse.json({

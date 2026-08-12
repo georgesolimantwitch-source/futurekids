@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { apps, brand } from "@/config/brand";
+import { brand, listedApps } from "@/config/brand";
 import { Button } from "@/components/ui/Button";
 
 export function SupportForm() {
@@ -85,7 +85,7 @@ export function SupportForm() {
           <option value="" disabled>
             Select an app
           </option>
-          {apps.map((app) => (
+          {listedApps.map((app) => (
             <option key={app.slug} value={app.slug}>
               {app.name}
             </option>

@@ -47,7 +47,7 @@ export const missionSection = {
 
 export const familyChallenges = {
   eyebrow: "The Genlyn apps",
-  headline: "Five apps. One mission for your family.",
+  headline: "Four apps. One mission for your family.",
   subtext:
     "Each product solves a real part of growing up — and they work better together.",
   cards: [
@@ -91,19 +91,6 @@ export const familyChallenges = {
       accentLight: "#FFF6D6",
     },
     {
-      id: "communication",
-      title: "Stay connected, safely",
-      description:
-        "TinyPal is messaging built for kids — with parent-managed setup, trusted contacts, and guardrails designed for safer conversations.",
-      app: "TinyPal",
-      illustration: "/images/about/tinypal-family.jpg",
-      illustrationAlt: "A parent and child using devices for safe family messaging",
-      parentBenefit: "You choose who they can talk to",
-      childBenefit: "They stay connected with people you trust",
-      accent: "#FC6C0C",
-      accentLight: "#FFF1E6",
-    },
-    {
       id: "food",
       title: "Find real food nearby",
       description:
@@ -120,9 +107,9 @@ export const familyChallenges = {
 };
 
 export const ecosystemCircle = {
-  headline: "One account. Five apps that work together.",
+  headline: "One account. Four apps that work together.",
   subtext: "Start with one product, or unlock the ecosystem as your family grows.",
-  apps: ["earnly", "scholars", "ballr", "tinypal", "fresher"] as AppSlug[],
+  apps: ["earnly", "scholars", "ballr", "fresher"] as AppSlug[],
 };
 
 export function getEcosystemCircleApps() {

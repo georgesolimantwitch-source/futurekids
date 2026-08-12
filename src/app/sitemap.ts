@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { apps, brand } from "@/config/brand";
+import { brand, listedApps } from "@/config/brand";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
@@ -18,7 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: path === "" ? 1 : 0.7,
   }));
 
-  const appRoutes = apps.map((app) => ({
+  const appRoutes = listedApps.map((app) => ({
     url: `${brand.siteUrl}${app.learnMorePath}`,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,

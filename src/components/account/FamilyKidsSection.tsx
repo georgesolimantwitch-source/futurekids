@@ -4,12 +4,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { PasswordInput } from "@/components/auth/PasswordInput";
-import { apps } from "@/config/brand";
+import { apps, isAppListed } from "@/config/brand";
 import { KID_APPS, type KidAppKey, type KidSummary } from "@/lib/kids/types";
 
 type CreditBalance = { generations: number; tutor_minutes: number };
 
-const APP_META = KID_APPS.map((appKey) => {
+const APP_META = KID_APPS.filter((appKey) => {
+  const brandApp = apps.find((a) => a.slug === appKey);
+  return Boolean(brandApp && isAppListed(brandApp));
+}).map((appKey) => {
   const brandApp = apps.find((a) => a.slug === appKey)!;
   return {
     appKey,

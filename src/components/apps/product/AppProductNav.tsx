@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { apps, productPageSections, type AppConfig } from "@/config/brand";
+import { listedApps, productPageSections, type AppConfig } from "@/config/brand";
 import { AppPrimaryAction } from "@/components/apps/AppCard";
 
 interface AppProductNavProps {
@@ -31,7 +31,7 @@ export function AppProductNav({ app }: AppProductNavProps) {
           >
             ← All Apps
           </Link>
-          {apps.map((a) => {
+          {listedApps.map((a) => {
             const isActive = pathname === a.learnMorePath;
             return (
               <Link

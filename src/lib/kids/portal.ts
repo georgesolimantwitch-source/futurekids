@@ -585,6 +585,17 @@ export async function createKidForParent(input: {
   if (!created) {
     throw new KidApiError(500, "Child was created but could not be loaded.");
   }
+
+  // Link newly created Earnly-enabled kids into the Earnly product project.
+  try {
+    const { syncEarnlyChildAccess } = await import(
+      "@/lib/subscriptions/earnly-sync"
+    );
+    await syncEarnlyChildAccess(input.parentId);
+  } catch (error) {
+    console.error("Earnly sync after create kid failed", error);
+  }
+
   return created;
 }
 
@@ -741,6 +752,22 @@ export async function setKidAppEnabled(input: {
     },
     { onConflict: "family_id,child_id,app_key" },
   );
+
+  // Keep Earnly product access in sync with Genlyn's per-child Earnly toggle.
+  if (input.appKey === "earnly") {
+    try {
+      const { syncEarnlyChildAccess } = await import(
+        "@/lib/subscriptions/earnly-sync"
+      );
+      await syncEarnlyChildAccess(input.parentId);
+    } catch (error) {
+      console.error("Earnly child access sync failed", error);
+      throw new KidApiError(
+        502,
+        "Saved in Genlyn, but Earnly sync failed. Please try the Earnly toggle again.",
+      );
+    }
+  }
 }
 
 export async function manageKidAction(input: {
@@ -826,6 +853,17 @@ export async function manageKidAction(input: {
       })
       .eq("id", input.childId);
     await admin.auth.admin.updateUserById(input.childId, { ban_duration: "none" });
+
+    // Resuming login should restore Earnly app access when the family plan is active.
+    if (await parentHasAppEntitlement(input.parentId, "earnly")) {
+      await setKidAppEnabled({
+        parentId: input.parentId,
+        childId: input.childId,
+        appKey: "earnly",
+        enabled: true,
+      });
+    }
+
     return { ok: true };
   }
 

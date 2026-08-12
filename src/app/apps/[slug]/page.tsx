@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { apps, brand, getAppBySlug } from "@/config/brand";
+import { brand, getAppBySlug, isAppListed, listedApps } from "@/config/brand";
 import { AppProductPage } from "@/components/apps/product/AppProductPage";
 
 interface AppPageProps {
@@ -8,13 +8,15 @@ interface AppPageProps {
 }
 
 export async function generateStaticParams() {
-  return apps.map((app) => ({ slug: app.slug }));
+  return listedApps.map((app) => ({ slug: app.slug }));
 }
 
-export async function generateMetadata({ params }: AppPageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: AppPageProps): Promise<Metadata> {
   const { slug } = await params;
   const app = getAppBySlug(slug);
-  if (!app) return { title: "App Not Found" };
+  if (!app || !isAppListed(app)) return { title: "App Not Found" };
 
   const title = `${app.name} — ${app.positioning}`;
   const url = `${brand.siteUrl}${app.learnMorePath}`;
@@ -46,7 +48,7 @@ export default async function AppPage({ params }: AppPageProps) {
   const { slug } = await params;
   const app = getAppBySlug(slug);
 
-  if (!app) {
+  if (!app || !isAppListed(app)) {
     notFound();
   }
 

@@ -198,7 +198,6 @@ export function HomeTiles() {
   const earnly = getAppBySlug("earnly")!;
   const scholars = getAppBySlug("scholars")!;
   const ballr = getAppBySlug("ballr")!;
-  const tinypal = getAppBySlug("tinypal")!;
   const fresher = getAppBySlug("fresher")!;
 
   return (
@@ -279,50 +278,27 @@ export function HomeTiles() {
         />
       </div>
 
-      <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
-        <HomeTile
-          compact
-          eyebrow="TinyPal"
-          title="Stay connected, safely."
-          subtitle={tinypal.tagline}
-          accent={tinypal.accentColor}
-          background={tileBackground(tinypal.accentColorLight)}
-          primary={{ label: "Learn more", href: tinypal.learnMorePath }}
-          secondary={{ label: "Join waitlist", href: tinypal.learnMorePath }}
-          visual={
-            <div className="relative flex items-start justify-center pt-2">
-              <PhoneMock
-                src="/images/apps/tinypal/screenshot.svg"
-                alt="TinyPal app"
-                rotate={-4}
-                width={190}
-                contain
-              />
-            </div>
-          }
-        />
-        <HomeTile
-          compact
-          eyebrow="Freshys"
-          title="Find real food."
-          subtitle={fresher.tagline}
-          accent={fresher.accentColor}
-          background={tileBackground(fresher.accentColorLight)}
-          primary={{ label: "Learn more", href: fresher.learnMorePath }}
-          secondary={{ label: "Get Freshys", href: "/pricing?app=fresher" }}
-          visual={
-            <div className="pt-2">
-              <PhoneMock
-                src="/images/apps/fresher/screenshot.png"
-                alt="Freshys local food map"
-                rotate={5}
-                width={200}
-                contain
-              />
-            </div>
-          }
-        />
-      </div>
+      <HomeTile
+        compact
+        eyebrow="Freshys"
+        title="Find real food."
+        subtitle={fresher.tagline}
+        accent={fresher.accentColor}
+        background={tileBackground(fresher.accentColorLight)}
+        primary={{ label: "Learn more", href: fresher.learnMorePath }}
+        secondary={{ label: "Get Freshys", href: "/pricing?app=fresher" }}
+        visual={
+          <div className="pt-2">
+            <PhoneMock
+              src="/images/apps/fresher/screenshot.png"
+              alt="Freshys local food map"
+              rotate={5}
+              width={200}
+              contain
+            />
+          </div>
+        }
+      />
     </>
   );
 }
