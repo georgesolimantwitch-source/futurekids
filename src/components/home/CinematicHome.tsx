@@ -19,10 +19,10 @@ import { AppPhoneShowcase } from "@/components/home/AppPhoneShowcase";
 gsap.registerPlugin(ScrollTrigger);
 
 /** Scroll runway height in viewport units. Raise for slower / longer experience. */
-export const CINEMATIC_SCROLL_VH = 560;
+export const CINEMATIC_SCROLL_VH = 640;
 
 /** How long the all-apps opening holds before the first app takes over. */
-const COMBO_END = 0.12;
+const COMBO_END = 0.11;
 
 /** App order for the looping scroll commercial. */
 const APP_LOOP = ["earnly", "scholars", "ballr", "fresher"] as const;
@@ -185,8 +185,9 @@ export function CinematicHome() {
     }
 
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
-    const travel = isMobile ? 16 : 48;
-    const tilt = isMobile ? 3 : 7;
+    const travel = isMobile ? 28 : 78;
+    const tilt = isMobile ? 8 : 16;
+    const yaw = isMobile ? 10 : 22;
     const windows = buildLoopWindows();
 
     const ctx = gsap.context(() => {
@@ -199,7 +200,7 @@ export function CinematicHome() {
           trigger: root,
           start: "top top",
           end: () => `+=${scrollDistance()}`,
-          scrub: 0.7,
+          scrub: 0.85,
           pin: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
@@ -212,22 +213,37 @@ export function CinematicHome() {
         opacity: 1,
         y: 0,
         scale: 1,
+        rotate: 0,
+      });
+      gsap.set(els(root, "[data-combo-phone]"), {
+        opacity: 1,
+        y: 0,
+        x: 0,
+        rotate: 0,
+        rotateY: 0,
+        scale: 1,
       });
       gsap.set(el(root, "[data-phone]"), {
         opacity: 0,
-        scale: 0.72,
-        y: 180,
-        rotate: -8,
-        x: 0,
-        transformOrigin: "50% 50%",
+        scale: 0.55,
+        y: 220,
+        x: -40,
+        rotate: -18,
+        rotateY: 28,
+        rotateX: 12,
+        transformOrigin: "50% 60%",
+        transformPerspective: 1200,
       });
       gsap.set(el(root, "[data-ipad]"), {
         opacity: 0,
-        scale: 0.55,
-        y: 120,
-        rotate: 10,
-        x: 40,
-        transformOrigin: "50% 50%",
+        scale: 0.45,
+        y: 160,
+        rotate: 18,
+        rotateY: -30,
+        rotateX: 8,
+        x: 60,
+        transformOrigin: "50% 55%",
+        transformPerspective: 1200,
       });
       gsap.set(els(root, "[data-phone-screen]"), { opacity: 0 });
       gsap.set(els(root, "[data-copy]"), { opacity: 0, y: 0 });
@@ -240,8 +256,8 @@ export function CinematicHome() {
       ) => {
         const copy = el(root, `[data-copy="${key}"]`);
         const wash = el(root, `[data-bg-wash="${key}"]`);
-        const fadeIn = 0.06;
-        const fadeOut = 0.08;
+        const fadeIn = 0.05;
+        const fadeOut = 0.07;
         if (wash) {
           tl.to(wash, { opacity: 1, duration: fadeIn }, start);
           if (!holdOut) {
@@ -249,10 +265,9 @@ export function CinematicHome() {
           }
         }
         if (copy) {
-          // Opacity only — keep headlines locked so they never drift when a device fades in.
           tl.to(copy, { opacity: 1, duration: fadeIn }, start + 0.01);
           if (!holdOut) {
-            tl.to(copy, { opacity: 0, duration: 0.06 }, end - fadeOut);
+            tl.to(copy, { opacity: 0, duration: 0.05 }, end - fadeOut);
           }
         }
       };
@@ -265,22 +280,36 @@ export function CinematicHome() {
       ) => {
         const screen = el(root, `[data-phone-screen="${key}"]`);
         if (!screen) return;
-        tl.to(screen, { opacity: 1, duration: 0.05 }, start);
+        tl.to(screen, { opacity: 1, duration: 0.04 }, start);
         if (!holdOut) {
-          tl.to(screen, { opacity: 0, duration: 0.06 }, end - 0.06);
+          tl.to(screen, { opacity: 0, duration: 0.05 }, end - 0.05);
         }
       };
 
+      // Opening row fans out with a twist before the hero phone lands.
+      const comboItems = els(root, "[data-combo-phone]");
+      comboItems.forEach((item, i) => {
+        const side = i < 1.5 ? -1 : 1;
+        const spread = (i - 1.5) * (isMobile ? 18 : 36);
+        tl.to(
+          item,
+          {
+            opacity: 0,
+            y: -70 - Math.abs(spread) * 0.4,
+            x: spread * 1.4,
+            rotate: side * (10 + i * 4),
+            rotateY: side * 28,
+            scale: 0.78,
+            filter: "blur(8px)",
+            duration: 0.09,
+          },
+          COMBO_END - 0.09,
+        );
+      });
       tl.to(
         el(root, "[data-combo-phones]"),
-        {
-          opacity: 0,
-          y: -40,
-          scale: 0.92,
-          filter: "blur(6px)",
-          duration: 0.08,
-        },
-        COMBO_END - 0.07,
+        { opacity: 0, duration: 0.04 },
+        COMBO_END - 0.03,
       );
       tl.to(
         el(root, '[data-bg-wash="combo"]'),
@@ -293,17 +322,37 @@ export function CinematicHome() {
         el(root, "[data-phone]"),
         {
           opacity: 1,
+          scale: 1.06,
+          y: -10,
+          x: 0,
+          rotate: 6,
+          rotateY: -8,
+          rotateX: -4,
+          duration: 0.05,
+        },
+        first.start - 0.03,
+      );
+      tl.to(
+        el(root, "[data-phone]"),
+        {
           scale: 1,
           y: 0,
-          rotate: -tilt * 0.2,
-          duration: 0.08,
+          rotate: -tilt * 0.25,
+          rotateY: yaw * 0.2,
+          rotateX: 0,
+          duration: 0.04,
         },
-        first.start - 0.02,
+        first.start + 0.02,
       );
 
       windows.forEach((win, index) => {
         const { key, start, end, holdOut } = win;
         const dir = index % 2 === 0 ? 1 : -1;
+        const span = Math.max(0.06, end - start);
+        const a = start;
+        const b = start + span * 0.35;
+        const c = start + span * 0.7;
+        const d = end;
 
         fadeCopy(key, start, end, holdOut);
 
@@ -312,35 +361,75 @@ export function CinematicHome() {
             el(root, "[data-phone]"),
             {
               opacity: 0,
-              scale: 0.7,
-              rotate: -16,
-              x: -travel,
-              filter: "blur(5px)",
-              duration: 0.08,
+              scale: 0.62,
+              rotate: -28 * dir,
+              rotateY: -35 * dir,
+              rotateX: 10,
+              x: -travel * 1.2,
+              y: 40,
+              filter: "blur(7px)",
+              duration: 0.07,
             },
             start,
           );
-          tl.to(
+          tl.fromTo(
             el(root, "[data-ipad]"),
             {
-              opacity: 1,
-              scale: 1,
-              rotate: -2,
-              y: 0,
-              x: 0,
-              filter: "blur(0px)",
-              duration: 0.1,
+              opacity: 0,
+              scale: 0.55,
+              rotate: 22 * dir,
+              rotateY: 40 * dir,
+              rotateX: 12,
+              x: travel * 1.1,
+              y: 50,
+              filter: "blur(8px)",
             },
-            start + 0.02,
+            {
+              opacity: 1,
+              scale: 1.04,
+              rotate: -4 * dir,
+              rotateY: -6 * dir,
+              rotateX: -3,
+              x: 0,
+              y: 0,
+              filter: "blur(0px)",
+              duration: 0.09,
+            },
+            start + 0.015,
           );
           tl.to(
             el(root, "[data-ipad]"),
             {
-              x: travel * 0.15 * dir,
-              rotate: 2 * dir,
-              duration: Math.max(0.04, end - start - 0.04),
+              scale: 1,
+              x: travel * 0.22 * dir,
+              rotate: 5 * dir,
+              rotateY: -yaw * 0.45 * dir,
+              rotateX: 2,
+              duration: Math.max(0.04, b - (start + 0.1)),
             },
-            start + 0.04,
+            start + 0.1,
+          );
+          tl.to(
+            el(root, "[data-ipad]"),
+            {
+              x: -travel * 0.18 * dir,
+              rotate: -6 * dir,
+              rotateY: yaw * 0.35 * dir,
+              y: -8,
+              duration: Math.max(0.04, c - b),
+            },
+            b,
+          );
+          tl.to(
+            el(root, "[data-ipad]"),
+            {
+              x: travel * 0.1 * dir,
+              rotate: 3 * dir,
+              rotateY: -yaw * 0.2 * dir,
+              y: 0,
+              duration: Math.max(0.03, d - c - 0.02),
+            },
+            c,
           );
           if (!holdOut) {
             const nextStart = windows[index + 1]?.start ?? end;
@@ -348,20 +437,33 @@ export function CinematicHome() {
               el(root, "[data-ipad]"),
               {
                 opacity: 0,
-                scale: 0.75,
-                rotate: 12,
-                x: travel,
-                filter: "blur(5px)",
+                scale: 0.7,
+                rotate: 24 * dir,
+                rotateY: 32 * dir,
+                x: travel * 1.3,
+                y: -30,
+                filter: "blur(7px)",
                 duration: 0.08,
               },
               nextStart,
             );
-            tl.to(
+            tl.fromTo(
               el(root, "[data-phone]"),
+              {
+                opacity: 0,
+                scale: 0.65,
+                rotate: -20 * dir,
+                rotateY: -30 * dir,
+                x: -travel,
+                y: 60,
+                filter: "blur(6px)",
+              },
               {
                 opacity: 1,
                 scale: 1,
                 rotate: 0,
+                rotateY: 0,
+                rotateX: 0,
                 x: 0,
                 y: 0,
                 filter: "blur(0px)",
@@ -372,17 +474,60 @@ export function CinematicHome() {
           }
         } else {
           showPhoneScreen(key, start, end, holdOut);
+
+          const punch = key === "ballr" ? 1.08 : key === "fresher" ? 1.04 : 1.02;
           tl.to(
             el(root, "[data-phone]"),
             {
-              x: travel * 0.28 * dir,
+              x: travel * 0.55 * dir,
+              y: key === "ballr" ? -18 : -6,
+              rotate: tilt * 0.85 * dir,
+              rotateY: -yaw * 0.7 * dir,
+              rotateX: key === "fresher" ? 6 : -3,
+              scale: punch,
+              duration: Math.max(0.04, b - a),
+            },
+            a,
+          );
+          tl.to(
+            el(root, "[data-phone]"),
+            {
+              x: -travel * 0.4 * dir,
+              y: key === "earnly" ? 10 : 4,
+              rotate: -tilt * 0.7 * dir,
+              rotateY: yaw * 0.85 * dir,
+              rotateX: key === "ballr" ? -8 : 2,
+              scale: key === "ballr" ? 1.02 : 0.98,
+              duration: Math.max(0.04, c - b),
+            },
+            b,
+          );
+          tl.to(
+            el(root, "[data-phone]"),
+            {
+              x: travel * 0.2 * dir,
               y: 0,
               rotate: tilt * 0.35 * dir,
-              scale: key === "ballr" ? 1.03 : 1,
-              duration: end - start,
+              rotateY: -yaw * 0.3 * dir,
+              rotateX: 0,
+              scale: 1,
+              duration: Math.max(0.03, d - c - (holdOut ? 0 : 0.02)),
             },
-            start,
+            c,
           );
+
+          if (!holdOut) {
+            tl.to(
+              el(root, "[data-phone]"),
+              {
+                rotate: 14 * dir,
+                rotateY: 18 * dir,
+                scale: 0.94,
+                duration: 0.03,
+              },
+              d - 0.04,
+            );
+          }
         }
       });
 
@@ -545,7 +690,9 @@ export function CinematicHome() {
             {STAGE_COPY.map((stage) => (
               <div
                 key={stage.key}
-                className="flex min-w-0 flex-1 flex-col items-center gap-2.5 sm:gap-3"
+                data-combo-phone={stage.key}
+                className="flex min-w-0 flex-1 flex-col items-center gap-2.5 will-change-transform sm:gap-3"
+                style={{ perspective: 900 }}
               >
                 <p
                   className="text-center text-[10px] font-semibold uppercase tracking-[0.18em] sm:text-xs"
@@ -571,11 +718,14 @@ export function CinematicHome() {
           </div>
         </div>
 
-        <div className="pointer-events-none absolute inset-x-0 bottom-[3%] top-[max(9.5rem,30vh)] z-20 flex items-start justify-center pt-2 md:top-[max(10rem,29vh)]">
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-[3%] top-[max(9.5rem,30vh)] z-20 flex items-start justify-center pt-2 md:top-[max(10rem,29vh)]"
+          style={{ perspective: "1400px" }}
+        >
           <div
             data-phone
             className="will-change-transform"
-            style={{ opacity: 0 }}
+            style={{ opacity: 0, transformStyle: "preserve-3d" }}
           >
             <PhoneFrame>
               {(Object.keys(SCREENS) as Array<keyof typeof SCREENS>)
@@ -603,7 +753,7 @@ export function CinematicHome() {
           <div
             data-ipad
             className="absolute will-change-transform"
-            style={{ opacity: 0 }}
+            style={{ opacity: 0, transformStyle: "preserve-3d" }}
           >
             <IPadFrame>
               <Image
