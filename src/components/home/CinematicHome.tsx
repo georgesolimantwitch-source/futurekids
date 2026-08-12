@@ -32,7 +32,7 @@ const APP_LOOP = ["earnly", "scholars", "ballr", "fresher"] as const;
 const LOOP_COUNT = 2;
 
 const SCREENS = {
-  earnly: "/images/home/cinematic/earnly.png",
+  earnly: "/images/home/cinematic/earnly-home.png",
   scholars: "/images/home/cinematic/scholars.png",
   ballr: "/images/home/cinematic/ballr-badge.png",
   fresher: "/images/home/cinematic/fresher.png",
@@ -40,7 +40,7 @@ const SCREENS = {
 
 /** Phone-shaped screenshots for the opening 4-up row. */
 const INTRO_SCREENS = {
-  earnly: "/images/home/cinematic/earnly.png",
+  earnly: "/images/home/cinematic/earnly-home.png",
   scholars: "/images/home/cinematic/scholars-phone.png",
   ballr: "/images/home/cinematic/ballr-badge.png",
   fresher: "/images/home/cinematic/fresher.png",
@@ -91,6 +91,55 @@ const FAN_PHONES = [
     y: 40,
     scale: 0.82,
     z: 2,
+  },
+] as const;
+
+/** Earnly fan — separate phones with captions, like Ballr. */
+const EARNLY_FAN = [
+  {
+    src: "/images/home/cinematic/earnly-home.png",
+    caption: "Watch your family money grow.",
+    rotate: -20,
+    x: "-36vw",
+    y: 48,
+    scale: 0.74,
+    z: 1,
+  },
+  {
+    src: "/images/home/cinematic/earnly-chores.png",
+    caption: "Turn chores into real earnings.",
+    rotate: -10,
+    x: "-18vw",
+    y: 22,
+    scale: 0.86,
+    z: 3,
+  },
+  {
+    src: "/images/home/cinematic/earnly-accounts.png",
+    caption: "Every kid gets their own account.",
+    rotate: 0,
+    x: "0vw",
+    y: 4,
+    scale: 0.96,
+    z: 5,
+  },
+  {
+    src: "/images/home/cinematic/earnly-balance.png",
+    caption: "Move money in a couple taps.",
+    rotate: 10,
+    x: "18vw",
+    y: 22,
+    scale: 0.86,
+    z: 3,
+  },
+  {
+    src: "/images/home/cinematic/earnly-safety.png",
+    caption: "Know they're safe, wherever they go.",
+    rotate: 20,
+    x: "36vw",
+    y: 48,
+    scale: 0.74,
+    z: 1,
   },
 ] as const;
 
@@ -288,6 +337,7 @@ export function CinematicHome() {
       gsap.set(el(root, "[data-phone]"), { opacity: 0 });
       gsap.set(el(root, "[data-ipad]"), { opacity: 0 });
       gsap.set(el(root, "[data-ballr-fan]"), { opacity: 0 });
+      gsap.set(el(root, "[data-earnly-fan]"), { opacity: 0 });
       gsap.set(els(root, "[data-copy]"), { opacity: 0 });
       return;
     }
@@ -382,6 +432,8 @@ export function CinematicHome() {
       gsap.set(els(root, "[data-copy]"), { opacity: 0, y: 0 });
       gsap.set(el(root, "[data-ballr-fan]"), { opacity: 0 });
       gsap.set(els(root, "[data-ballr-phone]"), { opacity: 0 });
+      gsap.set(el(root, "[data-earnly-fan]"), { opacity: 0 });
+      gsap.set(els(root, "[data-earnly-phone]"), { opacity: 0 });
 
       const fadeCopy = (
         key: string,
@@ -498,7 +550,7 @@ export function CinematicHome() {
         const c = start + span * 0.7;
         const d = end;
 
-        if (key !== "ballr") {
+        if (key !== "ballr" && key !== "earnly") {
           fadeCopy(key, start, end, holdOut);
         }
 
@@ -618,6 +670,101 @@ export function CinematicHome() {
               nextStart + 0.02,
             );
           }
+        } else if (key === "earnly") {
+          fadeCopy("earnly", start, end, holdOut);
+
+          tl.to(
+            el(root, "[data-phone]"),
+            {
+              opacity: 0,
+              scale: 0.7,
+              filter: "blur(6px)",
+              duration: 0.06,
+            },
+            start,
+          );
+
+          const earnlyPhones = els(root, "[data-earnly-phone]");
+          earnlyPhones.forEach((item, i) => {
+            const fan = EARNLY_FAN[i];
+            if (!fan) return;
+            gsap.set(item, {
+              xPercent: -50,
+              x: fan.x,
+              y: fan.y + 80,
+              rotate: fan.rotate * 1.4,
+              scale: fan.scale * 0.85,
+              opacity: 0,
+              transformOrigin: "50% 100%",
+            });
+            tl.to(
+              item,
+              {
+                opacity: 1,
+                y: fan.y,
+                rotate: fan.rotate,
+                scale: fan.scale,
+                filter: "blur(0px)",
+                duration: 0.08,
+              },
+              start + 0.02 + i * 0.012,
+            );
+          });
+          tl.to(
+            el(root, "[data-earnly-fan]"),
+            { opacity: 1, duration: 0.05 },
+            start + 0.02,
+          );
+          tl.to(
+            el(root, "[data-earnly-fan]"),
+            {
+              y: -6,
+              duration: Math.max(0.05, end - start - 0.12),
+            },
+            start + 0.1,
+          );
+
+          if (!holdOut) {
+            const nextStart = windows[index + 1]?.start ?? end;
+            earnlyPhones.forEach((item, i) => {
+              const fan = EARNLY_FAN[i];
+              const side = i < earnlyPhones.length / 2 ? -1 : 1;
+              tl.to(
+                item,
+                {
+                  opacity: 0,
+                  xPercent: -50,
+                  x: fan?.x ?? 0,
+                  y: (fan?.y ?? 0) - 70,
+                  rotate: (fan?.rotate ?? 0) + side * 20,
+                  scale: (fan?.scale ?? 1) * 0.7,
+                  filter: "blur(8px)",
+                  duration: 0.08,
+                },
+                nextStart,
+              );
+            });
+            tl.to(
+              el(root, "[data-earnly-fan]"),
+              { opacity: 0, duration: 0.06 },
+              nextStart,
+            );
+            tl.to(
+              el(root, "[data-phone]"),
+              {
+                opacity: 1,
+                scale: 1,
+                rotate: 0,
+                rotateY: 0,
+                rotateX: 0,
+                x: 0,
+                y: 0,
+                filter: "blur(0px)",
+                duration: 0.09,
+              },
+              nextStart + 0.02,
+            );
+          }
         } else if (key === "ballr") {
           fadeCopy("ballr", start, end, holdOut);
 
@@ -717,9 +864,9 @@ export function CinematicHome() {
             );
           }
         } else {
+          // Fresher (and any other single-phone app stages).
           showPhoneScreen(key, start, end, holdOut);
 
-          const punch = key === "fresher" ? 1.04 : 1.02;
           tl.to(
             el(root, "[data-phone]"),
             {
@@ -727,8 +874,8 @@ export function CinematicHome() {
               y: -6,
               rotate: tilt * 0.85 * dir,
               rotateY: -yaw * 0.7 * dir,
-              rotateX: key === "fresher" ? 6 : -3,
-              scale: punch,
+              rotateX: 6,
+              scale: 1.04,
               duration: Math.max(0.04, b - a),
             },
             a,
@@ -737,7 +884,7 @@ export function CinematicHome() {
             el(root, "[data-phone]"),
             {
               x: -travel * 0.4 * dir,
-              y: key === "earnly" ? 10 : 4,
+              y: 4,
               rotate: -tilt * 0.7 * dir,
               rotateY: yaw * 0.85 * dir,
               rotateX: 2,
@@ -801,6 +948,7 @@ export function CinematicHome() {
             new Set([
               ...Object.values(SCREENS),
               ...Object.values(INTRO_SCREENS),
+              ...EARNLY_FAN.map((beat) => beat.src),
               ...BALLR_FAN.map((beat) => beat.src),
             ]),
           ).map((src) => (
@@ -900,7 +1048,7 @@ export function CinematicHome() {
             key={stage.key}
             data-copy={stage.key}
             className={
-              stage.key === "ballr"
+              stage.key === "ballr" || stage.key === "earnly"
                 ? "pointer-events-none absolute inset-x-0 bottom-[3.5%] z-30 flex flex-col items-center px-6 text-center will-change-[opacity]"
                 : "pointer-events-none absolute inset-x-0 top-[max(4.75rem,9vh)] z-30 flex h-[min(22vh,150px)] flex-col items-center justify-end px-6 text-center will-change-[opacity] md:top-[max(5.25rem,10vh)]"
             }
@@ -923,6 +1071,57 @@ export function CinematicHome() {
             </h2>
           </div>
         ))}
+
+        <div
+          data-earnly-fan
+          className="pointer-events-none absolute inset-x-0 top-[max(5rem,10vh)] z-20 flex h-[min(62vh,580px)] flex-col items-center justify-end will-change-transform"
+          style={{ opacity: 0 }}
+        >
+          <div
+            className="relative mx-auto h-full w-full max-w-6xl"
+            style={{ perspective: "1600px" }}
+          >
+            {EARNLY_FAN.map((phone) => (
+              <div
+                key={phone.src}
+                data-earnly-phone
+                className="absolute bottom-[6%] left-1/2 will-change-transform"
+                style={{
+                  zIndex: phone.z,
+                  transformOrigin: "50% 100%",
+                  opacity: 0,
+                }}
+              >
+                <p
+                  className="mb-2 max-w-[10rem] text-center text-[10px] font-semibold leading-tight tracking-tight text-white sm:mb-3 sm:max-w-[12rem] sm:text-xs"
+                  style={{
+                    textShadow: "0 2px 14px rgba(0,0,0,0.55)",
+                  }}
+                >
+                  {phone.caption}
+                </p>
+                <div
+                  className="pointer-events-none absolute -inset-8 top-6 -z-10 rounded-full opacity-60 blur-2xl"
+                  style={{
+                    background:
+                      "radial-gradient(ellipse at center, #5CE1FF88 0%, transparent 70%)",
+                  }}
+                  aria-hidden
+                />
+                <FanPhoneFrame>
+                  <Image
+                    src={phone.src}
+                    alt=""
+                    fill
+                    sizes="(max-width: 768px) 22vw, 170px"
+                    className="object-cover object-top"
+                    priority
+                  />
+                </FanPhoneFrame>
+              </div>
+            ))}
+          </div>
+        </div>
 
         <div
           data-ballr-fan
@@ -1060,7 +1259,7 @@ export function CinematicHome() {
           >
             <PhoneFrame>
               {(Object.keys(SCREENS) as Array<keyof typeof SCREENS>)
-                .filter((k) => k !== "scholars" && k !== "ballr")
+                .filter((k) => k !== "scholars" && k !== "ballr" && k !== "earnly")
                 .map((key) => (
                   <div
                     key={key}
@@ -1074,7 +1273,7 @@ export function CinematicHome() {
                       fill
                       sizes="(max-width: 768px) 70vw, 280px"
                       className="object-cover object-top"
-                      priority={key === "earnly"}
+                      priority={key === "fresher"}
                     />
                   </div>
                 ))}
