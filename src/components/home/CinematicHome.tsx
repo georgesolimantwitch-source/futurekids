@@ -53,10 +53,10 @@ const FAN_PHONES = [
     src: INTRO_SCREENS.earnly,
     label: "Earnly",
     accent: "#5CE1FF",
-    rotate: -18,
-    x: "-34vw",
-    y: 40,
-    scale: 0.82,
+    rotate: -16,
+    x: "-32vw",
+    y: 28,
+    scale: 0.9,
     z: 2,
   },
   {
@@ -64,10 +64,10 @@ const FAN_PHONES = [
     src: INTRO_SCREENS.scholars,
     label: "Scholars Notes",
     accent: "#7EB6FF",
-    rotate: -7,
-    x: "-12vw",
-    y: 10,
-    scale: 0.94,
+    rotate: -6,
+    x: "-11vw",
+    y: 6,
+    scale: 1.02,
     z: 4,
   },
   {
@@ -75,10 +75,10 @@ const FAN_PHONES = [
     src: INTRO_SCREENS.ballr,
     label: "Ballr",
     accent: "#F0FF00",
-    rotate: 7,
-    x: "12vw",
-    y: 10,
-    scale: 0.94,
+    rotate: 6,
+    x: "11vw",
+    y: 6,
+    scale: 1.02,
     z: 4,
   },
   {
@@ -86,10 +86,10 @@ const FAN_PHONES = [
     src: INTRO_SCREENS.fresher,
     label: "Freshys",
     accent: "#5CFF9A",
-    rotate: 18,
-    x: "34vw",
-    y: 40,
-    scale: 0.82,
+    rotate: 16,
+    x: "32vw",
+    y: 28,
+    scale: 0.9,
     z: 2,
   },
 ] as const;
@@ -99,19 +99,19 @@ const EARNLY_FAN = [
   {
     src: "/images/home/cinematic/earnly-home.png",
     caption: "Watch your family money grow.",
-    rotate: -20,
-    x: "-36vw",
-    y: 48,
-    scale: 0.74,
+    rotate: -16,
+    x: "-34vw",
+    y: 28,
+    scale: 0.88,
     z: 1,
   },
   {
     src: "/images/home/cinematic/earnly-chores.png",
     caption: "Turn chores into real earnings.",
-    rotate: -10,
-    x: "-18vw",
-    y: 22,
-    scale: 0.86,
+    rotate: -8,
+    x: "-17vw",
+    y: 10,
+    scale: 0.96,
     z: 3,
   },
   {
@@ -119,26 +119,26 @@ const EARNLY_FAN = [
     caption: "Every kid gets their own account.",
     rotate: 0,
     x: "0vw",
-    y: 4,
-    scale: 0.96,
+    y: 0,
+    scale: 1.05,
     z: 5,
   },
   {
     src: "/images/home/cinematic/earnly-balance.png",
     caption: "Move money in a couple taps.",
-    rotate: 10,
-    x: "18vw",
-    y: 22,
-    scale: 0.86,
+    rotate: 8,
+    x: "17vw",
+    y: 10,
+    scale: 0.96,
     z: 3,
   },
   {
     src: "/images/home/cinematic/earnly-safety.png",
     caption: "Know they're safe, wherever they go.",
-    rotate: 20,
-    x: "36vw",
-    y: 48,
-    scale: 0.74,
+    rotate: 16,
+    x: "34vw",
+    y: 28,
+    scale: 0.88,
     z: 1,
   },
 ] as const;
@@ -148,55 +148,55 @@ const BALLR_FAN = [
   {
     src: "/images/home/cinematic/ballr-badge.png",
     caption: "Earn badges as you play.",
-    rotate: -22,
-    x: "-38vw",
-    y: 52,
-    scale: 0.7,
+    rotate: -18,
+    x: "-36vw",
+    y: 32,
+    scale: 0.84,
     z: 1,
   },
   {
     src: "/images/home/cinematic/ballr-player.png",
     caption: "Build your player card.",
-    rotate: -12,
-    x: "-22vw",
-    y: 28,
-    scale: 0.8,
+    rotate: -10,
+    x: "-21vw",
+    y: 14,
+    scale: 0.93,
     z: 3,
   },
   {
     src: "/images/home/cinematic/ballr-fuel.png",
     caption: "Track your fuel.",
-    rotate: -4,
+    rotate: -3,
     x: "-7vw",
-    y: 8,
-    scale: 0.9,
+    y: 2,
+    scale: 1.02,
     z: 5,
   },
   {
     src: "/images/home/cinematic/ballr-meals.png",
     caption: "Log every meal.",
-    rotate: 4,
+    rotate: 3,
     x: "7vw",
-    y: 8,
-    scale: 0.9,
+    y: 2,
+    scale: 1.02,
     z: 5,
   },
   {
     src: "/images/home/cinematic/ballr-workouts.png",
     caption: "Personalized workouts.",
-    rotate: 12,
-    x: "22vw",
-    y: 28,
-    scale: 0.8,
+    rotate: 10,
+    x: "21vw",
+    y: 14,
+    scale: 0.93,
     z: 3,
   },
   {
     src: "/images/home/cinematic/ballr-gym.png",
     caption: "See your potential.",
-    rotate: 22,
-    x: "38vw",
-    y: 52,
-    scale: 0.7,
+    rotate: 18,
+    x: "36vw",
+    y: 32,
+    scale: 0.84,
     z: 1,
   },
 ] as const;
@@ -1074,7 +1074,7 @@ export function CinematicHome() {
 
         <div
           data-earnly-fan
-          className="pointer-events-none absolute inset-x-0 top-[max(5rem,10vh)] z-20 flex h-[min(62vh,580px)] flex-col items-center justify-end will-change-transform"
+          className="pointer-events-none absolute inset-x-0 top-[max(4.5rem,8vh)] z-20 flex h-[min(74vh,760px)] flex-col items-center justify-end will-change-transform"
           style={{ opacity: 0 }}
         >
           <div
@@ -1093,7 +1093,7 @@ export function CinematicHome() {
                 }}
               >
                 <p
-                  className="mb-2 max-w-[10rem] text-center text-[10px] font-semibold leading-tight tracking-tight text-white sm:mb-3 sm:max-w-[12rem] sm:text-xs"
+                  className="mb-3 max-w-[11rem] text-center text-xs font-semibold leading-snug tracking-tight text-white sm:mb-3.5 sm:max-w-[13rem] sm:text-sm"
                   style={{
                     textShadow: "0 2px 14px rgba(0,0,0,0.55)",
                   }}
@@ -1113,8 +1113,8 @@ export function CinematicHome() {
                     src={phone.src}
                     alt=""
                     fill
-                    sizes="(max-width: 768px) 22vw, 170px"
-                    className="object-cover object-top"
+                    sizes="(max-width: 768px) 36vw, 280px"
+                    className="object-contain object-top"
                     priority
                   />
                 </FanPhoneFrame>
@@ -1125,7 +1125,7 @@ export function CinematicHome() {
 
         <div
           data-ballr-fan
-          className="pointer-events-none absolute inset-x-0 top-[max(5rem,10vh)] z-20 flex h-[min(62vh,580px)] flex-col items-center justify-end will-change-transform"
+          className="pointer-events-none absolute inset-x-0 top-[max(4.5rem,8vh)] z-20 flex h-[min(74vh,760px)] flex-col items-center justify-end will-change-transform"
           style={{ opacity: 0 }}
         >
           <div
@@ -1144,7 +1144,7 @@ export function CinematicHome() {
                 }}
               >
                 <p
-                  className="mb-2 max-w-[9.5rem] text-center text-[10px] font-semibold leading-tight tracking-tight text-white sm:mb-3 sm:max-w-[11rem] sm:text-xs"
+                  className="mb-3 max-w-[11rem] text-center text-xs font-semibold leading-snug tracking-tight text-white sm:mb-3.5 sm:max-w-[13rem] sm:text-sm"
                   style={{
                     textShadow: "0 2px 14px rgba(0,0,0,0.55)",
                   }}
@@ -1164,8 +1164,8 @@ export function CinematicHome() {
                     src={phone.src}
                     alt=""
                     fill
-                    sizes="(max-width: 768px) 22vw, 170px"
-                    className="object-cover object-top"
+                    sizes="(max-width: 768px) 36vw, 280px"
+                    className="object-contain object-top"
                     priority
                   />
                 </FanPhoneFrame>
@@ -1176,7 +1176,7 @@ export function CinematicHome() {
 
         <div
           data-combo-phones
-          className="absolute inset-x-0 top-[max(4.5rem,8vh)] z-20 flex h-[min(58vh,560px)] flex-col items-center justify-end will-change-transform sm:h-[min(60vh,600px)]"
+          className="absolute inset-x-0 top-[max(4.5rem,8vh)] z-20 flex h-[min(68vh,680px)] flex-col items-center justify-end will-change-transform sm:h-[min(70vh,720px)]"
         >
           <div
             className="relative mx-auto h-full w-full max-w-5xl"
@@ -1205,8 +1205,8 @@ export function CinematicHome() {
                       src={phone.src}
                       alt=""
                       fill
-                      sizes="(max-width: 768px) 28vw, 200px"
-                      className="object-cover object-top"
+                      sizes="(max-width: 768px) 36vw, 280px"
+                      className="object-contain object-top"
                       priority
                     />
                   </FanPhoneFrame>
@@ -1309,14 +1309,15 @@ function FanPhoneFrame({ children }: { children: ReactNode }) {
     <div
       className="relative"
       style={{
-        width: "min(190px, 26vw)",
-        aspectRatio: "9 / 19.5",
+        // Taller aspect matches our cropped app screens so nothing is zoomed/cropped.
+        width: "min(280px, 32vw)",
+        aspectRatio: "9 / 21.5",
       }}
     >
-      <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-b from-neutral-200 via-neutral-500 to-neutral-900 p-[2px] shadow-[0_28px_60px_rgba(0,0,0,0.45)] sm:rounded-[2.2rem]">
-        <div className="relative h-full w-full overflow-hidden rounded-[1.9rem] bg-black sm:rounded-[2.05rem]">
-          <div className="absolute left-1/2 top-2 z-10 h-[16px] w-[28%] -translate-x-1/2 rounded-full bg-black sm:top-2.5 sm:h-[18px]" />
-          <div className="absolute inset-[2.5px] overflow-hidden rounded-[1.75rem] bg-neutral-950 sm:rounded-[1.9rem]">
+      <div className="absolute inset-0 rounded-[2.15rem] bg-gradient-to-b from-neutral-200 via-neutral-500 to-neutral-900 p-[2.5px] shadow-[0_32px_70px_rgba(0,0,0,0.5)] sm:rounded-[2.35rem]">
+        <div className="relative h-full w-full overflow-hidden rounded-[2rem] bg-[#f4f5f7] sm:rounded-[2.2rem]">
+          <div className="absolute left-1/2 top-2.5 z-10 h-[18px] w-[30%] -translate-x-1/2 rounded-full bg-black sm:top-3 sm:h-[20px]" />
+          <div className="absolute inset-[3px] overflow-hidden rounded-[1.85rem] bg-[#f4f5f7] sm:rounded-[2.05rem]">
             {children}
           </div>
         </div>
