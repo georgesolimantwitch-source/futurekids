@@ -11,10 +11,12 @@
  */
 
 import Image from "next/image";
+import Link from "next/link";
 import { useLayoutEffect, useRef, type ReactNode } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AppPhoneShowcase } from "@/components/home/AppPhoneShowcase";
+import { brand } from "@/config/brand";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -22,7 +24,7 @@ gsap.registerPlugin(ScrollTrigger);
 export const CINEMATIC_SCROLL_VH = 640;
 
 /** How long the all-apps opening holds before the first app takes over. */
-const COMBO_END = 0.11;
+const COMBO_END = 0.15;
 
 /** App order for the looping scroll commercial. */
 const APP_LOOP = ["earnly", "scholars", "ballr", "fresher"] as const;
@@ -43,6 +45,54 @@ const INTRO_SCREENS = {
   ballr: "/images/home/cinematic/ballr-badge.png",
   fresher: "/images/home/cinematic/fresher.png",
 } as const;
+
+/** Poppi-style opening fan — our real app screenshots. */
+const FAN_PHONES = [
+  {
+    key: "earnly",
+    src: INTRO_SCREENS.earnly,
+    label: "Earnly",
+    accent: "#5CE1FF",
+    rotate: -18,
+    x: "-34vw",
+    y: 40,
+    scale: 0.82,
+    z: 2,
+  },
+  {
+    key: "scholars",
+    src: INTRO_SCREENS.scholars,
+    label: "Scholars Notes",
+    accent: "#7EB6FF",
+    rotate: -7,
+    x: "-12vw",
+    y: 10,
+    scale: 0.94,
+    z: 4,
+  },
+  {
+    key: "ballr",
+    src: INTRO_SCREENS.ballr,
+    label: "Ballr",
+    accent: "#F0FF00",
+    rotate: 7,
+    x: "12vw",
+    y: 10,
+    scale: 0.94,
+    z: 4,
+  },
+  {
+    key: "fresher",
+    src: INTRO_SCREENS.fresher,
+    label: "Freshys",
+    accent: "#5CFF9A",
+    rotate: 18,
+    x: "34vw",
+    y: 40,
+    scale: 0.82,
+    z: 2,
+  },
+] as const;
 
 /** Ballr scroll beats — screen-only shots + captions from the marketing mockups. */
 const BALLR_BEATS = [
@@ -169,21 +219,19 @@ function stageEnvironment(env: (typeof STAGE_COPY)[number]["env"]) {
   ].join(", ");
 }
 
-/** Opening wash: all four app colors blended into one field. */
+/** Opening wash — saturated Poppi-style blend of all four app colors. */
 function comboEnvironment() {
   const earnly = STAGE_COPY[0].env;
   const scholars = STAGE_COPY[1].env;
   const ballr = STAGE_COPY[2].env;
   const fresher = STAGE_COPY[3].env;
   return [
-    `radial-gradient(ellipse 100% 70% at 50% 108%, #ffffff 0%, transparent 42%)`,
-    `radial-gradient(ellipse 85% 90% at 8% 78%, ${earnly.bright} 0%, ${earnly.mid}aa 32%, transparent 62%)`,
-    `radial-gradient(ellipse 80% 85% at 92% 72%, ${scholars.bright} 0%, ${scholars.mid}aa 34%, transparent 64%)`,
-    `radial-gradient(ellipse 75% 80% at 22% 18%, ${scholars.mid}99 0%, transparent 55%)`,
-    `radial-gradient(ellipse 90% 85% at 78% 88%, ${ballr.bright} 0%, ${ballr.mid}99 38%, transparent 68%)`,
-    `radial-gradient(ellipse 80% 75% at 88% 22%, ${fresher.bright} 0%, ${fresher.mid}99 36%, transparent 62%)`,
-    `radial-gradient(ellipse 70% 60% at 40% 55%, ${fresher.mid}55 0%, transparent 58%)`,
-    `linear-gradient(165deg, #001428 0%, #0a1a08 45%, #001a12 100%)`,
+    `linear-gradient(115deg, ${earnly.mid} 0%, ${scholars.mid} 32%, ${ballr.bright} 62%, ${fresher.mid} 100%)`,
+    `radial-gradient(ellipse 90% 70% at 50% 40%, #ffffff55 0%, transparent 55%)`,
+    `radial-gradient(ellipse 70% 80% at 12% 75%, ${earnly.bright}cc 0%, transparent 60%)`,
+    `radial-gradient(ellipse 70% 80% at 88% 70%, ${fresher.bright}bb 0%, transparent 58%)`,
+    `radial-gradient(ellipse 55% 50% at 50% 95%, ${ballr.bright}99 0%, transparent 55%)`,
+    `radial-gradient(ellipse 40% 35% at 70% 20%, ${scholars.bright}88 0%, transparent 60%)`,
   ].join(", ");
 }
 
@@ -206,9 +254,11 @@ export function CinematicHome() {
     if (reduce) {
       gsap.set(el(root, '[data-bg-wash="combo"]'), { opacity: 1 });
       gsap.set(el(root, "[data-combo-phones]"), { opacity: 1 });
+      gsap.set(el(root, "[data-combo-copy]"), { opacity: 1 });
       gsap.set(el(root, "[data-phone]"), { opacity: 0 });
       gsap.set(el(root, "[data-ipad]"), { opacity: 0 });
       gsap.set(els(root, "[data-copy]"), { opacity: 0 });
+      gsap.set(els(root, "[data-ballr-copy]"), { opacity: 0 });
       return;
     }
 
@@ -243,13 +293,38 @@ export function CinematicHome() {
         scale: 1,
         rotate: 0,
       });
-      gsap.set(els(root, "[data-combo-phone]"), {
+      gsap.set(el(root, "[data-combo-copy]"), {
         opacity: 1,
         y: 0,
-        x: 0,
-        rotate: 0,
-        rotateY: 0,
-        scale: 1,
+      });
+      gsap.set(els(root, "[data-combo-phone]"), {
+        opacity: 1,
+        filter: "blur(0px)",
+      });
+      // Rest fan phones into their designed poses, then float gently.
+      els(root, "[data-combo-phone]").forEach((item, i) => {
+        const fan = FAN_PHONES[i];
+        if (!fan) return;
+        gsap.set(item, {
+          xPercent: -50,
+          x: fan.x,
+          y: fan.y,
+          rotate: fan.rotate,
+          scale: fan.scale,
+          transformOrigin: "50% 100%",
+        });
+        const floater = item.querySelector("[data-combo-float]");
+        if (floater) {
+          gsap.to(floater, {
+            y: -12,
+            rotate: i % 2 === 0 ? -1.8 : 1.8,
+            duration: 2.8 + i * 0.35,
+            ease: "sine.inOut",
+            yoyo: true,
+            repeat: -1,
+            delay: i * 0.2,
+          });
+        }
       });
       gsap.set(el(root, "[data-phone]"), {
         opacity: 0,
@@ -316,24 +391,33 @@ export function CinematicHome() {
         }
       };
 
-      // Opening row fans out with a twist before the hero phone lands.
+      // Opening fan collapses into the first hero phone.
+      tl.to(
+        el(root, "[data-combo-copy]"),
+        {
+          opacity: 0,
+          y: 36,
+          filter: "blur(6px)",
+          duration: 0.07,
+        },
+        COMBO_END - 0.1,
+      );
       const comboItems = els(root, "[data-combo-phone]");
       comboItems.forEach((item, i) => {
-        const side = i < 1.5 ? -1 : 1;
-        const spread = (i - 1.5) * (isMobile ? 18 : 36);
+        const side = i < comboItems.length / 2 ? -1 : 1;
+        const fan = FAN_PHONES[i];
         tl.to(
           item,
           {
             opacity: 0,
-            y: -70 - Math.abs(spread) * 0.4,
-            x: spread * 1.4,
-            rotate: side * (10 + i * 4),
-            rotateY: side * 28,
-            scale: 0.78,
-            filter: "blur(8px)",
-            duration: 0.09,
+            y: (fan?.y ?? 0) - 90,
+            x: side * (isMobile ? 40 : 90),
+            rotate: (fan?.rotate ?? 0) + side * 18,
+            scale: (fan?.scale ?? 1) * 0.72,
+            filter: "blur(10px)",
+            duration: 0.1,
           },
-          COMBO_END - 0.09,
+          COMBO_END - 0.1 + i * 0.008,
         );
       });
       tl.to(
@@ -343,8 +427,8 @@ export function CinematicHome() {
       );
       tl.to(
         el(root, '[data-bg-wash="combo"]'),
-        { opacity: 0, duration: 0.08 },
-        COMBO_END - 0.06,
+        { opacity: 0, duration: 0.09 },
+        COMBO_END - 0.07,
       );
 
       const first = windows[0];
@@ -698,33 +782,23 @@ export function CinematicHome() {
             style={{ background: comboEnvironment() }}
           />
           <div
-            className="absolute inset-0 opacity-60"
+            className="absolute inset-0 opacity-50 mix-blend-soft-light"
             style={{
               backgroundImage: [
-                `radial-gradient(circle at 18% 62%, #fff 0 1.5px, transparent 2px)`,
-                `radial-gradient(circle at 78% 48%, #5CE1FF 0 1.5px, transparent 2.5px)`,
-                `radial-gradient(circle at 32% 78%, #E8FF3D 0 2px, transparent 3px)`,
-                `radial-gradient(circle at 64% 70%, #7EB6FF 0 1px, transparent 2px)`,
-                `radial-gradient(circle at 88% 82%, #5CFF9A 0 1.5px, transparent 2.5px)`,
-                `radial-gradient(circle at 12% 40%, #00D4FF 0 1px, transparent 2px)`,
-                `radial-gradient(circle at 55% 55%, #fff 0 1px, transparent 2px)`,
-                `radial-gradient(circle at 42% 88%, #39FF88 0 2px, transparent 3px)`,
+                `radial-gradient(circle at 18% 30%, #fff 0 2px, transparent 3px)`,
+                `radial-gradient(circle at 72% 22%, #fff 0 1.5px, transparent 2.5px)`,
+                `radial-gradient(circle at 40% 70%, #fff 0 2px, transparent 3px)`,
+                `radial-gradient(circle at 85% 60%, #fff 0 1px, transparent 2px)`,
+                `radial-gradient(circle at 12% 78%, #fff 0 1.5px, transparent 2.5px)`,
+                `radial-gradient(circle at 55% 45%, #fff 0 1px, transparent 2px)`,
               ].join(", "),
-              backgroundSize: "100% 100%",
             }}
           />
           <div
-            className="absolute inset-x-[-30%] bottom-[-22%] h-[70%] blur-3xl"
+            className="pointer-events-none absolute left-1/2 top-[42%] h-[55%] w-[70%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-70 blur-3xl"
             style={{
               background:
-                "radial-gradient(ellipse 70% 55% at 35% 65%, #00D4FF88 0%, transparent 55%), radial-gradient(ellipse 70% 55% at 70% 70%, #39FF8888 0%, transparent 55%), radial-gradient(ellipse 60% 50% at 55% 80%, #D4FF0066 0%, transparent 60%)",
-            }}
-          />
-          <div
-            className="absolute inset-x-[-10%] bottom-[-5%] h-[50%] opacity-80 mix-blend-screen"
-            style={{
-              background:
-                "radial-gradient(ellipse 90% 60% at 50% 90%, #5CE1FF66 0%, #5CFF9A44 40%, transparent 70%)",
+                "radial-gradient(ellipse at center, #ffffff88 0%, #F0FF0044 35%, transparent 70%)",
             }}
           />
         </div>
@@ -828,37 +902,75 @@ export function CinematicHome() {
 
         <div
           data-combo-phones
-          className="pointer-events-none absolute inset-x-0 bottom-[5%] top-[max(5.25rem,11vh)] z-20 flex items-center justify-center px-3 will-change-transform sm:px-6 md:px-10"
+          className="absolute inset-x-0 top-[max(4.5rem,8vh)] z-20 flex h-[min(58vh,560px)] flex-col items-center justify-end will-change-transform sm:h-[min(60vh,600px)]"
         >
-          <div className="flex w-full max-w-6xl items-end justify-between gap-2 sm:gap-4 md:gap-8">
-            {STAGE_COPY.map((stage) => (
+          <div
+            className="relative mx-auto h-full w-full max-w-5xl"
+            style={{ perspective: "1600px" }}
+          >
+            {FAN_PHONES.map((phone) => (
               <div
-                key={stage.key}
-                data-combo-phone={stage.key}
-                className="flex min-w-0 flex-1 flex-col items-center gap-2.5 will-change-transform sm:gap-3"
-                style={{ perspective: 900 }}
+                key={phone.key}
+                data-combo-phone={phone.key}
+                className="absolute bottom-[8%] left-1/2 will-change-transform"
+                style={{
+                  zIndex: phone.z,
+                  transformOrigin: "50% 100%",
+                }}
               >
-                <p
-                  className="text-center text-[10px] font-semibold uppercase tracking-[0.18em] sm:text-xs"
-                  style={{
-                    color: stage.accent,
-                    textShadow: "0 2px 16px rgba(0,0,0,0.45)",
-                  }}
-                >
-                  {stage.eyebrow}
-                </p>
-                <ComboPhoneFrame>
-                  <Image
-                    src={INTRO_SCREENS[stage.key]}
-                    alt=""
-                    fill
-                    sizes="(max-width: 768px) 22vw, 160px"
-                    className="object-cover object-top"
-                    priority
+                <div data-combo-float className="will-change-transform">
+                  <div
+                    className="pointer-events-none absolute -inset-10 -z-10 rounded-full opacity-70 blur-2xl"
+                    style={{
+                      background: `radial-gradient(ellipse at center, ${phone.accent}88 0%, transparent 70%)`,
+                    }}
+                    aria-hidden
                   />
-                </ComboPhoneFrame>
+                  <FanPhoneFrame>
+                    <Image
+                      src={phone.src}
+                      alt=""
+                      fill
+                      sizes="(max-width: 768px) 28vw, 200px"
+                      className="object-cover object-top"
+                      priority
+                    />
+                  </FanPhoneFrame>
+                </div>
               </div>
             ))}
+          </div>
+        </div>
+
+        <div
+          data-combo-copy
+          className="absolute inset-x-0 bottom-[4%] z-30 flex flex-col items-center px-6 text-center will-change-transform sm:bottom-[5%]"
+        >
+          <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/85 drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)] sm:text-xs">
+            Four apps. One family.
+          </p>
+          <h1
+            className="font-display mt-3 max-w-3xl text-[clamp(2rem,6vw,3.75rem)] font-semibold leading-[1.05] tracking-tight text-white"
+            style={{
+              textShadow:
+                "0 2px 4px rgba(0,0,0,0.35), 0 12px 40px rgba(0,0,0,0.25)",
+            }}
+          >
+            {brand.tagline}
+          </h1>
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+            <Link
+              href="/pricing"
+              className="inline-flex items-center justify-center rounded-full bg-white px-7 py-3 text-sm font-semibold text-black shadow-lg transition hover:bg-white/90"
+            >
+              Explore plans
+            </Link>
+            <Link
+              href="/#apps"
+              className="inline-flex items-center justify-center rounded-full border border-white/50 bg-white/10 px-7 py-3 text-sm font-semibold text-white backdrop-blur-sm transition hover:border-white hover:bg-white/20"
+            >
+              See the apps
+            </Link>
           </div>
         </div>
 
@@ -935,19 +1047,19 @@ export function CinematicHome() {
   );
 }
 
-function ComboPhoneFrame({ children }: { children: ReactNode }) {
+function FanPhoneFrame({ children }: { children: ReactNode }) {
   return (
     <div
-      className="relative mx-auto"
+      className="relative"
       style={{
-        width: "min(158px, 21vw)",
+        width: "min(190px, 26vw)",
         aspectRatio: "9 / 19.5",
       }}
     >
-      <div className="absolute inset-0 rounded-[1.65rem] bg-gradient-to-b from-neutral-200 via-neutral-500 to-neutral-800 p-[1.5px] shadow-[0_24px_50px_rgba(0,0,0,0.5)] sm:rounded-[1.85rem]">
-        <div className="relative h-full w-full overflow-hidden rounded-[1.55rem] bg-black sm:rounded-[1.75rem]">
-          <div className="absolute left-1/2 top-1.5 z-10 h-[14px] w-[28%] -translate-x-1/2 rounded-full bg-black sm:top-2 sm:h-[16px]" />
-          <div className="absolute inset-[2px] overflow-hidden rounded-[1.45rem] bg-neutral-950 sm:rounded-[1.65rem]">
+      <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-b from-neutral-200 via-neutral-500 to-neutral-900 p-[2px] shadow-[0_28px_60px_rgba(0,0,0,0.45)] sm:rounded-[2.2rem]">
+        <div className="relative h-full w-full overflow-hidden rounded-[1.9rem] bg-black sm:rounded-[2.05rem]">
+          <div className="absolute left-1/2 top-2 z-10 h-[16px] w-[28%] -translate-x-1/2 rounded-full bg-black sm:top-2.5 sm:h-[18px]" />
+          <div className="absolute inset-[2.5px] overflow-hidden rounded-[1.75rem] bg-neutral-950 sm:rounded-[1.9rem]">
             {children}
           </div>
         </div>
