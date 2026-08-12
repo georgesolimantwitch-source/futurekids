@@ -212,7 +212,9 @@ function buildLoopWindows() {
   const spanEnd = 1;
   const total = APP_LOOP.length * LOOP_COUNT;
   const slot = (spanEnd - spanStart) / total;
-  const overlap = slot * 0.22;
+  // Tiny overlap only for bg wash crossfade — devices hard-cut so apps
+  // never sit half-transparent on top of each other.
+  const overlap = slot * 0.04;
   for (let i = 0; i < total; i++) {
     const start = spanStart + i * slot;
     const end = Math.min(spanEnd, start + slot + overlap);
@@ -443,8 +445,8 @@ export function CinematicHome() {
       ) => {
         const copy = el(root, `[data-copy="${key}"]`);
         const wash = el(root, `[data-bg-wash="${key}"]`);
-        const fadeIn = 0.05;
-        const fadeOut = 0.07;
+        const fadeIn = 0.03;
+        const fadeOut = 0.03;
         if (wash) {
           tl.to(wash, { opacity: 1, duration: fadeIn }, start);
           if (!holdOut) {
@@ -513,33 +515,8 @@ export function CinematicHome() {
         COMBO_END - 0.07,
       );
 
-      const first = windows[0];
-      tl.to(
-        el(root, "[data-phone]"),
-        {
-          opacity: 1,
-          scale: 1.06,
-          y: -10,
-          x: 0,
-          rotate: 6,
-          rotateY: -8,
-          rotateX: -4,
-          duration: 0.05,
-        },
-        first.start - 0.03,
-      );
-      tl.to(
-        el(root, "[data-phone]"),
-        {
-          scale: 1,
-          y: 0,
-          rotate: -tilt * 0.25,
-          rotateY: yaw * 0.2,
-          rotateX: 0,
-          duration: 0.04,
-        },
-        first.start + 0.02,
-      );
+      // First loop stage owns its own entrance (Earnly fan / etc.) —
+      // don't flash the single hero phone between combo and that stage.
 
       windows.forEach((win, index) => {
         const { key, start, end, holdOut } = win;
@@ -555,18 +532,12 @@ export function CinematicHome() {
         }
 
         if (key === "scholars") {
+          // Hard-cut previous device, then iPad at full opacity.
           tl.to(
             el(root, "[data-phone]"),
             {
               opacity: 0,
-              scale: 0.62,
-              rotate: -28 * dir,
-              rotateY: -35 * dir,
-              rotateX: 10,
-              x: -travel * 1.2,
-              y: 40,
-              filter: "blur(7px)",
-              duration: 0.07,
+              duration: 0.012,
             },
             start,
           );
@@ -574,13 +545,13 @@ export function CinematicHome() {
             el(root, "[data-ipad]"),
             {
               opacity: 0,
-              scale: 0.55,
-              rotate: 22 * dir,
-              rotateY: 40 * dir,
-              rotateX: 12,
-              x: travel * 1.1,
-              y: 50,
-              filter: "blur(8px)",
+              scale: 0.92,
+              rotate: 8 * dir,
+              rotateY: 12 * dir,
+              rotateX: 4,
+              x: travel * 0.35,
+              y: 24,
+              filter: "blur(4px)",
             },
             {
               opacity: 1,
@@ -591,9 +562,9 @@ export function CinematicHome() {
               x: 0,
               y: 0,
               filter: "blur(0px)",
-              duration: 0.09,
+              duration: 0.025,
             },
-            start + 0.015,
+            start + 0.012,
           );
           tl.to(
             el(root, "[data-ipad]"),
@@ -603,9 +574,9 @@ export function CinematicHome() {
               rotate: 5 * dir,
               rotateY: -yaw * 0.45 * dir,
               rotateX: 2,
-              duration: Math.max(0.04, b - (start + 0.1)),
+              duration: Math.max(0.04, b - (start + 0.05)),
             },
-            start + 0.1,
+            start + 0.05,
           );
           tl.to(
             el(root, "[data-ipad]"),
@@ -631,43 +602,14 @@ export function CinematicHome() {
           );
           if (!holdOut) {
             const nextStart = windows[index + 1]?.start ?? end;
+            // Cut iPad fully before next app — no ghosted overlap.
             tl.to(
               el(root, "[data-ipad]"),
               {
                 opacity: 0,
-                scale: 0.7,
-                rotate: 24 * dir,
-                rotateY: 32 * dir,
-                x: travel * 1.3,
-                y: -30,
-                filter: "blur(7px)",
-                duration: 0.08,
+                duration: 0.012,
               },
               nextStart,
-            );
-            tl.fromTo(
-              el(root, "[data-phone]"),
-              {
-                opacity: 0,
-                scale: 0.65,
-                rotate: -20 * dir,
-                rotateY: -30 * dir,
-                x: -travel,
-                y: 60,
-                filter: "blur(6px)",
-              },
-              {
-                opacity: 1,
-                scale: 1,
-                rotate: 0,
-                rotateY: 0,
-                rotateX: 0,
-                x: 0,
-                y: 0,
-                filter: "blur(0px)",
-                duration: 0.09,
-              },
-              nextStart + 0.02,
             );
           }
         } else if (key === "earnly") {
@@ -677,10 +619,13 @@ export function CinematicHome() {
             el(root, "[data-phone]"),
             {
               opacity: 0,
-              scale: 0.7,
-              filter: "blur(6px)",
-              duration: 0.06,
+              duration: 0.012,
             },
+            start,
+          );
+          tl.to(
+            el(root, "[data-ipad]"),
+            { opacity: 0, duration: 0.012 },
             start,
           );
 
@@ -691,10 +636,11 @@ export function CinematicHome() {
             gsap.set(item, {
               xPercent: -50,
               x: fan.x,
-              y: fan.y + 80,
-              rotate: fan.rotate * 1.4,
-              scale: fan.scale * 0.85,
-              opacity: 0,
+              y: fan.y + 40,
+              rotate: fan.rotate * 1.15,
+              scale: fan.scale * 0.94,
+              opacity: 1,
+              filter: "blur(0px)",
               transformOrigin: "50% 100%",
             });
             tl.to(
@@ -705,78 +651,54 @@ export function CinematicHome() {
                 rotate: fan.rotate,
                 scale: fan.scale,
                 filter: "blur(0px)",
-                duration: 0.08,
+                duration: 0.03,
               },
-              start + 0.02 + i * 0.012,
+              start + 0.012 + i * 0.004,
             );
           });
           tl.to(
             el(root, "[data-earnly-fan]"),
-            { opacity: 1, duration: 0.05 },
-            start + 0.02,
+            { opacity: 1, duration: 0.018 },
+            start + 0.012,
           );
           tl.to(
             el(root, "[data-earnly-fan]"),
             {
               y: -6,
-              duration: Math.max(0.05, end - start - 0.12),
+              duration: Math.max(0.05, end - start - 0.06),
             },
-            start + 0.1,
+            start + 0.05,
           );
 
           if (!holdOut) {
             const nextStart = windows[index + 1]?.start ?? end;
-            earnlyPhones.forEach((item, i) => {
-              const fan = EARNLY_FAN[i];
-              const side = i < earnlyPhones.length / 2 ? -1 : 1;
-              tl.to(
-                item,
-                {
-                  opacity: 0,
-                  xPercent: -50,
-                  x: fan?.x ?? 0,
-                  y: (fan?.y ?? 0) - 70,
-                  rotate: (fan?.rotate ?? 0) + side * 20,
-                  scale: (fan?.scale ?? 1) * 0.7,
-                  filter: "blur(8px)",
-                  duration: 0.08,
-                },
-                nextStart,
-              );
-            });
+            // Full-opacity fan until a hard cut into the next app.
             tl.to(
               el(root, "[data-earnly-fan]"),
-              { opacity: 0, duration: 0.06 },
+              { opacity: 0, duration: 0.012 },
               nextStart,
             );
             tl.to(
-              el(root, "[data-phone]"),
-              {
-                opacity: 1,
-                scale: 1,
-                rotate: 0,
-                rotateY: 0,
-                rotateX: 0,
-                x: 0,
-                y: 0,
-                filter: "blur(0px)",
-                duration: 0.09,
-              },
-              nextStart + 0.02,
+              earnlyPhones,
+              { opacity: 0, duration: 0.012 },
+              nextStart,
             );
           }
         } else if (key === "ballr") {
           fadeCopy("ballr", start, end, holdOut);
 
-          // Hide the single hero phone; show the Ballr fan instead.
+          // Hide prior device; show Ballr fan at full opacity.
           tl.to(
             el(root, "[data-phone]"),
             {
               opacity: 0,
-              scale: 0.7,
-              filter: "blur(6px)",
-              duration: 0.06,
+              duration: 0.012,
             },
+            start,
+          );
+          tl.to(
+            el(root, "[data-ipad]"),
+            { opacity: 0, duration: 0.012 },
             start,
           );
 
@@ -787,10 +709,11 @@ export function CinematicHome() {
             gsap.set(item, {
               xPercent: -50,
               x: fan.x,
-              y: fan.y + 80,
-              rotate: fan.rotate * 1.4,
-              scale: fan.scale * 0.85,
-              opacity: 0,
+              y: fan.y + 40,
+              rotate: fan.rotate * 1.15,
+              scale: fan.scale * 0.94,
+              opacity: 1,
+              filter: "blur(0px)",
               transformOrigin: "50% 100%",
             });
             tl.to(
@@ -801,15 +724,15 @@ export function CinematicHome() {
                 rotate: fan.rotate,
                 scale: fan.scale,
                 filter: "blur(0px)",
-                duration: 0.08,
+                duration: 0.03,
               },
-              start + 0.02 + i * 0.012,
+              start + 0.012 + i * 0.004,
             );
           });
           tl.to(
             el(root, "[data-ballr-fan]"),
-            { opacity: 1, duration: 0.05 },
-            start + 0.02,
+            { opacity: 1, duration: 0.018 },
+            start + 0.012,
           );
 
           // Gentle sway while Ballr is on stage.
@@ -817,55 +740,69 @@ export function CinematicHome() {
             el(root, "[data-ballr-fan]"),
             {
               y: -6,
-              duration: Math.max(0.05, end - start - 0.12),
+              duration: Math.max(0.05, end - start - 0.06),
             },
-            start + 0.1,
+            start + 0.05,
           );
 
           if (!holdOut) {
             const nextStart = windows[index + 1]?.start ?? end;
-            ballrPhones.forEach((item, i) => {
-              const fan = BALLR_FAN[i];
-              const side = i < ballrPhones.length / 2 ? -1 : 1;
-              tl.to(
-                item,
-                {
-                  opacity: 0,
-                  xPercent: -50,
-                  x: fan?.x ?? 0,
-                  y: (fan?.y ?? 0) - 70,
-                  rotate: (fan?.rotate ?? 0) + side * 20,
-                  scale: (fan?.scale ?? 1) * 0.7,
-                  filter: "blur(8px)",
-                  duration: 0.08,
-                },
-                nextStart,
-              );
-            });
+            // Full-opacity fan until a hard cut into Freshys (no ghost phones).
             tl.to(
               el(root, "[data-ballr-fan]"),
-              { opacity: 0, duration: 0.06 },
+              { opacity: 0, duration: 0.012 },
               nextStart,
             );
             tl.to(
-              el(root, "[data-phone]"),
-              {
-                opacity: 1,
-                scale: 1,
-                rotate: 0,
-                rotateY: 0,
-                rotateX: 0,
-                x: 0,
-                y: 0,
-                filter: "blur(0px)",
-                duration: 0.09,
-              },
-              nextStart + 0.02,
+              ballrPhones,
+              { opacity: 0, duration: 0.012 },
+              nextStart,
             );
           }
         } else {
           // Fresher (and any other single-phone app stages).
           showPhoneScreen(key, start, end, holdOut);
+
+          // Ensure fans are gone, then bring this phone in at full opacity.
+          tl.to(
+            el(root, "[data-earnly-fan]"),
+            { opacity: 0, duration: 0.01 },
+            start,
+          );
+          tl.to(
+            el(root, "[data-ballr-fan]"),
+            { opacity: 0, duration: 0.01 },
+            start,
+          );
+          tl.to(
+            el(root, "[data-ipad]"),
+            { opacity: 0, duration: 0.01 },
+            start,
+          );
+          tl.fromTo(
+            el(root, "[data-phone]"),
+            {
+              opacity: 0,
+              scale: 0.94,
+              rotate: -6 * dir,
+              rotateY: -8 * dir,
+              x: -travel * 0.25,
+              y: 20,
+              filter: "blur(3px)",
+            },
+            {
+              opacity: 1,
+              scale: 1,
+              rotate: 0,
+              rotateY: 0,
+              rotateX: 0,
+              x: 0,
+              y: 0,
+              filter: "blur(0px)",
+              duration: 0.022,
+            },
+            start + 0.012,
+          );
 
           tl.to(
             el(root, "[data-phone]"),
@@ -878,7 +815,7 @@ export function CinematicHome() {
               scale: 1.04,
               duration: Math.max(0.04, b - a),
             },
-            a,
+            a + 0.04,
           );
           tl.to(
             el(root, "[data-phone]"),
@@ -908,15 +845,14 @@ export function CinematicHome() {
           );
 
           if (!holdOut) {
+            const nextStart = windows[index + 1]?.start ?? end;
             tl.to(
               el(root, "[data-phone]"),
               {
-                rotate: 14 * dir,
-                rotateY: 18 * dir,
-                scale: 0.94,
-                duration: 0.03,
+                opacity: 0,
+                duration: 0.012,
               },
-              d - 0.04,
+              nextStart,
             );
           }
         }
