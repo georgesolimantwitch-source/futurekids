@@ -94,31 +94,61 @@ const FAN_PHONES = [
   },
 ] as const;
 
-/** Ballr scroll beats — screen-only shots + captions from the marketing mockups. */
-const BALLR_BEATS = [
+/** Ballr fan — separate phones with captions, like the opening. */
+const BALLR_FAN = [
   {
     src: "/images/home/cinematic/ballr-badge.png",
     caption: "Earn badges as you play.",
+    rotate: -22,
+    x: "-38vw",
+    y: 52,
+    scale: 0.7,
+    z: 1,
   },
   {
     src: "/images/home/cinematic/ballr-player.png",
     caption: "Build your player card.",
+    rotate: -12,
+    x: "-22vw",
+    y: 28,
+    scale: 0.8,
+    z: 3,
   },
   {
     src: "/images/home/cinematic/ballr-fuel.png",
     caption: "Track your fuel.",
+    rotate: -4,
+    x: "-7vw",
+    y: 8,
+    scale: 0.9,
+    z: 5,
   },
   {
     src: "/images/home/cinematic/ballr-meals.png",
     caption: "Log every meal.",
+    rotate: 4,
+    x: "7vw",
+    y: 8,
+    scale: 0.9,
+    z: 5,
   },
   {
     src: "/images/home/cinematic/ballr-workouts.png",
     caption: "Personalized workouts.",
+    rotate: 12,
+    x: "22vw",
+    y: 28,
+    scale: 0.8,
+    z: 3,
   },
   {
     src: "/images/home/cinematic/ballr-gym.png",
     caption: "See your potential.",
+    rotate: 22,
+    x: "38vw",
+    y: 52,
+    scale: 0.7,
+    z: 1,
   },
 ] as const;
 
@@ -257,8 +287,8 @@ export function CinematicHome() {
       gsap.set(el(root, "[data-combo-copy]"), { opacity: 1 });
       gsap.set(el(root, "[data-phone]"), { opacity: 0 });
       gsap.set(el(root, "[data-ipad]"), { opacity: 0 });
+      gsap.set(el(root, "[data-ballr-fan]"), { opacity: 0 });
       gsap.set(els(root, "[data-copy]"), { opacity: 0 });
-      gsap.set(els(root, "[data-ballr-copy]"), { opacity: 0 });
       return;
     }
 
@@ -349,9 +379,9 @@ export function CinematicHome() {
         transformPerspective: 1200,
       });
       gsap.set(els(root, "[data-phone-screen]"), { opacity: 0 });
-      gsap.set(els(root, "[data-ballr-screen]"), { opacity: 0 });
       gsap.set(els(root, "[data-copy]"), { opacity: 0, y: 0 });
-      gsap.set(els(root, "[data-ballr-copy]"), { opacity: 0, y: 0 });
+      gsap.set(el(root, "[data-ballr-fan]"), { opacity: 0 });
+      gsap.set(els(root, "[data-ballr-phone]"), { opacity: 0 });
 
       const fadeCopy = (
         key: string,
@@ -589,86 +619,101 @@ export function CinematicHome() {
             );
           }
         } else if (key === "ballr") {
-          const wash = el(root, '[data-bg-wash="ballr"]');
-          if (wash) {
-            tl.to(wash, { opacity: 1, duration: 0.05 }, start);
-            if (!holdOut) {
-              tl.to(wash, { opacity: 0, duration: 0.07 }, end - 0.07);
-            }
-          }
+          fadeCopy("ballr", start, end, holdOut);
 
-          const beatCount = BALLR_BEATS.length;
-          const beatSpan = span / beatCount;
-          BALLR_BEATS.forEach((_, i) => {
-            const beatStart = start + i * beatSpan;
-            const beatEnd = start + (i + 1) * beatSpan;
-            const screen = el(root, `[data-ballr-screen="${i}"]`);
-            const copy = el(root, `[data-ballr-copy="${i}"]`);
-            const keep = holdOut && i === beatCount - 1;
-            if (screen) {
-              tl.to(screen, { opacity: 1, duration: 0.03 }, beatStart);
-              if (!keep) {
-                tl.to(screen, { opacity: 0, duration: 0.03 }, beatEnd - 0.03);
-              }
-            }
-            if (copy) {
-              tl.to(copy, { opacity: 1, duration: 0.03 }, beatStart);
-              if (!keep) {
-                tl.to(copy, { opacity: 0, duration: 0.03 }, beatEnd - 0.03);
-              }
-            }
+          // Hide the single hero phone; show the Ballr fan instead.
+          tl.to(
+            el(root, "[data-phone]"),
+            {
+              opacity: 0,
+              scale: 0.7,
+              filter: "blur(6px)",
+              duration: 0.06,
+            },
+            start,
+          );
+
+          const ballrPhones = els(root, "[data-ballr-phone]");
+          ballrPhones.forEach((item, i) => {
+            const fan = BALLR_FAN[i];
+            if (!fan) return;
+            gsap.set(item, {
+              xPercent: -50,
+              x: fan.x,
+              y: fan.y + 80,
+              rotate: fan.rotate * 1.4,
+              scale: fan.scale * 0.85,
+              opacity: 0,
+              transformOrigin: "50% 100%",
+            });
+            tl.to(
+              item,
+              {
+                opacity: 1,
+                y: fan.y,
+                rotate: fan.rotate,
+                scale: fan.scale,
+                filter: "blur(0px)",
+                duration: 0.08,
+              },
+              start + 0.02 + i * 0.012,
+            );
           });
+          tl.to(
+            el(root, "[data-ballr-fan]"),
+            { opacity: 1, duration: 0.05 },
+            start + 0.02,
+          );
 
+          // Gentle sway while Ballr is on stage.
           tl.to(
-            el(root, "[data-phone]"),
+            el(root, "[data-ballr-fan]"),
             {
-              x: travel * 0.55 * dir,
-              y: -18,
-              rotate: tilt * 0.85 * dir,
-              rotateY: -yaw * 0.7 * dir,
-              rotateX: -3,
-              scale: 1.08,
-              duration: Math.max(0.04, b - a),
+              y: -6,
+              duration: Math.max(0.05, end - start - 0.12),
             },
-            a,
-          );
-          tl.to(
-            el(root, "[data-phone]"),
-            {
-              x: -travel * 0.4 * dir,
-              y: 4,
-              rotate: -tilt * 0.7 * dir,
-              rotateY: yaw * 0.85 * dir,
-              rotateX: -8,
-              scale: 1.02,
-              duration: Math.max(0.04, c - b),
-            },
-            b,
-          );
-          tl.to(
-            el(root, "[data-phone]"),
-            {
-              x: travel * 0.2 * dir,
-              y: 0,
-              rotate: tilt * 0.35 * dir,
-              rotateY: -yaw * 0.3 * dir,
-              rotateX: 0,
-              scale: 1,
-              duration: Math.max(0.03, d - c - (holdOut ? 0 : 0.02)),
-            },
-            c,
+            start + 0.1,
           );
 
           if (!holdOut) {
+            const nextStart = windows[index + 1]?.start ?? end;
+            ballrPhones.forEach((item, i) => {
+              const fan = BALLR_FAN[i];
+              const side = i < ballrPhones.length / 2 ? -1 : 1;
+              tl.to(
+                item,
+                {
+                  opacity: 0,
+                  xPercent: -50,
+                  x: fan?.x ?? 0,
+                  y: (fan?.y ?? 0) - 70,
+                  rotate: (fan?.rotate ?? 0) + side * 20,
+                  scale: (fan?.scale ?? 1) * 0.7,
+                  filter: "blur(8px)",
+                  duration: 0.08,
+                },
+                nextStart,
+              );
+            });
+            tl.to(
+              el(root, "[data-ballr-fan]"),
+              { opacity: 0, duration: 0.06 },
+              nextStart,
+            );
             tl.to(
               el(root, "[data-phone]"),
               {
-                rotate: 14 * dir,
-                rotateY: 18 * dir,
-                scale: 0.94,
-                duration: 0.03,
+                opacity: 1,
+                scale: 1,
+                rotate: 0,
+                rotateY: 0,
+                rotateX: 0,
+                x: 0,
+                y: 0,
+                filter: "blur(0px)",
+                duration: 0.09,
               },
-              d - 0.04,
+              nextStart + 0.02,
             );
           }
         } else {
@@ -756,7 +801,7 @@ export function CinematicHome() {
             new Set([
               ...Object.values(SCREENS),
               ...Object.values(INTRO_SCREENS),
-              ...BALLR_BEATS.map((beat) => beat.src),
+              ...BALLR_FAN.map((beat) => beat.src),
             ]),
           ).map((src) => (
             // eslint-disable-next-line @next/next/no-img-element
@@ -854,7 +899,11 @@ export function CinematicHome() {
           <div
             key={stage.key}
             data-copy={stage.key}
-            className="pointer-events-none absolute inset-x-0 top-[max(4.75rem,9vh)] z-30 flex h-[min(22vh,150px)] flex-col items-center justify-end px-6 text-center will-change-[opacity] md:top-[max(5.25rem,10vh)]"
+            className={
+              stage.key === "ballr"
+                ? "pointer-events-none absolute inset-x-0 bottom-[3.5%] z-30 flex flex-col items-center px-6 text-center will-change-[opacity]"
+                : "pointer-events-none absolute inset-x-0 top-[max(4.75rem,9vh)] z-30 flex h-[min(22vh,150px)] flex-col items-center justify-end px-6 text-center will-change-[opacity] md:top-[max(5.25rem,10vh)]"
+            }
             style={{ opacity: 0 }}
           >
             <p
@@ -875,30 +924,56 @@ export function CinematicHome() {
           </div>
         ))}
 
-        {BALLR_BEATS.map((beat, index) => (
+        <div
+          data-ballr-fan
+          className="pointer-events-none absolute inset-x-0 top-[max(5rem,10vh)] z-20 flex h-[min(62vh,580px)] flex-col items-center justify-end will-change-transform"
+          style={{ opacity: 0 }}
+        >
           <div
-            key={beat.src}
-            data-ballr-copy={index}
-            className="pointer-events-none absolute inset-x-0 top-[max(4.75rem,9vh)] z-30 flex h-[min(22vh,150px)] flex-col items-center justify-end px-6 text-center will-change-[opacity] md:top-[max(5.25rem,10vh)]"
-            style={{ opacity: 0 }}
+            className="relative mx-auto h-full w-full max-w-6xl"
+            style={{ perspective: "1600px" }}
           >
-            <p
-              className="text-xs font-semibold uppercase tracking-[0.22em] drop-shadow-[0_1px_8px_rgba(0,0,0,0.65)]"
-              style={{ color: "#F0FF00" }}
-            >
-              Ballr
-            </p>
-            <h2
-              className="font-display mt-2 text-[clamp(1.75rem,4.5vw,3.5rem)] font-semibold leading-[1.05] tracking-tight text-white"
-              style={{
-                textShadow:
-                  "0 1px 2px rgba(0,0,0,0.8), 0 4px 28px rgba(0,0,0,0.55), 0 0 48px rgba(0,0,0,0.35)",
-              }}
-            >
-              {beat.caption}
-            </h2>
+            {BALLR_FAN.map((phone) => (
+              <div
+                key={phone.src}
+                data-ballr-phone
+                className="absolute bottom-[6%] left-1/2 will-change-transform"
+                style={{
+                  zIndex: phone.z,
+                  transformOrigin: "50% 100%",
+                  opacity: 0,
+                }}
+              >
+                <p
+                  className="mb-2 max-w-[9.5rem] text-center text-[10px] font-semibold leading-tight tracking-tight text-white sm:mb-3 sm:max-w-[11rem] sm:text-xs"
+                  style={{
+                    textShadow: "0 2px 14px rgba(0,0,0,0.55)",
+                  }}
+                >
+                  {phone.caption}
+                </p>
+                <div
+                  className="pointer-events-none absolute -inset-8 top-6 -z-10 rounded-full opacity-60 blur-2xl"
+                  style={{
+                    background:
+                      "radial-gradient(ellipse at center, #F0FF0088 0%, transparent 70%)",
+                  }}
+                  aria-hidden
+                />
+                <FanPhoneFrame>
+                  <Image
+                    src={phone.src}
+                    alt=""
+                    fill
+                    sizes="(max-width: 768px) 22vw, 170px"
+                    className="object-cover object-top"
+                    priority
+                  />
+                </FanPhoneFrame>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
 
         <div
           data-combo-phones
@@ -1003,23 +1078,6 @@ export function CinematicHome() {
                     />
                   </div>
                 ))}
-              {BALLR_BEATS.map((beat, index) => (
-                <div
-                  key={beat.src}
-                  data-ballr-screen={index}
-                  className="absolute inset-0"
-                  style={{ opacity: 0 }}
-                >
-                  <Image
-                    src={beat.src}
-                    alt=""
-                    fill
-                    sizes="(max-width: 768px) 70vw, 280px"
-                    className="object-cover object-top"
-                    priority={index === 0}
-                  />
-                </div>
-              ))}
             </PhoneFrame>
           </div>
 
