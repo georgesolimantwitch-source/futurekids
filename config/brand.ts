@@ -430,8 +430,8 @@ export const apps: AppConfig[] = [
     description:
       "A social sports app that helps you find local pickup games and runs, nearby parks, friends, training sessions, and build your own player card with ratings in your community.",
     features: ["Local Runs", "Player Cards", "Nearby Parks", "Communities"],
-    accentColor: "#E8B400",
-    accentColorLight: "#FFF6D6",
+    accentColor: "#E8FF00",
+    accentColorLight: "#F7FFE0",
     iconPath: "/images/apps/ballr/icon.png",
     screenshotPath: "/images/apps/ballr/screenshot.png",
     screenshotDevice: "phone",

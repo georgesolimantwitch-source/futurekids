@@ -32,7 +32,7 @@ const LOOP_COUNT = 2;
 const SCREENS = {
   earnly: "/images/home/cinematic/earnly.png",
   scholars: "/images/home/cinematic/scholars.png",
-  ballr: "/images/home/cinematic/ballr.png",
+  ballr: "/images/home/cinematic/ballr-badge.png",
   fresher: "/images/home/cinematic/fresher.png",
 } as const;
 
@@ -40,9 +40,37 @@ const SCREENS = {
 const INTRO_SCREENS = {
   earnly: "/images/home/cinematic/earnly.png",
   scholars: "/images/home/cinematic/scholars-phone.png",
-  ballr: "/images/home/cinematic/ballr.png",
+  ballr: "/images/home/cinematic/ballr-badge.png",
   fresher: "/images/home/cinematic/fresher.png",
 } as const;
+
+/** Ballr scroll beats — screen-only shots + captions from the marketing mockups. */
+const BALLR_BEATS = [
+  {
+    src: "/images/home/cinematic/ballr-badge.png",
+    caption: "Earn badges as you play.",
+  },
+  {
+    src: "/images/home/cinematic/ballr-player.png",
+    caption: "Build your player card.",
+  },
+  {
+    src: "/images/home/cinematic/ballr-fuel.png",
+    caption: "Track your fuel.",
+  },
+  {
+    src: "/images/home/cinematic/ballr-meals.png",
+    caption: "Log every meal.",
+  },
+  {
+    src: "/images/home/cinematic/ballr-workouts.png",
+    caption: "Personalized workouts.",
+  },
+  {
+    src: "/images/home/cinematic/ballr-gym.png",
+    caption: "See your potential.",
+  },
+] as const;
 
 function buildLoopWindows() {
   const windows: Array<{
@@ -109,12 +137,12 @@ const STAGE_COPY: Array<{
     key: "ballr",
     eyebrow: "Ballr",
     headline: "Play. Train. Improve.",
-    accent: "#E8FF3D",
+    accent: "#F0FF00",
     env: {
-      deep: "#2A3D00",
-      mid: "#A8E000",
-      bright: "#D4FF00",
-      bloom: "#FFFFFF",
+      deep: "#1A2800",
+      mid: "#C8F000",
+      bright: "#F5FF00",
+      bloom: "#FFFFB0",
     },
   },
   {
@@ -246,7 +274,9 @@ export function CinematicHome() {
         transformPerspective: 1200,
       });
       gsap.set(els(root, "[data-phone-screen]"), { opacity: 0 });
+      gsap.set(els(root, "[data-ballr-screen]"), { opacity: 0 });
       gsap.set(els(root, "[data-copy]"), { opacity: 0, y: 0 });
+      gsap.set(els(root, "[data-ballr-copy]"), { opacity: 0, y: 0 });
 
       const fadeCopy = (
         key: string,
@@ -354,7 +384,9 @@ export function CinematicHome() {
         const c = start + span * 0.7;
         const d = end;
 
-        fadeCopy(key, start, end, holdOut);
+        if (key !== "ballr") {
+          fadeCopy(key, start, end, holdOut);
+        }
 
         if (key === "scholars") {
           tl.to(
@@ -472,15 +504,98 @@ export function CinematicHome() {
               nextStart + 0.02,
             );
           }
-        } else {
-          showPhoneScreen(key, start, end, holdOut);
+        } else if (key === "ballr") {
+          const wash = el(root, '[data-bg-wash="ballr"]');
+          if (wash) {
+            tl.to(wash, { opacity: 1, duration: 0.05 }, start);
+            if (!holdOut) {
+              tl.to(wash, { opacity: 0, duration: 0.07 }, end - 0.07);
+            }
+          }
 
-          const punch = key === "ballr" ? 1.08 : key === "fresher" ? 1.04 : 1.02;
+          const beatCount = BALLR_BEATS.length;
+          const beatSpan = span / beatCount;
+          BALLR_BEATS.forEach((_, i) => {
+            const beatStart = start + i * beatSpan;
+            const beatEnd = start + (i + 1) * beatSpan;
+            const screen = el(root, `[data-ballr-screen="${i}"]`);
+            const copy = el(root, `[data-ballr-copy="${i}"]`);
+            const keep = holdOut && i === beatCount - 1;
+            if (screen) {
+              tl.to(screen, { opacity: 1, duration: 0.03 }, beatStart);
+              if (!keep) {
+                tl.to(screen, { opacity: 0, duration: 0.03 }, beatEnd - 0.03);
+              }
+            }
+            if (copy) {
+              tl.to(copy, { opacity: 1, duration: 0.03 }, beatStart);
+              if (!keep) {
+                tl.to(copy, { opacity: 0, duration: 0.03 }, beatEnd - 0.03);
+              }
+            }
+          });
+
           tl.to(
             el(root, "[data-phone]"),
             {
               x: travel * 0.55 * dir,
-              y: key === "ballr" ? -18 : -6,
+              y: -18,
+              rotate: tilt * 0.85 * dir,
+              rotateY: -yaw * 0.7 * dir,
+              rotateX: -3,
+              scale: 1.08,
+              duration: Math.max(0.04, b - a),
+            },
+            a,
+          );
+          tl.to(
+            el(root, "[data-phone]"),
+            {
+              x: -travel * 0.4 * dir,
+              y: 4,
+              rotate: -tilt * 0.7 * dir,
+              rotateY: yaw * 0.85 * dir,
+              rotateX: -8,
+              scale: 1.02,
+              duration: Math.max(0.04, c - b),
+            },
+            b,
+          );
+          tl.to(
+            el(root, "[data-phone]"),
+            {
+              x: travel * 0.2 * dir,
+              y: 0,
+              rotate: tilt * 0.35 * dir,
+              rotateY: -yaw * 0.3 * dir,
+              rotateX: 0,
+              scale: 1,
+              duration: Math.max(0.03, d - c - (holdOut ? 0 : 0.02)),
+            },
+            c,
+          );
+
+          if (!holdOut) {
+            tl.to(
+              el(root, "[data-phone]"),
+              {
+                rotate: 14 * dir,
+                rotateY: 18 * dir,
+                scale: 0.94,
+                duration: 0.03,
+              },
+              d - 0.04,
+            );
+          }
+        } else {
+          showPhoneScreen(key, start, end, holdOut);
+
+          const punch = key === "fresher" ? 1.04 : 1.02;
+          tl.to(
+            el(root, "[data-phone]"),
+            {
+              x: travel * 0.55 * dir,
+              y: -6,
               rotate: tilt * 0.85 * dir,
               rotateY: -yaw * 0.7 * dir,
               rotateX: key === "fresher" ? 6 : -3,
@@ -496,8 +611,8 @@ export function CinematicHome() {
               y: key === "earnly" ? 10 : 4,
               rotate: -tilt * 0.7 * dir,
               rotateY: yaw * 0.85 * dir,
-              rotateX: key === "ballr" ? -8 : 2,
-              scale: key === "ballr" ? 1.02 : 0.98,
+              rotateX: 2,
+              scale: 0.98,
               duration: Math.max(0.04, c - b),
             },
             b,
@@ -554,7 +669,11 @@ export function CinematicHome() {
           aria-hidden
         >
           {Array.from(
-            new Set([...Object.values(SCREENS), ...Object.values(INTRO_SCREENS)]),
+            new Set([
+              ...Object.values(SCREENS),
+              ...Object.values(INTRO_SCREENS),
+              ...BALLR_BEATS.map((beat) => beat.src),
+            ]),
           ).map((src) => (
             // eslint-disable-next-line @next/next/no-img-element
             <img key={src} src={src} alt="" />
@@ -682,6 +801,31 @@ export function CinematicHome() {
           </div>
         ))}
 
+        {BALLR_BEATS.map((beat, index) => (
+          <div
+            key={beat.src}
+            data-ballr-copy={index}
+            className="pointer-events-none absolute inset-x-0 top-[max(4.75rem,9vh)] z-30 flex h-[min(22vh,150px)] flex-col items-center justify-end px-6 text-center will-change-[opacity] md:top-[max(5.25rem,10vh)]"
+            style={{ opacity: 0 }}
+          >
+            <p
+              className="text-xs font-semibold uppercase tracking-[0.22em] drop-shadow-[0_1px_8px_rgba(0,0,0,0.65)]"
+              style={{ color: "#F0FF00" }}
+            >
+              Ballr
+            </p>
+            <h2
+              className="font-display mt-2 text-[clamp(1.75rem,4.5vw,3.5rem)] font-semibold leading-[1.05] tracking-tight text-white"
+              style={{
+                textShadow:
+                  "0 1px 2px rgba(0,0,0,0.8), 0 4px 28px rgba(0,0,0,0.55), 0 0 48px rgba(0,0,0,0.35)",
+              }}
+            >
+              {beat.caption}
+            </h2>
+          </div>
+        ))}
+
         <div
           data-combo-phones
           className="pointer-events-none absolute inset-x-0 bottom-[5%] top-[max(5.25rem,11vh)] z-20 flex items-center justify-center px-3 will-change-transform sm:px-6 md:px-10"
@@ -729,7 +873,7 @@ export function CinematicHome() {
           >
             <PhoneFrame>
               {(Object.keys(SCREENS) as Array<keyof typeof SCREENS>)
-                .filter((k) => k !== "scholars")
+                .filter((k) => k !== "scholars" && k !== "ballr")
                 .map((key) => (
                   <div
                     key={key}
@@ -743,10 +887,27 @@ export function CinematicHome() {
                       fill
                       sizes="(max-width: 768px) 70vw, 280px"
                       className="object-cover object-top"
-                      priority={key === "earnly" || key === "ballr"}
+                      priority={key === "earnly"}
                     />
                   </div>
                 ))}
+              {BALLR_BEATS.map((beat, index) => (
+                <div
+                  key={beat.src}
+                  data-ballr-screen={index}
+                  className="absolute inset-0"
+                  style={{ opacity: 0 }}
+                >
+                  <Image
+                    src={beat.src}
+                    alt=""
+                    fill
+                    sizes="(max-width: 768px) 70vw, 280px"
+                    className="object-cover object-top"
+                    priority={index === 0}
+                  />
+                </div>
+              ))}
             </PhoneFrame>
           </div>
 
