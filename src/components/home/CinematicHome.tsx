@@ -11,11 +11,10 @@
  */
 
 import Image from "next/image";
-import Link from "next/link";
 import { useLayoutEffect, useRef, type ReactNode } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { listedApps } from "@/config/brand";
+import { AppPhoneShowcase } from "@/components/home/AppPhoneShowcase";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -569,55 +568,7 @@ export function CinematicHome() {
         </div>
       </div>
 
-      <section
-        id="apps"
-        className="border-t border-white/10 bg-[#0a0a0a] px-6 py-20"
-      >
-        <div className="mx-auto max-w-6xl">
-          <p className="text-center text-xs font-semibold uppercase tracking-[0.22em] text-white/45">
-            The apps
-          </p>
-          <h2 className="font-display mt-3 text-center text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-            Four products. One family.
-          </h2>
-          <div className="mt-14 flex w-full items-start justify-between gap-6 sm:gap-10 md:gap-16">
-            {listedApps.map((app) => (
-              <Link
-                key={app.slug}
-                href={app.learnMorePath}
-                className="group flex min-w-0 flex-1 flex-col items-center gap-3 py-2 transition"
-              >
-                <span className="relative h-16 w-16 overflow-hidden rounded-[22%] shadow-lg ring-1 ring-white/10 transition group-hover:scale-105 sm:h-[72px] sm:w-[72px] md:h-20 md:w-20">
-                  <Image
-                    src={app.iconPath}
-                    alt=""
-                    fill
-                    sizes="80px"
-                    className="object-cover"
-                  />
-                </span>
-                <span className="max-w-[7.5rem] text-center text-xs font-medium text-white/80 sm:max-w-none sm:text-sm">
-                  {app.name}
-                </span>
-              </Link>
-            ))}
-          </div>
-          <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
-            <Link
-              href="/pricing"
-              className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-black transition hover:bg-white/90"
-            >
-              Explore plans
-            </Link>
-            <Link
-              href="/apps/earnly"
-              className="inline-flex items-center justify-center rounded-full border border-white/30 px-6 py-3 text-sm font-semibold text-white transition hover:border-white/60"
-            >
-              See the apps
-            </Link>
-          </div>
-        </div>
-      </section>
+      <AppPhoneShowcase />
     </div>
   );
 }
