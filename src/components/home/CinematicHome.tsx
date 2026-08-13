@@ -310,29 +310,35 @@ const STAGE_COPY: Array<{
 ];
 
 /**
- * Studio "LED light" environment: deep black at the top, blooming up into a
- * clean natural-white LED glow at the floor where the phones stand. A faint
- * kiss of the app accent at the very base keeps a hint of brand identity.
- * Used for every stage so the whole experience reads as one lightbox.
+ * Per-app environment: keeps the app's vivid brand color, but lit by a big
+ * natural-white LED glow behind the phones instead of a black studio. Deep
+ * brand color at the top (so white captions read), vivid at the floor, with
+ * the white light source blooming from the middle where the phones stand.
  */
-function ledEnvironment(accent: string) {
+function stageEnvironment(env: (typeof STAGE_COPY)[number]["env"]) {
   return [
-    // faint accent kiss inside the light for a hint of brand identity
-    `radial-gradient(ellipse 72% 46% at 50% 60%, ${accent}3d 0%, transparent 60%)`,
-    // the white LED light source — a soft band behind the phones
-    `radial-gradient(ellipse 96% 62% at 50% 62%, #ffffff 0%, #ffffffd0 18%, #ffffff4d 40%, transparent 66%)`,
-    // dark surround: pure black at the very top and bottom
-    `linear-gradient(to top, #000000 0%, #05070a 12%, #0c0f15 42%, #05070a 80%, #000000 100%)`,
+    // white LED light source blooming behind the phones
+    `radial-gradient(ellipse 92% 58% at 50% 55%, #ffffff 0%, #ffffffcc 20%, #ffffff33 44%, transparent 66%)`,
+    // vivid color pops on the sides to keep the brand hue saturated
+    `radial-gradient(ellipse 58% 80% at 6% 58%, ${env.bright}99 0%, transparent 55%)`,
+    `radial-gradient(ellipse 58% 80% at 94% 58%, ${env.bright}99 0%, transparent 55%)`,
+    // brand-color body: vivid at the floor → deep brand color at the top
+    `linear-gradient(to top, ${env.bright} 0%, ${env.mid} 40%, ${env.mid} 68%, ${env.deep} 100%)`,
   ].join(", ");
 }
 
-function stageEnvironment(accent: string) {
-  return ledEnvironment(accent);
-}
-
-/** Opening wash — same LED studio light, cool neutral accent. */
+/** Opening wash — vivid Poppi-style blend of all four app colors, white-lit. */
 function comboEnvironment() {
-  return ledEnvironment("#9fb2c9");
+  const [earnly, scholars, ballr, fresher] = STAGE_COPY.map((s) => s.env);
+  return [
+    // white LED light source behind the phones
+    `radial-gradient(ellipse 88% 56% at 50% 52%, #ffffff 0%, #ffffffb0 24%, #ffffff2b 46%, transparent 64%)`,
+    // vivid multi-brand blend
+    `linear-gradient(118deg, ${earnly.mid} 0%, ${scholars.mid} 30%, ${ballr.bright} 60%, ${fresher.mid} 100%)`,
+    `radial-gradient(ellipse 70% 80% at 12% 80%, ${earnly.bright}cc 0%, transparent 60%)`,
+    `radial-gradient(ellipse 70% 80% at 88% 76%, ${fresher.bright}bb 0%, transparent 58%)`,
+    `radial-gradient(ellipse 52% 46% at 50% 102%, ${ballr.bright}aa 0%, transparent 55%)`,
+  ].join(", ");
 }
 
 function el(root: HTMLElement, sel: string) {
@@ -942,7 +948,7 @@ export function CinematicHome() {
           className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(ellipse 120% 85% at 50% 120%, #1a1e26 0%, #0a0c11 52%, #000 100%)",
+              "radial-gradient(ellipse 120% 85% at 50% 70%, #eef2f7 0%, #dbe3ec 60%, #c7d2de 100%)",
           }}
         />
         <div
@@ -984,10 +990,22 @@ export function CinematicHome() {
           >
             <div
               className="absolute inset-0"
-              style={{ background: stageEnvironment(stage.accent) }}
+              style={{ background: stageEnvironment(stage.env) }}
             />
           </div>
         ))}
+
+        {/* Soft floor shadow behind the bottom text so white copy stays
+            readable on any brand color (incl. bright yellow) — sits below the
+            phones (z-20) so it never darkens them. */}
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[36%]"
+          style={{
+            background:
+              "linear-gradient(to top, rgba(8,10,14,0.5) 0%, rgba(8,10,14,0.22) 38%, transparent 76%)",
+          }}
+          aria-hidden
+        />
 
         {STAGE_COPY.map((stage) => (
           <div
