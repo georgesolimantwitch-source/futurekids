@@ -46,51 +46,61 @@ const INTRO_SCREENS = {
   fresher: "/images/home/cinematic/fresher.png",
 } as const;
 
-/** Poppi-style opening fan — our real app screenshots. */
+/**
+ * Poppi-style opening fan — our real app screenshots.
+ *
+ * Coordinates are in *design pixels* inside a fixed COMBO_STAGE box that is
+ * uniformly scaled to fit any viewport (see `fitComboStage`), so the arc keeps
+ * its exact shape from phones to ultrawide and never bleeds off the edges.
+ * `x` = horizontal offset from stage center, `y` = downward push from the top
+ * baseline (0 = tallest, at the front of the arc).
+ */
+const COMBO_STAGE = { w: 1000, h: 520 } as const;
+
 const FAN_PHONES = [
   {
     key: "earnly",
     src: INTRO_SCREENS.earnly,
     label: "Earnly",
-    accent: "#5CE1FF",
-    rotate: -16,
-    x: "-32vw",
-    y: 28,
+    accent: "#24C0FC",
+    rotate: -15,
+    x: -325,
+    y: 0,
     scale: 0.9,
-    z: 2,
+    z: 1,
   },
   {
     key: "scholars",
     src: INTRO_SCREENS.scholars,
     label: "Scholars Notes",
-    accent: "#7EB6FF",
+    accent: "#009CFC",
     rotate: -6,
-    x: "-11vw",
-    y: 6,
-    scale: 1.02,
-    z: 4,
+    x: -112,
+    y: -54,
+    scale: 1,
+    z: 3,
   },
   {
     key: "ballr",
     src: INTRO_SCREENS.ballr,
     label: "Ballr",
-    accent: "#F0FF00",
+    accent: "#E8FF00",
     rotate: 6,
-    x: "11vw",
-    y: 6,
-    scale: 1.02,
-    z: 4,
+    x: 112,
+    y: -54,
+    scale: 1,
+    z: 3,
   },
   {
     key: "fresher",
     src: INTRO_SCREENS.fresher,
     label: "Freshys",
     accent: "#5CFF9A",
-    rotate: 16,
-    x: "32vw",
-    y: 28,
+    rotate: 15,
+    x: 325,
+    y: 0,
     scale: 0.9,
-    z: 2,
+    z: 1,
   },
 ] as const;
 
@@ -331,6 +341,20 @@ export function CinematicHome() {
     const root = rootRef.current;
     if (!root) return;
 
+    // Uniformly scale the fixed-size opening fan so it always fits the
+    // viewport — width AND height — instead of bleeding off the edges.
+    const fitComboStage = () => {
+      const wrap = el(root, "[data-combo-phones]");
+      const stage = el(root, "[data-combo-stage]");
+      if (!wrap || !stage) return;
+      const availW = window.innerWidth - 32;
+      const availH = wrap.clientHeight || window.innerHeight * 0.62;
+      const scale = Math.min(1, availW / COMBO_STAGE.w, availH / COMBO_STAGE.h);
+      stage.style.transform = `scale(${scale})`;
+    };
+    fitComboStage();
+    window.addEventListener("resize", fitComboStage);
+
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) {
       gsap.set(el(root, '[data-bg-wash="combo"]'), { opacity: 1 });
@@ -341,7 +365,7 @@ export function CinematicHome() {
       gsap.set(el(root, "[data-ballr-fan]"), { opacity: 0 });
       gsap.set(el(root, "[data-earnly-fan]"), { opacity: 0 });
       gsap.set(els(root, "[data-copy]"), { opacity: 0 });
-      return;
+      return () => window.removeEventListener("resize", fitComboStage);
     }
 
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
@@ -861,11 +885,15 @@ export function CinematicHome() {
       tl.to({}, { duration: 0.001 }, 1);
     }, root);
 
-    const onResize = () => ScrollTrigger.refresh();
+    const onResize = () => {
+      fitComboStage();
+      ScrollTrigger.refresh();
+    };
     window.addEventListener("resize", onResize);
 
     return () => {
       window.removeEventListener("resize", onResize);
+      window.removeEventListener("resize", fitComboStage);
       ctx.revert();
     };
   }, []);
@@ -1112,17 +1140,23 @@ export function CinematicHome() {
 
         <div
           data-combo-phones
-          className="absolute inset-x-0 top-[max(4.5rem,8vh)] z-20 flex h-[min(68vh,680px)] flex-col items-center justify-end will-change-transform sm:h-[min(70vh,720px)]"
+          className="absolute inset-x-0 top-0 z-20 flex h-[62vh] items-center justify-center will-change-transform"
         >
           <div
-            className="relative mx-auto h-full w-full max-w-5xl"
-            style={{ perspective: "1600px" }}
+            data-combo-stage
+            className="relative"
+            style={{
+              width: COMBO_STAGE.w,
+              height: COMBO_STAGE.h,
+              transformOrigin: "50% 50%",
+              perspective: "1600px",
+            }}
           >
             {FAN_PHONES.map((phone) => (
               <div
                 key={phone.key}
                 data-combo-phone={phone.key}
-                className="absolute bottom-[8%] left-1/2 will-change-transform"
+                className="absolute bottom-0 left-1/2 will-change-transform"
                 style={{
                   zIndex: phone.z,
                   transformOrigin: "50% 100%",
@@ -1130,22 +1164,13 @@ export function CinematicHome() {
               >
                 <div data-combo-float className="will-change-transform">
                   <div
-                    className="pointer-events-none absolute -inset-10 -z-10 rounded-full opacity-70 blur-2xl"
+                    className="pointer-events-none absolute -inset-12 -z-10 rounded-full opacity-70 blur-3xl"
                     style={{
                       background: `radial-gradient(ellipse at center, ${phone.accent}88 0%, transparent 70%)`,
                     }}
                     aria-hidden
                   />
-                  <FanPhoneFrame>
-                    <Image
-                      src={phone.src}
-                      alt=""
-                      fill
-                      sizes="(max-width: 768px) 36vw, 280px"
-                      className="object-contain object-top"
-                      priority
-                    />
-                  </FanPhoneFrame>
+                  <ComboPhoneFrame src={phone.src} />
                 </div>
               </div>
             ))}
@@ -1154,9 +1179,9 @@ export function CinematicHome() {
 
         <div
           data-combo-copy
-          className="absolute inset-x-0 bottom-[4%] z-30 flex flex-col items-center px-6 text-center will-change-transform sm:bottom-[5%]"
+          className="absolute inset-x-0 bottom-0 z-30 flex h-[38vh] flex-col items-center justify-center px-6 text-center will-change-transform"
         >
-          <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/85 drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)] sm:text-xs">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/90 drop-shadow-[0_2px_12px_rgba(0,0,0,0.4)] sm:text-xs">
             Four apps. One family.
           </p>
           <h1
@@ -1236,6 +1261,47 @@ export function CinematicHome() {
       </div>
 
       <AppPhoneShowcase />
+    </div>
+  );
+}
+
+/**
+ * Uniform, glossy black-bezel phone for the opening arc. Fixed design-pixel
+ * size — the parent COMBO_STAGE scales the whole fan as one unit, so every
+ * phone stays identical and the arc never distorts.
+ */
+function ComboPhoneFrame({ src }: { src: string }) {
+  return (
+    <div className="relative" style={{ width: 208, aspectRatio: "9 / 19.5" }}>
+      {/* Soft ground shadow so phones feel planted, not floating flat. */}
+      <div
+        className="pointer-events-none absolute -bottom-5 left-1/2 h-7 w-[76%] -translate-x-1/2 rounded-[50%] bg-black/45 blur-xl"
+        aria-hidden
+      />
+      <div className="absolute inset-0 rounded-[2.3rem] bg-gradient-to-b from-neutral-700 via-neutral-900 to-black p-[3px] shadow-[0_34px_60px_-14px_rgba(0,0,0,0.65)]">
+        <div className="relative h-full w-full overflow-hidden rounded-[2.1rem] bg-black">
+          <div className="absolute left-1/2 top-2 z-20 h-[22px] w-[34%] -translate-x-1/2 rounded-full bg-black" />
+          <div className="absolute inset-[3px] overflow-hidden rounded-[1.95rem] bg-neutral-900">
+            <Image
+              src={src}
+              alt=""
+              fill
+              sizes="220px"
+              className="object-cover object-top"
+              priority
+            />
+            {/* Diagonal screen gloss — the poppi-style sheen. */}
+            <div
+              className="pointer-events-none absolute inset-0 z-10"
+              style={{
+                background:
+                  "linear-gradient(125deg, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.06) 16%, transparent 40%)",
+              }}
+              aria-hidden
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
