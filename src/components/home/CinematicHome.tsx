@@ -50,7 +50,7 @@ const INTRO_SCREENS = {
  * Poppi-style opening fan — our real app screenshots.
  *
  * Coordinates are in *design pixels* inside a fixed COMBO_STAGE box that is
- * uniformly scaled to fit any viewport (see `fitComboStage`), so the arc keeps
+ * uniformly scaled to fit any viewport (see `fitStages`), so the arc keeps
  * its exact shape from phones to ultrawide and never bleeds off the edges.
  * `x` = horizontal offset from stage center, `y` = downward push from the top
  * baseline (0 = tallest, at the front of the arc).
@@ -104,51 +104,60 @@ const FAN_PHONES = [
   },
 ] as const;
 
+/**
+ * Per-app fans also live inside fixed, uniformly-scaled stages (px design
+ * coords) so five or six phones stay on-screen at any width. `y` positive =
+ * pushed down (outer phones sit lower); the whole stage scales to fit.
+ */
+const FAN_PHONE_W = 150;
+const EARNLY_STAGE = { w: 1120, h: 500 } as const;
+const BALLR_STAGE = { w: 1240, h: 500 } as const;
+
 /** Earnly fan — separate phones with captions, like Ballr. */
 const EARNLY_FAN = [
   {
     src: "/images/home/cinematic/earnly-home.png",
     caption: "Watch your family money grow.",
     rotate: -16,
-    x: "-34vw",
-    y: 28,
-    scale: 0.88,
+    x: -360,
+    y: 52,
+    scale: 0.84,
     z: 1,
   },
   {
     src: "/images/home/cinematic/earnly-chores.png",
     caption: "Turn chores into real earnings.",
     rotate: -8,
-    x: "-17vw",
-    y: 10,
-    scale: 0.96,
-    z: 3,
+    x: -188,
+    y: 22,
+    scale: 0.93,
+    z: 2,
   },
   {
     src: "/images/home/cinematic/earnly-accounts.png",
     caption: "Every kid gets their own account.",
     rotate: 0,
-    x: "0vw",
+    x: 0,
     y: 0,
-    scale: 1.05,
-    z: 5,
+    scale: 1,
+    z: 3,
   },
   {
     src: "/images/home/cinematic/earnly-balance.png",
     caption: "Move money in a couple taps.",
     rotate: 8,
-    x: "17vw",
-    y: 10,
-    scale: 0.96,
-    z: 3,
+    x: 188,
+    y: 22,
+    scale: 0.93,
+    z: 2,
   },
   {
     src: "/images/home/cinematic/earnly-safety.png",
     caption: "Know they're safe, wherever they go.",
     rotate: 16,
-    x: "34vw",
-    y: 28,
-    scale: 0.88,
+    x: 360,
+    y: 52,
+    scale: 0.84,
     z: 1,
   },
 ] as const;
@@ -159,54 +168,54 @@ const BALLR_FAN = [
     src: "/images/home/cinematic/ballr-badge.png",
     caption: "Earn badges as you play.",
     rotate: -18,
-    x: "-36vw",
-    y: 32,
-    scale: 0.84,
+    x: -440,
+    y: 44,
+    scale: 0.82,
     z: 1,
   },
   {
     src: "/images/home/cinematic/ballr-player.png",
     caption: "Build your player card.",
     rotate: -10,
-    x: "-21vw",
-    y: 14,
-    scale: 0.93,
-    z: 3,
+    x: -262,
+    y: 22,
+    scale: 0.9,
+    z: 2,
   },
   {
     src: "/images/home/cinematic/ballr-fuel.png",
     caption: "Track your fuel.",
     rotate: -3,
-    x: "-7vw",
+    x: -86,
     y: 2,
-    scale: 1.02,
-    z: 5,
+    scale: 0.99,
+    z: 3,
   },
   {
     src: "/images/home/cinematic/ballr-meals.png",
     caption: "Log every meal.",
     rotate: 3,
-    x: "7vw",
+    x: 86,
     y: 2,
-    scale: 1.02,
-    z: 5,
+    scale: 0.99,
+    z: 3,
   },
   {
     src: "/images/home/cinematic/ballr-workouts.png",
     caption: "Personalized workouts.",
     rotate: 10,
-    x: "21vw",
-    y: 14,
-    scale: 0.93,
-    z: 3,
+    x: 262,
+    y: 22,
+    scale: 0.9,
+    z: 2,
   },
   {
     src: "/images/home/cinematic/ballr-gym.png",
     caption: "See your potential.",
     rotate: 18,
-    x: "36vw",
-    y: 32,
-    scale: 0.84,
+    x: 440,
+    y: 44,
+    scale: 0.82,
     z: 1,
   },
 ] as const;
@@ -300,30 +309,30 @@ const STAGE_COPY: Array<{
   },
 ];
 
-function stageEnvironment(env: (typeof STAGE_COPY)[number]["env"]) {
+/**
+ * Studio "LED light" environment: deep black at the top, blooming up into a
+ * clean natural-white LED glow at the floor where the phones stand. A faint
+ * kiss of the app accent at the very base keeps a hint of brand identity.
+ * Used for every stage so the whole experience reads as one lightbox.
+ */
+function ledEnvironment(accent: string) {
   return [
-    `radial-gradient(ellipse 160% 130% at 50% 100%, ${env.bloom} 0%, ${env.bright} 16%, ${env.mid} 38%, ${env.deep} 68%, #000000 100%)`,
-    `radial-gradient(ellipse 95% 70% at 50% 105%, #ffffff 0%, ${env.bright} 22%, ${env.mid}cc 48%, transparent 72%)`,
-    `radial-gradient(ellipse 70% 90% at 0% 60%, ${env.mid}99 0%, transparent 55%)`,
-    `radial-gradient(ellipse 70% 90% at 100% 60%, ${env.mid}99 0%, transparent 55%)`,
-    `radial-gradient(ellipse 120% 45% at 50% -10%, #000000aa 0%, transparent 65%)`,
+    // faint accent kiss inside the light for a hint of brand identity
+    `radial-gradient(ellipse 72% 46% at 50% 60%, ${accent}3d 0%, transparent 60%)`,
+    // the white LED light source — a soft band behind the phones
+    `radial-gradient(ellipse 96% 62% at 50% 62%, #ffffff 0%, #ffffffd0 18%, #ffffff4d 40%, transparent 66%)`,
+    // dark surround: pure black at the very top and bottom
+    `linear-gradient(to top, #000000 0%, #05070a 12%, #0c0f15 42%, #05070a 80%, #000000 100%)`,
   ].join(", ");
 }
 
-/** Opening wash — saturated Poppi-style blend of all four app colors. */
+function stageEnvironment(accent: string) {
+  return ledEnvironment(accent);
+}
+
+/** Opening wash — same LED studio light, cool neutral accent. */
 function comboEnvironment() {
-  const earnly = STAGE_COPY[0].env;
-  const scholars = STAGE_COPY[1].env;
-  const ballr = STAGE_COPY[2].env;
-  const fresher = STAGE_COPY[3].env;
-  return [
-    `linear-gradient(115deg, ${earnly.mid} 0%, ${scholars.mid} 32%, ${ballr.bright} 62%, ${fresher.mid} 100%)`,
-    `radial-gradient(ellipse 90% 70% at 50% 40%, #ffffff55 0%, transparent 55%)`,
-    `radial-gradient(ellipse 70% 80% at 12% 75%, ${earnly.bright}cc 0%, transparent 60%)`,
-    `radial-gradient(ellipse 70% 80% at 88% 70%, ${fresher.bright}bb 0%, transparent 58%)`,
-    `radial-gradient(ellipse 55% 50% at 50% 95%, ${ballr.bright}99 0%, transparent 55%)`,
-    `radial-gradient(ellipse 40% 35% at 70% 20%, ${scholars.bright}88 0%, transparent 60%)`,
-  ].join(", ");
+  return ledEnvironment("#9fb2c9");
 }
 
 function el(root: HTMLElement, sel: string) {
@@ -341,19 +350,26 @@ export function CinematicHome() {
     const root = rootRef.current;
     if (!root) return;
 
-    // Uniformly scale the fixed-size opening fan so it always fits the
+    // Uniformly scale each fixed-size phone stage so it always fits the
     // viewport — width AND height — instead of bleeding off the edges.
-    const fitComboStage = () => {
-      const wrap = el(root, "[data-combo-phones]");
-      const stage = el(root, "[data-combo-stage]");
-      if (!wrap || !stage) return;
-      const availW = window.innerWidth - 32;
-      const availH = wrap.clientHeight || window.innerHeight * 0.62;
-      const scale = Math.min(1, availW / COMBO_STAGE.w, availH / COMBO_STAGE.h);
-      stage.style.transform = `scale(${scale})`;
+    const fitStages = () => {
+      const jobs: Array<[string, string, number, number]> = [
+        ["[data-combo-phones]", "[data-combo-stage]", COMBO_STAGE.w, COMBO_STAGE.h],
+        ["[data-earnly-fan]", "[data-earnly-stage]", EARNLY_STAGE.w, EARNLY_STAGE.h],
+        ["[data-ballr-fan]", "[data-ballr-stage]", BALLR_STAGE.w, BALLR_STAGE.h],
+      ];
+      for (const [wrapSel, stageSel, sw, sh] of jobs) {
+        const wrap = el(root, wrapSel);
+        const stage = el(root, stageSel);
+        if (!wrap || !stage) continue;
+        const availW = window.innerWidth - 32;
+        const availH = wrap.clientHeight || window.innerHeight * 0.62;
+        const scale = Math.min(1, availW / sw, availH / sh);
+        stage.style.transform = `scale(${scale})`;
+      }
     };
-    fitComboStage();
-    window.addEventListener("resize", fitComboStage);
+    fitStages();
+    window.addEventListener("resize", fitStages);
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) {
@@ -365,7 +381,7 @@ export function CinematicHome() {
       gsap.set(el(root, "[data-ballr-fan]"), { opacity: 0 });
       gsap.set(el(root, "[data-earnly-fan]"), { opacity: 0 });
       gsap.set(els(root, "[data-copy]"), { opacity: 0 });
-      return () => window.removeEventListener("resize", fitComboStage);
+      return () => window.removeEventListener("resize", fitStages);
     }
 
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
@@ -886,14 +902,14 @@ export function CinematicHome() {
     }, root);
 
     const onResize = () => {
-      fitComboStage();
+      fitStages();
       ScrollTrigger.refresh();
     };
     window.addEventListener("resize", onResize);
 
     return () => {
       window.removeEventListener("resize", onResize);
-      window.removeEventListener("resize", fitComboStage);
+      window.removeEventListener("resize", fitStages);
       ctx.revert();
     };
   }, []);
@@ -926,7 +942,7 @@ export function CinematicHome() {
           className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(ellipse 110% 80% at 50% 120%, #0a1a14 0%, #041018 50%, #000 100%)",
+              "radial-gradient(ellipse 120% 85% at 50% 120%, #1a1e26 0%, #0a0c11 52%, #000 100%)",
           }}
         />
         <div
@@ -952,10 +968,10 @@ export function CinematicHome() {
             }}
           />
           <div
-            className="pointer-events-none absolute left-1/2 top-[42%] h-[55%] w-[70%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-70 blur-3xl"
+            className="pointer-events-none absolute left-1/2 top-[58%] h-[52%] w-[74%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-70 blur-3xl"
             style={{
               background:
-                "radial-gradient(ellipse at center, #ffffff88 0%, #F0FF0044 35%, transparent 70%)",
+                "radial-gradient(ellipse at center, #ffffff 0%, #ffffff55 34%, transparent 70%)",
             }}
           />
         </div>
@@ -968,41 +984,7 @@ export function CinematicHome() {
           >
             <div
               className="absolute inset-0"
-              style={{ background: stageEnvironment(stage.env) }}
-            />
-            <div
-              className="absolute inset-0 opacity-70"
-              style={{
-                backgroundImage: [
-                  `radial-gradient(circle at 18% 62%, #fff 0 1.5px, transparent 2px)`,
-                  `radial-gradient(circle at 78% 48%, ${stage.env.bright} 0 1.5px, transparent 2.5px)`,
-                  `radial-gradient(circle at 32% 78%, #fff 0 2px, transparent 3px)`,
-                  `radial-gradient(circle at 64% 70%, ${stage.env.bright} 0 1px, transparent 2px)`,
-                  `radial-gradient(circle at 88% 82%, #fff 0 1.5px, transparent 2.5px)`,
-                  `radial-gradient(circle at 12% 40%, ${stage.env.bright} 0 1px, transparent 2px)`,
-                  `radial-gradient(circle at 55% 55%, #fff 0 1px, transparent 2px)`,
-                  `radial-gradient(circle at 42% 88%, ${stage.env.bright} 0 2px, transparent 3px)`,
-                ].join(", "),
-                backgroundSize: "100% 100%",
-              }}
-            />
-            <div
-              className="absolute inset-x-[-30%] bottom-[-22%] h-[70%] blur-3xl"
-              style={{
-                background: `radial-gradient(ellipse 65% 55% at 50% 65%, #fff 0%, ${stage.env.bright} 18%, ${stage.env.mid} 42%, transparent 70%)`,
-              }}
-            />
-            <div
-              className="absolute inset-x-[-10%] bottom-[-5%] h-[50%] opacity-90 mix-blend-screen"
-              style={{
-                background: `radial-gradient(ellipse 80% 60% at 50% 90%, ${stage.env.bright} 0%, ${stage.env.mid}99 35%, transparent 65%)`,
-              }}
-            />
-            <div
-              className="absolute inset-x-0 bottom-0 h-[45%]"
-              style={{
-                background: `linear-gradient(to top, ${stage.env.bright}cc 0%, ${stage.env.mid}66 40%, transparent 100%)`,
-              }}
+              style={{ background: stageEnvironment(stage.accent) }}
             />
           </div>
         ))}
@@ -1038,50 +1020,46 @@ export function CinematicHome() {
 
         <div
           data-earnly-fan
-          className="pointer-events-none absolute inset-x-0 top-[max(4.5rem,8vh)] z-20 flex h-[min(74vh,760px)] flex-col items-center justify-end will-change-transform"
+          className="pointer-events-none absolute inset-x-0 top-0 z-20 flex h-[62vh] items-center justify-center will-change-transform"
           style={{ opacity: 0 }}
         >
           <div
-            className="relative mx-auto h-full w-full max-w-6xl"
-            style={{ perspective: "1600px" }}
+            data-earnly-stage
+            className="relative"
+            style={{
+              width: EARNLY_STAGE.w,
+              height: EARNLY_STAGE.h,
+              transformOrigin: "50% 50%",
+              perspective: "1600px",
+            }}
           >
             {EARNLY_FAN.map((phone) => (
               <div
                 key={phone.src}
                 data-earnly-phone
-                className="absolute bottom-[6%] left-1/2 will-change-transform"
+                className="absolute left-1/2 will-change-transform"
                 style={{
+                  bottom: 44,
                   zIndex: phone.z,
                   transformOrigin: "50% 100%",
                   opacity: 0,
                 }}
               >
                 <p
-                  className="mb-3 max-w-[11rem] text-center text-xs font-semibold leading-snug tracking-tight text-white sm:mb-3.5 sm:max-w-[13rem] sm:text-sm"
-                  style={{
-                    textShadow: "0 2px 14px rgba(0,0,0,0.55)",
-                  }}
+                  className="mx-auto mb-2.5 max-w-[150px] text-center text-sm font-semibold leading-snug tracking-tight text-white"
+                  style={{ textShadow: "0 2px 14px rgba(0,0,0,0.6)" }}
                 >
                   {phone.caption}
                 </p>
                 <div
-                  className="pointer-events-none absolute -inset-8 top-6 -z-10 rounded-full opacity-60 blur-2xl"
+                  className="pointer-events-none absolute -inset-7 top-8 -z-10 rounded-full opacity-45 blur-2xl"
                   style={{
                     background:
-                      "radial-gradient(ellipse at center, #5CE1FF88 0%, transparent 70%)",
+                      "radial-gradient(ellipse at center, #24C0FC66 0%, transparent 70%)",
                   }}
                   aria-hidden
                 />
-                <FanPhoneFrame>
-                  <Image
-                    src={phone.src}
-                    alt=""
-                    fill
-                    sizes="(max-width: 768px) 36vw, 280px"
-                    className="object-contain object-top"
-                    priority
-                  />
-                </FanPhoneFrame>
+                <ComboPhoneFrame src={phone.src} width={FAN_PHONE_W} />
               </div>
             ))}
           </div>
@@ -1089,50 +1067,46 @@ export function CinematicHome() {
 
         <div
           data-ballr-fan
-          className="pointer-events-none absolute inset-x-0 top-[max(4.5rem,8vh)] z-20 flex h-[min(74vh,760px)] flex-col items-center justify-end will-change-transform"
+          className="pointer-events-none absolute inset-x-0 top-0 z-20 flex h-[62vh] items-center justify-center will-change-transform"
           style={{ opacity: 0 }}
         >
           <div
-            className="relative mx-auto h-full w-full max-w-6xl"
-            style={{ perspective: "1600px" }}
+            data-ballr-stage
+            className="relative"
+            style={{
+              width: BALLR_STAGE.w,
+              height: BALLR_STAGE.h,
+              transformOrigin: "50% 50%",
+              perspective: "1600px",
+            }}
           >
             {BALLR_FAN.map((phone) => (
               <div
                 key={phone.src}
                 data-ballr-phone
-                className="absolute bottom-[6%] left-1/2 will-change-transform"
+                className="absolute left-1/2 will-change-transform"
                 style={{
+                  bottom: 44,
                   zIndex: phone.z,
                   transformOrigin: "50% 100%",
                   opacity: 0,
                 }}
               >
                 <p
-                  className="mb-3 max-w-[11rem] text-center text-xs font-semibold leading-snug tracking-tight text-white sm:mb-3.5 sm:max-w-[13rem] sm:text-sm"
-                  style={{
-                    textShadow: "0 2px 14px rgba(0,0,0,0.55)",
-                  }}
+                  className="mx-auto mb-2.5 max-w-[150px] text-center text-sm font-semibold leading-snug tracking-tight text-white"
+                  style={{ textShadow: "0 2px 14px rgba(0,0,0,0.6)" }}
                 >
                   {phone.caption}
                 </p>
                 <div
-                  className="pointer-events-none absolute -inset-8 top-6 -z-10 rounded-full opacity-60 blur-2xl"
+                  className="pointer-events-none absolute -inset-7 top-8 -z-10 rounded-full opacity-45 blur-2xl"
                   style={{
                     background:
-                      "radial-gradient(ellipse at center, #F0FF0088 0%, transparent 70%)",
+                      "radial-gradient(ellipse at center, #E8FF0066 0%, transparent 70%)",
                   }}
                   aria-hidden
                 />
-                <FanPhoneFrame>
-                  <Image
-                    src={phone.src}
-                    alt=""
-                    fill
-                    sizes="(max-width: 768px) 36vw, 280px"
-                    className="object-contain object-top"
-                    priority
-                  />
-                </FanPhoneFrame>
+                <ComboPhoneFrame src={phone.src} width={FAN_PHONE_W} />
               </div>
             ))}
           </div>
@@ -1270,9 +1244,9 @@ export function CinematicHome() {
  * size — the parent COMBO_STAGE scales the whole fan as one unit, so every
  * phone stays identical and the arc never distorts.
  */
-function ComboPhoneFrame({ src }: { src: string }) {
+function ComboPhoneFrame({ src, width = 208 }: { src: string; width?: number }) {
   return (
-    <div className="relative" style={{ width: 208, aspectRatio: "9 / 19.5" }}>
+    <div className="relative" style={{ width, aspectRatio: "9 / 19.5" }}>
       {/* Soft ground shadow so phones feel planted, not floating flat. */}
       <div
         className="pointer-events-none absolute -bottom-5 left-1/2 h-7 w-[76%] -translate-x-1/2 rounded-[50%] bg-black/45 blur-xl"
@@ -1299,28 +1273,6 @@ function ComboPhoneFrame({ src }: { src: string }) {
               }}
               aria-hidden
             />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function FanPhoneFrame({ children }: { children: ReactNode }) {
-  return (
-    <div
-      className="relative"
-      style={{
-        // Taller aspect matches our cropped app screens so nothing is zoomed/cropped.
-        width: "min(280px, 32vw)",
-        aspectRatio: "9 / 21.5",
-      }}
-    >
-      <div className="absolute inset-0 rounded-[2.15rem] bg-gradient-to-b from-neutral-200 via-neutral-500 to-neutral-900 p-[2.5px] shadow-[0_32px_70px_rgba(0,0,0,0.5)] sm:rounded-[2.35rem]">
-        <div className="relative h-full w-full overflow-hidden rounded-[2rem] bg-[#f4f5f7] sm:rounded-[2.2rem]">
-          <div className="absolute left-1/2 top-2.5 z-10 h-[18px] w-[30%] -translate-x-1/2 rounded-full bg-black sm:top-3 sm:h-[20px]" />
-          <div className="absolute inset-[3px] overflow-hidden rounded-[1.85rem] bg-[#f4f5f7] sm:rounded-[2.05rem]">
-            {children}
           </div>
         </div>
       </div>
