@@ -10,7 +10,6 @@ export const REQUIRED_APP_IDS: EcosystemAppId[] = [
   "earnly",
   "scholars",
   "ballr",
-  "tinypal",
   "fresher",
 ];
 

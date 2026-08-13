@@ -32,7 +32,7 @@ export function AppProductCta({ app }: AppProductCtaProps) {
               style={{ color: foreground, opacity: 0.8 }}
             >
               {app.availability === "waitlist"
-                ? "Join the waitlist and we'll notify you when TinyPal launches in your area."
+                ? `Join the waitlist and we'll notify you when ${app.name} launches in your area.`
                 : app.positioning}
             </p>
             <div className="mt-10 flex flex-wrap justify-center gap-4">

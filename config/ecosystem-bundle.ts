@@ -1,7 +1,7 @@
 /**
  * Genlyn All Access — full ecosystem bundle (Creative Cloud style).
- * Base includes 1 seat each for Earnly, Scholars, Ballr, TinyPal (+ Freshys).
- * Extra seats: Earnly +$0.99, TinyPal +$1.99, Ballr +$1.99,
+ * Base includes 1 seat each for Earnly, Scholars, Ballr (+ Freshys).
+ * Extra seats: Earnly +$0.99, Ballr +$1.99,
  * Scholars Full +$14.99 / Tutor & Study Guide +$9.99 /mo.
  */
 
@@ -29,7 +29,6 @@ import {
   clampTinyPalChildCount,
   tinypalExtraSeatPrice,
   tinypalPricing,
-  tinypalTotalPrice,
 } from "./tinypal-pricing";
 
 export const ecosystemBundle = {
@@ -117,9 +116,8 @@ export function individualMonthlyTotal(
   const earnly = earnlyTotalPrice(s.earnly, "monthly");
   const scholars = scholarsTierTotalPrice(scholarsTier, s.scholars, "monthly");
   const ballr = ballrTotalPrice(s.ballr, "monthly");
-  const tinypal = tinypalTotalPrice(s.tinypal, "monthly");
   const fresher = 1.5;
-  return Math.round((earnly + scholars + ballr + tinypal + fresher) * 100) / 100;
+  return Math.round((earnly + scholars + ballr + fresher) * 100) / 100;
 }
 
 /** À la carte yearly total */
@@ -131,9 +129,8 @@ export function individualYearlyTotal(
   const earnly = earnlyTotalPrice(s.earnly, "yearly");
   const scholars = scholarsTierTotalPrice(scholarsTier, s.scholars, "yearly");
   const ballr = ballrTotalPrice(s.ballr, "yearly");
-  const tinypal = tinypalTotalPrice(s.tinypal, "yearly");
   const fresher = 9.99;
-  return Math.round((earnly + scholars + ballr + tinypal + fresher) * 100) / 100;
+  return Math.round((earnly + scholars + ballr + fresher) * 100) / 100;
 }
 
 export function bundlePrice(
@@ -282,11 +279,10 @@ export function bundleValueLine(
   });
   if (
     seats.earnly > 1 ||
-    seats.tinypal > 1 ||
     seats.scholars > 1 ||
     seats.ballr > 1
   ) {
-    return `Includes ${seats.earnly} Earnly · ${seats.scholars} Scholars · ${seats.ballr} Ballr · ${seats.tinypal} TinyPal`;
+    return `Includes ${seats.earnly} Earnly · ${seats.scholars} Scholars · ${seats.ballr} Ballr · Freshys`;
   }
-  return "All 5 apps · one subscription · add seats per app as your family grows";
+  return "All 4 apps · one subscription · add seats per app as your family grows";
 }

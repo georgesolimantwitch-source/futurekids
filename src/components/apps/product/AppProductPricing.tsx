@@ -12,7 +12,6 @@ import {
 } from "@/config/pricing";
 import { earnlyTotalPrice } from "@/config/earnly-pricing";
 import { ballrTotalPrice } from "@/config/ballr-pricing";
-import { tinypalTotalPrice } from "@/config/tinypal-pricing";
 import { postCheckout } from "@/lib/checkout/client";
 import { ScholarsCreditBuilder } from "@/components/pricing/ScholarsCreditBuilder";
 
@@ -20,7 +19,7 @@ interface AppProductPricingProps {
   app: AppConfig;
 }
 
-const FAMILY_APPS = new Set(["earnly", "ballr", "tinypal"]);
+const FAMILY_APPS = new Set(["earnly", "ballr"]);
 
 function formatUsd(amount: number): string {
   return new Intl.NumberFormat("en-US", {
@@ -93,9 +92,6 @@ function IndividualAppPricing({ app }: { app: AppConfig }) {
     }
     if (app.slug === "ballr") {
       return ballrTotalPrice(childCount, billingPeriod);
-    }
-    if (app.slug === "tinypal") {
-      return tinypalTotalPrice(childCount, billingPeriod);
     }
     return getPriceForPeriod(plan, billingPeriod).amount;
   }, [app.slug, billingPeriod, childCount, plan]);

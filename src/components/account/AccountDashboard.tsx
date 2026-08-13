@@ -524,8 +524,26 @@ export function AccountDashboard({
                       </tr>
                     </thead>
                     <tbody>
-                      {account.entitlements.length ? (
-                        account.entitlements.map((entitlement) => {
+                      {account.entitlements.filter((entitlement) => {
+                          if (entitlement.app_key === "futurekids_all_access") {
+                            return true;
+                          }
+                          const brandApp = apps.find(
+                            (app) => app.slug === entitlement.app_key,
+                          );
+                          return Boolean(brandApp && isAppListed(brandApp));
+                        }).length ? (
+                        account.entitlements
+                          .filter((entitlement) => {
+                            if (entitlement.app_key === "futurekids_all_access") {
+                              return true;
+                            }
+                            const brandApp = apps.find(
+                              (app) => app.slug === entitlement.app_key,
+                            );
+                            return Boolean(brandApp && isAppListed(brandApp));
+                          })
+                          .map((entitlement) => {
                           const brandApp =
                             apps.find((app) => app.slug === entitlement.app_key);
 

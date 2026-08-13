@@ -30,8 +30,6 @@ import {
 } from "@/config/ballr-pricing";
 import {
   clampTinyPalChildCount,
-  tinypalPriceLine,
-  tinypalPricing,
 } from "@/config/tinypal-pricing";
 import {
   clampAllAccessScholarsChildCount,
@@ -165,7 +163,7 @@ export function EcosystemAllAccessHero({
     : clampScholarsChildCount(scholarsChildCount);
   const ballrCount = clampBallrChildCount(ballrChildCount);
   const showChildStepper =
-    isBundle || isEarnly || isTinyPal || isBallr || isScholars;
+    isBundle || isEarnly || isBallr || isScholars;
   const activeScholarsTier = getScholarsTier(scholarsTier);
   const selectedAppKey =
     selectedPlan === "all-access" ? "futurekids_all_access" : selectedPlan;
@@ -692,18 +690,9 @@ export function EcosystemAllAccessHero({
 
     if (isTinyPal) {
       return (
-        <>
-          <p className="text-4xl font-semibold tracking-tight text-[#2a1e12]">
-            {tinypalPriceLine(tinypalCount, billingPeriod)
-              .replace("month", "mo")
-              .replace("year", "yr")}
-          </p>
-          <p className="mt-1 text-sm text-[#8a735a]">
-            ${tinypalPricing.firstChildMonthly.toFixed(2)} first child · +$
-            {tinypalPricing.additionalChildMonthly.toFixed(2)} each additional
-            {billingPeriod === "yearly" ? " · pay 10 mo, get 12" : ""}
-          </p>
-        </>
+        <p className="mt-1 text-sm text-[#8a735a]">
+          This plan is no longer offered on the website.
+        </p>
       );
     }
 
@@ -1043,22 +1032,14 @@ export function EcosystemAllAccessHero({
           {showChildStepper && !isBundle && !isScholars && (
             <div>
               <label className="text-sm font-medium text-[#2a1e12]">
-                {isTinyPal
-                  ? "Children on TinyPal"
-                  : isBallr
-                    ? "Children on Ballr"
-                    : "Children on your plan"}
+                {isBallr ? "Children on Ballr" : "Children on your plan"}
               </label>
               <div className="mt-3 flex items-center justify-between rounded-2xl border border-neutral-200 bg-[#fefbf6] px-4 py-3">
                 <button
                   type="button"
                   onClick={() => adjustChildren(-1)}
                   disabled={
-                    isTinyPal
-                      ? tinypalCount <= 1
-                      : isBallr
-                        ? ballrCount <= 1
-                        : count <= minimumChildCount
+                    isBallr ? ballrCount <= 1 : count <= minimumChildCount
                   }
                   className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-xl font-medium text-[#2a1e12] shadow-sm ring-1 ring-neutral-200 transition hover:bg-neutral-50 disabled:opacity-40"
                   aria-label="Fewer children"
@@ -1067,15 +1048,13 @@ export function EcosystemAllAccessHero({
                 </button>
                 <div className="min-w-[3rem] text-center">
                   <span className="block text-2xl font-semibold tabular-nums text-[#2a1e12]">
-                    {isTinyPal ? tinypalCount : isBallr ? ballrCount : count}
+                    {isBallr ? ballrCount : count}
                   </span>
                 </div>
                 <button
                   type="button"
                   onClick={() => adjustChildren(1)}
-                  disabled={
-                    (isTinyPal ? tinypalCount : isBallr ? ballrCount : count) >= 6
-                  }
+                  disabled={(isBallr ? ballrCount : count) >= 6}
                   className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-xl font-medium text-[#2a1e12] shadow-sm ring-1 ring-neutral-200 transition hover:bg-neutral-50 disabled:opacity-40"
                   aria-label="More children"
                 >
@@ -1083,11 +1062,9 @@ export function EcosystemAllAccessHero({
                 </button>
               </div>
               <p className="mt-2 text-center text-xs text-[#8a735a]">
-                {isTinyPal
-                  ? `$${tinypalPricing.firstChildMonthly.toFixed(2)}/mo for 1 child · +$${tinypalPricing.additionalChildMonthly.toFixed(2)}/mo per extra · up to 6`
-                  : isBallr
-                    ? `$${ballrPricing.firstChildMonthly.toFixed(2)}/mo for 1 child · +$${ballrPricing.additionalChildMonthly.toFixed(2)}/mo per extra · up to 6`
-                    : `$1.99/mo or $19.90/yr per child · up to 6 children · yearly includes 2 months free`}
+                {isBallr
+                  ? `$${ballrPricing.firstChildMonthly.toFixed(2)}/mo for 1 child · +$${ballrPricing.additionalChildMonthly.toFixed(2)}/mo per extra · up to 6`
+                  : `$1.99/mo or $19.90/yr per child · up to 6 children · yearly includes 2 months free`}
               </p>
               {!currentEntitlement &&
                 familyChildFloor > 1 &&
