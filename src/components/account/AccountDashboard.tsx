@@ -93,6 +93,11 @@ export function AccountDashboard({
   const [planContext, setPlanContext] = useState<PlanManagementContext>(
     EMPTY_PLAN_MANAGEMENT_CONTEXT,
   );
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [deletePassword, setDeletePassword] = useState("");
+  const [deleteConfirm, setDeleteConfirm] = useState("");
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [deletingAccount, setDeletingAccount] = useState(false);
 
   useEffect(() => {
     if (initialAccount?.profile) return;
@@ -162,6 +167,13 @@ export function AccountDashboard({
   const activePlans = countActivePlans(account);
   const activeApps = countActiveApps(account);
   const showSetupBanner = Boolean(setupError) && !rawAccount?.profile;
+  const kidCount = (account.family_members ?? []).filter(
+    (member) => member.role === "child",
+  ).length;
+  const hasPasswordAuth =
+    (authUser.identities ?? []).some((identity) => identity.provider === "email") ||
+    (Array.isArray(authUser.app_metadata?.providers) &&
+      authUser.app_metadata.providers.includes("email"));
 
   async function handleRepairSetup() {
     setRepairing(true);
@@ -180,6 +192,40 @@ export function AccountDashboard({
     await supabase.auth.signOut();
     router.push("/");
     router.refresh();
+  }
+
+  async function handleDeleteAccount() {
+    setDeleteError(null);
+    setDeletingAccount(true);
+    try {
+      const response = await fetch("/api/account/delete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(
+          hasPasswordAuth
+            ? { password: deletePassword }
+            : { confirm: deleteConfirm },
+        ),
+      });
+      const data = (await response.json().catch(() => null)) as {
+        ok?: boolean;
+        error?: string;
+      } | null;
+
+      if (!response.ok || !data?.ok) {
+        setDeleteError(data?.error ?? "Could not delete your account. Please try again.");
+        return;
+      }
+
+      const supabase = createClient();
+      await supabase.auth.signOut();
+      router.push("/?deleted=1");
+      router.refresh();
+    } catch {
+      setDeleteError("Could not delete your account. Please try again.");
+    } finally {
+      setDeletingAccount(false);
+    }
   }
 
   async function handleOpenBillingPortal() {
@@ -588,6 +634,26 @@ export function AccountDashboard({
                   label="Contact support"
                 />
               </div>
+
+              <div className="mt-6 rounded-[1.5rem] border border-red-200 bg-red-50/60 p-5 shadow-sm sm:p-6">
+                <h3 className="text-base font-semibold text-red-900">Delete account</h3>
+                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-red-900/75">
+                  Permanently delete your Genlyn account and everything connected to it.
+                  This cannot be undone.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setDeletePassword("");
+                    setDeleteConfirm("");
+                    setDeleteError(null);
+                    setDeleteOpen(true);
+                  }}
+                  className="mt-4 inline-flex rounded-full bg-red-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-red-700"
+                >
+                  Delete account
+                </button>
+              </div>
             </section>
           </div>
         </div>
@@ -610,6 +676,27 @@ export function AccountDashboard({
           onCancel={() => handleStripeRenewalChange("cancel")}
           onResume={() => handleStripeRenewalChange("resume")}
           onCancelPendingChange={handleCancelPendingChange}
+        />
+      )}
+      {deleteOpen && (
+        <DeleteAccountModal
+          email={profile.email}
+          hasPassword={hasPasswordAuth}
+          kidCount={kidCount}
+          activePlanCount={activePlans}
+          activeAppCount={activeApps}
+          password={deletePassword}
+          confirmText={deleteConfirm}
+          error={deleteError}
+          deleting={deletingAccount}
+          onPasswordChange={setDeletePassword}
+          onConfirmChange={setDeleteConfirm}
+          onClose={() => {
+            if (deletingAccount) return;
+            setDeleteOpen(false);
+            setDeleteError(null);
+          }}
+          onConfirm={() => void handleDeleteAccount()}
         />
       )}
     </div>
@@ -704,6 +791,152 @@ function ActionCard({
       >
         {label}
       </Link>
+    </div>
+  );
+}
+
+function DeleteAccountModal({
+  email,
+  hasPassword,
+  kidCount,
+  activePlanCount,
+  activeAppCount,
+  password,
+  confirmText,
+  error,
+  deleting,
+  onPasswordChange,
+  onConfirmChange,
+  onClose,
+  onConfirm,
+}: {
+  email: string;
+  hasPassword: boolean;
+  kidCount: number;
+  activePlanCount: number;
+  activeAppCount: number;
+  password: string;
+  confirmText: string;
+  error: string | null;
+  deleting: boolean;
+  onPasswordChange: (value: string) => void;
+  onConfirmChange: (value: string) => void;
+  onClose: () => void;
+  onConfirm: () => void;
+}) {
+  const lossItems = [
+    "Your Genlyn login and profile",
+    activeAppCount > 0
+      ? `Access to ${activeAppCount} active app${activeAppCount === 1 ? "" : "s"} (Earnly, Scholars Notes, Ballr, Freshys, and more)`
+      : "Access to every Genlyn app (Earnly, Scholars Notes, Ballr, Freshys, and more)",
+    activePlanCount > 0
+      ? `${activePlanCount} active subscription${activePlanCount === 1 ? "" : "s"} (Stripe plans are canceled immediately)`
+      : "Any linked subscriptions and billing history on this account",
+    kidCount > 0
+      ? `${kidCount} child account${kidCount === 1 ? "" : "s"} and all of their app logins, progress, and data`
+      : "Any child accounts you create later would also be removed with this account",
+    "Scholars Notes AI credits, family settings, and saved account preferences",
+    "App Store / Google Play subscriptions must still be canceled in those stores if you bought there",
+  ];
+
+  const canSubmit = hasPassword
+    ? password.length > 0
+    : confirmText.trim().toLowerCase() === "delete" ||
+      confirmText.trim().toLowerCase() === email.trim().toLowerCase();
+
+  return (
+    <div className="fixed inset-0 z-[60] grid place-items-center bg-black/40 px-4">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="delete-account-title"
+        className="w-full max-w-lg rounded-3xl bg-white p-6 shadow-xl"
+      >
+        <h3
+          id="delete-account-title"
+          className="text-lg font-semibold text-neutral-950"
+        >
+          Delete your account?
+        </h3>
+        <p className="mt-2 text-sm text-neutral-600">
+          This permanently removes your Genlyn account. You will lose:
+        </p>
+        <ul className="mt-4 space-y-2 rounded-2xl border border-red-100 bg-red-50/70 p-4 text-sm text-red-950">
+          {lossItems.map((item) => (
+            <li key={item} className="flex gap-2">
+              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-red-500" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+
+        <form
+          className="mt-5"
+          onSubmit={(event) => {
+            event.preventDefault();
+            if (!canSubmit || deleting) return;
+            onConfirm();
+          }}
+        >
+          {hasPassword ? (
+            <label className="block">
+              <span className="text-sm font-medium text-neutral-800">
+                Enter your password to confirm
+              </span>
+              <input
+                type="password"
+                autoComplete="current-password"
+                value={password}
+                onChange={(event) => onPasswordChange(event.target.value)}
+                placeholder="Your account password"
+                className="mt-2 w-full rounded-xl border border-neutral-200 px-3 py-2.5 text-sm outline-none ring-neutral-950 focus:ring-2"
+              />
+            </label>
+          ) : (
+            <label className="block">
+              <span className="text-sm font-medium text-neutral-800">
+                Type DELETE or {email} to confirm
+              </span>
+              <input
+                type="text"
+                autoComplete="off"
+                value={confirmText}
+                onChange={(event) => onConfirmChange(event.target.value)}
+                placeholder="DELETE"
+                className="mt-2 w-full rounded-xl border border-neutral-200 px-3 py-2.5 text-sm outline-none ring-neutral-950 focus:ring-2"
+              />
+              <span className="mt-2 block text-xs text-neutral-500">
+                You signed in with Google or Apple, so there is no password on this
+                account.
+              </span>
+            </label>
+          )}
+
+          {error && (
+            <p className="mt-3 text-sm text-red-600" role="alert">
+              {error}
+            </p>
+          )}
+
+          <div className="mt-5 flex justify-end gap-2">
+            <button
+              type="button"
+              onClick={onClose}
+              disabled={deleting}
+              className="rounded-full px-4 py-2 text-sm text-neutral-600 disabled:opacity-60"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={!canSubmit || deleting}
+              className="rounded-full bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-60"
+            >
+              {deleting ? "Deleting…" : "Delete my account"}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
