@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getRequestOrigin } from "@/lib/auth/redirect";
+import { requireBearerUser } from "@/lib/subscriptions/auth";
 import {
   clampGenerations,
   clampTutorMinutes,
@@ -12,6 +13,7 @@ import {
   ensureStripeCustomerId,
   getStripe,
 } from "@/lib/subscriptions/stripe";
+import { ensureCreatorPromotionCode } from "@/lib/scholars/creator-promo";
 
 export const runtime = "nodejs";
 
@@ -29,9 +31,44 @@ function checkoutOrigin(request: NextRequest): string {
 
 function parsePeriod(value: unknown): ScholarsCreditPeriod | null {
   if (value === "refill" || value === "monthly" || value === "yearly") return value;
-  // Legacy alias
   if (value === "once") return "refill";
   return null;
+}
+
+function safeReturnOrigin(raw: unknown, fallback: string): string {
+  if (typeof raw !== "string" || !raw.trim()) return fallback;
+  try {
+    const u = new URL(raw.trim());
+    const host = u.hostname.toLowerCase();
+    const allowed =
+      host === "scholarsnote.com" ||
+      host === "www.scholarsnote.com" ||
+      host === "genlyn.app" ||
+      host === "www.genlyn.app" ||
+      host.endsWith(".vercel.app") ||
+      host === "localhost";
+    if (!allowed) return fallback;
+    return u.origin;
+  } catch {
+    return fallback;
+  }
+}
+
+async function resolveUserId(request: NextRequest): Promise<string | null> {
+  const authHeader = request.headers.get("authorization");
+  if (authHeader?.toLowerCase().startsWith("bearer ")) {
+    try {
+      const { user } = await requireBearerUser(request);
+      return user.id;
+    } catch {
+      return null;
+    }
+  }
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  return user?.id ?? null;
 }
 
 async function priceIdForLookupKey(lookupKey: string): Promise<string | null> {
@@ -46,13 +83,8 @@ async function priceIdForLookupKey(lookupKey: string): Promise<string | null> {
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = await createClient();
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser();
-
-    if (authError || !user) {
+    const userId = await resolveUserId(request);
+    if (!userId) {
       return NextResponse.json(
         { error: "Authentication required", code: "AUTH_REQUIRED" },
         { status: 401 },
@@ -63,6 +95,9 @@ export async function POST(request: NextRequest) {
       generations?: unknown;
       tutor_minutes?: unknown;
       period?: unknown;
+      success_url?: unknown;
+      cancel_url?: unknown;
+      creator_code?: unknown;
     };
     try {
       body = (await request.json()) as typeof body;
@@ -76,7 +111,10 @@ export async function POST(request: NextRequest) {
     }
 
     const generations = clampGenerations(Number(body.generations ?? 0));
-    const tutorMinutes = clampTutorMinutes(Number(body.tutor_minutes ?? 0));
+    const tutorMinutes = clampTutorMinutes(
+      Number(body.tutor_minutes ?? 0),
+      generations,
+    );
     if (generations === 0 && tutorMinutes === 0) {
       return NextResponse.json(
         { error: "Choose generations and/or tutor minutes" },
@@ -99,26 +137,29 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { data: profile } = await supabase
+    const admin = createAdminClient();
+    const { data: profile } = await admin
       .from("profiles")
       .select("stripe_customer_id, email, full_name")
-      .eq("id", user.id)
+      .eq("id", userId)
       .maybeSingle();
 
-    const admin = createAdminClient();
+    const { data: authUser } = await admin.auth.admin.getUserById(userId);
+    const email = authUser?.user?.email ?? profile?.email ?? undefined;
+
     const stripe = getStripe();
     const customerId = await ensureStripeCustomerId({
       stripe,
-      userId: user.id,
+      userId,
       existingCustomerId: profile?.stripe_customer_id,
-      email: user.email ?? profile?.email,
+      email,
       name:
         profile?.full_name ??
-        (user.user_metadata?.full_name as string | undefined) ??
+        (authUser?.user?.user_metadata?.full_name as string | undefined) ??
         null,
       persist: async (nextCustomerId) => {
         const { error } = await admin.rpc("set_profile_stripe_customer_id", {
-          p_user_id: user.id,
+          p_user_id: userId,
           p_stripe_customer_id: nextCustomerId,
         });
         if (error) throw new Error("Could not link billing profile");
@@ -126,11 +167,17 @@ export async function POST(request: NextRequest) {
     });
 
     const origin = checkoutOrigin(request);
-    // Credits are held on the parent account until assigned to a child in Manage kids.
+    const successOrigin = safeReturnOrigin(body.success_url, origin);
+    const cancelOrigin = safeReturnOrigin(body.cancel_url, origin);
+    const creatorCode =
+      typeof body.creator_code === "string"
+        ? body.creator_code.trim().toUpperCase().slice(0, 32)
+        : "";
+
     const metadata: Record<string, string> = {
-      future_kids_user_id: user.id,
-      child_user_id: user.id,
-      parent_user_id: user.id,
+      future_kids_user_id: userId,
+      child_user_id: userId,
+      parent_user_id: userId,
       credit_held_by: "parent",
       app_key: "scholars",
       credit_checkout: "true",
@@ -138,15 +185,33 @@ export async function POST(request: NextRequest) {
       grant_generations: String(generations),
       grant_tutor_minutes: String(tutorMinutes),
       credit_lookup_key: lookupKey,
+      ...(creatorCode ? { creator_code: creatorCode } : {}),
     };
+
+    let promotionCodeId: string | null = null;
+    if (creatorCode) {
+      try {
+        promotionCodeId = await ensureCreatorPromotionCode(creatorCode, stripe);
+      } catch (promoErr) {
+        console.error("[scholars/usage/checkout] creator promo", promoErr);
+        return NextResponse.json(
+          { error: "Could not apply creator discount. Try again.", code: "CREATOR_PROMO_FAILED" },
+          { status: 500 },
+        );
+      }
+    }
 
     const session = await stripe.checkout.sessions.create({
       mode: period === "refill" ? "payment" : "subscription",
       customer: customerId,
-      client_reference_id: user.id,
+      client_reference_id: userId,
       line_items: [{ price: priceId, quantity: 1 }],
-      success_url: `${origin}/account?checkout=success&app=scholars&credits=1`,
-      cancel_url: `${origin}/pricing?checkout=canceled&app=scholars`,
+      // Stripe forbids combining discounts[] with allow_promotion_codes.
+      ...(promotionCodeId
+        ? { discounts: [{ promotion_code: promotionCodeId }] }
+        : { allow_promotion_codes: true }),
+      success_url: `${successOrigin}/account?checkout=success&app=scholars&credits=1`,
+      cancel_url: `${cancelOrigin}/pricing?checkout=canceled`,
       metadata,
       ...(period === "refill"
         ? { payment_intent_data: { metadata } }
@@ -157,7 +222,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "No checkout URL returned" }, { status: 500 });
     }
 
-    return NextResponse.json({ url: session.url });
+    return NextResponse.json({
+      url: session.url,
+      lookup_key: lookupKey,
+      generations,
+      tutor_minutes: tutorMinutes,
+      period,
+    });
   } catch (error) {
     console.error("[scholars/usage/checkout]", error);
     const message =

@@ -44,10 +44,13 @@ export function clampGenerations(qty: number): number {
   return Math.min(max, Math.max(min, rounded));
 }
 
-export function clampTutorMinutes(qty: number): number {
-  const { step, min, max } = scholarsCreditPricing.tutorMinutes;
+export function clampTutorMinutes(qty: number, generations = 0): number {
+  if (!Number.isFinite(qty) || qty <= 0) return 0;
+  // App Store promo SKU: 5 gens + 15 min (half of a 30-min block).
+  if (qty === 15) return generations === 5 ? 15 : 0;
+  const { step, max } = scholarsCreditPricing.tutorMinutes;
   const rounded = Math.round(qty / step) * step;
-  return Math.min(max, Math.max(min, rounded));
+  return Math.min(max, Math.max(0, rounded));
 }
 
 export function generationBlocks(qty: number): number {
@@ -55,9 +58,11 @@ export function generationBlocks(qty: number): number {
   return n === 0 ? 0 : n / scholarsCreditPricing.generations.step;
 }
 
-export function tutorMinuteBlocks(qty: number): number {
-  const n = clampTutorMinutes(qty);
-  return n === 0 ? 0 : n / scholarsCreditPricing.tutorMinutes.step;
+export function tutorMinuteBlocks(qty: number, generations = 0): number {
+  const n = clampTutorMinutes(qty, generations);
+  if (n === 0) return 0;
+  // 15 min = half of a 30-min pricing block
+  return n / scholarsCreditPricing.tutorMinutes.step;
 }
 
 function gensBlockUnit(period: ScholarsCreditPeriod): number {
@@ -90,8 +95,9 @@ export function generationsPrice(
 export function tutorMinutesPrice(
   qty: number,
   period: ScholarsCreditPeriod,
+  generations = 0,
 ): number {
-  const blocks = tutorMinuteBlocks(qty);
+  const blocks = tutorMinuteBlocks(qty, generations);
   if (blocks === 0) return 0;
   const monthlyish = Math.round(blocks * tutorBlockUnit(period) * 100) / 100;
   if (period === "yearly") {
@@ -105,6 +111,11 @@ export function combinedCreditPrice(
   tutorMinutes: number,
   period: ScholarsCreditPeriod,
 ): number {
+  // Screen-protector promo — matches App Store Connect / StoreKit.
+  if (generations === 5 && tutorMinutes === 15) {
+    if (period === "yearly") return 41.88;
+    return 6.99;
+  }
   return (
     Math.round(
       (generationsPrice(generations, period) +
@@ -174,7 +185,7 @@ export function scholarsCombinedLookupKey(
   period: ScholarsCreditPeriod,
 ): string {
   const g = clampGenerations(generations);
-  const m = clampTutorMinutes(tutorMinutes);
+  const m = clampTutorMinutes(tutorMinutes, g);
   return `com.scholarsnotes.plan.g${g}.m${m}.${period}`;
 }
 
@@ -199,7 +210,7 @@ export function grantSummaryLabel(
   tutorMinutes: number,
 ): string {
   const g = clampGenerations(generations);
-  const m = clampTutorMinutes(tutorMinutes);
+  const m = clampTutorMinutes(tutorMinutes, g);
   const parts: string[] = [];
   if (g > 0) parts.push(`${g} Generation${g === 1 ? "" : "s"}`);
   if (m > 0) parts.push(`${m} Minute${m === 1 ? "" : "s"}`);
@@ -228,7 +239,7 @@ export function parseCombinedLookupKey(lookupKey: string): {
   };
 }
 
-/** All combined SKUs for Stripe catalog (270). */
+/** All combined SKUs for Stripe catalog (273 = App Store grid + g5.m15 promo). */
 export function allScholarsCreditSkus(): Array<{
   kind: "combined_credits";
   generations: number;
@@ -248,24 +259,31 @@ export function allScholarsCreditSkus(): Array<{
   const minOptions: number[] = [];
   for (let m = 0; m <= 180; m += 30) minOptions.push(m);
 
+  const pairs: Array<{ generations: number; tutorMinutes: number }> = [];
   for (const generations of genOptions) {
     for (const tutorMinutes of minOptions) {
       if (generations === 0 && tutorMinutes === 0) continue;
-      for (const period of periods) {
-        skus.push({
-          kind: "combined_credits",
-          generations,
-          tutorMinutes,
-          period,
-          lookupKey: scholarsCombinedLookupKey(generations, tutorMinutes, period),
-          unitAmount: combinedCreditPrice(generations, tutorMinutes, period),
-          interval:
-            period === "refill" ? null : period === "monthly" ? "month" : "year",
-          grantGenerations: generations,
-          grantTutorMinutes: tutorMinutes,
-          name: `Scholars AI · ${grantSummaryLabel(generations, tutorMinutes)}`,
-        });
-      }
+      pairs.push({ generations, tutorMinutes });
+    }
+  }
+  // App Store promo tier (15 min only with 5 gens).
+  pairs.push({ generations: 5, tutorMinutes: 15 });
+
+  for (const { generations, tutorMinutes } of pairs) {
+    for (const period of periods) {
+      skus.push({
+        kind: "combined_credits",
+        generations,
+        tutorMinutes,
+        period,
+        lookupKey: scholarsCombinedLookupKey(generations, tutorMinutes, period),
+        unitAmount: combinedCreditPrice(generations, tutorMinutes, period),
+        interval:
+          period === "refill" ? null : period === "monthly" ? "month" : "year",
+        grantGenerations: generations,
+        grantTutorMinutes: tutorMinutes,
+        name: `Scholars AI · ${grantSummaryLabel(generations, tutorMinutes)}`,
+      });
     }
   }
 

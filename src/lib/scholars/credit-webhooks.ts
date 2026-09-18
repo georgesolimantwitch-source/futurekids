@@ -12,6 +12,7 @@ import {
 } from "@/config/scholars-credits";
 import { getStripe } from "@/lib/subscriptions/stripe";
 import { setKidAppEnabled } from "@/lib/kids/portal";
+import { notifyScholarsCreatorAttribution } from "@/lib/scholars/creator-attribution";
 
 function expandableId(
   value: string | { id: string } | null | undefined,
@@ -322,12 +323,18 @@ export async function handleScholarsCreditCheckoutCompleted(
 
   await enableScholarsForChildren(parentUserId, childUserIds);
 
+  let primaryLookupKey: string | null =
+    session.metadata?.credit_lookup_key?.trim() || null;
+
   for (const childUserId of childUserIds) {
     for (const item of full.line_items?.data ?? []) {
       const priceId =
         typeof item.price === "string" ? item.price : item.price?.id;
       if (!priceId) continue;
       const enriched = await enrichPrice(priceId);
+      if (!primaryLookupKey && enriched.lookupKey) {
+        primaryLookupKey = enriched.lookupKey;
+      }
       const gens = Number(session.metadata?.grant_generations ?? enriched.generations);
       const mins = Number(
         session.metadata?.grant_tutor_minutes ?? enriched.tutorMinutes,
@@ -351,6 +358,20 @@ export async function handleScholarsCreditCheckoutCompleted(
         subscriptionStatus: "active",
       });
     }
+  }
+
+  const creatorCode = session.metadata?.creator_code?.trim();
+  if (creatorCode) {
+    await notifyScholarsCreatorAttribution({
+      creator_code: creatorCode,
+      amount_cents: session.amount_total ?? 0,
+      currency: session.currency || "usd",
+      event_type: "purchase",
+      lookup_key: primaryLookupKey,
+      product_id: primaryLookupKey,
+      stripe_checkout_session_id: session.id,
+      billed_at: new Date().toISOString(),
+    });
   }
 
   return true;
@@ -402,6 +423,9 @@ export async function handleScholarsCreditInvoicePaid(
 
   await enableScholarsForChildren(parentUserId, childUserIds);
 
+  let primaryLookupKey: string | null =
+    subscription.metadata?.credit_lookup_key?.trim() || null;
+
   for (const childUserId of childUserIds) {
     for (const line of invoice.lines.data) {
       const legacyPrice = (
@@ -418,6 +442,9 @@ export async function handleScholarsCreditInvoicePaid(
             : null) ?? line.pricing?.price_details?.price ?? null;
       if (!priceId) continue;
       const enriched = await enrichPrice(priceId);
+      if (!primaryLookupKey && enriched.lookupKey) {
+        primaryLookupKey = enriched.lookupKey;
+      }
       await applyCreditGrants({
         childUserId,
         parentUserId,
@@ -430,6 +457,25 @@ export async function handleScholarsCreditInvoicePaid(
         subscriptionStatus: subscription.status,
       });
     }
+  }
+
+  // First period is attributed on checkout.session.completed; renewals only here.
+  const billingReason = (invoice as Stripe.Invoice & { billing_reason?: string | null })
+    .billing_reason;
+  const creatorCode = subscription.metadata?.creator_code?.trim();
+  if (creatorCode && billingReason === "subscription_cycle") {
+    await notifyScholarsCreatorAttribution({
+      creator_code: creatorCode,
+      amount_cents: invoice.amount_paid ?? 0,
+      currency: invoice.currency || "usd",
+      event_type: "renewal",
+      lookup_key: primaryLookupKey,
+      product_id: primaryLookupKey,
+      stripe_invoice_id: invoice.id,
+      billed_at: invoice.status_transitions?.paid_at
+        ? new Date(invoice.status_transitions.paid_at * 1000).toISOString()
+        : new Date().toISOString(),
+    });
   }
 
   return true;
