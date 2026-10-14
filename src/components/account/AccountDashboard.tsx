@@ -189,7 +189,7 @@ export function AccountDashboard({
   async function handleSignOut() {
     setSigningOut(true);
     const supabase = createClient();
-    await supabase.auth.signOut();
+    await supabase.auth.signOut({ scope: "local" });
     router.push("/");
     router.refresh();
   }

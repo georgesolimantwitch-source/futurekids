@@ -42,6 +42,9 @@ export async function grantScholarsCredits(params: {
   stripeCheckoutSessionId?: string | null;
   stripePaymentIntentId?: string | null;
   stripeSubscriptionId?: string | null;
+  /** Provider purchase id (e.g. `apple:<transactionId>`); unique across all accounts. */
+  externalRef?: string | null;
+  reason?: string;
 }): Promise<{
   outcome: "applied" | "duplicate";
   generations?: number;
@@ -49,6 +52,8 @@ export async function grantScholarsCredits(params: {
 }> {
   const admin = createAdminClient();
   const { data, error } = await admin.rpc("grant_scholars_credits", {
+    p_external_ref: params.externalRef ?? null,
+    p_reason: params.reason ?? "grant",
     p_child_user_id: params.childUserId,
     p_parent_user_id: params.parentUserId ?? null,
     p_kind: params.kind,

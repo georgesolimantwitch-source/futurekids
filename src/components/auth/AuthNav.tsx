@@ -31,7 +31,7 @@ export function AuthNav() {
 
   async function handleSignOut() {
     const supabase = createClient();
-    await supabase.auth.signOut();
+    await supabase.auth.signOut({ scope: "local" });
     setUser(null);
     router.push("/");
     router.refresh();
@@ -100,7 +100,7 @@ export function AuthNavMobile({ onNavigate }: { onNavigate?: () => void }) {
 
   async function handleSignOut() {
     const supabase = createClient();
-    await supabase.auth.signOut();
+    await supabase.auth.signOut({ scope: "local" });
     onNavigate?.();
     router.push("/");
     router.refresh();
