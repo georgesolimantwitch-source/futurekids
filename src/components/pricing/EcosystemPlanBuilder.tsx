@@ -34,7 +34,7 @@ export function EcosystemPlanBuilder({ billingPeriod }: EcosystemPlanBuilderProp
     <section id="plan-builder" className="scroll-mt-24 bg-white py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-2xl font-semibold tracking-tight text-neutral-900 sm:text-4xl">
+          <h2 className="font-display text-3xl font-extrabold text-ink sm:text-5xl">
             {ecosystemBuilderCopy.title}
           </h2>
           <p className="mt-3 text-base text-neutral-600 sm:text-lg">
@@ -55,7 +55,7 @@ export function EcosystemPlanBuilder({ billingPeriod }: EcosystemPlanBuilderProp
                   className={`flex min-h-[72px] items-center gap-3 rounded-2xl border p-4 text-left transition-all duration-200 ${
                     isSelected
                       ? "shadow-md"
-                      : "border-neutral-100 bg-[#fefbf6] hover:border-neutral-200 hover:bg-white"
+                      : "border-neutral-100 bg-[#f7f8fc] hover:border-neutral-200 hover:bg-white"
                   }`}
                   style={
                     isSelected

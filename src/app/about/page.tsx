@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { brand } from "@/config/brand";
 import { aboutPageMeta } from "@/config/about";
-import { AboutStoryPage } from "@/components/about/AboutStoryPage";
+import { AboutPage as AboutContent } from "@/components/marketing/AboutPage";
 
 export const metadata: Metadata = {
   title: aboutPageMeta.title,
@@ -24,5 +24,5 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
-  return <AboutStoryPage />;
+  return <AboutContent />;
 }

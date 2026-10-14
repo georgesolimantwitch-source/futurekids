@@ -5,7 +5,7 @@ export function ExistingSubscriberSection() {
   return (
     <section className="border-y border-neutral-100 bg-white py-16 sm:py-20">
       <div className="mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
-        <h2 className="text-2xl font-semibold tracking-tight text-neutral-900 sm:text-3xl">
+        <h2 className="font-display text-3xl font-extrabold text-ink sm:text-4xl">
           {existingSubscriberSection.headline}
         </h2>
         <p className="mt-4 text-base leading-relaxed text-neutral-600 sm:text-lg">

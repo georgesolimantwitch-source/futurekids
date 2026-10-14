@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/client";
-import { Button } from "@/components/ui/Button";
 
 export function AuthNav() {
   const router = useRouter();
@@ -46,13 +45,16 @@ export function AuthNav() {
       <div className="flex items-center gap-1 sm:gap-2">
         <Link
           href="/login"
-          className="rounded-full px-2.5 py-2 text-xs font-medium text-neutral-700 transition hover:bg-neutral-50 sm:px-4 sm:text-sm"
+          className="rounded-full px-4 py-2 text-sm font-semibold text-ink-soft transition hover:text-ink"
         >
-          Login
+          Log in
         </Link>
-        <Button href="/signup" size="sm">
-          Create Account
-        </Button>
+        <Link
+          href="/signup"
+          className="shine press inline-flex h-10 items-center rounded-full bg-ink px-5 text-sm font-semibold text-white shadow-[0_12px_24px_-14px_rgba(11,16,32,0.7)] transition hover:bg-black"
+        >
+          Get started
+        </Link>
       </div>
     );
   }
@@ -66,13 +68,13 @@ export function AuthNav() {
     <div className="flex items-center gap-1 sm:gap-2">
       <Link
         href="/account"
-        className="rounded-full px-2.5 py-2 text-xs font-medium text-neutral-700 transition hover:bg-neutral-50 sm:px-4 sm:text-sm"
+        className="rounded-full px-4 py-2 text-sm font-semibold text-ink-soft transition hover:text-ink"
       >
         Account
       </Link>
       <Link
         href="/account"
-        className="flex h-9 w-9 items-center justify-center rounded-full bg-neutral-900 text-sm font-semibold text-white"
+        className="flex h-9 w-9 items-center justify-center rounded-full bg-ink text-sm font-semibold text-white transition hover:scale-105"
         aria-label="Profile"
         title={user.email ?? "Account"}
       >
@@ -81,7 +83,7 @@ export function AuthNav() {
       <button
         type="button"
         onClick={handleSignOut}
-        className="rounded-full px-2.5 py-2 text-xs font-medium text-neutral-500 transition hover:text-neutral-900 sm:px-3 sm:text-sm"
+        className="rounded-full px-3 py-2 text-sm font-semibold text-ink-faint transition hover:text-ink"
       >
         Logout
       </button>
@@ -112,13 +114,17 @@ export function AuthNavMobile({ onNavigate }: { onNavigate?: () => void }) {
         <Link
           href="/login"
           onClick={onNavigate}
-          className="rounded-xl px-3 py-2.5 text-center text-sm font-medium text-neutral-800"
+          className="rounded-full px-3 py-3 text-center text-sm font-semibold text-ink ring-1 ring-ink/10"
         >
-          Login
+          Log in
         </Link>
-        <Button href="/signup" size="md" className="w-full">
-          Create Account
-        </Button>
+        <Link
+          href="/signup"
+          onClick={onNavigate}
+          className="rounded-full bg-ink px-3 py-3 text-center text-sm font-semibold text-white"
+        >
+          Get started
+        </Link>
       </div>
     );
   }

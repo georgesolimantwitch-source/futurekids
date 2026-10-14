@@ -6,13 +6,13 @@ import { apps, brand, type AppSlug } from "./brand";
 
 export const aboutPageMeta = {
   title: "About Genlyn",
-  description: `${brand.productName} helps parents raise healthy, capable kids with apps for money skills, studying, sports, safe connection, and local food.`,
+  description: `${brand.productName} helps parents raise healthy, capable kids with apps for money skills, studying, sports, and local food.`,
 };
 
 export const cinematicHero = {
   headline: "Healthy kids. Capable kids. Ready for everything ahead.",
   subtext:
-    "Genlyn is a family of apps that help kids earn, learn, play, and connect — with parents in control.",
+    "Genlyn is a family of apps that help kids earn, learn, play, and eat well — with parents in control.",
   outcomes: [
     "Money skills",
     "Smarter studying",
@@ -26,8 +26,8 @@ export const missionSection = {
   eyebrow: "Our mission",
   headline: "Give families practical tools for real-world growth.",
   paragraphs: [
-    "Parents don’t need another distraction. They need apps that teach responsibility, build confidence, keep kids active, protect how they connect online, and make healthier food easier to find.",
-    "That’s what Genlyn is built for — five focused products, one shared account, and a clear purpose: help kids grow into capable young people.",
+    "Parents don’t need another distraction. They need apps that teach responsibility, build confidence, keep kids active, and make healthier food easier to find.",
+    "That’s what Genlyn is built for — four focused apps, one shared account, and a clear purpose: help kids grow into capable young people.",
   ],
   commitments: [
     {

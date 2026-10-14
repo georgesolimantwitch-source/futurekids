@@ -68,7 +68,7 @@ export function AppPricingCard({
 
   return (
     <article
-      className="flex h-full flex-col rounded-2xl border border-neutral-200/80 bg-white p-5 opacity-95 shadow-sm transition-all duration-300 hover:shadow-md sm:p-6"
+      className="lift flex h-full flex-col rounded-[26px] border border-ink/[0.06] bg-white p-5 sm:p-6"
       style={{ borderTopColor: plan.accentColor, borderTopWidth: 3 }}
     >
       <div className="flex items-center gap-2.5">

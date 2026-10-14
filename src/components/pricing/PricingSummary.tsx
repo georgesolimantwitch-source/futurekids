@@ -29,7 +29,7 @@ export function PricingSummary({
   const { labels } = ecosystemBuilderCopy;
 
   return (
-    <div className="rounded-2xl border border-neutral-100 bg-[#fefbf6] p-6 sm:p-8">
+    <div className="rounded-2xl border border-neutral-100 bg-[#f7f8fc] p-6 sm:p-8">
       <p
         className={`rounded-xl px-4 py-3 text-sm font-medium ${
           selectedCount >= 2

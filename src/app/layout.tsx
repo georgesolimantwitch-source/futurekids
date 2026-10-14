@@ -1,9 +1,16 @@
 import type { Metadata } from "next";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import { brand } from "@/config/brand";
 import { Navigation } from "@/components/layout/Navigation";
 import { Footer } from "@/components/layout/Footer";
 import { JsonLd } from "@/components/seo/JsonLd";
 import "./globals.css";
+
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-jakarta",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(brand.siteUrl),
@@ -19,7 +26,8 @@ export const metadata: Metadata = {
     "Earnly",
     "Scholars Notes",
     "Ballr",
-        "kids apps",
+    "Freshys",
+    "kids apps",
     "family apps",
     "parent controls",
   ],
@@ -76,7 +84,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className={`${jakarta.variable} scroll-smooth`}>
       <head>
         {/* Explicit scheme icons — file-based favicon.ico was forcing the wrong mark */}
         <link
@@ -92,7 +100,7 @@ export default function RootLayout({
           media="(prefers-color-scheme: dark)"
         />
       </head>
-      <body className="min-h-screen overflow-x-hidden bg-white font-sans text-[#1d1d1f] antialiased">
+      <body className="min-h-screen overflow-x-hidden bg-background font-sans text-ink antialiased">
         <JsonLd />
         <Navigation />
         <main id="main-content">{children}</main>

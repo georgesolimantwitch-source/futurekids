@@ -8,7 +8,6 @@ import { EcosystemPlanBuilder } from "./EcosystemPlanBuilder";
 import { ExistingSubscriberSection } from "./ExistingSubscriberSection";
 import { PricingComparison } from "./PricingComparison";
 import { PricingFAQ } from "./PricingFAQ";
-import { PricingCTA } from "./PricingCTA";
 import type { PlanManagementContext } from "@/lib/subscriptions/plan-management";
 import type { AppSlug } from "@/config/brand";
 
@@ -45,7 +44,6 @@ export function PricingPageContent({
       <ExistingSubscriberSection />
       <PricingComparison />
       <PricingFAQ />
-      <PricingCTA />
     </>
   );
 }

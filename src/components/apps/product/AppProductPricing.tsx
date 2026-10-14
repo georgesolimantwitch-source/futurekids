@@ -34,7 +34,7 @@ export function AppProductPricing({ app }: AppProductPricingProps) {
     return (
       <section
         id="pricing"
-        className="scroll-mt-40 border-y border-neutral-100 bg-[#fefbf6]"
+        className="scroll-mt-28 border-y border-ink/[0.05] bg-white/70"
       >
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
@@ -44,7 +44,7 @@ export function AppProductPricing({ app }: AppProductPricingProps) {
             >
               Plans &amp; pricing
             </p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight text-neutral-950 sm:text-4xl">
+            <h2 className="font-display mt-4 text-4xl font-extrabold text-ink sm:text-5xl">
               Get {app.name}
             </h2>
             <p className="mt-3 text-base leading-relaxed text-neutral-600">
@@ -129,7 +129,7 @@ function IndividualAppPricing({ app }: { app: AppConfig }) {
   return (
     <section
       id="pricing"
-      className="scroll-mt-40 border-y border-neutral-100 bg-[#fefbf6]"
+      className="scroll-mt-28 border-y border-ink/[0.05] bg-white/70"
     >
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
@@ -139,7 +139,7 @@ function IndividualAppPricing({ app }: { app: AppConfig }) {
           >
             Plans &amp; pricing
           </p>
-          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-neutral-950 sm:text-4xl">
+          <h2 className="font-display mt-4 text-4xl font-extrabold text-ink sm:text-5xl">
             Get {app.name}
           </h2>
           <p className="mt-3 text-base leading-relaxed text-neutral-600">
@@ -149,7 +149,7 @@ function IndividualAppPricing({ app }: { app: AppConfig }) {
         </div>
 
         <div
-          className="mx-auto mt-10 max-w-3xl overflow-hidden rounded-[2rem] border border-neutral-200 bg-white shadow-sm"
+          className="mx-auto mt-12 max-w-3xl overflow-hidden rounded-[32px] border border-ink/[0.06] bg-white shadow-[0_40px_80px_-44px_rgba(15,23,42,0.45)]"
           style={{ borderTopColor: app.accentColor, borderTopWidth: 4 }}
         >
           <div className="grid gap-8 p-6 sm:p-8 lg:grid-cols-[1fr_1.1fr]">
@@ -315,7 +315,7 @@ function IndividualAppPricing({ app }: { app: AppConfig }) {
                   type="button"
                   onClick={handleCheckout}
                   disabled={loading}
-                  className="inline-flex w-full items-center justify-center rounded-full px-6 py-3.5 text-sm font-semibold text-white transition hover:brightness-95 disabled:opacity-60"
+                  className="shine press inline-flex w-full items-center justify-center rounded-full px-6 py-3.5 text-sm font-semibold text-white transition hover:brightness-95 disabled:opacity-60"
                   style={{ backgroundColor: app.accentColor }}
                 >
                   {loading

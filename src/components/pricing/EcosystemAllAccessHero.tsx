@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { listedApps, type AppSlug } from "@/config/brand";
+import { Blobs, Eyebrow } from "@/components/site/ui";
 import {
   allAccessPlanKey,
   individualAppPlanKey,
@@ -653,21 +654,21 @@ export function EcosystemAllAccessHero({
               Save {formatUsd(savings)}/ {suffix} ({savingsPct}% off)
             </span>
           )}
-          <p className="text-3xl font-semibold tracking-tight text-[#2a1e12] sm:text-4xl">
+          <p className="text-3xl font-semibold tracking-tight text-[#0b1020] sm:text-4xl">
             {formatUsd(total)} / {suffix}
           </p>
           {bundleCreditAmount > 0 && (
-            <p className="mt-0.5 text-xs text-[#8a735a] sm:text-sm">
+            <p className="mt-0.5 text-xs text-[#8a90a2] sm:text-sm">
               Includes Scholars AI{" "}
               {creditPriceLine(bundleCreditAmount, bundleCreditPeriod)}
             </p>
           )}
           {savings > 0 ? (
-            <p className="mt-0.5 text-xs text-[#8a735a] line-through sm:text-sm">
+            <p className="mt-0.5 text-xs text-[#8a90a2] line-through sm:text-sm">
               {formatUsd(individualTotal)} if purchased separately
             </p>
           ) : (
-            <p className="mt-0.5 text-xs text-[#8a735a] sm:text-sm">
+            <p className="mt-0.5 text-xs text-[#8a90a2] sm:text-sm">
               {bundleValueLine(count, tinypalCount, scholarsCount, ballrCount)}
             </p>
           )}
@@ -678,10 +679,10 @@ export function EcosystemAllAccessHero({
     if (isEarnly) {
       return (
         <>
-          <p className="text-4xl font-semibold tracking-tight text-[#2a1e12]">
+          <p className="text-4xl font-semibold tracking-tight text-[#0b1020]">
             {earnlyPriceLine(count, billingPeriod).replace("month", "mo").replace("year", "yr")}
           </p>
-          <p className="mt-1 text-sm text-[#8a735a]">
+          <p className="mt-1 text-sm text-[#8a90a2]">
             {earnlyUnitPriceLine(billingPeriod).replace("month", "mo").replace("year", "yr")}
           </p>
         </>
@@ -690,7 +691,7 @@ export function EcosystemAllAccessHero({
 
     if (isTinyPal) {
       return (
-        <p className="mt-1 text-sm text-[#8a735a]">
+        <p className="mt-1 text-sm text-[#8a90a2]">
           This plan is no longer offered on the website.
         </p>
       );
@@ -699,10 +700,10 @@ export function EcosystemAllAccessHero({
     if (isScholars) {
       return (
         <>
-          <p className="text-4xl font-semibold tracking-tight text-[#2a1e12]">
+          <p className="text-4xl font-semibold tracking-tight text-[#0b1020]">
             {scholarsTierTotalPriceLine(scholarsTier, scholarsCount, billingPeriod)}
           </p>
-          <p className="mt-1 text-sm text-[#8a735a]">
+          <p className="mt-1 text-sm text-[#8a90a2]">
             {activeScholarsTier.name}
             {` · $${scholarsTierPrice(activeScholarsTier, "monthly").toFixed(2)} per child`}
             {billingPeriod === "yearly" ? " · pay 10 mo, get 12" : ""}
@@ -714,12 +715,12 @@ export function EcosystemAllAccessHero({
     if (isBallr) {
       return (
         <>
-          <p className="text-4xl font-semibold tracking-tight text-[#2a1e12]">
+          <p className="text-4xl font-semibold tracking-tight text-[#0b1020]">
             {ballrPriceLine(ballrCount, billingPeriod)
               .replace("month", "mo")
               .replace("year", "yr")}
           </p>
-          <p className="mt-1 text-sm text-[#8a735a]">
+          <p className="mt-1 text-sm text-[#8a90a2]">
             ${ballrPricing.firstChildMonthly.toFixed(2)} first child · +$
             {ballrPricing.additionalChildMonthly.toFixed(2)} each additional
             {billingPeriod === "yearly" ? " · pay 10 mo, get 12" : ""}
@@ -736,8 +737,8 @@ export function EcosystemAllAccessHero({
 
       return (
         <>
-          <p className="text-4xl font-semibold tracking-tight text-[#2a1e12]">{price.display}</p>
-          <p className="mt-1 text-sm text-[#8a735a]">per {suffix}</p>
+          <p className="text-4xl font-semibold tracking-tight text-[#0b1020]">{price.display}</p>
+          <p className="mt-1 text-sm text-[#8a90a2]">per {suffix}</p>
         </>
       );
     }
@@ -756,7 +757,7 @@ export function EcosystemAllAccessHero({
 
     const accent = isBundle
       ? "#059669"
-      : individualPlan?.accentColor ?? listedApps.find((a) => a.slug === selectedPlan)?.accentColor ?? "#2a1e12";
+      : individualPlan?.accentColor ?? listedApps.find((a) => a.slug === selectedPlan)?.accentColor ?? "#0b1020";
 
     return (
       <ul
@@ -769,7 +770,7 @@ export function EcosystemAllAccessHero({
         {items.map((item) => (
           <li
             key={item}
-            className={`flex items-center gap-2 text-[#5b4a37] ${
+            className={`flex items-center gap-2 text-[#5b6275] ${
               isBundle ? "text-xs" : "text-sm"
             }`}
           >
@@ -845,31 +846,30 @@ export function EcosystemAllAccessHero({
 
   return (
     <>
-    <section id="top" className="paper-bg relative overflow-hidden border-b border-neutral-200/80 text-[#2a1e12]">
-      <div className="paper-vignette pointer-events-none absolute inset-0" aria-hidden />
+    <section id="top" className="relative -mt-[68px] overflow-hidden pt-[68px] text-[#0b1020]">
+      <Blobs colors={["#c4b5fd", "#93c5fd", "#bbf7d0", "#fed7aa"]} intensity={0.7} />
 
-      <div
-        className={`relative mx-auto max-w-4xl px-4 ${
-          isBundle
-            ? "py-6 sm:px-6 sm:py-8 lg:px-8"
-            : "py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20"
-        }`}
-      >
+      <div className="relative mx-auto max-w-4xl px-4 pb-16 pt-12 sm:px-6 sm:pb-20 sm:pt-16 lg:px-8">
         <div className="text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#c0873c]">
+          <Eyebrow color="#2563eb" icon="sparkles">
+            Plans &amp; Pricing
+          </Eyebrow>
+          <p className="font-display mt-6 text-5xl font-extrabold leading-[1] text-ink sm:text-6xl lg:text-7xl">
+            Simple pricing.
+            <br />
+            <span className="gradient-text">Big impact.</span>
+          </p>
+        </div>
+
+        <div className="mt-12 text-center">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand">
             {isScholars ? "Scholars Notes" : "Recommended"}
           </p>
-          <h1
-            className={`font-display mt-2 font-semibold tracking-tight text-[#2a1e12] ${
-              isBundle || isScholars
-                ? "text-2xl sm:text-3xl"
-                : "mt-3 text-3xl sm:text-4xl lg:text-5xl"
-            }`}
-          >
+          <h1 className="font-display mt-2 text-2xl font-extrabold text-ink sm:text-3xl">
             {isScholars ? "Plans & Pricing" : ecosystemBundle.productName}
           </h1>
           <p
-            className={`mx-auto text-[#5b4a37] ${
+            className={`mx-auto text-[#5b6275] ${
               isBundle || isScholars
                 ? "mt-1.5 max-w-lg text-sm sm:text-base"
                 : "mt-3 max-w-xl text-base sm:text-lg"
@@ -883,7 +883,7 @@ export function EcosystemAllAccessHero({
           </p>
         </div>
 
-        <p className={`${isBundle ? "mt-4" : "mt-6"} text-center text-xs text-[#8a735a]`}>
+        <p className={`${isBundle ? "mt-4" : "mt-6"} text-center text-xs text-[#8a90a2]`}>
           Choose a plan
         </p>
         <div
@@ -901,16 +901,16 @@ export function EcosystemAllAccessHero({
                 role="tab"
                 aria-selected={selected}
                 onClick={() => selectPlan(tab.id)}
-                className={`flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm font-medium transition ${
+                className={`press flex items-center gap-2 rounded-full border px-3.5 py-2 text-sm font-semibold transition-all duration-300 ${
                   selected
-                    ? "border-neutral-900 bg-neutral-900 text-white shadow-sm"
-                    : "border-neutral-200/80 bg-white/80 text-[#5b4a37] shadow-sm hover:border-neutral-300 hover:bg-white"
+                    ? "border-ink bg-ink text-white shadow-[0_12px_24px_-12px_rgba(11,16,32,0.7)]"
+                    : "border-ink/10 bg-white/80 text-[#5b6275] backdrop-blur hover:-translate-y-0.5 hover:border-ink/20 hover:bg-white"
                 }`}
               >
                 {tab.id === "all-access" ? (
                   <span
                     className={`flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold ${
-                      selected ? "bg-white text-neutral-900" : "bg-[#fefbf6] text-[#5b4a37]"
+                      selected ? "bg-white text-neutral-900" : "bg-[#f7f8fc] text-[#5b6275]"
                     }`}
                     aria-hidden
                   >
@@ -926,7 +926,7 @@ export function EcosystemAllAccessHero({
         </div>
 
         <div
-          className={`mx-auto overflow-hidden rounded-3xl border border-neutral-200/80 bg-white shadow-lg ${
+          className={`mx-auto overflow-hidden rounded-[30px] border border-ink/[0.06] bg-white shadow-[0_40px_90px_-44px_rgba(15,23,42,0.5)] ${
             isScholars
               ? "mt-6 max-w-2xl p-5 sm:p-7"
               : isBundle
@@ -951,7 +951,7 @@ export function EcosystemAllAccessHero({
               <p className="text-xs font-semibold uppercase tracking-wider text-emerald-700">
                 Current plan
               </p>
-              <p className="mt-1 text-sm text-[#2a1e12]">
+              <p className="mt-1 text-sm text-[#0b1020]">
                 {currentEntitlement.plan_key.replaceAll("_", " ")}
                 {currentEntitlement.child_limit
                   ? ` · ${currentEntitlement.child_limit} ${
@@ -987,11 +987,11 @@ export function EcosystemAllAccessHero({
             </div>
           )}
           {currentEntitlement && !isViewingCurrentPlan && (
-            <div className="mb-5 rounded-2xl border border-neutral-200 bg-[#fefbf6] px-4 py-3">
-              <p className="text-xs font-semibold uppercase tracking-wider text-[#8a735a]">
+            <div className="mb-5 rounded-2xl border border-neutral-200 bg-[#f7f8fc] px-4 py-3">
+              <p className="text-xs font-semibold uppercase tracking-wider text-[#8a90a2]">
                 Your current plan
               </p>
-              <p className="mt-1 text-sm text-[#2a1e12]">
+              <p className="mt-1 text-sm text-[#0b1020]">
                 {currentEntitlement.plan_key.replaceAll("_", " ")}
                 {currentEntitlement.child_limit
                   ? ` · ${currentEntitlement.child_limit} ${
@@ -999,7 +999,7 @@ export function EcosystemAllAccessHero({
                     }`
                   : ""}
               </p>
-              <p className="mt-1 text-xs text-[#8a735a]">
+              <p className="mt-1 text-xs text-[#8a90a2]">
                 Showing a different child count below. Set it to{" "}
                 {currentEntitlement.child_limit ?? "your plan"} to view your
                 current plan.
@@ -1022,8 +1022,8 @@ export function EcosystemAllAccessHero({
                 />
               </div>
               <div>
-                <p className="text-xs uppercase tracking-wider text-[#8a735a]">Individual plan</p>
-                <p className="text-lg font-semibold text-[#2a1e12]">{individualPlan.name}</p>
+                <p className="text-xs uppercase tracking-wider text-[#8a90a2]">Individual plan</p>
+                <p className="text-lg font-semibold text-[#0b1020]">{individualPlan.name}</p>
               </div>
             </div>
           )}
@@ -1031,23 +1031,23 @@ export function EcosystemAllAccessHero({
           {/* Individual-app child stepper — Scholars kids handled under tier grid */}
           {showChildStepper && !isBundle && !isScholars && (
             <div>
-              <label className="text-sm font-medium text-[#2a1e12]">
+              <label className="text-sm font-medium text-[#0b1020]">
                 {isBallr ? "Children on Ballr" : "Children on your plan"}
               </label>
-              <div className="mt-3 flex items-center justify-between rounded-2xl border border-neutral-200 bg-[#fefbf6] px-4 py-3">
+              <div className="mt-3 flex items-center justify-between rounded-2xl border border-neutral-200 bg-[#f7f8fc] px-4 py-3">
                 <button
                   type="button"
                   onClick={() => adjustChildren(-1)}
                   disabled={
                     isBallr ? ballrCount <= 1 : count <= minimumChildCount
                   }
-                  className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-xl font-medium text-[#2a1e12] shadow-sm ring-1 ring-neutral-200 transition hover:bg-neutral-50 disabled:opacity-40"
+                  className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-xl font-medium text-[#0b1020] shadow-sm ring-1 ring-neutral-200 transition hover:bg-neutral-50 disabled:opacity-40"
                   aria-label="Fewer children"
                 >
                   −
                 </button>
                 <div className="min-w-[3rem] text-center">
-                  <span className="block text-2xl font-semibold tabular-nums text-[#2a1e12]">
+                  <span className="block text-2xl font-semibold tabular-nums text-[#0b1020]">
                     {isBallr ? ballrCount : count}
                   </span>
                 </div>
@@ -1055,13 +1055,13 @@ export function EcosystemAllAccessHero({
                   type="button"
                   onClick={() => adjustChildren(1)}
                   disabled={(isBallr ? ballrCount : count) >= 6}
-                  className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-xl font-medium text-[#2a1e12] shadow-sm ring-1 ring-neutral-200 transition hover:bg-neutral-50 disabled:opacity-40"
+                  className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-xl font-medium text-[#0b1020] shadow-sm ring-1 ring-neutral-200 transition hover:bg-neutral-50 disabled:opacity-40"
                   aria-label="More children"
                 >
                   +
                 </button>
               </div>
-              <p className="mt-2 text-center text-xs text-[#8a735a]">
+              <p className="mt-2 text-center text-xs text-[#8a90a2]">
                 {isBallr
                   ? `$${ballrPricing.firstChildMonthly.toFixed(2)}/mo for 1 child · +$${ballrPricing.additionalChildMonthly.toFixed(2)}/mo per extra · up to 6`
                   : `$1.99/mo or $19.90/yr per child · up to 6 children · yearly includes 2 months free`}
@@ -1096,7 +1096,7 @@ export function EcosystemAllAccessHero({
           {/* Scholars Notes: 3 plan options in a compact row under the price */}
           {isScholars && (
             <div className="mt-6">
-              <p className="mb-3 text-center text-xs font-medium uppercase tracking-wider text-[#8a735a]">
+              <p className="mb-3 text-center text-xs font-medium uppercase tracking-wider text-[#8a90a2]">
                 Choose a Scholars plan
               </p>
               <div
@@ -1125,20 +1125,20 @@ export function EcosystemAllAccessHero({
                       className={`rounded-2xl border px-2.5 py-3 text-left transition sm:px-3 ${
                         selected
                           ? "border-indigo-400 bg-indigo-50 ring-1 ring-indigo-200"
-                          : "border-neutral-200 bg-[#fefbf6] hover:border-neutral-300"
+                          : "border-neutral-200 bg-[#f7f8fc] hover:border-neutral-300"
                       }`}
                     >
-                      <p className="text-xs font-semibold text-[#2a1e12] sm:text-sm">
+                      <p className="text-xs font-semibold text-[#0b1020] sm:text-sm">
                         {shortName}
                       </p>
                       <p
                         className={`mt-1 text-sm font-semibold tabular-nums sm:text-base ${
-                          selected ? "text-[#2a1e12]" : "text-[#5b4a37]"
+                          selected ? "text-[#0b1020]" : "text-[#5b6275]"
                         }`}
                       >
                         {price}
                       </p>
-                      <p className="mt-1 hidden text-[10px] leading-snug text-[#8a735a] sm:block">
+                      <p className="mt-1 hidden text-[10px] leading-snug text-[#8a90a2] sm:block">
                         {tier.id === "full"
                           ? "Everything included"
                           : tier.id === "tutor"
@@ -1150,11 +1150,11 @@ export function EcosystemAllAccessHero({
                 })}
               </div>
 
-              <div className="mt-3 rounded-2xl border border-neutral-200 bg-[#fefbf6] px-4 py-3">
+              <div className="mt-3 rounded-2xl border border-neutral-200 bg-[#f7f8fc] px-4 py-3">
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <p className="text-sm font-medium text-[#2a1e12]">Children</p>
-                    <p className="text-[11px] text-[#8a735a]">
+                    <p className="text-sm font-medium text-[#0b1020]">Children</p>
+                    <p className="text-[11px] text-[#8a90a2]">
                       +
                       {formatUsd(
                         scholarsTierPrice(activeScholarsTier, "monthly"),
@@ -1167,19 +1167,19 @@ export function EcosystemAllAccessHero({
                       type="button"
                       onClick={() => adjustChildren(-1)}
                       disabled={scholarsCount <= 1}
-                      className="flex h-9 w-9 items-center justify-center rounded-xl bg-white text-lg text-[#2a1e12] shadow-sm ring-1 ring-neutral-200 transition hover:bg-neutral-50 disabled:opacity-40"
+                      className="flex h-9 w-9 items-center justify-center rounded-xl bg-white text-lg text-[#0b1020] shadow-sm ring-1 ring-neutral-200 transition hover:bg-neutral-50 disabled:opacity-40"
                       aria-label="Fewer Scholars children"
                     >
                       −
                     </button>
-                    <span className="min-w-[1.75rem] text-center text-xl font-semibold tabular-nums text-[#2a1e12]">
+                    <span className="min-w-[1.75rem] text-center text-xl font-semibold tabular-nums text-[#0b1020]">
                       {scholarsCount}
                     </span>
                     <button
                       type="button"
                       onClick={() => adjustChildren(1)}
                       disabled={scholarsCount >= 6}
-                      className="flex h-9 w-9 items-center justify-center rounded-xl bg-white text-lg text-[#2a1e12] shadow-sm ring-1 ring-neutral-200 transition hover:bg-neutral-50 disabled:opacity-40"
+                      className="flex h-9 w-9 items-center justify-center rounded-xl bg-white text-lg text-[#0b1020] shadow-sm ring-1 ring-neutral-200 transition hover:bg-neutral-50 disabled:opacity-40"
                       aria-label="More Scholars children"
                     >
                       +
@@ -1193,10 +1193,10 @@ export function EcosystemAllAccessHero({
           {/* All Access: compact per-app seat dropdowns */}
           {isBundle && (
             <div className="mt-3">
-              <p className="mb-2 text-center text-[11px] font-medium uppercase tracking-wider text-[#8a735a]">
+              <p className="mb-2 text-center text-[11px] font-medium uppercase tracking-wider text-[#8a90a2]">
                 Kids per app · first seat included
               </p>
-              <div className="overflow-hidden rounded-xl border border-neutral-200 bg-[#fefbf6]">
+              <div className="overflow-hidden rounded-xl border border-neutral-200 bg-[#f7f8fc]">
                 {(
                   [
                     {
@@ -1228,8 +1228,8 @@ export function EcosystemAllAccessHero({
                     }`}
                   >
                     <div className="min-w-0">
-                      <p className="text-xs font-medium text-[#2a1e12]">{seat.label}</p>
-                      <p className="text-[10px] tabular-nums text-[#8a735a]">
+                      <p className="text-xs font-medium text-[#0b1020]">{seat.label}</p>
+                      <p className="text-[10px] tabular-nums text-[#8a90a2]">
                         {seat.hint}
                       </p>
                     </div>
@@ -1238,7 +1238,7 @@ export function EcosystemAllAccessHero({
                       <select
                         value={seat.value}
                         onChange={(e) => seat.onChange(Number(e.target.value))}
-                        className="rounded-lg border border-neutral-200 bg-white px-2 py-1.5 text-xs font-semibold tabular-nums text-[#2a1e12] outline-none focus:border-neutral-400"
+                        className="rounded-lg border border-neutral-200 bg-white px-2 py-1.5 text-xs font-semibold tabular-nums text-[#0b1020] outline-none focus:border-neutral-400"
                       >
                         {Array.from(
                           { length: seat.max - seat.min + 1 },
@@ -1255,8 +1255,8 @@ export function EcosystemAllAccessHero({
 
                 <div className="flex flex-col gap-2 border-t border-neutral-200/80 px-3 py-2.5 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
                   <div className="min-w-0">
-                    <p className="text-xs font-medium text-[#2a1e12]">Scholars</p>
-                    <p className="text-[10px] tabular-nums text-[#8a735a]">
+                    <p className="text-xs font-medium text-[#0b1020]">Scholars</p>
+                    <p className="text-[10px] tabular-nums text-[#8a90a2]">
                       +
                       {creditPriceLine(bundleCreditAmount, bundleCreditPeriod)}
                       {scholarsCount > 1
@@ -1276,7 +1276,7 @@ export function EcosystemAllAccessHero({
                             ),
                           )
                         }
-                        className="rounded-lg border border-neutral-200 bg-white px-2 py-1.5 text-xs font-semibold tabular-nums text-[#2a1e12] outline-none focus:border-neutral-400"
+                        className="rounded-lg border border-neutral-200 bg-white px-2 py-1.5 text-xs font-semibold tabular-nums text-[#0b1020] outline-none focus:border-neutral-400"
                       >
                         {Array.from({ length: 5 }, (_, i) => i + 1).map((n) => (
                           <option key={n} value={n}>
@@ -1297,7 +1297,7 @@ export function EcosystemAllAccessHero({
                             ),
                           )
                         }
-                        className="rounded-lg border border-neutral-200 bg-white px-2 py-1.5 text-xs font-semibold tabular-nums text-[#2a1e12] outline-none focus:border-neutral-400"
+                        className="rounded-lg border border-neutral-200 bg-white px-2 py-1.5 text-xs font-semibold tabular-nums text-[#0b1020] outline-none focus:border-neutral-400"
                       >
                         {Array.from({ length: 12 }, (_, i) => (i + 1) * 5).map(
                           (n) => (
@@ -1320,7 +1320,7 @@ export function EcosystemAllAccessHero({
                             ),
                           )
                         }
-                        className="rounded-lg border border-neutral-200 bg-white px-2 py-1.5 text-xs font-semibold tabular-nums text-[#2a1e12] outline-none focus:border-neutral-400"
+                        className="rounded-lg border border-neutral-200 bg-white px-2 py-1.5 text-xs font-semibold tabular-nums text-[#0b1020] outline-none focus:border-neutral-400"
                       >
                         {Array.from({ length: 6 }, (_, i) => (i + 1) * 30).map(
                           (n) => (
@@ -1365,7 +1365,7 @@ export function EcosystemAllAccessHero({
           >
             {loading ? "Redirecting…" : ctaLabel}
           </button>
-          <p className={`${isBundle ? "mt-1.5" : "mt-3"} text-center text-xs text-[#8a735a]`}>
+          <p className={`${isBundle ? "mt-1.5" : "mt-3"} text-center text-xs text-[#8a90a2]`}>
             Secure checkout · Cancel anytime
           </p>
           </>

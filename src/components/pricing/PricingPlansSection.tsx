@@ -6,6 +6,7 @@ import {
   pricingPlans,
   type BillingPeriod,
 } from "@/config/pricing";
+import { getSiteApp } from "@/config/site";
 import { AppPricingCard } from "./AppPricingCard";
 import {
   activeEntitlementForApp,
@@ -72,24 +73,15 @@ export function IndividualAppsSection({
   planContext,
 }: PricingPlansSectionProps) {
   return (
-    <section id="individual-apps" className="scroll-mt-24 border-b border-neutral-100 bg-[#fefbf6]">
-      <div
-        className="absolute inset-x-0 top-0 h-1"
-        style={{
-          background:
-            "linear-gradient(90deg, #24C0FC 0%, #009CFC 25%, #E8B400 50%, #FC6C0C 75%, #248A45 100%)",
-        }}
-        aria-hidden="true"
-      />
-
-      <div className="mx-auto max-w-7xl px-4 pt-8 pb-12 sm:px-6 sm:pt-10 sm:pb-16 lg:px-8">
+    <section id="individual-apps" className="scroll-mt-24 border-y border-ink/[0.05] bg-[#f7f8fc]">
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
         {/* Compact hero */}
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between lg:gap-8">
           <div className="max-w-2xl text-center lg:text-left">
-            <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500 sm:text-sm">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand">
               {pricingHero.eyebrow}
             </p>
-            <h2 className="mt-2 text-2xl font-semibold tracking-tight text-neutral-900 sm:text-3xl">
+            <h2 className="font-display mt-3 text-3xl font-extrabold text-ink sm:text-4xl">
               {pricingHero.headline}
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-neutral-600 sm:text-base">
@@ -103,11 +95,13 @@ export function IndividualAppsSection({
         </div>
 
         {/* Plans — immediately below */}
-        <div className="mt-8 grid gap-4 sm:mt-10 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-5">
-          {pricingPlans.map((plan) => (
+        <div className="mt-8 grid gap-4 sm:mt-12 sm:grid-cols-2 sm:gap-5 xl:grid-cols-4">
+          {pricingPlans.map((plan) => {
+            const site = getSiteApp(plan.appId);
+            return (
             <AppPricingCard
               key={plan.appId}
-              plan={plan}
+              plan={site ? { ...plan, accentColor: site.color, accentColorLight: site.colorSoft } : plan}
               billingPeriod={billingPeriod}
               currentEntitlement={activeEntitlementForApp(planContext, plan.appId)}
               hasExistingPlan={planContext.entitlements.some((entitlement) =>
@@ -116,7 +110,8 @@ export function IndividualAppsSection({
                 ),
               )}
             />
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

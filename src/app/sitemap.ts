@@ -1,11 +1,16 @@
 import type { MetadataRoute } from "next";
 import { brand, listedApps } from "@/config/brand";
+import { resources } from "@/config/resources";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
     "",
+    "/products",
+    "/families",
+    "/mission",
     "/about",
     "/pricing",
+    "/resources",
     "/safety",
     "/support",
     "/contact",
@@ -25,5 +30,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.9,
   }));
 
-  return [...staticRoutes, ...appRoutes];
+  const resourceRoutes = resources.map((resource) => ({
+    url: `${brand.siteUrl}/resources/${resource.slug}`,
+    lastModified: new Date(`${resource.publishedAt}T12:00:00Z`),
+    changeFrequency: "yearly" as const,
+    priority: 0.6,
+  }));
+
+  return [...staticRoutes, ...appRoutes, ...resourceRoutes];
 }

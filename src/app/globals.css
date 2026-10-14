@@ -1,19 +1,29 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #1d1d1f;
-  --apple-blue: #0071e3;
-  --apple-blue-hover: #0077ed;
-  --apple-gray: #f5f5f7;
-  --apple-text-sub: #6e6e73;
+  --background: #fbfbfe;
+  --foreground: #0b1020;
+  --ink: #0b1020;
+  --ink-soft: #5b6275;
+  --ink-faint: #8a90a2;
+  --line: rgba(15, 23, 42, 0.08);
+  --brand-blue: #2563eb;
+  --brand-blue-hover: #1d4ed8;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display",
-    "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-brand: var(--brand-blue);
+  --font-sans: var(--font-jakarta), -apple-system, BlinkMacSystemFont,
+    "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-display: var(--font-jakarta), -apple-system, BlinkMacSystemFont,
+    "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 html {
@@ -24,14 +34,17 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
-    "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: var(--font-sans);
+  overflow-x: clip;
+}
+
+::selection {
+  background: rgba(37, 99, 235, 0.18);
 }
 
 .font-display {
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
-    "Helvetica Neue", Helvetica, Arial, sans-serif;
-  letter-spacing: -0.015em;
+  font-family: var(--font-display);
+  letter-spacing: -0.035em;
 }
 
 .scrollbar-none {
@@ -43,188 +56,368 @@ body {
   display: none;
 }
 
-/* ── Interactive study-paper hero ── */
-.paper-bg {
-  background-color: #fcf7e8;
-  background-image:
-    linear-gradient(90deg, transparent 62px, rgba(244, 132, 132, 0.55) 62px, rgba(244, 132, 132, 0.55) 64px, transparent 64px),
-    repeating-linear-gradient(#fcf7e8 0px, #fcf7e8 31px, rgba(120, 150, 200, 0.28) 32px);
-  background-attachment: local;
-}
-
-.paper-vignette {
-  background: radial-gradient(
-    120% 80% at 50% 20%,
-    transparent 55%,
-    rgba(120, 90, 40, 0.06) 100%
-  );
-}
-
-.sticker-layer {
-  will-change: transform;
-  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.sticker {
-  transform: rotate(var(--r, 0deg));
-  transition:
-    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.28s ease;
-  cursor: pointer;
-}
-
-.sticker:hover,
-.sticker:focus-visible {
-  transform: rotate(0deg) scale(1.07) translateY(-6px);
-  z-index: 30;
-  outline: none;
-}
-
-.paper-card {
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow: 0 14px 34px rgba(70, 50, 20, 0.16);
-}
-
-.washi-tape {
-  position: absolute;
-  left: 50%;
-  top: -12px;
-  height: 22px;
-  width: 74px;
-  transform: translateX(-50%) rotate(-3deg);
-  background: repeating-linear-gradient(
-    45deg,
-    rgba(250, 214, 120, 0.75),
-    rgba(250, 214, 120, 0.75) 7px,
-    rgba(245, 196, 90, 0.75) 7px,
-    rgba(245, 196, 90, 0.75) 14px
-  );
-  border-radius: 2px;
-}
-
-.app-rope-pin {
-  width: 11px;
-  height: 11px;
-  border-radius: 9999px;
-  background:
-    radial-gradient(circle at 35% 30%, #fff3d6 0 28%, transparent 32%),
-    radial-gradient(circle at 50% 55%, #e0b15c 0 55%, #8a5c28 100%);
-  box-shadow:
-    0 1px 2px rgba(60, 35, 10, 0.35),
-    0 0 0 1.5px rgba(90, 55, 20, 0.35);
-}
-
-@keyframes sticker-float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
-}
-
-.sticker-float {
-  animation: sticker-float 6s ease-in-out infinite;
-}
-
-/* ── Floating device mockups ── */
-@keyframes device-float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-16px);
-  }
-}
-
-.device-float {
-  animation: device-float 7s ease-in-out infinite;
-  will-change: transform;
-}
-
-.device {
-  transform: rotate(var(--r, 0deg));
-  transition:
-    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.45s ease;
-}
-
-.device:hover {
-  transform: rotate(0deg) scale(1.04);
-}
-
-.phone-frame {
-  border-radius: 2.4rem;
-  background: linear-gradient(160deg, #2a2a2e, #0c0c0e);
-  padding: 9px;
-  box-shadow:
-    0 34px 60px -20px rgba(20, 20, 40, 0.45),
-    0 8px 20px -8px rgba(20, 20, 40, 0.3),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
-}
-
-.phone-screen {
-  position: relative;
-  overflow: hidden;
-  border-radius: 1.85rem;
-  background: #fff;
-}
-
-.phone-notch {
-  position: absolute;
-  top: 8px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 5;
-  height: 22px;
-  width: 82px;
-  border-radius: 999px;
-  background: #0c0c0e;
-}
-
-.tablet-frame {
-  position: relative;
-  border-radius: 1.35rem;
-  background: linear-gradient(160deg, #2a2a2e, #0c0c0e);
-  padding: 12px;
-  box-shadow:
-    0 34px 60px -20px rgba(20, 20, 40, 0.45),
-    0 8px 20px -8px rgba(20, 20, 40, 0.3),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
-}
-
-.tablet-screen {
-  position: relative;
-  overflow: hidden;
-  border-radius: 0.65rem;
-  background: #fff;
-}
-
-.tablet-camera {
-  position: absolute;
-  top: 5px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 5;
-  height: 6px;
-  width: 6px;
-  border-radius: 999px;
-  background: #1a1a1e;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
-}
-
-@keyframes hero-rise {
+/* ── Page transition ── */
+@keyframes page-in {
   from {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* `backwards` so no transform lingers — a persistent transform would break
+   position: fixed/sticky descendants such as checkout modals. */
+.page-enter {
+  animation: page-in 0.6s var(--ease-out) backwards;
+}
+
+/* ── Scroll reveal ── */
+.reveal {
+  opacity: 0;
+  transition:
+    opacity 0.8s var(--ease-out),
+    transform 0.9s var(--ease-out),
+    filter 0.8s var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.reveal[data-dir="up"] {
+  transform: translateY(28px);
+}
+.reveal[data-dir="down"] {
+  transform: translateY(-20px);
+}
+.reveal[data-dir="left"] {
+  transform: translateX(-32px);
+}
+.reveal[data-dir="right"] {
+  transform: translateX(32px);
+}
+.reveal[data-dir="scale"] {
+  transform: scale(0.94);
+}
+.reveal[data-dir="blur"] {
+  transform: translateY(16px);
+  filter: blur(10px);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* ── Ambient gradient blobs ── */
+@keyframes blob-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+  }
+  33% {
+    transform: translate3d(4%, -6%, 0) scale(1.08) rotate(8deg);
+  }
+  66% {
+    transform: translate3d(-5%, 4%, 0) scale(0.95) rotate(-6deg);
+  }
+}
+
+.blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(60px);
+  opacity: 0.55;
+  animation: blob-drift var(--blob-speed, 18s) ease-in-out infinite;
+  animation-delay: var(--blob-delay, 0s);
+  will-change: transform;
+  pointer-events: none;
+}
+
+/* ── Floating ── */
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(var(--float-distance, -12px));
+  }
+}
+
+.float {
+  animation: float-y var(--float-speed, 6s) ease-in-out infinite;
+  animation-delay: var(--float-delay, 0s);
+  will-change: transform;
+}
+
+/* ── Marquee ── */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--marquee-speed, 40s) linear infinite;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.marquee-mask {
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+/* ── Interactive surfaces ── */
+.lift {
+  transition:
+    transform 0.5s var(--ease-out),
+    box-shadow 0.5s var(--ease-out),
+    border-color 0.3s ease;
+}
+
+.lift:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 30px 60px -28px rgba(15, 23, 42, 0.28);
+}
+
+.press {
+  transition: transform 0.2s var(--ease-out);
+}
+
+.press:active {
+  transform: scale(0.97);
+}
+
+/* Light sweep across buttons on hover */
+.shine {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    110deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.35) 50%,
+    transparent 70%
+  );
+  transform: translateX(-120%);
+  transition: transform 0.8s var(--ease-out);
+}
+
+.shine:hover::after {
+  transform: translateX(120%);
+}
+
+/* Spotlight that follows the pointer (set --mx/--my via JS) */
+.spotlight {
+  position: relative;
+}
+
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    420px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(255, 255, 255, 0.55),
+    transparent 45%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.spotlight:hover::before {
+  opacity: 1;
+}
+
+/* ── Motion used inside coded app screens ── */
+@keyframes draw-line {
+  from {
+    stroke-dashoffset: var(--dash, 600);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.draw {
+  stroke-dasharray: var(--dash, 600);
+  stroke-dashoffset: var(--dash, 600);
+  animation: draw-line 2.2s var(--ease-out) forwards;
+  animation-delay: var(--draw-delay, 0.3s);
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rise {
+  animation: rise-in 0.7s var(--ease-out) both;
+  animation-delay: var(--rise-delay, 0s);
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+.pulse-ring {
+  animation: pulse-ring 2.4s var(--ease-out) infinite;
+}
+
+.orbit {
+  --orbit-r: 50cqw;
+  container-type: inline-size;
+  animation: orbit-spin 48s linear infinite;
+}
+
+.orbit-counter {
+  animation: orbit-spin 48s linear infinite reverse;
+}
+
+.orbit:hover,
+.orbit:hover .orbit-counter {
+  animation-play-state: paused;
+}
+
+@keyframes orbit-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes bar-grow {
+  from {
+    transform: scaleY(0.1);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+.bar-grow {
+  transform-origin: bottom;
+  animation: bar-grow 1.2s var(--ease-out) both;
+  animation-delay: var(--bar-delay, 0s);
+}
+
+@keyframes bar-grow-x {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.bar-grow-x {
+  transform-origin: left;
+  animation: bar-grow-x 1.4s var(--ease-out) both;
+  animation-delay: var(--bar-delay, 0s);
+}
+
+/* Screen choreography waits until its container scrolls into view. */
+.play-on-view :is(.rise, .draw, .bar-grow, .bar-grow-x) {
+  animation-play-state: paused;
+}
+
+.play-on-view.is-playing :is(.rise, .draw, .bar-grow, .bar-grow-x) {
+  animation-play-state: running;
+}
+
+@keyframes gradient-pan {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@layer base {
+  .gradient-text {
+    background-image: linear-gradient(100deg, #2563eb, #7c3aed 35%, #db2777 65%, #f97316);
+  }
+}
+
+.gradient-text {
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-pan 8s ease-in-out infinite;
+}
+
+/* ── Device frame ── */
+.phone {
+  border-radius: 2.6rem;
+  background: linear-gradient(160deg, #23252b, #050608);
+  padding: 9px;
+  box-shadow:
+    0 50px 80px -30px rgba(15, 23, 42, 0.45),
+    0 18px 30px -18px rgba(15, 23, 42, 0.35),
+    inset 0 0 0 1.5px rgba(255, 255, 255, 0.09);
+}
+
+.phone-screen {
+  position: relative;
+  overflow: hidden;
+  border-radius: 2.05rem;
+  background: #fff;
+}
+
+.phone-island {
+  position: absolute;
+  top: 9px;
+  left: 50%;
+  z-index: 20;
+  height: 22px;
+  width: 78px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: #050608;
+}
+
+/* ── Legacy pricing surfaces (kept for the live checkout panels) ── */
+.paper-bg {
+  background-color: #fbfbfe;
+}
+
+.paper-vignette {
+  background: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -234,5 +427,16 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+
+  .draw {
+    stroke-dashoffset: 0;
   }
 }

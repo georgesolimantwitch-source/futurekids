@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { CinematicHome } from "@/components/home/CinematicHome";
+import { HomePage as HomeContent } from "@/components/marketing/HomePage";
 import { brand } from "@/config/brand";
 
 export const metadata: Metadata = {
@@ -25,5 +25,5 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  return <CinematicHome />;
+  return <HomeContent />;
 }
