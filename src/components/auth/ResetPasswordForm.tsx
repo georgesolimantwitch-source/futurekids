@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { AuthField, AuthShell } from "./AuthShell";
+import { AuthField, AuthShell, authButtonClass } from "./AuthShell";
 import { PasswordInput } from "./PasswordInput";
 
 export function ResetPasswordForm() {
@@ -74,7 +74,7 @@ export function ResetPasswordForm() {
         <button
           type="submit"
           disabled={loading}
-          className="flex w-full items-center justify-center rounded-full bg-neutral-900 px-6 py-3.5 text-sm font-medium text-white transition hover:bg-neutral-800 disabled:opacity-60"
+          className={authButtonClass}
         >
           {loading ? "Updating…" : "Update password"}
         </button>

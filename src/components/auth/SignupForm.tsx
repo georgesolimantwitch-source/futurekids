@@ -9,7 +9,7 @@ import { metadataForAccountType, persistSignupAccountType } from "@/lib/auth/sig
 import { createClient } from "@/lib/supabase/client";
 import { AppleAuthButton } from "./AppleAuthButton";
 import { AuthDivider, GoogleAuthButton } from "./GoogleAuthButton";
-import { AuthField, AuthLink, AuthShell, authInputClass } from "./AuthShell";
+import { AuthField, AuthLink, AuthShell, authButtonClass, authInputClass } from "./AuthShell";
 import { PasswordInput } from "./PasswordInput";
 
 /** Genlyn website signup is parent/family accounts only. */
@@ -84,8 +84,8 @@ export function SignupForm() {
         </>
       }
     >
-      <div className="rounded-2xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-sm text-neutral-600">
-        <p className="font-medium text-neutral-900">Family account</p>
+      <div className="rounded-2xl bg-[#f7f8fc] px-4 py-3.5 text-sm text-ink-soft ring-1 ring-ink/[0.06]">
+        <p className="font-bold text-ink">Family account</p>
         <p className="mt-1 leading-relaxed">
           Manage kids, Kids Login usernames, and subscriptions for Earnly, Scholars Notes, Ballr,
           and Freshys from one place.
@@ -104,7 +104,7 @@ export function SignupForm() {
           accountType={WEB_ACCOUNT_TYPE}
         />
       </div>
-      <p className="mt-3 text-center text-xs text-neutral-500">
+      <p className="mt-3 text-center text-xs text-ink-faint">
         By continuing with Apple or Google, you agree to our{" "}
         <Link href="/terms" className="underline underline-offset-2">
           Terms
@@ -167,7 +167,7 @@ export function SignupForm() {
           />
         </AuthField>
 
-        <label className="flex items-start gap-3 text-sm text-neutral-600">
+        <label className="flex items-start gap-3 text-sm font-semibold text-ink-soft">
           <input
             type="checkbox"
             checked={agreed}
@@ -197,7 +197,7 @@ export function SignupForm() {
         <button
           type="submit"
           disabled={loading}
-          className="flex w-full items-center justify-center rounded-full bg-neutral-900 px-6 py-3.5 text-sm font-medium text-white transition hover:bg-neutral-800 disabled:opacity-60"
+          className={authButtonClass}
         >
           {loading ? "Creating account…" : "Create family account"}
         </button>

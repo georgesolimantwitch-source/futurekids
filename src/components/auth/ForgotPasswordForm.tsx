@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { buildOAuthCallbackUrl } from "@/lib/auth/redirect";
 import { createClient } from "@/lib/supabase/client";
-import { AuthField, AuthLink, AuthShell, authInputClass } from "./AuthShell";
+import { AuthField, AuthLink, AuthShell, authButtonClass, authInputClass } from "./AuthShell";
 
 export function ForgotPasswordForm() {
   const [email, setEmail] = useState("");
@@ -42,7 +42,7 @@ export function ForgotPasswordForm() {
       }
     >
       {sent ? (
-        <p className="text-sm leading-relaxed text-neutral-600">
+        <p className="text-sm leading-relaxed text-ink-soft">
           If an account exists for <strong>{email}</strong>, you will receive a password reset
           email shortly.
         </p>
@@ -69,7 +69,7 @@ export function ForgotPasswordForm() {
           <button
             type="submit"
             disabled={loading}
-            className="flex w-full items-center justify-center rounded-full bg-neutral-900 px-6 py-3.5 text-sm font-medium text-white transition hover:bg-neutral-800 disabled:opacity-60"
+            className={authButtonClass}
           >
             {loading ? "Sending…" : "Send reset link"}
           </button>

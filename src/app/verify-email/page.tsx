@@ -12,7 +12,7 @@ export default function VerifyEmailPage() {
         </>
       }
     >
-      <div className="space-y-4 text-sm leading-relaxed text-neutral-600">
+      <div className="space-y-4 text-sm leading-relaxed text-ink-soft">
         <p>Check your spam folder if you do not see the email within a few minutes.</p>
         <p>
           Once verified, your Genlyn account will work across Earnly, Scholars Notes, Ballr,

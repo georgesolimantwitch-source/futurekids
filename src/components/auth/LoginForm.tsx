@@ -6,7 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import { safeNextPath } from "@/lib/auth/safe-next";
 import { AppleAuthButton } from "./AppleAuthButton";
 import { AuthDivider, GoogleAuthButton } from "./GoogleAuthButton";
-import { AuthField, AuthLink, AuthShell, authInputClass } from "./AuthShell";
+import { AuthField, AuthLink, AuthShell, authButtonClass, authInputClass } from "./AuthShell";
 import { PasswordInput } from "./PasswordInput";
 
 export function LoginForm() {
@@ -93,7 +93,7 @@ export function LoginForm() {
         </AuthField>
 
         <div className="flex items-center justify-between gap-4 text-sm">
-          <label className="flex items-center gap-2 text-neutral-600">
+          <label className="flex items-center gap-2 font-semibold text-ink-soft">
             <input
               type="checkbox"
               checked={remember}
@@ -114,7 +114,7 @@ export function LoginForm() {
         <button
           type="submit"
           disabled={loading}
-          className="flex w-full items-center justify-center rounded-full bg-neutral-900 px-6 py-3.5 text-sm font-medium text-white transition hover:bg-neutral-800 disabled:opacity-60"
+          className={authButtonClass}
         >
           {loading ? "Signing in…" : "Sign in"}
         </button>

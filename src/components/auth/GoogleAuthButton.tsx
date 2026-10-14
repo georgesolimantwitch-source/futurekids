@@ -36,7 +36,7 @@ export function AuthDivider() {
         <div className="w-full border-t border-neutral-200" />
       </div>
       <div className="relative flex justify-center">
-        <span className="bg-white px-3 text-xs font-medium uppercase tracking-wider text-neutral-400">
+        <span className="bg-white px-3 text-xs font-bold uppercase tracking-[0.16em] text-ink-faint">
           or
         </span>
       </div>
@@ -89,7 +89,7 @@ export function GoogleAuthButton({
         type="button"
         onClick={handleGoogleSignIn}
         disabled={loading}
-        className="flex w-full items-center justify-center gap-3 rounded-full border border-neutral-200 bg-white px-6 py-3.5 text-sm font-medium text-neutral-800 transition hover:border-neutral-300 hover:bg-neutral-50 disabled:opacity-60"
+        className="press flex w-full items-center justify-center gap-3 rounded-full bg-white px-6 py-3.5 text-sm font-bold text-ink ring-1 ring-ink/10 transition hover:ring-ink/25 disabled:opacity-60"
       >
         <GoogleIcon />
         {loading ? "Redirecting to Google…" : label}

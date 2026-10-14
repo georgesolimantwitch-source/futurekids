@@ -57,7 +57,7 @@ export function AppleAuthButton({
         type="button"
         onClick={handleAppleSignIn}
         disabled={loading}
-        className="flex w-full items-center justify-center gap-3 rounded-full bg-neutral-900 px-6 py-3.5 text-sm font-medium text-white transition hover:bg-neutral-800 disabled:opacity-60"
+        className="shine press flex w-full items-center justify-center gap-3 rounded-full bg-ink px-6 py-3.5 text-sm font-bold text-white transition hover:bg-black disabled:opacity-60"
       >
         <AppleIcon className="h-5 w-5 text-white" />
         {loading ? "Redirecting to Apple…" : label}
