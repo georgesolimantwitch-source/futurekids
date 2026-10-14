@@ -35,12 +35,16 @@ export const missionSection = {
       description: "Encourage balance, activity, and wellbeing — not endless scrolling.",
     },
     {
+      title: "Active",
+      description: "Get kids moving with real games, training, and teammates close to home.",
+    },
+    {
       title: "Successful",
       description: "Build money skills, study habits, and confidence that lasts.",
     },
     {
       title: "Experienced",
-      description: "Get kids into real games, real practice, and real communities.",
+      description: "Give them practice in the real world — saving, studying, and showing up.",
     },
   ],
 };

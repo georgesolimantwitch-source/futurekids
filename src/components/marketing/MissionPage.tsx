@@ -17,8 +17,9 @@ const cardSlug: Record<string, FeaturedSlug> = {
 
 const commitmentStyle: { icon: IconName; gradient: string }[] = [
   { icon: "heart-pulse", gradient: "linear-gradient(140deg,#22c55e,#0ea5e9)" },
+  { icon: "activity", gradient: "linear-gradient(140deg,#fb923c,#f4511e)" },
   { icon: "trophy", gradient: "linear-gradient(140deg,#6366f1,#a855f7)" },
-  { icon: "compass", gradient: "linear-gradient(140deg,#f97316,#ec4899)" },
+  { icon: "compass", gradient: "linear-gradient(140deg,#3b82f6,#2563eb)" },
 ];
 
 export function MissionPage() {
@@ -82,8 +83,8 @@ export function MissionPage() {
       </Section>
 
       <Section>
-        <SectionHeading eyebrow="What we stand for" eyebrowColor="#7c3aed" title="Three promises to every family." />
-        <div className="mt-14 grid gap-5 md:grid-cols-3">
+        <SectionHeading eyebrow="What we stand for" eyebrowColor="#7c3aed" title="Four promises to every family." />
+        <div className="mt-14 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
           {missionSection.commitments.map((item, index) => (
             <Reveal key={item.title} delay={index * 110}>
               <Tilt max={6} className="h-full rounded-[30px]">
