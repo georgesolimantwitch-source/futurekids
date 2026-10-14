@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
+import { brandWash } from "@/config/site";
 import { Icon, type IconName } from "./Icon";
 import { PlayOnView, Reveal } from "./motion";
 
@@ -52,11 +53,11 @@ export function Eyebrow({
 
 /** Soft drifting color fields behind a section. */
 export function Blobs({
-  colors,
+  colors = [...brandWash],
   className = "",
   intensity = 0.55,
 }: {
-  colors: string[];
+  colors?: readonly string[];
   className?: string;
   intensity?: number;
 }) {

@@ -53,7 +53,7 @@ export default async function ResourcePage({ params }: ResourcePageProps) {
 
   return (
     <>
-      <PageHero colors={app ? [...app.glow, "#ffffff"] : ["#fbcfe8", "#c4b5fd", "#bfdbfe", "#ffffff"]} intensity={0.6}>
+      <PageHero intensity={0.6}>
         <Container className="max-w-4xl! pb-12 pt-10 lg:pt-14">
           <Reveal>
             <Link

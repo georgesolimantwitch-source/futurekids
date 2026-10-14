@@ -159,7 +159,7 @@ export function ScrollWords({ text, className = "" }: { text: string; className?
 export function EcosystemOrbit() {
   return (
     <div className="relative mx-auto aspect-square w-full max-w-[460px]">
-      <div aria-hidden className="absolute inset-[12%] rounded-full bg-[conic-gradient(from_90deg,#bbf7d0,#fed7aa,#bfdbfe,#ddd6fe,#bbf7d0)] opacity-70 blur-3xl" />
+      <div aria-hidden className="brand-glow absolute inset-[12%] rounded-full opacity-70 blur-3xl" />
       <div aria-hidden className="absolute inset-[6%] rounded-full border border-dashed border-ink/10" />
       <div aria-hidden className="absolute inset-[24%] rounded-full border border-ink/[0.06]" />
       <div className="absolute inset-0 flex items-center justify-center">

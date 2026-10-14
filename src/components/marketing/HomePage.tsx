@@ -31,7 +31,7 @@ export function HomePage() {
 
   return (
     <>
-      <PageHero colors={["#ddd6fe", "#bfdbfe", "#fbcfe8", "#bbf7d0"]} intensity={0.7}>
+      <PageHero intensity={0.7}>
         <Container className="grid items-center gap-14 pb-16 pt-12 lg:grid-cols-[1.02fr_1fr] lg:pb-24 lg:pt-20">
           <div>
             <Reveal>
@@ -44,7 +44,7 @@ export function HomePage() {
                 Raise Kids
                 <br />
                 Ready for{" "}
-                <span className="gradient-text bg-[linear-gradient(90deg,#7c3aed,#2563eb,#16a34a,#7c3aed)]">Life.</span>
+                <span className="gradient-text">Life.</span>
               </h1>
             </Reveal>
             <Reveal delay={180}>
@@ -239,7 +239,7 @@ function HeroCollage() {
   const [freshys, ballr, scholars, earnly] = siteApps;
   return (
     <Reveal dir="scale" delay={150} className="relative mx-auto w-full max-w-[560px]">
-      <div aria-hidden className="absolute inset-[-8%] rounded-full bg-[conic-gradient(from_120deg,#c4b5fd,#93c5fd,#86efac,#fdba74,#f9a8d4,#c4b5fd)] opacity-60 blur-3xl" />
+      <div aria-hidden className="brand-glow absolute inset-[-8%] rounded-full opacity-60 blur-3xl" />
       <div className="relative aspect-[1/1.02]">
         <div className="absolute left-0 top-[6%] w-[72%] overflow-hidden rounded-[34px] shadow-[0_40px_80px_-35px_rgba(15,23,42,0.55)] ring-4 ring-white/70">
           <Parallax speed={-0.05}>

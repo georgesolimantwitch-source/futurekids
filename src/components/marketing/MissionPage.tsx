@@ -24,7 +24,7 @@ const commitmentStyle: { icon: IconName; gradient: string }[] = [
 export function MissionPage() {
   return (
     <>
-      <PageHero colors={["#a7f3d0", "#c4b5fd", "#fed7aa", "#ffffff"]}>
+      <PageHero>
         <Container className="pb-24 pt-14 text-center lg:pt-20">
           <Reveal>
             <Eyebrow color="#16a34a" icon="compass">
@@ -119,7 +119,7 @@ export function MissionPage() {
               <div key={card.id} className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
                 <Reveal dir={flipped ? "right" : "left"} className={flipped ? "lg:order-2" : ""}>
                   <div className="relative">
-                    <div aria-hidden className="absolute inset-[6%] rounded-[40px] blur-3xl" style={{ background: app.gradient, opacity: 0.3 }} />
+                    <div aria-hidden className="brand-glow absolute inset-[6%] rounded-[40px] opacity-30 blur-3xl" />
                     {card.id === "food" ? (
                       <div
                         className="relative flex aspect-[4/3] items-end justify-center overflow-hidden rounded-[32px] ring-1 ring-ink/5"

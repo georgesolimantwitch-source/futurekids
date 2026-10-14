@@ -40,7 +40,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
 
   return (
     <>
-      <PageHero colors={["#bfdbfe", "#c4b5fd", "#a7f3d0", "#ffffff"]} intensity={0.7}>
+      <PageHero intensity={0.7}>
         <Container className="pb-14 pt-14 text-center lg:pt-20">
           <Reveal>
             <Eyebrow color="#2563eb" icon="message">

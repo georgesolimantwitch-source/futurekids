@@ -14,7 +14,7 @@ const outcomes = cinematicHero.outcomes.filter((outcome) => outcome !== "Safe me
 export function AboutPage() {
   return (
     <>
-      <PageHero colors={["#bfdbfe", "#ddd6fe", "#bbf7d0", "#ffffff"]}>
+      <PageHero>
         <Container className="grid items-center gap-14 pb-16 pt-10 lg:grid-cols-[1.05fr_1fr] lg:pt-16">
           <div>
             <Reveal>

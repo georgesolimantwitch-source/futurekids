@@ -15,18 +15,16 @@ import {
 /** Hero wrapper that slides under the transparent sticky header. */
 export function PageHero({
   children,
-  colors,
   className = "",
   intensity,
 }: {
   children: ReactNode;
-  colors: string[];
   className?: string;
   intensity?: number;
 }) {
   return (
     <section className={`relative -mt-[68px] overflow-hidden pt-[68px] ${className}`}>
-      <Blobs colors={colors} intensity={intensity} />
+      <Blobs intensity={intensity} />
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(rgba(15,23,42,0.06)_1px,transparent_1px)] [background-size:22px_22px] [mask-image:linear-gradient(to_bottom,black,transparent_75%)]"

@@ -367,9 +367,13 @@ body {
   }
 }
 
+.brand-glow {
+  background: conic-gradient(from 140deg, #bbf7d0, #fed7aa, #bfdbfe, #ddd6fe, #bbf7d0);
+}
+
 @layer base {
   .gradient-text {
-    background-image: linear-gradient(100deg, #2563eb, #7c3aed 35%, #db2777 65%, #f97316);
+    background-image: linear-gradient(100deg, #16a34a, #2563eb 34%, #7c3aed 67%, #f4511e);
   }
 }
 

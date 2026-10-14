@@ -847,7 +847,7 @@ export function EcosystemAllAccessHero({
   return (
     <>
     <section id="top" className="relative -mt-[68px] overflow-hidden pt-[68px] text-[#0b1020]">
-      <Blobs colors={["#c4b5fd", "#93c5fd", "#bbf7d0", "#fed7aa"]} intensity={0.7} />
+      <Blobs intensity={0.7} />
 
       <div className="relative mx-auto max-w-4xl px-4 pb-16 pt-12 sm:px-6 sm:pb-20 sm:pt-16 lg:px-8">
         <div className="text-center">

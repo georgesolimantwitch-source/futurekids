@@ -19,7 +19,7 @@ export function FamiliesPage() {
 
   return (
     <>
-      <PageHero colors={["#c4b5fd", "#93c5fd", "#fbcfe8", "#ffffff"]}>
+      <PageHero>
         <Container className="grid items-center gap-14 pb-24 pt-10 lg:grid-cols-[1fr_1.05fr] lg:pt-16">
           <div>
             <Reveal>
@@ -53,7 +53,7 @@ export function FamiliesPage() {
           </div>
 
           <Reveal dir="scale" delay={120} className="relative mx-auto w-full max-w-[560px]">
-            <div aria-hidden className="absolute inset-[-6%] rounded-full bg-[conic-gradient(from_200deg,#ddd6fe,#bfdbfe,#fbcfe8,#ddd6fe)] opacity-70 blur-3xl" />
+            <div aria-hidden className="brand-glow absolute inset-[-6%] rounded-full opacity-70 blur-3xl" />
             <div className="relative overflow-hidden rounded-[36px] shadow-[0_40px_80px_-40px_rgba(15,23,42,0.55)] ring-4 ring-white/70">
               <Parallax speed={-0.05}>
                 <Image

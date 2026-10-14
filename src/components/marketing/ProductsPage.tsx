@@ -9,7 +9,7 @@ import { PageHero, ProductGrid, Section, StepCards } from "./shared";
 export function ProductsPage() {
   return (
     <>
-      <PageHero colors={["#ddd6fe", "#bbf7d0", "#fed7aa", "#bfdbfe"]} intensity={0.6}>
+      <PageHero intensity={0.6}>
         <Container className="pb-16 pt-14 text-center sm:pt-20">
           <Reveal>
             <Eyebrow color="#7c3aed">Our products</Eyebrow>

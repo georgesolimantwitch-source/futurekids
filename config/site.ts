@@ -120,6 +120,12 @@ const presentation: Record<
 
 export const featuredOrder: FeaturedSlug[] = ["fresher", "ballr", "scholars", "earnly"];
 
+/**
+ * Soft pastels of the four logo colors — Freshys green, Ballr orange,
+ * Scholars blue, Earnly purple. Every page background uses this same mix.
+ */
+export const brandWash = ["#bfdbfe", "#fed7aa", "#ddd6fe", "#bbf7d0"] as const;
+
 function priceFromLabel(slug: FeaturedSlug): string {
   const plan = getPricingPlan(slug);
   if (!plan) return "";

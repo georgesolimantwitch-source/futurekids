@@ -49,7 +49,7 @@ export function Footer() {
         <FooterCta>
         <Reveal dir="scale">
           <div className="relative overflow-hidden rounded-[36px] bg-ink px-8 py-14 text-white sm:px-14 sm:py-16">
-            <Blobs colors={["#7c3aed", "#2563eb", "#16a34a", "#f4511e"]} intensity={0.45} />
+            <Blobs intensity={0.55} />
             <div className="relative flex flex-col items-start justify-between gap-10 lg:flex-row lg:items-center">
               <div className="max-w-xl">
                 <div className="flex -space-x-2">

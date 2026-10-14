@@ -33,7 +33,7 @@ export function AppPage({ app }: { app: SiteApp }) {
 
   return (
     <>
-      <PageHero colors={[...app.glow, "#ffffff"]} intensity={0.75}>
+      <PageHero intensity={0.75}>
         <Container className="grid items-center gap-14 pb-14 pt-10 lg:grid-cols-[1fr_1.05fr] lg:pt-16">
           <div>
             <Reveal>
@@ -218,7 +218,7 @@ function HeroVisual({ app }: { app: SiteApp }) {
 
   return (
     <Reveal dir="scale" delay={120} className="relative mx-auto w-full max-w-[540px]">
-      <div aria-hidden className="absolute inset-[6%] rounded-full blur-3xl" style={{ background: app.gradient, opacity: 0.35 }} />
+      <div aria-hidden className="brand-glow absolute inset-[6%] rounded-full opacity-35 blur-3xl" />
       <div className="relative aspect-[1/1.3] sm:aspect-[1/1.05]">
         {backdrop ? (
           <div className="absolute bottom-[8%] left-0 w-[70%] overflow-hidden rounded-[32px] shadow-[0_40px_80px_-40px_rgba(15,23,42,0.6)] ring-4 ring-white/70">
@@ -312,7 +312,7 @@ function ProduceOrbit() {
 function ScholarsVisual({ app }: { app: SiteApp }) {
   return (
     <Reveal dir="scale" delay={120} className="relative mx-auto w-full max-w-[560px]">
-      <div aria-hidden className="absolute inset-[4%] rounded-full blur-3xl" style={{ background: app.gradient, opacity: 0.3 }} />
+      <div aria-hidden className="brand-glow absolute inset-[4%] rounded-full opacity-30 blur-3xl" />
       <div className="relative aspect-[1/0.95]">
         <div className="absolute inset-x-[6%] inset-y-[8%] overflow-hidden rounded-[36px] shadow-[0_40px_80px_-40px_rgba(15,23,42,0.6)] ring-4 ring-white/70">
           <Parallax speed={-0.05} className="h-full">

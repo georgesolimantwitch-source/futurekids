@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 export default function ResourcesPage() {
   return (
     <>
-      <PageHero colors={["#fbcfe8", "#c4b5fd", "#bfdbfe", "#ffffff"]} intensity={0.7}>
+      <PageHero intensity={0.7}>
         <Container className="pb-12 pt-14 text-center lg:pt-20">
           <Reveal>
             <Eyebrow color="#db2777" icon="book">
