@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { PasswordInput } from "@/components/auth/PasswordInput";
 import { apps, isAppListed } from "@/config/brand";
+import { getSiteApp } from "@/config/site";
 import { KID_APPS, type KidAppKey, type KidSummary } from "@/lib/kids/types";
 
 type CreditBalance = { generations: number; tutor_minutes: number };
@@ -18,7 +19,7 @@ const APP_META = KID_APPS.filter((appKey) => {
     appKey,
     name: brandApp.name,
     icon: brandApp.iconPath,
-    accent: brandApp.accentColor,
+    accent: getSiteApp(appKey)?.color ?? brandApp.accentColor,
   };
 });
 
@@ -282,11 +283,11 @@ export function FamilyKidsSection() {
   ).length;
 
   return (
-    <div className="mt-6 overflow-hidden rounded-[2rem] border border-neutral-200/80 bg-white shadow-sm">
-      <div className="flex flex-col gap-4 border-b border-neutral-100 bg-[#fefbf6] px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
+    <div className="mt-6 overflow-hidden rounded-[28px] bg-white shadow-[0_30px_60px_-40px_rgba(15,23,42,0.45)] ring-1 ring-ink/5">
+      <div className="flex flex-col gap-4 border-b border-ink/5 bg-[#f7f8fc] px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-sm font-medium text-neutral-900">Kids on this account</p>
-          <p className="mt-1 max-w-2xl text-sm text-neutral-600">
+          <p className="text-sm font-bold text-ink">Kids on this account</p>
+          <p className="mt-1 max-w-2xl text-sm text-ink-soft">
             Add kids any time — a subscription isn&apos;t required. A kid can only
             sign in to an app once you have an active plan for it and switch that
             app on for them.
@@ -295,7 +296,7 @@ export function FamilyKidsSection() {
         <button
           type="button"
           onClick={() => setShowCreate((v) => !v)}
-          className="inline-flex shrink-0 rounded-full bg-neutral-950 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-neutral-800"
+          className="inline-flex h-11 shrink-0 items-center rounded-full bg-ink px-5 text-sm font-bold text-white transition hover:bg-black"
         >
           {showCreate ? "Cancel" : "Add kid"}
         </button>
@@ -312,27 +313,27 @@ export function FamilyKidsSection() {
           <form
             onSubmit={handleCreate}
             autoComplete="off"
-            className="space-y-4 rounded-2xl border border-neutral-200 bg-[#fefbf6] p-5"
+            className="space-y-4 rounded-[24px] bg-[#f7f8fc] p-5 ring-1 ring-ink/5"
           >
-            <p className="text-xs text-neutral-600">
+            <p className="text-xs text-ink-soft">
               New kids start with every app switched off. Turn on the apps you
               want them to use once they&apos;re added.
             </p>
             <div className="grid gap-3 sm:grid-cols-2">
               <label className="block text-sm">
-                <span className="font-medium text-neutral-800">Child name</span>
+                <span className="font-medium text-ink">Child name</span>
                 <input
                   required
                   name="child_full_name"
                   autoComplete="off"
                   value={form.full_name}
                   onChange={(e) => setForm((f) => ({ ...f, full_name: e.target.value }))}
-                  className="mt-1.5 w-full rounded-xl border border-neutral-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-neutral-400"
+                  className="mt-1.5 w-full rounded-2xl bg-white px-4 py-3 text-sm text-ink outline-none ring-1 ring-ink/[0.06] transition focus:ring-2 focus:ring-brand/40"
                   placeholder="Alex"
                 />
               </label>
               <label className="block text-sm">
-                <span className="font-medium text-neutral-800">Username</span>
+                <span className="font-medium text-ink">Username</span>
                 <input
                   required
                   name="child_username"
@@ -346,12 +347,12 @@ export function FamilyKidsSection() {
                   data-lpignore="true"
                   value={form.username}
                   onChange={(e) => setForm((f) => ({ ...f, username: e.target.value }))}
-                  className="mt-1.5 w-full rounded-xl border border-neutral-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-neutral-400"
+                  className="mt-1.5 w-full rounded-2xl bg-white px-4 py-3 text-sm text-ink outline-none ring-1 ring-ink/[0.06] transition focus:ring-2 focus:ring-brand/40"
                   placeholder="alexplays"
                 />
               </label>
               <label className="block text-sm">
-                <span className="font-medium text-neutral-800">Password</span>
+                <span className="font-medium text-ink">Password</span>
                 <div className="mt-1.5">
                   <PasswordInput
                     id="child_password"
@@ -362,12 +363,12 @@ export function FamilyKidsSection() {
                     required
                     minLength={8}
                     placeholder="Letter + number, 8+ chars"
-                    className="w-full rounded-xl border border-neutral-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-neutral-400"
+                    className="w-full rounded-2xl bg-white px-4 py-3 text-sm text-ink outline-none ring-1 ring-ink/[0.06] transition focus:ring-2 focus:ring-brand/40"
                   />
                 </div>
               </label>
               <label className="block text-sm">
-                <span className="font-medium text-neutral-800">Date of birth</span>
+                <span className="font-medium text-ink">Date of birth</span>
                 <input
                   required
                   name="child_date_of_birth"
@@ -377,12 +378,12 @@ export function FamilyKidsSection() {
                   onChange={(e) =>
                     setForm((f) => ({ ...f, date_of_birth: e.target.value }))
                   }
-                  className="mt-1.5 w-full rounded-xl border border-neutral-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-neutral-400"
+                  className="mt-1.5 w-full rounded-2xl bg-white px-4 py-3 text-sm text-ink outline-none ring-1 ring-ink/[0.06] transition focus:ring-2 focus:ring-brand/40"
                 />
               </label>
             </div>
 
-            <label className="flex items-start gap-3 text-sm text-neutral-600">
+            <label className="flex items-start gap-3 text-sm text-ink-soft">
               <input
                 type="checkbox"
                 checked={form.confirmed}
@@ -396,7 +397,7 @@ export function FamilyKidsSection() {
             <button
               type="submit"
               disabled={creating}
-              className="rounded-full bg-neutral-950 px-5 py-2.5 text-sm font-medium text-white disabled:opacity-60"
+              className="shine press rounded-full bg-ink px-5 py-2.5 text-sm font-bold text-white transition hover:bg-black disabled:opacity-60"
             >
               {creating ? "Adding…" : "Add kid"}
             </button>
@@ -404,9 +405,9 @@ export function FamilyKidsSection() {
         )}
 
         {scholarsAvailable && (
-          <p className="rounded-xl border border-neutral-200 bg-[#f5f5f7] px-4 py-3 text-sm text-neutral-700">
+          <p className="rounded-2xl bg-[#f7f8fc] px-4 py-3 text-sm text-ink-soft ring-1 ring-ink/5">
             Scholars seats:{" "}
-            <span className="font-semibold tabular-nums text-neutral-950">
+            <span className="font-semibold tabular-nums text-ink">
               {scholarsSeatsUsed}/{scholarsSeatLimit}
             </span>
             . AI credits land on your parent account and follow whichever kid
@@ -415,7 +416,7 @@ export function FamilyKidsSection() {
               <>
                 {" "}
                 Unassigned:{" "}
-                <span className="font-semibold tabular-nums text-neutral-950">
+                <span className="font-semibold tabular-nums text-ink">
                   {parentPool.generations} generations · {parentPool.tutor_minutes}{" "}
                   tutor minutes
                 </span>
@@ -435,7 +436,7 @@ export function FamilyKidsSection() {
               <select
                 value={transferFromId}
                 onChange={(e) => setTransferFromId(e.target.value)}
-                className="mt-1.5 w-full rounded-xl border border-amber-200 bg-white px-3 py-2 text-sm text-neutral-900"
+                className="mt-1.5 w-full rounded-xl border border-amber-200 bg-white px-3 py-2 text-sm text-ink"
               >
                 {children
                   .filter(
@@ -470,7 +471,7 @@ export function FamilyKidsSection() {
                 onClick={() =>
                   void toggleApp(transferTarget, "scholars", true, transferFromId)
                 }
-                className="flex-1 rounded-xl bg-neutral-950 px-3 py-2 text-sm font-semibold text-white disabled:opacity-50"
+                className="flex-1 rounded-xl bg-ink px-3 py-2 text-sm font-semibold text-white disabled:opacity-50"
               >
                 Transfer seat
               </button>
@@ -479,11 +480,11 @@ export function FamilyKidsSection() {
         )}
 
         {loading ? (
-          <p className="text-sm text-neutral-500">Loading kids…</p>
+          <p className="text-sm text-ink-faint">Loading kids…</p>
         ) : children.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-neutral-200 px-5 py-10 text-center">
-            <p className="text-sm font-medium text-neutral-900">No kids yet</p>
-            <p className="mx-auto mt-1 max-w-md text-sm text-neutral-500">
+          <div className="rounded-[24px] border border-dashed border-ink/10 px-5 py-10 text-center">
+            <p className="text-sm font-medium text-ink">No kids yet</p>
+            <p className="mx-auto mt-1 max-w-md text-sm text-ink-faint">
               Add a kid with their own username and password, then switch on the
               apps they&apos;re allowed to use.
             </p>
@@ -498,14 +499,14 @@ export function FamilyKidsSection() {
               return (
                 <article
                   key={child.id}
-                  className="rounded-[1.5rem] border border-neutral-200 p-5"
+                  className="rounded-[24px] bg-[#f7f8fc] p-5 ring-1 ring-ink/5"
                 >
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
-                      <h4 className="font-semibold text-neutral-950">
+                      <h4 className="font-extrabold text-ink">
                         {kidName(child)}
                       </h4>
-                      <p className="mt-0.5 text-sm text-neutral-600">
+                      <p className="mt-0.5 text-sm text-ink-soft">
                         @{child.username ?? "—"} ·{" "}
                         {child.is_active ? (
                           <span className="text-emerald-700">Login active</span>
@@ -519,7 +520,7 @@ export function FamilyKidsSection() {
                         type="button"
                         disabled={busy}
                         onClick={() => setResetChild(child)}
-                        className="rounded-full border border-neutral-200 px-3 py-1.5 text-xs font-medium text-neutral-700 hover:bg-neutral-50"
+                        className="rounded-full bg-white px-3 py-1.5 text-xs font-bold text-ink ring-1 ring-ink/10 transition hover:bg-[#f7f8fc]"
                       >
                         Reset password
                       </button>
@@ -527,7 +528,7 @@ export function FamilyKidsSection() {
                         type="button"
                         disabled={busy}
                         onClick={() => void toggleLogin(child)}
-                        className="rounded-full border border-neutral-200 px-3 py-1.5 text-xs font-medium text-neutral-700 hover:bg-neutral-50"
+                        className="rounded-full bg-white px-3 py-1.5 text-xs font-bold text-ink ring-1 ring-ink/10 transition hover:bg-[#f7f8fc]"
                       >
                         {child.is_active ? "Pause login" : "Resume login"}
                       </button>
@@ -552,7 +553,7 @@ export function FamilyKidsSection() {
                       return (
                         <div
                           key={appKey}
-                          className="flex items-center justify-between gap-3 rounded-2xl border border-neutral-200 bg-[#fefbf6] px-4 py-3"
+                          className="flex items-center justify-between gap-3 rounded-2xl bg-white px-4 py-3 ring-1 ring-ink/5"
                         >
                           <div className="flex min-w-0 items-center gap-3">
                             <Image
@@ -560,14 +561,14 @@ export function FamilyKidsSection() {
                               alt=""
                               width={28}
                               height={28}
-                              className="h-7 w-7 shrink-0"
+                              className="h-7 w-7 shrink-0 rounded-[28%]"
                               aria-hidden
                             />
                             <div className="min-w-0">
-                              <p className="truncate text-sm font-medium text-neutral-900">
+                              <p className="truncate text-sm font-medium text-ink">
                                 {name}
                               </p>
-                              <p className="truncate text-xs text-neutral-500">
+                              <p className="truncate text-xs text-ink-faint">
                                 {!subscribed ? (
                                   <Link
                                     href={`/pricing#${appKey}`}
@@ -607,17 +608,17 @@ export function FamilyKidsSection() {
                   </div>
 
                   {scholarsOn && (
-                    <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-2xl bg-[#f5f5f7] px-4 py-3">
-                      <p className="text-xs text-neutral-600">
+                    <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-2xl bg-white px-4 py-3 ring-1 ring-ink/5">
+                      <p className="text-xs text-ink-soft">
                         Scholars AI credits:{" "}
-                        <span className="font-semibold tabular-nums text-neutral-900">
+                        <span className="font-semibold tabular-nums text-ink">
                           {balance?.generations ?? 0} generations ·{" "}
                           {balance?.tutor_minutes ?? 0} tutor minutes
                         </span>
                       </p>
                       <Link
                         href={`/pricing?app=scholars&childId=${encodeURIComponent(child.id)}`}
-                        className="text-xs font-medium text-[#007AFF] hover:underline"
+                        className="text-xs font-medium text-brand hover:underline"
                       >
                         Buy credits
                       </Link>
@@ -634,10 +635,10 @@ export function FamilyKidsSection() {
         <div className="fixed inset-0 z-[60] grid place-items-center bg-black/40 px-4">
           <form
             onSubmit={submitPasswordReset}
-            className="w-full max-w-md rounded-3xl bg-white p-6 shadow-xl"
+            className="w-full max-w-md rounded-[32px] bg-white p-6 shadow-[0_40px_90px_-44px_rgba(15,23,42,0.45)] ring-1 ring-ink/5"
           >
-            <h3 className="text-lg font-semibold text-neutral-950">Reset password</h3>
-            <p className="mt-1 text-sm text-neutral-600">
+            <h3 className="font-display text-2xl font-extrabold text-ink">Reset password</h3>
+            <p className="mt-1 text-sm text-ink-soft">
               Set a new password for @{resetChild.username}.
             </p>
             <PasswordInput
@@ -649,7 +650,7 @@ export function FamilyKidsSection() {
               required
               minLength={8}
               placeholder="Letter + number, 8+ chars"
-              className="mt-4 w-full rounded-xl border border-neutral-200 px-3 py-2.5 text-sm"
+              className="mt-4 w-full rounded-2xl bg-[#f7f8fc] px-4 py-3 text-sm text-ink outline-none ring-1 ring-ink/[0.06] transition focus:bg-white focus:ring-2 focus:ring-brand/40"
             />
             <div className="mt-5 flex justify-end gap-2">
               <button
@@ -658,14 +659,14 @@ export function FamilyKidsSection() {
                   setResetChild(null);
                   setNewPassword("");
                 }}
-                className="rounded-full px-4 py-2 text-sm text-neutral-600"
+                className="rounded-full px-4 py-2 text-sm text-ink-soft"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={busyChildId === resetChild.id}
-                className="rounded-full bg-neutral-950 px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
+                className="rounded-full bg-ink px-4 py-2 text-sm font-bold text-white transition hover:bg-black disabled:opacity-60"
               >
                 Save password
               </button>
@@ -680,17 +681,17 @@ export function FamilyKidsSection() {
             role="dialog"
             aria-modal="true"
             aria-labelledby="remove-child-title"
-            className="w-full max-w-md rounded-3xl bg-white p-6 shadow-xl"
+            className="w-full max-w-md rounded-[32px] bg-white p-6 shadow-[0_40px_90px_-44px_rgba(15,23,42,0.45)] ring-1 ring-ink/5"
           >
             <h3
               id="remove-child-title"
-              className="text-lg font-semibold text-neutral-950"
+              className="font-display text-2xl font-extrabold text-ink"
             >
               Remove child?
             </h3>
-            <p className="mt-2 text-sm text-neutral-600">
+            <p className="mt-2 text-sm text-ink-soft">
               This permanently deletes{" "}
-              <span className="font-medium text-neutral-900">
+              <span className="font-medium text-ink">
                 {kidName(removeChild)}
               </span>
               {removeChild.username ? ` (@${removeChild.username})` : ""} and removes
@@ -700,7 +701,7 @@ export function FamilyKidsSection() {
               <button
                 type="button"
                 onClick={() => setRemoveChild(null)}
-                className="rounded-full px-4 py-2 text-sm text-neutral-600"
+                className="rounded-full px-4 py-2 text-sm text-ink-soft"
               >
                 Cancel
               </button>

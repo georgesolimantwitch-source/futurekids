@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
+import { avatarFromAuthUser, initialsFromName } from "@/lib/auth/account-display";
 import { createClient } from "@/lib/supabase/client";
 
 export function AuthNav() {
@@ -59,10 +60,12 @@ export function AuthNav() {
     );
   }
 
-  const initials =
-    (user.user_metadata?.full_name as string | undefined)?.charAt(0)?.toUpperCase() ??
-    user.email?.charAt(0)?.toUpperCase() ??
-    "?";
+  const initials = initialsFromName(
+    (user.user_metadata?.full_name as string | undefined) ??
+      (user.user_metadata?.name as string | undefined),
+    user.email ?? "?",
+  );
+  const avatarUrl = avatarFromAuthUser(user);
 
   return (
     <div className="flex items-center gap-1 sm:gap-2">
@@ -74,11 +77,20 @@ export function AuthNav() {
       </Link>
       <Link
         href="/account"
-        className="flex h-9 w-9 items-center justify-center rounded-full bg-ink text-sm font-semibold text-white transition hover:scale-105"
+        className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-ink text-sm font-semibold text-white ring-2 ring-white transition hover:scale-105"
         aria-label="Profile"
         title={user.email ?? "Account"}
       >
-        {initials}
+        {avatarUrl ? (
+          <img
+            src={avatarUrl}
+            alt=""
+            referrerPolicy="no-referrer"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        ) : (
+          initials
+        )}
       </Link>
       <button
         type="button"

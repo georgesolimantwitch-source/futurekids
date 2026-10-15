@@ -6,7 +6,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { apps, isAppListed } from "@/config/brand";
-import { BrandLogo } from "@/components/brand/BrandLogo";
+import { getSiteApp } from "@/config/site";
+import { Blobs } from "@/components/site/ui";
 import {
   formatAccountDate,
   initialsFromName,
@@ -313,32 +314,24 @@ export function AccountDashboard({
   }
 
   return (
-    <div className="min-h-screen bg-[#fefbf6]">
-      <section className="border-b border-neutral-200/70 bg-white">
-        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+    <div className="relative min-h-screen">
+      <Blobs intensity={0.55} />
+      <div className="relative">
+      <section>
+        <div className="mx-auto max-w-7xl px-5 pb-2 pt-8 sm:px-8 sm:pt-12 lg:px-10">
           <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
             <div className="flex items-start gap-5">
-              {profile.avatar_url ? (
-                <Image
-                  src={profile.avatar_url}
-                  alt=""
-                  width={80}
-                  height={80}
-                  className="h-20 w-20 rounded-full object-cover ring-4 ring-white shadow-lg"
-                />
-              ) : (
-                <div className="grid h-20 w-20 place-items-center rounded-full bg-neutral-950 text-2xl font-semibold text-white shadow-lg">
-                  {initialsFromName(profile.full_name, profile.email)}
-                </div>
-              )}
+              <AccountAvatar
+                name={profile.full_name}
+                email={profile.email}
+                url={profile.avatar_url}
+              />
               <div>
-                <div className="mb-1">
-                  <BrandLogo size="account" />
-                </div>
-                <h1 className="mt-2 text-3xl font-semibold tracking-tight text-neutral-950 sm:text-4xl">
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand">Your account</p>
+                <h1 className="font-display mt-2 text-4xl font-extrabold text-ink sm:text-5xl">
                   {profile.full_name ?? "Your account"}
                 </h1>
-                <p className="mt-2 text-sm text-neutral-600">{profile.email}</p>
+                <p className="mt-2 text-sm text-ink-soft">{profile.email}</p>
                 <div className="mt-4 flex flex-wrap gap-2">
                   <Badge tone={emailVerified ? "success" : "warning"}>
                     {emailVerified ? "Email verified" : "Email pending"}
@@ -354,7 +347,7 @@ export function AccountDashboard({
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/pricing"
-                className="rounded-full bg-neutral-950 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-neutral-800"
+                className="shine press inline-flex h-12 items-center rounded-full bg-ink px-6 text-sm font-bold text-white transition hover:bg-black"
               >
                 View plans
               </Link>
@@ -362,7 +355,7 @@ export function AccountDashboard({
                 type="button"
                 onClick={handleSignOut}
                 disabled={signingOut}
-                className="rounded-full border border-neutral-200 px-5 py-2.5 text-sm font-medium text-neutral-700 transition hover:bg-neutral-50 disabled:opacity-60"
+                className="press inline-flex h-12 items-center rounded-full bg-white px-6 text-sm font-bold text-ink ring-1 ring-ink/10 transition hover:bg-[#f7f8fc] disabled:opacity-60"
               >
                 {signingOut ? "Signing out…" : "Sign out"}
               </button>
@@ -372,8 +365,8 @@ export function AccountDashboard({
       </section>
 
       {checkoutSuccess && (
-        <div className="border-b border-emerald-100 bg-emerald-50">
-          <p className="mx-auto max-w-7xl px-4 py-4 text-sm text-emerald-800 sm:px-6 lg:px-8">
+        <div className="mx-auto mt-6 max-w-7xl px-5 sm:px-8 lg:px-10">
+          <p className="rounded-2xl bg-[#ecfdf3] px-5 py-4 text-sm font-medium text-[#15803d] ring-1 ring-[#16a34a]/15">
             Checkout completed. Your subscription will activate once Stripe confirms payment —
             usually within a minute.
           </p>
@@ -381,8 +374,8 @@ export function AccountDashboard({
       )}
 
       {showSetupBanner && (
-        <div className="border-b border-amber-100 bg-amber-50">
-          <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+        <div className="mx-auto mt-6 max-w-7xl px-5 sm:px-8 lg:px-10">
+          <div className="flex flex-col gap-3 rounded-2xl bg-[#fff7ed] px-5 py-4 ring-1 ring-[#f4511e]/15 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-sm text-amber-900">
               {setupError ?? SETUP_PENDING_MESSAGE} You can still view your account while setup
               finishes.
@@ -391,7 +384,7 @@ export function AccountDashboard({
               type="button"
               onClick={handleRepairSetup}
               disabled={repairing}
-              className="rounded-full bg-neutral-950 px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
+              className="rounded-full bg-ink px-4 py-2 text-sm font-bold text-white disabled:opacity-60"
             >
               {repairing ? "Retrying…" : "Retry setup"}
             </button>
@@ -399,15 +392,26 @@ export function AccountDashboard({
         </div>
       )}
 
-      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-5 py-8 sm:px-8 sm:py-10 lg:px-10">
+        <div className="mb-6 flex gap-2 overflow-x-auto scrollbar-none lg:hidden">
+          {NAV_ITEMS.map((item) => (
+            <a
+              key={item.id}
+              href={`#${item.id}`}
+              className="shrink-0 rounded-full bg-white px-4 py-2 text-sm font-bold text-ink ring-1 ring-ink/10"
+            >
+              {item.label}
+            </a>
+          ))}
+        </div>
         <div className="grid gap-8 lg:grid-cols-[220px_minmax(0,1fr)]">
           <aside className="hidden lg:block">
-            <nav className="sticky top-24 space-y-1 rounded-3xl border border-neutral-200/80 bg-white p-3">
+            <nav className="sticky top-24 space-y-1 rounded-[28px] bg-white p-3 shadow-[0_24px_50px_-36px_rgba(15,23,42,0.45)] ring-1 ring-ink/5">
               {NAV_ITEMS.map((item) => (
                 <a
                   key={item.id}
                   href={`#${item.id}`}
-                  className="block rounded-2xl px-4 py-2.5 text-sm font-medium text-neutral-600 transition hover:bg-[#fefbf6] hover:text-neutral-950"
+                  className="block rounded-2xl px-4 py-2.5 text-sm font-bold text-ink-soft transition hover:bg-[#f7f8fc] hover:text-ink"
                 >
                   {item.label}
                 </a>
@@ -449,6 +453,7 @@ export function AccountDashboard({
               <div className="mt-6 grid gap-4 md:grid-cols-2">
                 {REQUIRED_APP_IDS.map((appId) => {
                   const brandApp = apps.find((a) => a.slug === appId)!;
+                  const siteApp = getSiteApp(appId);
                   const entitlement = entitlementForApp(account, appId);
                   const status = entitlement ? "active" : "inactive";
 
@@ -459,7 +464,8 @@ export function AccountDashboard({
                       name={brandApp.name}
                       tagline={brandApp.tagline}
                       icon={brandApp.iconPath}
-                      accent={brandApp.accentColor}
+                      accent={siteApp?.color ?? brandApp.accentColor}
+                      soft={siteApp?.colorSoft ?? "#f7f8fc"}
                       status={status}
                       entitlement={entitlement}
                       learnMore={brandApp.learnMorePath}
@@ -476,10 +482,10 @@ export function AccountDashboard({
 
               {profile.account_type !== "individual" && (
                 <div className="mt-10">
-                  <h3 className="text-lg font-semibold tracking-tight text-neutral-950">
+                  <h3 className="font-display text-2xl font-extrabold text-ink">
                     Kids &amp; app access
                   </h3>
-                  <p className="mt-2 max-w-2xl text-sm leading-relaxed text-neutral-600">
+                  <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-soft">
                     Add a kid whenever you like, then switch on the apps each of
                     them can sign in to.
                   </p>
@@ -493,18 +499,18 @@ export function AccountDashboard({
                 title="Plans & Billing"
                 description="Manage subscriptions, billing intervals, and renewal dates."
               />
-              <div className="mt-6 overflow-hidden rounded-[2rem] border border-neutral-200/80 bg-white shadow-sm">
-                <div className="border-b border-neutral-100 bg-[#fefbf6] px-6 py-5">
+              <div className="mt-6 overflow-hidden rounded-[28px] bg-white shadow-[0_30px_60px_-40px_rgba(15,23,42,0.45)] ring-1 ring-ink/5">
+                <div className="border-b border-ink/5 bg-[#f7f8fc] px-6 py-5">
                   <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                      <p className="text-sm font-medium text-neutral-900">All Access bundle</p>
-                      <p className="mt-1 text-sm text-neutral-600">
+                      <p className="text-sm font-bold text-ink">All Access bundle</p>
+                      <p className="mt-1 text-sm text-ink-soft">
                         Save with every app in one subscription, or manage individual plans below.
                       </p>
                     </div>
                     <Link
                       href="/pricing"
-                      className="inline-flex rounded-full bg-neutral-950 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-neutral-800"
+                      className="inline-flex h-11 items-center rounded-full bg-ink px-5 text-sm font-bold text-white transition hover:bg-black"
                     >
                       Compare plans
                     </Link>
@@ -513,7 +519,7 @@ export function AccountDashboard({
 
                 <div className="overflow-x-auto">
                   <table className="min-w-full text-left text-sm">
-                    <thead className="border-b border-neutral-100 text-xs uppercase tracking-wider text-neutral-500">
+                    <thead className="border-b border-ink/5 text-[11px] font-bold uppercase tracking-[0.14em] text-ink-faint">
                       <tr>
                         <th className="px-6 py-4 font-medium">App</th>
                         <th className="px-6 py-4 font-medium">Plan</th>
@@ -550,7 +556,7 @@ export function AccountDashboard({
                           return (
                             <tr
                               key={entitlement.id}
-                              className="border-b border-neutral-100 last:border-0"
+                              className="border-b border-ink/5 last:border-0"
                             >
                               <td className="px-6 py-5">
                                 <div className="flex items-center gap-3">
@@ -560,26 +566,26 @@ export function AccountDashboard({
                                       alt=""
                                       width={28}
                                       height={28}
-                                      className="h-7 w-7"
+                                      className="h-7 w-7 rounded-[28%]"
                                       aria-hidden
                                     />
                                   ) : (
-                                    <div className="grid h-7 w-7 place-items-center rounded-lg bg-neutral-950 text-xs text-white">
+                                    <div className="grid h-7 w-7 place-items-center rounded-lg bg-ink text-xs text-white">
                                       FK
                                     </div>
                                   )}
-                                  <p className="font-medium text-neutral-950">
+                                  <p className="font-medium text-ink">
                                     {brandApp?.name ?? "Genlyn All Access"}
                                   </p>
                                 </div>
                               </td>
-                              <td className="px-6 py-5 text-neutral-600">
+                              <td className="px-6 py-5 text-ink-soft">
                                 {planDisplayName(entitlement.plan_key)}
-                                <span className="mt-1 block text-xs capitalize text-neutral-500">
+                                <span className="mt-1 block text-xs capitalize text-ink-faint">
                                   {entitlementAccessSummary(entitlement)}
                                 </span>
                               </td>
-                              <td className="px-6 py-5 capitalize text-neutral-600">
+                              <td className="px-6 py-5 capitalize text-ink-soft">
                                 {entitlement.provider}
                               </td>
                               <td className="px-6 py-5">
@@ -587,14 +593,14 @@ export function AccountDashboard({
                                   {entitlementStatusLabel(entitlement.status)}
                                 </Badge>
                               </td>
-                              <td className="px-6 py-5 text-neutral-600">
+                              <td className="px-6 py-5 text-ink-soft">
                                 {formatAccountDate(entitlement.current_period_end)}
                               </td>
                               <td className="px-6 py-5">
                                 <button
                                   type="button"
                                   onClick={() => handleManagePlan(entitlement)}
-                                  className="font-medium text-neutral-950 underline underline-offset-4"
+                                  className="font-medium text-ink underline underline-offset-4"
                                 >
                                   Manage subscription
                                 </button>
@@ -604,7 +610,7 @@ export function AccountDashboard({
                         })
                       ) : (
                         <tr>
-                          <td colSpan={6} className="px-6 py-10 text-center text-neutral-500">
+                          <td colSpan={6} className="px-6 py-10 text-center text-ink-faint">
                             No subscriptions yet. Choose an app plan to get started.
                           </td>
                         </tr>
@@ -717,34 +723,63 @@ export function AccountDashboard({
           onConfirm={() => void handleDeleteAccount()}
         />
       )}
+      </div>
+    </div>
+  );
+}
+
+function AccountAvatar({
+  name,
+  email,
+  url,
+}: {
+  name: string | null;
+  email: string;
+  url: string | null;
+}) {
+  const [failed, setFailed] = useState(false);
+  const showPhoto = Boolean(url) && !failed;
+
+  return (
+    <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-full bg-ink shadow-[0_16px_40px_-18px_rgba(15,23,42,0.55)] ring-4 ring-white">
+      {showPhoto ? (
+        <img
+          src={url!}
+          alt=""
+          referrerPolicy="no-referrer"
+          className="absolute inset-0 h-full w-full object-cover"
+          onError={() => setFailed(true)}
+        />
+      ) : (
+        <span className="grid h-full w-full place-items-center text-2xl font-extrabold text-white">
+          {initialsFromName(name, email)}
+        </span>
+      )}
     </div>
   );
 }
 
 export function AccountDashboardSkeleton() {
   return (
-    <div className="min-h-screen bg-[#fefbf6]">
-      <div className="border-b border-neutral-200/70 bg-white">
-        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+    <div className="relative min-h-screen">
+      <Blobs intensity={0.4} />
+      <div className="relative mx-auto max-w-7xl px-5 py-10 sm:px-8 lg:px-10">
           <div className="flex items-start gap-5">
-            <div className="h-20 w-20 animate-pulse rounded-full bg-neutral-200" />
+            <div className="h-20 w-20 animate-pulse rounded-full bg-white ring-4 ring-white" />
             <div>
-              <div className="h-3 w-32 animate-pulse rounded-full bg-neutral-200" />
-              <div className="mt-4 h-10 w-64 animate-pulse rounded-2xl bg-neutral-200" />
-              <div className="mt-3 h-4 w-48 animate-pulse rounded-full bg-neutral-100" />
+              <div className="h-3 w-32 animate-pulse rounded-full bg-white" />
+              <div className="mt-4 h-10 w-64 animate-pulse rounded-2xl bg-white" />
+              <div className="mt-3 h-4 w-48 animate-pulse rounded-full bg-white/80" />
             </div>
           </div>
-        </div>
-      </div>
-      <div className="mx-auto max-w-7xl space-y-6 px-4 py-10 sm:px-6 lg:px-8">
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {Array.from({ length: 4 }).map((_, index) => (
-            <div key={`overview-skeleton-${index}`} className="h-28 animate-pulse rounded-[1.5rem] bg-white" />
+            <div key={`overview-skeleton-${index}`} className="h-28 animate-pulse rounded-[28px] bg-white" />
           ))}
         </div>
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
           {Array.from({ length: 4 }).map((_, index) => (
-            <div key={`app-skeleton-${index}`} className="h-48 animate-pulse rounded-[1.5rem] bg-white" />
+            <div key={`app-skeleton-${index}`} className="h-48 animate-pulse rounded-[28px] bg-white" />
           ))}
         </div>
       </div>
@@ -755,8 +790,8 @@ export function AccountDashboardSkeleton() {
 function SectionHeading({ title, description }: { title: string; description?: string }) {
   return (
     <div>
-      <h2 className="text-2xl font-semibold tracking-tight text-neutral-950">{title}</h2>
-      {description && <p className="mt-2 max-w-2xl text-sm leading-relaxed text-neutral-600">{description}</p>}
+      <h2 className="font-display text-3xl font-extrabold text-ink">{title}</h2>
+      {description && <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-soft">{description}</p>}
     </div>
   );
 }
@@ -771,19 +806,19 @@ function OverviewCard({
   hint: string;
 }) {
   return (
-    <div className="rounded-[1.5rem] border border-neutral-200/80 bg-white p-5 shadow-sm">
-      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-500">{label}</p>
-      <p className="mt-3 text-2xl font-semibold tracking-tight text-neutral-950">{value}</p>
-      <p className="mt-2 text-sm text-neutral-500">{hint}</p>
+    <div className="rounded-[28px] bg-white p-5 shadow-[0_24px_50px_-36px_rgba(15,23,42,0.4)] ring-1 ring-ink/5">
+      <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-ink-faint">{label}</p>
+      <p className="font-display mt-3 text-3xl font-extrabold text-ink">{value}</p>
+      <p className="mt-2 text-sm text-ink-soft">{hint}</p>
     </div>
   );
 }
 
 function InfoCard({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-[1.5rem] border border-neutral-200/80 bg-white p-5 shadow-sm">
-      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-500">{label}</p>
-      <p className="mt-3 text-sm font-medium capitalize text-neutral-950">{value}</p>
+    <div className="rounded-[28px] bg-white p-5 shadow-[0_24px_50px_-36px_rgba(15,23,42,0.4)] ring-1 ring-ink/5">
+      <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-ink-faint">{label}</p>
+      <p className="mt-3 text-sm font-bold text-ink">{value}</p>
     </div>
   );
 }
@@ -800,12 +835,12 @@ function ActionCard({
   label: string;
 }) {
   return (
-    <div className="rounded-[1.5rem] border border-neutral-200/80 bg-white p-5 shadow-sm">
-      <h3 className="text-base font-semibold text-neutral-950">{title}</h3>
-      <p className="mt-2 text-sm leading-relaxed text-neutral-600">{description}</p>
+    <div className="rounded-[28px] bg-white p-5 shadow-[0_24px_50px_-36px_rgba(15,23,42,0.4)] ring-1 ring-ink/5">
+      <h3 className="text-base font-extrabold text-ink">{title}</h3>
+      <p className="mt-2 text-sm leading-relaxed text-ink-soft">{description}</p>
       <Link
         href={href}
-        className="mt-4 inline-flex rounded-full border border-neutral-200 px-4 py-2 text-sm font-medium text-neutral-800 transition hover:bg-neutral-50"
+        className="mt-4 inline-flex rounded-full bg-ink px-4 py-2 text-sm font-bold text-white transition hover:bg-black"
       >
         {label}
       </Link>
@@ -868,15 +903,15 @@ function DeleteAccountModal({
         role="dialog"
         aria-modal="true"
         aria-labelledby="delete-account-title"
-        className="w-full max-w-lg rounded-3xl bg-white p-6 shadow-xl"
+        className="w-full max-w-lg rounded-[32px] bg-white p-6 shadow-[0_40px_90px_-44px_rgba(15,23,42,0.45)] ring-1 ring-ink/5 sm:p-8"
       >
         <h3
           id="delete-account-title"
-          className="text-lg font-semibold text-neutral-950"
+          className="font-display text-2xl font-extrabold text-ink"
         >
           Delete your account?
         </h3>
-        <p className="mt-2 text-sm text-neutral-600">
+        <p className="mt-2 text-sm text-ink-soft">
           This permanently removes your Genlyn account. You will lose:
         </p>
         <ul className="mt-4 space-y-2 rounded-2xl border border-red-100 bg-red-50/70 p-4 text-sm text-red-950">
@@ -898,7 +933,7 @@ function DeleteAccountModal({
         >
           {hasPassword ? (
             <label className="block">
-              <span className="text-sm font-medium text-neutral-800">
+              <span className="text-sm font-medium text-ink">
                 Enter your password to confirm
               </span>
               <input
@@ -907,12 +942,12 @@ function DeleteAccountModal({
                 value={password}
                 onChange={(event) => onPasswordChange(event.target.value)}
                 placeholder="Your account password"
-                className="mt-2 w-full rounded-xl border border-neutral-200 px-3 py-2.5 text-sm outline-none ring-neutral-950 focus:ring-2"
+                className="mt-2 w-full rounded-2xl bg-[#f7f8fc] px-4 py-3 text-sm text-ink outline-none ring-1 ring-ink/[0.06] transition focus:bg-white focus:ring-2 focus:ring-brand/40"
               />
             </label>
           ) : (
             <label className="block">
-              <span className="text-sm font-medium text-neutral-800">
+              <span className="text-sm font-medium text-ink">
                 Type DELETE or {email} to confirm
               </span>
               <input
@@ -921,9 +956,9 @@ function DeleteAccountModal({
                 value={confirmText}
                 onChange={(event) => onConfirmChange(event.target.value)}
                 placeholder="DELETE"
-                className="mt-2 w-full rounded-xl border border-neutral-200 px-3 py-2.5 text-sm outline-none ring-neutral-950 focus:ring-2"
+                className="mt-2 w-full rounded-2xl bg-[#f7f8fc] px-4 py-3 text-sm text-ink outline-none ring-1 ring-ink/[0.06] transition focus:bg-white focus:ring-2 focus:ring-brand/40"
               />
-              <span className="mt-2 block text-xs text-neutral-500">
+              <span className="mt-2 block text-xs text-ink-faint">
                 You signed in with Google or Apple, so there is no password on this
                 account.
               </span>
@@ -941,7 +976,7 @@ function DeleteAccountModal({
               type="button"
               onClick={onClose}
               disabled={deleting}
-              className="rounded-full px-4 py-2 text-sm text-neutral-600 disabled:opacity-60"
+              className="rounded-full px-4 py-2 text-sm text-ink-soft disabled:opacity-60"
             >
               Cancel
             </button>
@@ -967,13 +1002,13 @@ function Badge({
   tone: "success" | "warning" | "neutral";
 }) {
   const styles = {
-    success: "bg-emerald-50 text-emerald-700 ring-emerald-100",
-    warning: "bg-amber-50 text-amber-800 ring-amber-100",
-    neutral: "bg-neutral-100 text-neutral-700 ring-neutral-200",
+    success: "bg-[#ecfdf3] text-[#15803d] ring-[#16a34a]/15",
+    warning: "bg-[#fff7ed] text-[#c2410c] ring-[#f4511e]/15",
+    neutral: "bg-[#f7f8fc] text-ink-soft ring-ink/10",
   }[tone];
 
   return (
-    <span className={`inline-flex rounded-full px-3 py-1 text-xs font-medium ring-1 ${styles}`}>
+    <span className={`inline-flex rounded-full px-3 py-1 text-xs font-bold ring-1 ${styles}`}>
       {children}
     </span>
   );
@@ -1043,6 +1078,7 @@ function AppCard({
   tagline,
   icon,
   accent,
+  soft,
   status,
   entitlement,
   learnMore,
@@ -1054,6 +1090,7 @@ function AppCard({
   tagline: string;
   icon: string;
   accent: string;
+  soft: string;
   status: "active" | "inactive" | "coming_soon";
   entitlement?: UserEntitlement;
   learnMore: string;
@@ -1065,37 +1102,37 @@ function AppCard({
 
   return (
     <article
-      className="flex h-full flex-col rounded-[1.75rem] border border-neutral-200/80 bg-white p-6 shadow-sm"
-      style={{ borderTopColor: accent, borderTopWidth: 3 }}
+      className="lift flex h-full flex-col rounded-[28px] p-6 ring-1 ring-ink/5 shadow-[0_30px_60px_-40px_rgba(15,23,42,0.45)]"
+      style={{ background: `linear-gradient(180deg, ${soft} 0%, #ffffff 58%)` }}
     >
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-center gap-3">
-          <Image src={icon} alt="" width={36} height={36} className="h-9 w-9" aria-hidden />
+          <Image src={icon} alt="" width={40} height={40} className="h-10 w-10 rounded-[28%]" aria-hidden />
           <div>
-            <h3 className="font-semibold text-neutral-950">{name}</h3>
-            <p className="mt-1 text-xs text-neutral-500">{tagline}</p>
+            <h3 className="font-extrabold text-ink">{name}</h3>
+            <p className="mt-1 text-xs text-ink-soft">{tagline}</p>
           </div>
         </div>
         <Badge tone={status === "active" ? "success" : "neutral"}>{label}</Badge>
       </div>
 
-      <div className="mt-5 space-y-2 text-sm text-neutral-600">
+      <div className="mt-5 space-y-2 text-sm text-ink-soft">
         <p>
           Plan:{" "}
-          <span className="font-medium text-neutral-900">
+          <span className="font-medium text-ink">
             {entitlement ? planDisplayName(entitlement.plan_key) : "None"}
           </span>
         </p>
         <p>
           Provider:{" "}
-          <span className="font-medium capitalize text-neutral-900">
+          <span className="font-medium capitalize text-ink">
             {entitlement?.provider ?? "—"}
           </span>
         </p>
         {entitlement?.current_period_end && (
           <p>
             Renews:{" "}
-            <span className="font-medium text-neutral-900">
+            <span className="font-medium text-ink">
               {formatAccountDate(entitlement.current_period_end)}
             </span>
           </p>
@@ -1107,7 +1144,7 @@ function AppCard({
           <button
             type="button"
             onClick={onManagePlan}
-            className="rounded-full px-4 py-2 text-xs font-medium text-white"
+            className="rounded-full px-4 py-2 text-xs font-bold text-white"
             style={{ backgroundColor: accent }}
           >
             Manage plan
@@ -1115,7 +1152,7 @@ function AppCard({
         ) : (
           <Link
             href={`/pricing#${appId}`}
-            className="rounded-full px-4 py-2 text-xs font-medium text-white"
+            className="rounded-full px-4 py-2 text-xs font-bold text-white"
             style={{ backgroundColor: accent }}
           >
             Choose plan
@@ -1125,13 +1162,13 @@ function AppCard({
           href={openHref}
           target="_blank"
           rel="noopener noreferrer"
-          className="rounded-full border border-neutral-200 px-4 py-2 text-xs font-medium text-neutral-700"
+          className="rounded-full bg-white px-4 py-2 text-xs font-bold text-ink ring-1 ring-ink/10"
         >
           Open app
         </a>
         <Link
           href={learnMore}
-          className="rounded-full px-4 py-2 text-xs font-medium text-neutral-600 underline underline-offset-4"
+          className="rounded-full px-4 py-2 text-xs font-bold text-ink-soft underline underline-offset-4"
         >
           Learn more
         </Link>
@@ -1194,7 +1231,7 @@ function ManagePlanModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 grid place-items-center bg-neutral-950/45 px-4 py-8 backdrop-blur-[2px]"
+      className="fixed inset-0 z-50 grid place-items-center bg-ink/45 px-4 py-8 backdrop-blur-[2px]"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}
@@ -1203,9 +1240,9 @@ function ManagePlanModal({
         role="dialog"
         aria-modal="true"
         aria-labelledby="manage-plan-title"
-        className="max-h-full w-full max-w-2xl overflow-y-auto rounded-[2rem] bg-white shadow-2xl"
+        className="max-h-full w-full max-w-2xl overflow-y-auto rounded-[32px] bg-white shadow-[0_40px_90px_-44px_rgba(15,23,42,0.45)] ring-1 ring-ink/5"
       >
-        <div className="flex items-start justify-between gap-4 border-b border-neutral-100 px-6 py-5 sm:px-7">
+        <div className="flex items-start justify-between gap-4 border-b border-ink/5 px-6 py-5 sm:px-7">
           <div className="flex items-center gap-3">
             {brandApp ? (
               <Image
@@ -1217,17 +1254,17 @@ function ManagePlanModal({
                 aria-hidden
               />
             ) : (
-              <div className="grid h-10 w-10 place-items-center rounded-xl bg-neutral-950 text-xs text-white">
+              <div className="grid h-10 w-10 place-items-center rounded-xl bg-ink text-xs text-white">
                 FK
               </div>
             )}
             <div>
-              <p className="text-xs font-medium uppercase tracking-[0.16em] text-neutral-500">
+              <p className="text-xs font-medium uppercase tracking-[0.16em] text-ink-faint">
                 Manage plan
               </p>
               <h2
                 id="manage-plan-title"
-                className="mt-1 text-xl font-semibold tracking-tight text-neutral-950"
+                className="font-display mt-1 text-2xl font-extrabold text-ink"
               >
                 {appName}
               </h2>
@@ -1237,20 +1274,20 @@ function ManagePlanModal({
             type="button"
             onClick={onClose}
             aria-label="Close manage plan"
-            className="grid h-9 w-9 place-items-center rounded-full text-xl font-light text-neutral-500 transition hover:bg-neutral-100 hover:text-neutral-950"
+            className="grid h-9 w-9 place-items-center rounded-full text-xl font-light text-ink-faint transition hover:bg-[#f7f8fc] hover:text-ink"
           >
             ×
           </button>
         </div>
 
         <div className="space-y-5 px-6 py-6 sm:px-7">
-          <div className="rounded-2xl bg-[#fefbf6] p-5">
+          <div className="rounded-2xl bg-[#f7f8fc] p-5 ring-1 ring-ink/5">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-sm font-medium text-neutral-950">
+                <p className="text-sm font-medium text-ink">
                   {planDisplayName(entitlement.plan_key)}
                 </p>
-                <p className="mt-1 text-sm capitalize text-neutral-600">
+                <p className="mt-1 text-sm capitalize text-ink-soft">
                   Billed through {entitlement.provider}
                 </p>
               </div>
@@ -1260,18 +1297,18 @@ function ManagePlanModal({
                   : entitlementStatusLabel(entitlement.status)}
               </Badge>
             </div>
-            <dl className="mt-5 grid grid-cols-2 gap-4 border-t border-neutral-200/70 pt-4 text-sm">
+            <dl className="mt-5 grid grid-cols-2 gap-4 border-t border-ink/10 pt-4 text-sm">
               <div>
-                <dt className="text-neutral-500">Plan includes</dt>
-                <dd className="mt-1 font-medium capitalize text-neutral-900">
+                <dt className="text-ink-faint">Plan includes</dt>
+                <dd className="mt-1 font-medium capitalize text-ink">
                   {entitlementAccessSummary(entitlement)}
                 </dd>
               </div>
               <div>
-                <dt className="text-neutral-500">
+                <dt className="text-ink-faint">
                   {entitlement.cancel_at_period_end ? "Access until" : "Next renewal"}
                 </dt>
-                <dd className="mt-1 font-medium text-neutral-900">
+                <dd className="mt-1 font-medium text-ink">
                   {formatAccountDate(entitlement.current_period_end)}
                 </dd>
               </div>
@@ -1309,7 +1346,7 @@ function ManagePlanModal({
             ["earnly", "futurekids_all_access"].includes(entitlement.app_key) && (
               <Link
                 href={`/pricing?app=${entitlement.app_key === "earnly" ? "earnly" : "all-access"}`}
-                className="flex items-center justify-between rounded-2xl border border-neutral-200 px-4 py-3 text-sm font-medium text-neutral-950 transition hover:border-neutral-400"
+                className="flex items-center justify-between rounded-2xl border border-ink/10 px-4 py-3 text-sm font-medium text-ink transition hover:border-ink/20"
               >
                 Change child count or billing period
                 <span aria-hidden>→</span>
@@ -1317,10 +1354,10 @@ function ManagePlanModal({
             )}
 
           <div>
-            <p className="text-sm font-medium text-neutral-950">
+            <p className="text-sm font-medium text-ink">
               Explore more with Genlyn
             </p>
-            <p className="mt-1 text-xs leading-relaxed text-neutral-500">
+            <p className="mt-1 text-xs leading-relaxed text-ink-faint">
               Add another app or bring everything together with All Access.
             </p>
           </div>
@@ -1328,7 +1365,7 @@ function ManagePlanModal({
           {!hasAllAccess && entitlement.app_key !== "futurekids_all_access" && (
             <Link
               href="/pricing"
-              className="group block overflow-hidden rounded-2xl bg-neutral-950 p-5 text-white transition hover:bg-neutral-800"
+              className="shine group block overflow-hidden rounded-[24px] bg-ink p-5 text-white transition hover:bg-black"
             >
               <div className="flex items-center justify-between gap-5">
                 <div>
@@ -1338,7 +1375,7 @@ function ManagePlanModal({
                   <p className="mt-3 text-base font-semibold">
                     Genlyn All Access
                   </p>
-                  <p className="mt-1 text-xs leading-relaxed text-neutral-300">
+                  <p className="mt-1 text-xs leading-relaxed text-white/70">
                     Unlock Earnly, Scholars Notes, Ballr, and Freshys with one family plan.
                   </p>
                 </div>
@@ -1362,7 +1399,7 @@ function ManagePlanModal({
                 <Link
                   key={app.slug}
                   href="/pricing#individual-apps"
-                  className="rounded-2xl border border-neutral-200 p-4 transition hover:-translate-y-0.5 hover:border-neutral-300 hover:shadow-sm"
+                  className="rounded-2xl border border-ink/10 p-4 transition hover:-translate-y-0.5 hover:border-ink/15 hover:shadow-sm"
                 >
                   <div className="flex items-center gap-2.5">
                     <Image
@@ -1373,11 +1410,11 @@ function ManagePlanModal({
                       className="h-[30px] w-[30px]"
                       aria-hidden
                     />
-                    <p className="text-sm font-medium text-neutral-950">
+                    <p className="text-sm font-medium text-ink">
                       {app.name}
                     </p>
                   </div>
-                  <p className="mt-3 line-clamp-2 text-xs leading-relaxed text-neutral-500">
+                  <p className="mt-3 line-clamp-2 text-xs leading-relaxed text-ink-faint">
                     {app.tagline}
                   </p>
                   <p
@@ -1396,7 +1433,7 @@ function ManagePlanModal({
               type="button"
               onClick={onOpenBillingPortal}
               disabled={openingPortal || updatingPlan}
-              className="text-left text-xs font-normal text-neutral-500 underline decoration-neutral-300 underline-offset-4 transition hover:text-neutral-900 disabled:opacity-50"
+              className="text-left text-xs font-normal text-ink-faint underline decoration-ink/20 underline-offset-4 transition hover:text-ink disabled:opacity-50"
             >
               {openingPortal
                 ? "Opening Stripe…"
@@ -1407,7 +1444,7 @@ function ManagePlanModal({
               href={manageUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs font-normal text-neutral-500 underline decoration-neutral-300 underline-offset-4 transition hover:text-neutral-900"
+              className="text-xs font-normal text-ink-faint underline decoration-ink/20 underline-offset-4 transition hover:text-ink"
             >
               Manage billing with{" "}
               {entitlement.provider === "apple" ? "Apple" : "Google Play"}
@@ -1422,8 +1459,8 @@ function ManagePlanModal({
 
           {confirmingCancel && !entitlement.cancel_at_period_end && (
             <div className="rounded-2xl border border-red-100 bg-red-50/70 p-4">
-              <p className="text-sm font-medium text-neutral-950">Cancel this plan?</p>
-              <p className="mt-1 text-xs leading-relaxed text-neutral-600">
+              <p className="text-sm font-medium text-ink">Cancel this plan?</p>
+              <p className="mt-1 text-xs leading-relaxed text-ink-soft">
                 You will keep access until{" "}
                 {formatAccountDate(entitlement.current_period_end)} and will not be charged again.
               </p>
@@ -1431,11 +1468,11 @@ function ManagePlanModal({
           )}
         </div>
 
-        <div className="flex items-center justify-between gap-4 border-t border-neutral-100 px-6 py-5 sm:px-7">
+        <div className="flex items-center justify-between gap-4 border-t border-ink/5 px-6 py-5 sm:px-7">
           <button
             type="button"
             onClick={onClose}
-            className="text-sm font-normal text-neutral-600 transition hover:text-neutral-950"
+            className="text-sm font-normal text-ink-soft transition hover:text-ink"
           >
             Close
           </button>
@@ -1456,7 +1493,7 @@ function ManagePlanModal({
                   type="button"
                   onClick={() => setConfirmingCancel(false)}
                   disabled={updatingPlan}
-                  className="text-sm font-normal text-neutral-600"
+                  className="text-sm font-normal text-ink-soft"
                 >
                   Keep plan
                 </button>
@@ -1473,7 +1510,7 @@ function ManagePlanModal({
               <button
                 type="button"
                 onClick={() => setConfirmingCancel(true)}
-                className="text-sm font-normal text-neutral-500 transition hover:text-red-600"
+                className="text-sm font-normal text-ink-faint transition hover:text-red-600"
               >
                 Cancel plan
               </button>
@@ -1483,7 +1520,7 @@ function ManagePlanModal({
               href={manageUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm font-normal text-neutral-500 transition hover:text-red-600"
+              className="text-sm font-normal text-ink-faint transition hover:text-red-600"
             >
               Cancel with {entitlement.provider === "apple" ? "Apple" : "Google Play"}
             </a>

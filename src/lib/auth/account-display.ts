@@ -1,3 +1,4 @@
+import type { User } from "@supabase/supabase-js";
 import type { EcosystemAccount, EcosystemAppId, EcosystemSubscription } from "@/lib/auth/types";
 
 export function formatAccountDate(value: string | null | undefined) {
@@ -67,4 +68,33 @@ export function initialsFromName(name: string | null | undefined, email: string)
   const parts = source.split(/\s+/).filter(Boolean);
   if (parts.length >= 2) return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
   return source.charAt(0).toUpperCase();
+}
+
+function httpUrl(value: unknown): string | null {
+  if (typeof value !== "string") return null;
+  const url = value.trim();
+  return url.startsWith("http://") || url.startsWith("https://") ? url : null;
+}
+
+/** Ask Google for a sharp crop instead of the default 96px thumbnail. */
+function sharpenAvatar(url: string): string {
+  if (!url.includes("googleusercontent.com")) return url;
+  return url.replace(/=s\d+(-c)?(?=$|[?#&])/, "=s256-c");
+}
+
+/** Photo from the live sign-in (Google, Apple, or email metadata), not a stale profile row. */
+export function avatarFromAuthUser(user: User): string | null {
+  const meta = (user.user_metadata ?? {}) as Record<string, unknown>;
+  const candidates: unknown[] = [meta.avatar_url, meta.picture, meta.photo_url];
+
+  for (const identity of user.identities ?? []) {
+    const data = (identity.identity_data ?? {}) as Record<string, unknown>;
+    candidates.push(data.avatar_url, data.picture, data.photo_url);
+  }
+
+  for (const candidate of candidates) {
+    const url = httpUrl(candidate);
+    if (url) return sharpenAvatar(url);
+  }
+  return null;
 }

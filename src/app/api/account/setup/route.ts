@@ -8,6 +8,7 @@ import {
   metadataForAccountType,
   resolveSetupAccountType,
 } from "@/lib/auth/signup";
+import { avatarFromAuthUser } from "@/lib/auth/account-display";
 import type { AccountType, EcosystemAccount } from "@/lib/auth/types";
 import { createClient as createSupabaseClient, type User } from "@supabase/supabase-js";
 
@@ -21,12 +22,7 @@ function displayNameFromUser(user: User): string | null {
 }
 
 function avatarFromUser(user: User): string | null {
-  const meta = user.user_metadata ?? {};
-  return (
-    (meta.avatar_url as string | undefined) ??
-    (meta.picture as string | undefined) ??
-    null
-  );
+  return avatarFromAuthUser(user);
 }
 
 async function resolveUser(request: Request): Promise<{

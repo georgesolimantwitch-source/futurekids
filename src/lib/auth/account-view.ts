@@ -5,6 +5,7 @@ import type {
   UserEntitlement,
 } from "@/lib/auth/types";
 import type { User } from "@supabase/supabase-js";
+import { avatarFromAuthUser } from "@/lib/auth/account-display";
 
 export const REQUIRED_APP_IDS: EcosystemAppId[] = [
   "earnly",
@@ -23,15 +24,6 @@ function displayNameFromUser(user: User): string | null {
     (meta.name as string | undefined) ??
     [meta.first_name, meta.last_name].filter(Boolean).join(" ");
   return name?.trim() || user.email?.split("@")[0] || null;
-}
-
-function avatarFromUser(user: User): string | null {
-  const meta = user.user_metadata ?? {};
-  return (
-    (meta.avatar_url as string | undefined) ??
-    (meta.picture as string | undefined) ??
-    null
-  );
 }
 
 function accountTypeFromUser(user: User): AccountType {
@@ -72,6 +64,7 @@ export function buildAccountViewModel(
       profile: {
         ...account.profile,
         email: preferredEmail(account.profile.email, user),
+        avatar_url: avatarFromAuthUser(user) ?? account.profile.avatar_url,
       },
       entitlements: account.entitlements ?? [],
       effective_access: account.effective_access ?? [],
@@ -87,7 +80,7 @@ export function buildAccountViewModel(
       id: user.id,
       email: preferredEmail(null, user),
       full_name: fullName,
-      avatar_url: avatarFromUser(user),
+      avatar_url: avatarFromAuthUser(user),
       account_type: accountTypeFromUser(user),
       stripe_customer_id: null,
       created_at: user.created_at ?? now,

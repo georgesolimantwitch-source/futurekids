@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { BrandLogo } from "@/components/brand/BrandLogo";
+import { Blobs } from "@/components/site/ui";
 import { clearSignupAccountType, readSignupAccountType } from "@/lib/auth/signup";
 import type { AccountType } from "@/lib/auth/types";
 
@@ -107,12 +108,12 @@ export default function AccountSetupPage() {
   }
 
   return (
-    <main className="min-h-[calc(100vh-4rem)] overflow-hidden bg-[#fefbf6] px-4 py-12 text-neutral-950">
-      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.95),transparent_38%),radial-gradient(circle_at_15%_20%,rgba(34,197,94,0.14),transparent_28%),radial-gradient(circle_at_85%_25%,rgba(59,130,246,0.12),transparent_26%)]" />
+    <main className="relative min-h-[calc(100vh-4rem)] overflow-hidden px-4 py-12 text-ink">
+      <Blobs intensity={0.65} />
 
       <section className="relative mx-auto flex min-h-[calc(100vh-10rem)] max-w-2xl flex-col items-center justify-center text-center">
         <div
-          className={`grid h-28 w-28 place-items-center rounded-full bg-emerald-500 shadow-[0_24px_80px_rgba(16,185,129,0.35)] transition-all duration-700 ${
+          className={`grid h-28 w-28 place-items-center rounded-full bg-ink text-white shadow-[0_24px_80px_-24px_rgba(11,16,32,0.55)] transition-all duration-700 ${
             complete ? "scale-100 opacity-100" : "scale-90 opacity-95"
           }`}
         >
@@ -135,18 +136,18 @@ export default function AccountSetupPage() {
 
         <div className="mt-10">
           <BrandLogo size="hero" className="mx-auto" />
-          <p className="mt-6 text-xs font-semibold uppercase tracking-[0.24em] text-emerald-700">
-            Account Ready
+          <p className="mt-6 text-xs font-bold uppercase tracking-[0.18em] text-brand">
+            Account ready
           </p>
-          <h1 className="mt-4 text-4xl font-semibold tracking-tight text-neutral-950 sm:text-6xl">
+          <h1 className="font-display mt-4 text-5xl font-extrabold text-ink sm:text-6xl">
             Welcome!
           </h1>
-          <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-neutral-600 sm:text-lg">
+          <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-ink-soft sm:text-lg">
             Your account has been created successfully.
           </p>
         </div>
 
-        <div className="mt-10 w-full max-w-md rounded-[2rem] border border-white/70 bg-white/80 p-5 text-left shadow-[0_30px_90px_rgba(15,23,42,0.12)] backdrop-blur">
+        <div className="mt-10 w-full max-w-md rounded-[32px] bg-white p-5 text-left shadow-[0_40px_90px_-44px_rgba(15,23,42,0.45)] ring-1 ring-ink/5">
           <div className="space-y-3">
             {setupSteps.map((step, index) => {
               const isVisible = index <= activeStep || complete;
@@ -157,10 +158,10 @@ export default function AccountSetupPage() {
                     isVisible ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
                   }`}
                 >
-                  <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-emerald-500 text-sm font-semibold text-white">
+                  <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-ink text-sm font-bold text-white">
                     ✓
                   </span>
-                  <span className="text-sm font-medium text-neutral-800">{step}</span>
+                  <span className="text-sm font-bold text-ink">{step}</span>
                 </div>
               );
             })}
@@ -179,16 +180,17 @@ function SetupRecoveryCard({
   onRetry: () => void;
 }) {
   return (
-    <main className="min-h-[calc(100vh-4rem)] bg-[#fefbf6] px-4 py-16">
-      <section className="mx-auto flex min-h-[60vh] max-w-xl items-center">
-        <div className="w-full rounded-[2rem] border border-neutral-200/80 bg-white p-8 text-center shadow-[0_30px_90px_rgba(15,23,42,0.12)]">
-          <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-amber-100 text-2xl text-amber-700">
+    <main className="relative min-h-[calc(100vh-4rem)] px-4 py-16">
+      <Blobs intensity={0.5} />
+      <section className="relative mx-auto flex min-h-[60vh] max-w-xl items-center">
+        <div className="w-full rounded-[32px] bg-white p-8 text-center shadow-[0_40px_90px_-44px_rgba(15,23,42,0.45)] ring-1 ring-ink/5">
+          <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-[#fff7ed] text-2xl text-[#c2410c]">
             ✓
           </div>
-          <h1 className="mt-6 text-3xl font-semibold tracking-tight text-neutral-950">
+          <h1 className="font-display mt-6 text-3xl font-extrabold text-ink">
             We&apos;re almost finished setting up your account.
           </h1>
-          <p className="mt-4 text-sm leading-relaxed text-neutral-600">
+          <p className="mt-4 text-sm leading-relaxed text-ink-soft">
             Your Genlyn sign-in worked, but a few account details are still being prepared.
             This can happen right after a new signup. {message}
           </p>
@@ -196,19 +198,19 @@ function SetupRecoveryCard({
             <button
               type="button"
               onClick={onRetry}
-              className="rounded-full bg-neutral-950 px-6 py-3 text-sm font-medium text-white transition hover:bg-neutral-800"
+              className="shine press rounded-full bg-ink px-6 py-3 text-sm font-bold text-white transition hover:bg-black"
             >
               Retry Setup
             </button>
             <Link
               href="/"
-              className="rounded-full border border-neutral-200 px-6 py-3 text-sm font-medium text-neutral-800 transition hover:bg-neutral-50"
+              className="rounded-full bg-white px-6 py-3 text-sm font-bold text-ink ring-1 ring-ink/10 transition hover:bg-[#f7f8fc]"
             >
               Return Home
             </Link>
             <Link
               href="/contact"
-              className="rounded-full border border-neutral-200 px-6 py-3 text-sm font-medium text-neutral-800 transition hover:bg-neutral-50"
+              className="rounded-full bg-white px-6 py-3 text-sm font-bold text-ink ring-1 ring-ink/10 transition hover:bg-[#f7f8fc]"
             >
               Contact Support
             </Link>

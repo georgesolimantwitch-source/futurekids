@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import type { AccountType, EcosystemAccount } from "@/lib/auth/types";
 import type { User } from "@supabase/supabase-js";
+import { avatarFromAuthUser } from "@/lib/auth/account-display";
 import { SETUP_PENDING_MESSAGE } from "@/lib/auth/account-view";
 
 function accountNeedsSetup(account: EcosystemAccount | null): boolean {
@@ -24,12 +25,7 @@ function displayNameFromUser(user: User): string | null {
 }
 
 function avatarFromUser(user: User): string | null {
-  const meta = user.user_metadata ?? {};
-  return (
-    (meta.avatar_url as string | undefined) ??
-    (meta.picture as string | undefined) ??
-    null
-  );
+  return avatarFromAuthUser(user);
 }
 
 export async function getEcosystemAccount(): Promise<EcosystemAccount | null> {
