@@ -33,10 +33,12 @@ import {
   type PlanManagementContext,
 } from "@/lib/subscriptions/plan-management";
 import { FamilyKidsSection } from "@/components/account/FamilyKidsSection";
+import { HubOrdersSection } from "@/components/account/HubOrdersSection";
 
 const NAV_ITEMS = [
   { id: "overview", label: "Overview" },
   { id: "my-apps", label: "My Apps" },
+  { id: "orders", label: "Orders" },
   { id: "plans", label: "Plans & Billing" },
   { id: "profile", label: "Profile" },
   { id: "security", label: "Security" },
@@ -494,11 +496,30 @@ export function AccountDashboard({
               )}
             </section>
 
+            <section id="orders">
+              <SectionHeading
+                title="Orders"
+                description="Track Genlyn Hub hardware purchases and shipping updates."
+              />
+              <HubOrdersSection />
+            </section>
+
             <section id="plans">
               <SectionHeading
                 title="Plans & Billing"
                 description="Manage subscriptions, billing intervals, and renewal dates."
               />
+              <div className="mt-6 flex flex-col gap-3 rounded-[28px] bg-[#f3efff] px-5 py-4 ring-1 ring-[#7c3aed]/15 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-sm font-medium text-ink">
+                  Add a Genlyn Hub to your home — wall tablet from $149.
+                </p>
+                <Link
+                  href="/genlyn-hub"
+                  className="inline-flex h-10 shrink-0 items-center rounded-full bg-ink px-4 text-sm font-bold text-white"
+                >
+                  Shop Hub
+                </Link>
+              </div>
               <div className="mt-6 overflow-hidden rounded-[28px] bg-white shadow-[0_30px_60px_-40px_rgba(15,23,42,0.45)] ring-1 ring-ink/5">
                 <div className="border-b border-ink/5 bg-[#f7f8fc] px-6 py-5">
                   <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

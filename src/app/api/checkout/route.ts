@@ -11,7 +11,6 @@ import {
 } from "@/config/scholars-credits";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { getRequestOrigin } from "@/lib/auth/redirect";
 import {
   assertStripePriceMatchesCatalog,
   ensureStripeCustomerId,
@@ -19,18 +18,9 @@ import {
   getStripe,
 } from "@/lib/subscriptions/stripe";
 import { requiredFamilyChildCount } from "@/lib/subscriptions/plan-management";
-
-function checkoutOrigin(request: NextRequest): string {
-  const configured = process.env.NEXT_PUBLIC_SITE_URL?.trim();
-  if (configured) {
-    try {
-      return new URL(configured).origin;
-    } catch {
-      throw new Error("NEXT_PUBLIC_SITE_URL is invalid");
-    }
-  }
-  return getRequestOrigin(request);
-}
+import { resolveCreatorForBuyer } from "@/lib/creators/store";
+import { normalizeCreatorCode } from "@/config/creators";
+import type Stripe from "stripe";
 
 function parseScholarsTier(
   value: unknown,
@@ -66,6 +56,7 @@ export async function POST(request: NextRequest) {
       scholarsGenerations?: unknown;
       scholarsTutorMinutes?: unknown;
       scholarsCreditChildId?: unknown;
+      creator_code?: unknown;
     };
     try {
       body = (await request.json()) as typeof body;
@@ -108,7 +99,6 @@ export async function POST(request: NextRequest) {
     }
     const stripe = getStripe();
     await assertStripePriceMatchesCatalog(stripe, plan, priceId);
-    const origin = checkoutOrigin(request);
     let lineItemQuantity = 1;
     let effectiveChildCount = plan.fixedChildCount ?? 1;
 
@@ -328,7 +318,23 @@ export async function POST(request: NextRequest) {
       throw error;
     }
 
+    const creatorCode =
+      typeof body.creator_code === "string"
+        ? normalizeCreatorCode(body.creator_code)
+        : "";
+
+    if (creatorCode) {
+      await resolveCreatorForBuyer({
+        buyerUserId: user.id,
+        creatorCode,
+        source: `checkout:${plan.appKey}`,
+      });
+    } else {
+      await resolveCreatorForBuyer({ buyerUserId: user.id });
+    }
+
     const sharedMetadata: Record<string, string> = {
+      ...(creatorCode ? { creator_code: creatorCode } : {}),
       future_kids_user_id: user.id,
       app_key: plan.appKey,
       plan_key: plan.planKey,
@@ -371,45 +377,52 @@ export async function POST(request: NextRequest) {
         : {}),
     };
 
-    const session = await stripe.checkout.sessions.create({
-      mode: "subscription",
+    const items: Stripe.SubscriptionCreateParams.Item[] = [
+      { price: priceId, quantity: lineItemQuantity },
+      ...(scholarsAddon
+        ? [{ price: scholarsAddon.priceId, quantity: scholarsAddon.quantity }]
+        : []),
+      ...(scholarsCreditAddon
+        ? [
+            {
+              price: scholarsCreditAddon.priceId,
+              quantity: scholarsCreditAddon.seatCount,
+            },
+          ]
+        : []),
+    ];
+
+    const subscription = await stripe.subscriptions.create({
       customer: customerId,
-      client_reference_id: user.id,
-      line_items: [
-        {
-          price: priceId,
-          quantity: lineItemQuantity,
-        },
-        ...(scholarsAddon
-          ? [
-              {
-                price: scholarsAddon.priceId,
-                quantity: scholarsAddon.quantity,
-              },
-            ]
-          : []),
-        ...(scholarsCreditAddon
-          ? [
-              {
-                price: scholarsCreditAddon.priceId,
-                quantity: scholarsCreditAddon.seatCount,
-              },
-            ]
-          : []),
-      ],
-      success_url: `${origin}/account?checkout=success&app=${plan.appKey}`,
-      cancel_url: `${origin}/pricing?checkout=canceled`,
-      metadata: sharedMetadata,
-      subscription_data: {
-        metadata: sharedMetadata,
+      items,
+      payment_behavior: "default_incomplete",
+      payment_settings: {
+        save_default_payment_method: "on_subscription",
+        payment_method_types: ["card"],
       },
+      metadata: sharedMetadata,
+      expand: ["latest_invoice.confirmation_secret"],
     });
 
-    if (!session.url) {
-      return NextResponse.json({ error: "No checkout URL returned" }, { status: 500 });
+    const invoice = subscription.latest_invoice as Stripe.Invoice | null;
+    const clientSecret =
+      invoice && typeof invoice !== "string"
+        ? invoice.confirmation_secret?.client_secret ?? null
+        : null;
+
+    if (!clientSecret) {
+      return NextResponse.json(
+        { error: "Could not start payment" },
+        { status: 500 },
+      );
     }
 
-    return NextResponse.json({ url: session.url });
+    return NextResponse.json({
+      clientSecret,
+      subscriptionId: subscription.id,
+      appKey: plan.appKey,
+      planKey: plan.planKey,
+    });
   } catch (error) {
     console.error("[checkout] failed", {
       message: error instanceof Error ? error.message : "unknown",

@@ -12,6 +12,7 @@ const columns = [
     title: "Products",
     links: [
       ...siteApps.map((app) => ({ label: app.name, href: app.href })),
+      { label: "Genlyn Hub", href: "/genlyn-hub" },
       { label: "All products", href: "/products" },
     ],
   },

@@ -123,6 +123,22 @@ export function Navigation() {
                   ))}
                 </div>
                 <Link
+                  href="/genlyn-hub"
+                  onClick={() => setProductsOpen(false)}
+                  className="mt-2 flex items-center gap-3 rounded-2xl bg-[#f3efff] px-4 py-3 text-sm font-semibold text-ink transition hover:bg-[#ebe4ff]"
+                >
+                  <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-[#7c3aed] shadow-sm">
+                    <Icon name="home" className="h-5 w-5" />
+                  </span>
+                  <span className="flex-1 text-left">
+                    <span className="block font-bold">Genlyn Hub</span>
+                    <span className="block text-xs font-medium text-ink-soft">
+                      Family wall tablet · from $149
+                    </span>
+                  </span>
+                  <Icon name="arrow-right" className="h-4 w-4 text-ink-faint" />
+                </Link>
+                <Link
                   href="/products"
                   onClick={() => setProductsOpen(false)}
                   className="group/all mt-2 flex items-center justify-between rounded-2xl bg-ink/[0.03] px-4 py-3 text-sm font-semibold text-ink transition hover:bg-ink/[0.06]"
@@ -185,6 +201,19 @@ export function Navigation() {
             </Link>
           ))}
         </div>
+        <Link
+          href="/genlyn-hub"
+          onClick={() => setMobileOpen(false)}
+          className={`mt-2 flex items-center gap-3 rounded-2xl bg-[#f3efff] p-3 transition-all duration-500 ${
+            mobileOpen ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
+          }`}
+          style={{ transitionDelay: "280ms" }}
+        >
+          <span className="flex h-[34px] w-[34px] items-center justify-center rounded-[28%] bg-white text-[#7c3aed]">
+            <Icon name="home" className="h-4 w-4" />
+          </span>
+          <span className="text-sm font-bold text-ink">Genlyn Hub</span>
+        </Link>
         <ul className="mt-6 space-y-1">
           {[{ label: "All products", href: "/products" }, ...mainNav, { label: "Contact", href: "/contact" }].map(
             (link, index) => (

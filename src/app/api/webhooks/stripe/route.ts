@@ -3,6 +3,7 @@ import type Stripe from "stripe";
 import { applyVerifiedSubscriptionEvent } from "@/lib/subscriptions/store";
 import { syncEarnlyChildAccess } from "@/lib/subscriptions/earnly-sync";
 import {
+  getServerCheckoutPlan,
   getStripe,
   stripeSubscriptionToVerified,
 } from "@/lib/subscriptions/stripe";
@@ -11,6 +12,17 @@ import {
   handleScholarsCreditInvoicePaid,
   handleScholarsCreditSubscriptionDeleted,
 } from "@/lib/scholars/credit-webhooks";
+import { notifyEarnlyCreatorAttribution } from "@/lib/earnly/creator-attribution";
+import {
+  isHubPaymentIntent,
+  markHubOrderPaid,
+  markHubOrderPaymentFailed,
+} from "@/lib/hub/orders";
+import {
+  recordCommissionAndTransfer,
+  resolveCreatorForBuyer,
+} from "@/lib/creators/store";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 export const runtime = "nodejs";
 
@@ -21,6 +33,8 @@ const HANDLED_EVENTS = new Set([
   "customer.subscription.deleted",
   "invoice.paid",
   "invoice.payment_failed",
+  "payment_intent.succeeded",
+  "payment_intent.payment_failed",
   "subscription_schedule.updated",
   "subscription_schedule.completed",
   "subscription_schedule.released",
@@ -77,6 +91,101 @@ async function subscriptionFromEvent(
   return null;
 }
 
+function invoiceLinePriceId(line: Stripe.InvoiceLineItem): string | null {
+  const legacy = (line as Stripe.InvoiceLineItem & {
+    price?: string | { id: string } | null;
+  }).price;
+  return (
+    expandableId(legacy) ??
+    expandableId(line.pricing?.price_details?.price) ??
+    null
+  );
+}
+
+/** Paid amount for the Earnly plan line only (excludes Scholars credit add-ons). */
+function earnlyInvoiceAmountCents(
+  invoice: Stripe.Invoice,
+  planKey: string,
+): number {
+  const planPriceId = getServerCheckoutPlan(planKey)?.priceId;
+  const lines = invoice.lines?.data ?? [];
+  const planLines = planPriceId
+    ? lines.filter((line) => invoiceLinePriceId(line) === planPriceId)
+    : [];
+  // If the invoice mixes the plan with add-ons (e.g. Scholars credits), count only the plan line.
+  if (planLines.length > 0 && planLines.length < lines.length) {
+    return Math.max(
+      0,
+      planLines.reduce((sum, line) => sum + (line.amount ?? 0), 0),
+    );
+  }
+  return Math.max(0, invoice.amount_paid ?? 0);
+}
+
+async function notifyEarnlyAttributionForEvent(
+  event: Stripe.Event,
+  subscription: Stripe.Subscription,
+  userId: string,
+  planKey: string,
+  duplicate: boolean,
+): Promise<void> {
+  try {
+    if (duplicate) return;
+
+    if (event.type === "customer.subscription.deleted") {
+      const code = subscription.metadata?.creator_code?.trim();
+      if (!code) return;
+      await notifyEarnlyCreatorAttribution({
+        creator_code: code,
+        amount_cents: 0,
+        currency: subscription.currency || "usd",
+        event_type: "cancel",
+        product_id: planKey,
+        user_id: userId,
+        stripe_subscription_id: subscription.id,
+        billed_at: new Date(event.created * 1000).toISOString(),
+      });
+      return;
+    }
+
+    if (event.type !== "invoice.paid") return;
+    const invoice = event.data.object as Stripe.Invoice;
+    const code = (
+      subscription.metadata?.creator_code || invoice.metadata?.creator_code
+    )?.trim();
+    if (!code) return;
+
+    const reason = (invoice as Stripe.Invoice & { billing_reason?: string | null })
+      .billing_reason;
+    let eventType: "purchase" | "renewal";
+    if (reason === "subscription_create") eventType = "purchase";
+    else if (reason === "subscription_cycle") eventType = "renewal";
+    else return;
+
+    const amount = earnlyInvoiceAmountCents(invoice, planKey);
+    if (amount <= 0) return;
+
+    await notifyEarnlyCreatorAttribution({
+      creator_code: code,
+      amount_cents: amount,
+      currency: invoice.currency || "usd",
+      event_type: eventType,
+      product_id: planKey,
+      user_id: userId,
+      stripe_invoice_id: invoice.id,
+      stripe_subscription_id: subscription.id,
+      billed_at: invoice.status_transitions?.paid_at
+        ? new Date(invoice.status_transitions.paid_at * 1000).toISOString()
+        : new Date().toISOString(),
+    });
+  } catch (error) {
+    console.error("[stripe-webhook] earnly attribution failed", {
+      eventId: event.id,
+      message: error instanceof Error ? error.message : "unknown",
+    });
+  }
+}
+
 export async function POST(request: Request) {
   const signature = request.headers.get("stripe-signature");
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -106,6 +215,49 @@ export async function POST(request: Request) {
 
   try {
     const stripe = getStripe();
+
+    if (event.type === "payment_intent.succeeded") {
+      const intent = event.data.object as Stripe.PaymentIntent;
+      if (isHubPaymentIntent(intent.metadata)) {
+        await markHubOrderPaid(intent.id);
+        const buyerId = intent.metadata.user_id || null;
+        const code = intent.metadata.creator_code;
+        if (buyerId) {
+          const creator = await resolveCreatorForBuyer({
+            buyerUserId: buyerId,
+            creatorCode: code || null,
+            source: "hub_payment",
+          });
+          if (creator) {
+            const admin = createAdminClient();
+            const { data: order } = await admin
+              .from("hub_orders")
+              .select("id")
+              .eq("stripe_payment_intent_id", intent.id)
+              .maybeSingle();
+            await recordCommissionAndTransfer({
+              creatorId: creator.id,
+              buyerUserId: buyerId,
+              source: "hub",
+              grossCents: intent.amount_received || intent.amount || 0,
+              currency: intent.currency || "usd",
+              stripePaymentIntentId: intent.id,
+              hubOrderId: order?.id ?? null,
+              description: `Hub ${intent.metadata.size || ""} · 20%`,
+            });
+          }
+        }
+        return NextResponse.json({ received: true, hubOrder: true });
+      }
+    }
+
+    if (event.type === "payment_intent.payment_failed") {
+      const intent = event.data.object as Stripe.PaymentIntent;
+      if (isHubPaymentIntent(intent.metadata)) {
+        await markHubOrderPaymentFailed(intent.id);
+        return NextResponse.json({ received: true, hubOrder: true });
+      }
+    }
 
     if (event.type === "checkout.session.completed") {
       const session = event.data.object as Stripe.Checkout.Session;
@@ -186,6 +338,48 @@ export async function POST(request: Request) {
       entitlement.appKey === "futurekids_all_access"
     ) {
       await syncEarnlyChildAccess(entitlement.userId);
+      await notifyEarnlyAttributionForEvent(
+        event,
+        subscription,
+        entitlement.userId,
+        entitlement.planKey,
+        application.outcome === "duplicate",
+      );
+    }
+
+    // Genlyn Creator Program — 20% of subscription charges while attributed
+    if (event.type === "invoice.paid" && application.outcome !== "duplicate") {
+      try {
+        const invoice = event.data.object as Stripe.Invoice;
+        const code =
+          subscription.metadata?.creator_code ||
+          invoice.metadata?.creator_code ||
+          null;
+        const creator = await resolveCreatorForBuyer({
+          buyerUserId: entitlement.userId,
+          creatorCode: code,
+          source: `invoice:${entitlement.appKey}`,
+        });
+        if (creator) {
+          const gross = Math.max(0, invoice.amount_paid ?? 0);
+          await recordCommissionAndTransfer({
+            creatorId: creator.id,
+            buyerUserId: entitlement.userId,
+            source: "subscription",
+            grossCents: gross,
+            currency: invoice.currency || "usd",
+            stripeInvoiceId: invoice.id,
+            stripeSubscriptionId: subscription.id,
+            description: `${entitlement.planKey} · 20%`,
+          });
+        }
+      } catch (creatorError) {
+        console.error("[stripe-webhook] genlyn creator commission failed", {
+          eventId: event.id,
+          message:
+            creatorError instanceof Error ? creatorError.message : "unknown",
+        });
+      }
     }
 
     console.info("[stripe-webhook] entitlement synchronized", {

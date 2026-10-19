@@ -8,6 +8,7 @@ import { EcosystemPlanBuilder } from "./EcosystemPlanBuilder";
 import { ExistingSubscriberSection } from "./ExistingSubscriberSection";
 import { PricingComparison } from "./PricingComparison";
 import { PricingFAQ } from "./PricingFAQ";
+import { HubAddonPromo } from "./HubAddonPromo";
 import type { PlanManagementContext } from "@/lib/subscriptions/plan-management";
 import type { AppSlug } from "@/config/brand";
 
@@ -41,6 +42,7 @@ export function PricingPageContent({
         planContext={planContext}
       />
       <EcosystemPlanBuilder billingPeriod={billingPeriod} />
+      <HubAddonPromo />
       <ExistingSubscriberSection />
       <PricingComparison />
       <PricingFAQ />

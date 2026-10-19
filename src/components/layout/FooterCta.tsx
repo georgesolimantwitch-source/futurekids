@@ -11,6 +11,10 @@ const HIDDEN_PREFIXES = [
   "/reset-password",
   "/verify-email",
   "/hub",
+  "/genlyn-hub/checkout",
+  "/checkout",
+  "/creator",
+  "/admin",
   "/auth",
 ];
 

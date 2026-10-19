@@ -45,6 +45,12 @@ export function AuthNav() {
     return (
       <div className="flex items-center gap-1 sm:gap-2">
         <Link
+          href="/creator"
+          className="hidden rounded-full px-3 py-2 text-xs font-bold uppercase tracking-[0.12em] text-[#7c3aed] transition hover:bg-[#f3efff] sm:inline-flex"
+        >
+          Become a creator
+        </Link>
+        <Link
           href="/login"
           className="rounded-full px-4 py-2 text-sm font-semibold text-ink-soft transition hover:text-ink"
         >
@@ -69,6 +75,12 @@ export function AuthNav() {
 
   return (
     <div className="flex items-center gap-1 sm:gap-2">
+      <Link
+        href="/creator"
+        className="hidden rounded-full px-3 py-2 text-xs font-bold uppercase tracking-[0.12em] text-[#7c3aed] transition hover:bg-[#f3efff] lg:inline-flex"
+      >
+        Creator
+      </Link>
       <Link
         href="/account"
         className="rounded-full px-4 py-2 text-sm font-semibold text-ink-soft transition hover:text-ink"
@@ -122,7 +134,14 @@ export function AuthNavMobile({ onNavigate }: { onNavigate?: () => void }) {
 
   if (!user) {
     return (
-      <div className="mt-4 flex flex-col gap-2 border-t border-neutral-100 pt-4">
+      <div className="mt-4 flex flex-col gap-2 border-t border-ink/5 pt-4">
+        <Link
+          href="/creator"
+          onClick={onNavigate}
+          className="rounded-full bg-[#f3efff] px-3 py-3 text-center text-sm font-bold text-[#7c3aed]"
+        >
+          Become a creator
+        </Link>
         <Link
           href="/login"
           onClick={onNavigate}
@@ -142,11 +161,18 @@ export function AuthNavMobile({ onNavigate }: { onNavigate?: () => void }) {
   }
 
   return (
-    <div className="mt-4 flex flex-col gap-2 border-t border-neutral-100 pt-4">
+    <div className="mt-4 flex flex-col gap-2 border-t border-ink/5 pt-4">
+      <Link
+        href="/creator"
+        onClick={onNavigate}
+        className="rounded-xl px-3 py-2.5 text-sm font-bold text-[#7c3aed]"
+      >
+        Creator dashboard
+      </Link>
       <Link
         href="/account"
         onClick={onNavigate}
-        className="rounded-xl px-3 py-2.5 text-sm font-medium text-neutral-800"
+        className="rounded-xl px-3 py-2.5 text-sm font-medium text-ink"
       >
         Account
       </Link>
