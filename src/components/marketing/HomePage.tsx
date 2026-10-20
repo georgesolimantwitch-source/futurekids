@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { siteApps } from "@/config/site";
-import { EarnlyScreen } from "@/components/site/AppScreens";
+import { AppPreview } from "@/components/site/AppPreview";
 import { Icon } from "@/components/site/Icon";
 import { CountUp, Magnetic, Parallax, Reveal } from "@/components/site/motion";
 import {
@@ -10,7 +10,6 @@ import {
   Container,
   Eyebrow,
   FloatChip,
-  PhoneFrame,
   PillLink,
   PlayLink,
   SectionHeading,
@@ -265,9 +264,7 @@ function HeroCollage() {
         </div>
 
         <div className="float absolute right-[2%] top-0 z-10" style={{ "--float-speed": "7s" } as CSSProperties}>
-          <PhoneFrame width={168}>
-            <EarnlyScreen />
-          </PhoneFrame>
+          <AppPreview slug="earnly" width={168} priority />
         </div>
 
         <FloatChip className="left-[-4%] top-[44%] flex items-center gap-2.5" delay={-2}>

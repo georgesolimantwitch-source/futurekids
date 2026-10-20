@@ -3,8 +3,8 @@ import { familyChallenges, missionSection } from "@/config/about";
 import { getSiteApp, type FeaturedSlug } from "@/config/site";
 import { Icon, type IconName } from "@/components/site/Icon";
 import { Magnetic, Parallax, Reveal, Tilt } from "@/components/site/motion";
-import { AppScreen } from "@/components/site/AppScreens";
-import { AppIcon, Container, Eyebrow, PhoneFrame, PillLink, SectionHeading } from "@/components/site/ui";
+import { AppPreview } from "@/components/site/AppPreview";
+import { AppIcon, Container, Eyebrow, PillLink, SectionHeading } from "@/components/site/ui";
 import { ScrollWords } from "./interactive";
 import { PageHero, Section } from "./shared";
 
@@ -127,9 +127,7 @@ export function MissionPage() {
                         style={{ background: `linear-gradient(160deg, ${app.colorSoft}, #fefce8)` }}
                       >
                         <div className="float translate-y-[22%]">
-                          <PhoneFrame width={230}>
-                            <AppScreen slug="fresher" />
-                          </PhoneFrame>
+                          <AppPreview slug="fresher" width={230} />
                         </div>
                       </div>
                     ) : (

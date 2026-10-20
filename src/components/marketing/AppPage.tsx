@@ -4,7 +4,7 @@ import type { CSSProperties } from "react";
 import { siteApps, type FeaturedSlug, type SiteApp } from "@/config/site";
 import { AppProductPricing } from "@/components/apps/product/AppProductPricing";
 import { Accordion } from "@/components/site/Accordion";
-import { AppScreen } from "@/components/site/AppScreens";
+import { AppPreview } from "@/components/site/AppPreview";
 import { Icon, type IconName } from "@/components/site/Icon";
 import { CountUp, Magnetic, Parallax, Reveal, Tilt } from "@/components/site/motion";
 import {
@@ -12,7 +12,6 @@ import {
   Container,
   FeatureStrip,
   FloatChip,
-  PhoneFrame,
   PillLink,
   PlayLink,
   SectionHeading,
@@ -236,9 +235,11 @@ function HeroVisual({ app }: { app: SiteApp }) {
           }`}
         >
           <div className="float" style={{ "--float-speed": "7s" } as CSSProperties}>
-            <PhoneFrame width={backdrop ? 250 : 270}>
-              <AppScreen slug={app.slug} />
-            </PhoneFrame>
+            <AppPreview
+              slug={app.slug}
+              width={backdrop ? 250 : 270}
+              priority
+            />
           </div>
         </div>
 

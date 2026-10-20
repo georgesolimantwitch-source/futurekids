@@ -1,6 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import type { SiteApp } from "@/config/site";
-import { AppScreen } from "@/components/site/AppScreens";
+import { AppPreview } from "@/components/site/AppPreview";
 import { Icon, type IconName } from "@/components/site/Icon";
 import { Reveal, Tilt } from "@/components/site/motion";
 import {
@@ -8,7 +8,6 @@ import {
   Blobs,
   CheckItem,
   Container,
-  PhoneFrame,
   PillLink,
 } from "@/components/site/ui";
 
@@ -82,9 +81,7 @@ export function ProductCard({ app, index = 0 }: { app: SiteApp; index?: number }
 
           <div className="relative mt-6 flex justify-center">
             <div className="float" style={{ "--float-delay": `${index * -1.3}s`, "--float-distance": "-10px" } as CSSProperties}>
-              <PhoneFrame width={206}>
-                <AppScreen slug={app.slug} />
-              </PhoneFrame>
+              <AppPreview slug={app.slug} width={206} />
             </div>
           </div>
 

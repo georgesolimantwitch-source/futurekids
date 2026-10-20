@@ -372,32 +372,27 @@ export const apps: AppConfig[] = [
       },
     ],
     screenshotGalleryStyle: "marketing",
-    screenshotAspect: "37/80",
+    screenshotAspect: "4/3",
     screenshots: [
       {
         path: "/images/apps/scholars/marketing-classes.png",
         alt: "Scholars Notes course dashboard listing every class in one place",
-        caption: "Class dashboard",
+        caption: "All your classes. All in one place.",
       },
       {
         path: "/images/apps/scholars/marketing-class-detail.png",
         alt: "Scholars Notes Biology 101 class hub with notes, resources, and quick actions",
-        caption: "Class workspace",
+        caption: "Master every topic.",
       },
       {
         path: "/images/apps/scholars/marketing-notes.png",
-        alt: "Scholars Notes handwritten study guide on iPad and iPhone",
-        caption: "Notes & study guides",
-      },
-      {
-        path: "/images/apps/scholars/marketing-tutor.png",
-        alt: "Scholars Notes Live Tutor listening to a lesson page and answering questions",
-        caption: "Live AI tutor",
+        alt: "Scholars Notes handwritten study guide on tablet",
+        caption: "Create, organize, and understand better.",
       },
       {
         path: "/images/apps/scholars/marketing-road-to-college.png",
         alt: "Scholars Notes Road to College planner with GPA, SAT targets, and goals",
-        caption: "Road to College",
+        caption: "Plan today. Achieve tomorrow.",
       },
     ],
     faqs: [
@@ -522,14 +517,14 @@ export const apps: AppConfig[] = [
     screenshotAspect: "9/16",
     screenshots: [
       {
-        path: "/images/apps/ballr/mockup-badges.png",
-        alt: "Ballr badge collection with Rookie I badge and OVR progress",
-        caption: "Earn badges as you play.",
-      },
-      {
         path: "/images/apps/ballr/mockup-player-card.png",
         alt: "Ballr player card showing overall rating and XP progress",
         caption: "Build your player card.",
+      },
+      {
+        path: "/images/apps/ballr/mockup-potential.png",
+        alt: "Ballr physique potential comparing current build with future potential",
+        caption: "See your potential.",
       },
       {
         path: "/images/apps/ballr/mockup-fuel.png",
@@ -547,9 +542,9 @@ export const apps: AppConfig[] = [
         caption: "Personalized workouts.",
       },
       {
-        path: "/images/apps/ballr/mockup-potential.png",
-        alt: "Ballr physique potential comparing current build with future potential",
-        caption: "See your potential.",
+        path: "/images/apps/ballr/marketing-parks-map.png",
+        alt: "Ballr map finding games and parks near you with ratings",
+        caption: "Find games and parks near you.",
       },
     ],
     faqs: [
@@ -811,29 +806,29 @@ export const apps: AppConfig[] = [
     screenshotAspect: "9/16",
     screenshots: [
       {
-        path: "/images/apps/fresher/marketing-farm-map.png",
-        alt: "Freshys map showing nearby farms and markets with ratings",
-        caption: "Every farm on one map",
-      },
-      {
         path: "/images/apps/fresher/marketing-discover.png",
-        alt: "Freshys discover list of farmers markets and food stores near you",
-        caption: "Discover nearby",
-      },
-      {
-        path: "/images/apps/fresher/marketing-farm-details.png",
-        alt: "Freshys farm details page with photos, rating, hours, and story",
-        caption: "Know your local farmer",
-      },
-      {
-        path: "/images/apps/fresher/marketing-directions.png",
-        alt: "Freshys market detail card with directions, call, and website actions",
-        caption: "Directions in a tap",
+        alt: "Freshys discover screen with local farms and markets near you",
+        caption: "Real fresh. Real close.",
       },
       {
         path: "/images/apps/fresher/marketing-shopping-list.png",
-        alt: "Freshys shopping list with a budget tracker and priced items",
-        caption: "Shop to a budget",
+        alt: "Freshys markets grid with meat, seafood, and local vendors",
+        caption: "Shop nearby markets.",
+      },
+      {
+        path: "/images/apps/fresher/marketing-farm-details.png",
+        alt: "Freshys farm store page with products and Freshys Verified badge",
+        caption: "Shop from local farms.",
+      },
+      {
+        path: "/images/apps/fresher/marketing-directions.png",
+        alt: "Freshys product detail for chicken breasts with subscribe options",
+        caption: "Fresh food your way.",
+      },
+      {
+        path: "/images/apps/fresher/marketing-farm-map.png",
+        alt: "Freshys map showing nearby farms and markets",
+        caption: "Find farms anywhere.",
       },
     ],
     faqs: [
