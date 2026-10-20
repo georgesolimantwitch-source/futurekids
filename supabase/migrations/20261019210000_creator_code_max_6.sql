@@ -3,10 +3,6 @@
 alter table public.genlyn_creators
   drop constraint if exists genlyn_creators_code_format;
 
-alter table public.genlyn_creators
-  add constraint genlyn_creators_code_format
-  check (code ~ '^[A-Z0-9]{4,6}$');
-
 -- Shorten any existing codes that exceeded 6 chars (keep uniqueness).
 do $$
 declare
@@ -37,3 +33,7 @@ begin
     update public.genlyn_creators set code = candidate where id = r.id;
   end loop;
 end $$;
+
+alter table public.genlyn_creators
+  add constraint genlyn_creators_code_format
+  check (code ~ '^[A-Z0-9]{4,6}$');
