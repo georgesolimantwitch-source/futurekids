@@ -183,8 +183,9 @@ export function CreatorDashboard() {
               {joining ? "Starting…" : "Become a creator"}
             </button>
             <p className="text-xs leading-relaxed text-ink-faint">
-              Next you’ll connect payouts with Stripe (Global Payouts via Connect
-              Express) so commissions can land in your bank account.
+              Next you’ll add your bank details on a short Stripe form (Global
+              Payouts) so commissions can land in your account — no full Stripe
+              business account needed.
             </p>
           </form>
         </div>
@@ -221,7 +222,7 @@ export function CreatorDashboard() {
               disabled={joining}
               className="rounded-full bg-ink px-5 py-3 text-sm font-bold text-white disabled:opacity-60"
             >
-              {joining ? "Opening…" : "Finish Stripe payouts"}
+              {joining ? "Opening…" : "Add bank details"}
             </button>
           )}
         </div>

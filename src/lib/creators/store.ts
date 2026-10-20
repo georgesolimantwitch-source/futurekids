@@ -5,8 +5,16 @@ import {
   normalizeCreatorCode,
   suggestCreatorCode,
 } from "@/config/creators";
+import {
+  createGlobalRecipient,
+  createRecipientOnboardingLink,
+  isGlobalRecipientAccount,
+  recipientReady,
+  retrieveGlobalRecipient,
+  sendGlobalOutboundPayment,
+} from "@/lib/creators/global-payouts";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { getStripe } from "@/lib/subscriptions/stripe";
+
 export type CreatorStatus =
   | "pending"
   | "onboarding"
@@ -133,35 +141,41 @@ export async function ensureCreatorForUser(options: {
   return data as GenlynCreator;
 }
 
+/** Stripe Global Payouts recipient onboarding (hosted bank details form). */
 export async function startConnectOnboarding(options: {
   creator: GenlynCreator;
   email?: string | null;
   returnOrigin: string;
 }): Promise<{ url: string; creator: GenlynCreator }> {
-  const stripe = getStripe();
   const admin = createAdminClient();
   let accountId = options.creator.stripe_connect_account_id;
 
+  // Drop legacy Connect Express accounts — creators use Global Payouts recipients.
+  if (accountId && !(await isGlobalRecipientAccount(accountId))) {
+    accountId = null;
+    await admin
+      .from("genlyn_creators")
+      .update({
+        stripe_connect_account_id: null,
+        payouts_enabled: false,
+        details_submitted: false,
+        status: "onboarding",
+      })
+      .eq("id", options.creator.id);
+  }
+
   if (!accountId) {
-    const account = await stripe.accounts.create({
-      type: "express",
-      email: options.email ?? undefined,
-      capabilities: {
-        transfers: { requested: true },
-      },
-      business_type: "individual",
+    const recipient = await createGlobalRecipient({
+      email: options.email,
+      displayName: options.creator.display_name,
+      country: "us",
       metadata: {
         genlyn_creator_id: options.creator.id,
         genlyn_user_id: options.creator.user_id,
         genlyn_code: options.creator.code,
       },
-      settings: {
-        payouts: {
-          schedule: { interval: "daily" },
-        },
-      },
     });
-    accountId = account.id;
+    accountId = recipient.id;
     await admin
       .from("genlyn_creators")
       .update({
@@ -171,11 +185,10 @@ export async function startConnectOnboarding(options: {
       .eq("id", options.creator.id);
   }
 
-  const link = await stripe.accountLinks.create({
-    account: accountId,
-    refresh_url: `${options.returnOrigin}/creator?connect=refresh`,
-    return_url: `${options.returnOrigin}/creator?connect=return`,
-    type: "account_onboarding",
+  const link = await createRecipientOnboardingLink({
+    accountId,
+    refreshUrl: `${options.returnOrigin}/creator?connect=refresh`,
+    returnUrl: `${options.returnOrigin}/creator?connect=return`,
   });
 
   const refreshed = await getCreatorByUserId(options.creator.user_id);
@@ -186,16 +199,32 @@ export async function syncConnectAccountStatus(
   creator: GenlynCreator,
 ): Promise<GenlynCreator> {
   if (!creator.stripe_connect_account_id) return creator;
-  const stripe = getStripe();
-  const account = await stripe.accounts.retrieve(
-    creator.stripe_connect_account_id,
-  );
-  const payoutsEnabled = Boolean(account.payouts_enabled);
-  const detailsSubmitted = Boolean(account.details_submitted);
+
+  let recipient;
+  try {
+    recipient = await retrieveGlobalRecipient(creator.stripe_connect_account_id);
+  } catch {
+    // Legacy Connect Express id — clear so they re-onboard via Global Payouts
+    const admin = createAdminClient();
+    const { data } = await admin
+      .from("genlyn_creators")
+      .update({
+        stripe_connect_account_id: null,
+        payouts_enabled: false,
+        details_submitted: false,
+        status: "pending",
+      })
+      .eq("id", creator.id)
+      .select("*")
+      .single();
+    return (data as GenlynCreator) ?? creator;
+  }
+
+  const ready = recipientReady(recipient);
   const status: CreatorStatus =
-    payoutsEnabled && detailsSubmitted
+    ready.payoutsEnabled && ready.detailsSubmitted
       ? "active"
-      : detailsSubmitted
+      : ready.detailsSubmitted
         ? "onboarding"
         : creator.status === "pending"
           ? "pending"
@@ -205,8 +234,8 @@ export async function syncConnectAccountStatus(
   const { data } = await admin
     .from("genlyn_creators")
     .update({
-      payouts_enabled: payoutsEnabled,
-      details_submitted: detailsSubmitted,
+      payouts_enabled: ready.payoutsEnabled,
+      details_submitted: ready.detailsSubmitted,
       status,
     })
     .eq("id", creator.id)
@@ -369,15 +398,14 @@ export async function recordCommissionAndTransfer(options: {
     })
     .eq("id", options.creatorId);
 
-  // Transfer via Connect when payouts are enabled
+  // Pay out via Stripe Global Payouts (OutboundPayment) when recipient is ready
   if (creator.stripe_connect_account_id && creator.payouts_enabled) {
     try {
-      const stripe = getStripe();
-      const transfer = await stripe.transfers.create({
-        amount,
+      const payment = await sendGlobalOutboundPayment({
+        recipientId: creator.stripe_connect_account_id,
+        amountCents: amount,
         currency: options.currency ?? "usd",
-        destination: creator.stripe_connect_account_id,
-        transfer_group: options.stripeInvoiceId || options.stripePaymentIntentId || undefined,
+        description: `${creator.code} · ${insert.description}`,
         metadata: {
           genlyn_commission_id: commission.id,
           genlyn_creator_id: options.creatorId,
@@ -388,7 +416,7 @@ export async function recordCommissionAndTransfer(options: {
         .from("creator_commissions")
         .update({
           status: "transferred",
-          stripe_transfer_id: transfer.id,
+          stripe_transfer_id: payment.id,
           transferred_at: new Date().toISOString(),
         })
         .eq("id", commission.id);
@@ -401,11 +429,11 @@ export async function recordCommissionAndTransfer(options: {
       return {
         ...commission,
         status: "transferred",
-        stripe_transfer_id: transfer.id,
+        stripe_transfer_id: payment.id,
         transferred_at: new Date().toISOString(),
       };
     } catch (err) {
-      const message = err instanceof Error ? err.message : "Transfer failed";
+      const message = err instanceof Error ? err.message : "Payout failed";
       await admin
         .from("creator_commissions")
         .update({ status: "failed", error_message: message })
