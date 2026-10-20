@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
       const code = normalizeCreatorCode(body.code);
       if (!isValidCreatorCodeFormat(code)) {
         return NextResponse.json(
-          { error: "Code must be 4–12 letters or numbers" },
+          { error: "Code must be 4–6 letters or numbers" },
           { status: 400 },
         );
       }

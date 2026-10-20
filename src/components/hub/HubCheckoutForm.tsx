@@ -263,8 +263,8 @@ export function HubCheckoutForm({ initialSize }: { initialSize: HubSizeId }) {
                       e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ""),
                     )
                   }
-                  placeholder="e.g. MAYA24"
-                  maxLength={12}
+                  placeholder="e.g. MAYA"
+                  maxLength={6}
                   className="mt-1.5 w-full rounded-2xl bg-[#f7f8fc] px-4 py-3 text-[15px] font-bold tracking-wider text-ink outline-none ring-1 ring-ink/[0.06] focus:bg-white focus:ring-2 focus:ring-brand/40"
                 />
                 {creatorValid === true && (

@@ -114,7 +114,7 @@ export async function ensureCreatorForUser(options: {
 
   const admin = createAdminClient();
   let code = suggestCreatorCode(options.name || options.email || "GEN");
-  for (let attempt = 0; attempt < 8; attempt++) {
+  for (let attempt = 0; attempt < 24; attempt++) {
     const { data: clash } = await admin
       .from("genlyn_creators")
       .select("id")
@@ -122,6 +122,9 @@ export async function ensureCreatorForUser(options: {
       .maybeSingle();
     if (!clash) break;
     code = suggestCreatorCode(options.name || options.email || "GEN");
+    if (attempt === 23) {
+      throw new Error("Could not allocate a unique creator code");
+    }
   }
 
   const { data, error } = await admin

@@ -2,14 +2,17 @@
 
 export const CREATOR_COMMISSION_RATE = 0.2;
 export const CREATOR_CODE_MIN = 4;
-export const CREATOR_CODE_MAX = 12;
+export const CREATOR_CODE_MAX = 6;
 export const CREATOR_KIND = "genlyn_creator";
+
+/** Letters + digits without confusing 0/O/1/I. */
+const CODE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
 export function commissionCents(grossCents: number): number {
   return Math.floor(Math.max(0, grossCents) * CREATOR_COMMISSION_RATE);
 }
 
-/** Short codes: letters + digits, no confusing 0/O/1/I. */
+/** Short codes: 4–6 letters/digits. */
 export function normalizeCreatorCode(raw: string): string {
   return raw
     .trim()
@@ -27,8 +30,21 @@ export function isValidCreatorCodeFormat(code: string): boolean {
   );
 }
 
+function randomCodeChars(length: number): string {
+  let out = "";
+  for (let i = 0; i < length; i++) {
+    out += CODE_ALPHABET[Math.floor(Math.random() * CODE_ALPHABET.length)]!;
+  }
+  return out;
+}
+
+/**
+ * Suggest a unique-looking 6-char code from a name/email seed.
+ * Uniqueness is enforced at insert time; this just builds candidates.
+ */
 export function suggestCreatorCode(seed: string): string {
-  const base = normalizeCreatorCode(seed.replace(/@.*/, "").slice(0, 6)) || "GEN";
-  const suffix = Math.random().toString(36).slice(2, 5).toUpperCase();
-  return normalizeCreatorCode(`${base}${suffix}`).slice(0, CREATOR_CODE_MAX);
+  const cleaned = normalizeCreatorCode(seed.replace(/@.*/, ""))
+    .replace(/[01IO]/g, "");
+  const prefix = (cleaned.slice(0, 3) || "GEN").padEnd(3, "X").slice(0, 3);
+  return `${prefix}${randomCodeChars(3)}`.slice(0, CREATOR_CODE_MAX);
 }

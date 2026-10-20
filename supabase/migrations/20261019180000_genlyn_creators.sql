@@ -36,7 +36,7 @@ create table if not exists public.genlyn_creators (
   total_paid_cents bigint not null default 0,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
-  constraint genlyn_creators_code_format check (code ~ '^[A-Z0-9]{4,12}$')
+  constraint genlyn_creators_code_format check (code ~ '^[A-Z0-9]{4,6}$')
 );
 
 create index if not exists genlyn_creators_code_idx on public.genlyn_creators (code);

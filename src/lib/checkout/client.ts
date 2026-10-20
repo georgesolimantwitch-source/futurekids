@@ -34,7 +34,7 @@ export function creatorCodeFromUrl(): string | null {
     .trim()
     .toUpperCase()
     .replace(/[^A-Z0-9]/g, "")
-    .slice(0, 12);
+    .slice(0, 6);
   try {
     if (fromUrl) {
       window.sessionStorage.setItem(CREATOR_STORAGE_KEY, fromUrl);
@@ -54,7 +54,7 @@ export function creatorCodeFromUrl(): string | null {
 
 export function storeCreatorCode(code: string) {
   if (typeof window === "undefined") return;
-  const normalized = code.trim().toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 12);
+  const normalized = code.trim().toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 6);
   try {
     if (normalized) {
       window.sessionStorage.setItem(CREATOR_STORAGE_KEY, normalized);
