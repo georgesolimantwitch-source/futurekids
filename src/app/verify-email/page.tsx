@@ -1,24 +1,17 @@
-import Link from "next/link";
+import { Suspense } from "react";
+import { VerifyEmailForm } from "@/components/auth/VerifyEmailForm";
 import { AuthShell } from "@/components/auth/AuthShell";
 
 export default function VerifyEmailPage() {
   return (
-    <AuthShell
-      title="Verify your email"
-      subtitle="We sent a confirmation link to your inbox. Please verify your email before signing in on a new device."
-      footer={
-        <>
-          Already verified? <Link href="/login" className="font-medium underline underline-offset-4">Sign in</Link>
-        </>
+    <Suspense
+      fallback={
+        <AuthShell title="Check your inbox" subtitle="Loading…">
+          <div className="h-40 animate-pulse rounded-2xl bg-[#f7f8fc]" />
+        </AuthShell>
       }
     >
-      <div className="space-y-4 text-sm leading-relaxed text-ink-soft">
-        <p>Check your spam folder if you do not see the email within a few minutes.</p>
-        <p>
-          Once verified, your Genlyn account will work across Earnly, Scholars Notes, Ballr,
-          and Freshys.
-        </p>
-      </div>
-    </AuthShell>
+      <VerifyEmailForm />
+    </Suspense>
   );
 }

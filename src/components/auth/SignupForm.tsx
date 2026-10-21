@@ -46,13 +46,15 @@ export function SignupForm() {
     persistSignupAccountType(WEB_ACCOUNT_TYPE);
     const supabase = createClient();
 
+    const trimmedEmail = email.trim();
     const { data, error: signUpError } = await supabase.auth.signUp({
-      email: email.trim(),
+      email: trimmedEmail,
       password,
       options: {
         emailRedirectTo: buildOAuthCallbackUrl("/account/setup"),
         data: {
           full_name: fullName.trim(),
+          genlyn_signup: "1",
           ...metadataForAccountType(WEB_ACCOUNT_TYPE),
         },
       },
@@ -64,13 +66,21 @@ export function SignupForm() {
       return;
     }
 
-    if (data.session) {
+    // Email confirmation is required — never skip the verify screen for
+    // password signups, even if a temporary session is returned.
+    try {
+      sessionStorage.setItem("genlyn_pending_verify_email", trimmedEmail);
+    } catch {
+      /* ignore */
+    }
+
+    if (data.session && data.user?.email_confirmed_at) {
       router.push("/account/setup");
       router.refresh();
       return;
     }
 
-    router.push("/verify-email");
+    router.push(`/verify-email?email=${encodeURIComponent(trimmedEmail)}`);
     router.refresh();
   }
 

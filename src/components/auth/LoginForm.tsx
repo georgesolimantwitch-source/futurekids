@@ -32,13 +32,28 @@ export function LoginForm() {
     setError(null);
     setLoading(true);
 
+    const trimmedEmail = email.trim();
     const supabase = createClient();
     const { error: signInError } = await supabase.auth.signInWithPassword({
-      email: email.trim(),
+      email: trimmedEmail,
       password,
     });
 
     if (signInError) {
+      const unverified =
+        /confirm|verified|not confirmed/i.test(signInError.message) ||
+        signInError.code === "email_not_confirmed";
+      if (unverified) {
+        try {
+          sessionStorage.setItem("genlyn_pending_verify_email", trimmedEmail);
+        } catch {
+          /* ignore */
+        }
+        router.push(
+          `/verify-email?email=${encodeURIComponent(trimmedEmail)}`,
+        );
+        return;
+      }
       setError(signInError.message);
       setLoading(false);
       return;
