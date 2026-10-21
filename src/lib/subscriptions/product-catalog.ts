@@ -154,7 +154,7 @@ const EXISTING_STRIPE_IDS: Record<
     productId: "prod_UsFKFCUxLmVonC",
   },
   ballr_yearly: {
-    priceId: "price_1TsUpdLD305HTgIxAwQfTAo5",
+    priceId: "price_1UT7eWLD305HTgIxKNAgrBct",
     productId: "prod_UsFKFCUxLmVonC",
   },
   tinypal_kids1_monthly: {

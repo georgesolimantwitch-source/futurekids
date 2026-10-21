@@ -722,8 +722,7 @@ export function EcosystemAllAccessHero({
               .replace("year", "yr")}
           </p>
           <p className="mt-1 text-sm text-[#8a90a2]">
-            ${ballrPricing.firstChildMonthly.toFixed(2)} first child · +$
-            {ballrPricing.additionalChildMonthly.toFixed(2)} each additional
+            ${ballrPricing.firstChildMonthly.toFixed(2)} per child
             {billingPeriod === "yearly" ? " · pay 10 mo, get 12" : ""}
           </p>
         </>
@@ -1064,7 +1063,7 @@ export function EcosystemAllAccessHero({
               </div>
               <p className="mt-2 text-center text-xs text-[#8a90a2]">
                 {isBallr
-                  ? `$${ballrPricing.firstChildMonthly.toFixed(2)}/mo for 1 child · +$${ballrPricing.additionalChildMonthly.toFixed(2)}/mo per extra · up to 6`
+                  ? `$${ballrPricing.firstChildMonthly.toFixed(2)}/mo per child · up to 6`
                   : `$1.99/mo or $19.90/yr per child · up to 6 children · yearly includes 2 months free`}
               </p>
               {!currentEntitlement &&

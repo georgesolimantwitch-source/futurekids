@@ -156,8 +156,8 @@ const pricingPlanOverrides: Record<
     monthlyPrice: { display: "From $4.99 / mo", amount: 4.99 },
     yearlyPrice: { display: "From $49.90 / yr", amount: 49.9 },
     features: [
-      "$4.99 for 1 child",
-      "+$1.99 per additional child",
+      "$4.99 per child / month",
+      "$49.90 per child / year",
       "Pickup games & nearby parks",
       "Player cards, XP & ratings",
       "Personalized workout plans",

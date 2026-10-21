@@ -66,12 +66,17 @@ function planKeyFromCatalogId(catalogId: string): string | null {
   return null;
 }
 
-/** Scholars multi-seat or All Access with scholars seats > 1 need amount refresh. */
-function needsScholarsAmountRefresh(catalogId: string): boolean {
+/** Multi-seat Ballr/Scholars or All Access seats that need amount refresh. */
+function needsAmountRefresh(catalogId: string): boolean {
+  if (/^ballr\.kids[2-6]\./.test(catalogId)) return true;
   if (/^scholars\.full\.kids[2-6]\./.test(catalogId)) return true;
-  const bundle =
+  const scholarsBundle =
     /^ecosystem\.all\.e[1-6]\.s([2-6])\.b[1-6]\.t[1-6]\./.exec(catalogId);
-  return Boolean(bundle);
+  if (scholarsBundle) return true;
+  // Ballr flat $4.99/child — any All Access with 2+ Ballr seats
+  const ballrBundle =
+    /^ecosystem\.all\.e[1-6]\.s[1-6]\.b([2-6])\.t[1-6]\./.exec(catalogId);
+  return Boolean(ballrBundle);
 }
 
 async function findPrice(lookupKey: string) {
@@ -143,7 +148,7 @@ async function main() {
     const key = planKeyFromCatalogId(plan.catalogId);
     if (!key) return false;
     if (!existing[key]?.priceId) return true;
-    return needsScholarsAmountRefresh(plan.catalogId);
+    return needsAmountRefresh(plan.catalogId);
   });
 
   console.log(`Ensuring ${targets.length} seat prices (create or refresh)…`);

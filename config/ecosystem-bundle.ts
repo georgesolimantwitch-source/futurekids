@@ -1,7 +1,7 @@
 /**
  * Genlyn All Access — full ecosystem bundle (Creative Cloud style).
  * Base includes 1 seat each for Earnly, Scholars, Ballr (+ Freshys).
- * Extra seats: Earnly +$0.99, Ballr +$1.99,
+ * Extra seats: Earnly +$0.99, Ballr +$4.99,
  * Scholars Full +$14.99 / Tutor & Study Guide +$9.99 /mo.
  */
 

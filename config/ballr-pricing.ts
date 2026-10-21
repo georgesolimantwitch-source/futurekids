@@ -1,20 +1,20 @@
 /**
  * Ballr Live fixed child-count tiers.
- * $4.99 for the first child each month, +$1.99 per additional child.
- * Yearly plans charge for 10 months (2 months free).
+ * $4.99 per child each month (same rate for every child).
+ * Yearly plans charge for 10 months (2 months free) → $49.90 per child / year.
  */
 
 export const ballrPricing = {
   minChildren: 1,
   maxChildren: 6,
   firstChildMonthly: 4.99,
-  additionalChildMonthly: 1.99,
+  additionalChildMonthly: 4.99,
   firstChildYearly: 49.9,
-  additionalChildYearly: 19.9,
+  additionalChildYearly: 49.9,
   billedMonthsInYearlyPlan: 10,
   productName: "Ballr Live",
   description:
-    "Find pickup games, train, compete, and grow your sports community. Choose how many children are on your Ballr plan.",
+    "Sports, fitness, and fuel — pickup games, workouts, calorie tracking, and diet plans. Choose how many children are on your Ballr plan.",
 } as const;
 
 export type BallrBillingPeriod = "monthly" | "yearly";
@@ -31,15 +31,11 @@ export function ballrTotalPrice(
   period: BallrBillingPeriod,
 ): number {
   const count = clampBallrChildCount(childCount);
-  const first =
+  const perChild =
     period === "monthly"
       ? ballrPricing.firstChildMonthly
       : ballrPricing.firstChildYearly;
-  const additional =
-    period === "monthly"
-      ? ballrPricing.additionalChildMonthly
-      : ballrPricing.additionalChildYearly;
-  return Math.round((first + (count - 1) * additional) * 100) / 100;
+  return Math.round(count * perChild * 100) / 100;
 }
 
 export function formatBallrPrice(amount: number): string {
@@ -65,7 +61,7 @@ export function ballrUnitPriceLine(period: BallrBillingPeriod): string {
       ? ballrPricing.firstChildMonthly
       : ballrPricing.firstChildYearly;
   const suffix = period === "monthly" ? "month" : "year";
-  return `From ${formatBallrPrice(amount)} / ${suffix}`;
+  return `${formatBallrPrice(amount)} per child / ${suffix}`;
 }
 
 /** Extra Ballr seats beyond the first (included in All Access base). */
@@ -75,9 +71,9 @@ export function ballrExtraSeatPrice(
 ): number {
   const count = clampBallrChildCount(childCount);
   if (count <= 1) return 0;
-  const additional =
+  const perChild =
     period === "monthly"
       ? ballrPricing.additionalChildMonthly
       : ballrPricing.additionalChildYearly;
-  return Math.round((count - 1) * additional * 100) / 100;
+  return Math.round((count - 1) * perChild * 100) / 100;
 }

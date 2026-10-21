@@ -32,7 +32,7 @@ test("catalog includes existing Stripe prices including Freshys and TinyPal chil
   assert.equal(
     productCatalog.find((plan) => plan.planKey === "ballr_kids2_monthly")
       ?.expectedAmountCents,
-    698,
+    998,
   );
   assert.equal(
     productCatalog.find((plan) => plan.planKey === "scholars_all_access_kids2_monthly")

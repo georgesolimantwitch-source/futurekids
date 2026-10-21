@@ -151,7 +151,7 @@ export const scholarsStripePlans: StripeCatalogPlan[] = [
   },
 ];
 
-/** Ballr Live — fixed child-count tiers ($4.99 first + $1.99 each additional) */
+/** Ballr Live — fixed child-count tiers ($4.99 per child / mo, $49.90 per child / yr) */
 export const ballrStripePlans: StripeCatalogPlan[] = Array.from(
   { length: 6 },
   (_, index) => index + 1,
@@ -177,8 +177,7 @@ export const ballrStripePlans: StripeCatalogPlan[] = Array.from(
       childCount === 1 ? "ballr.live.yearly" : `ballr.kids${childCount}.yearly`,
     name: `Ballr Live — ${childCount} ${childCount === 1 ? "Child" : "Children"} Yearly`,
     description: "Annual Ballr Live plan — pay for 10 months, get 12.",
-    // Keep kids1 yearly at legacy $49.99 to match existing live Stripe price
-    unitAmount: childCount === 1 ? 49.99 : ballrTotalPrice(childCount, "yearly"),
+    unitAmount: ballrTotalPrice(childCount, "yearly"),
     interval: "year" as const,
     metadata: {
       billing_period: "yearly",

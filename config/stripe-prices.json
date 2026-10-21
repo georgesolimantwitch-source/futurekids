@@ -95,11 +95,11 @@
       "app": "ballr",
       "catalogId": "ballr.live.yearly",
       "name": "Ballr Live",
-      "amount": 49.99,
+      "amount": 49.9,
       "interval": "year",
       "perChildQuantity": false,
       "stripeProductId": "prod_UsFKFCUxLmVonC",
-      "stripePriceId": "price_1TsUpdLD305HTgIxAwQfTAo5"
+      "stripePriceId": "price_1UT7eWLD305HTgIxKNAgrBct"
     },
     {
       "app": "tinypal",
