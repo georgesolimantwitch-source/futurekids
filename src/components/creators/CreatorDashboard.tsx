@@ -55,8 +55,9 @@ export function CreatorDashboard() {
   }, [load]);
 
   useEffect(() => {
-    const connect = searchParams.get("connect");
-    if (connect === "return" || connect === "refresh") {
+    const payouts =
+      searchParams.get("payouts") ?? searchParams.get("connect");
+    if (payouts === "return" || payouts === "refresh") {
       void fetch("/api/creators/me", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -95,14 +96,14 @@ export function CreatorDashboard() {
     }
   }
 
-  async function continueConnect() {
+  async function continuePayoutSetup() {
     setJoining(true);
     setError(null);
     try {
       const res = await fetch("/api/creators/me", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "connect" }),
+        body: JSON.stringify({ action: "payouts" }),
       });
       const data = (await res.json()) as {
         onboardingUrl?: string;
@@ -218,7 +219,7 @@ export function CreatorDashboard() {
           {!creator.payouts_enabled && (
             <button
               type="button"
-              onClick={() => void continueConnect()}
+              onClick={() => void continuePayoutSetup()}
               disabled={joining}
               className="rounded-full bg-ink px-5 py-3 text-sm font-bold text-white disabled:opacity-60"
             >

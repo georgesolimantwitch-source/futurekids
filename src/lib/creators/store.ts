@@ -153,7 +153,7 @@ export async function startConnectOnboarding(options: {
   const admin = createAdminClient();
   let accountId = options.creator.stripe_connect_account_id;
 
-  // Drop legacy Connect Express accounts — creators use Global Payouts recipients.
+  // Drop legacy Connect Express accounts — creators use Global Payouts recipients only.
   if (accountId && !(await isGlobalRecipientAccount(accountId))) {
     accountId = null;
     await admin
@@ -178,6 +178,11 @@ export async function startConnectOnboarding(options: {
         genlyn_code: options.creator.code,
       },
     });
+    if (!(await isGlobalRecipientAccount(recipient.id))) {
+      throw new Error(
+        "Stripe did not create a Global Payouts recipient. Enable Global Payouts / Accounts v2 on this Stripe account.",
+      );
+    }
     accountId = recipient.id;
     await admin
       .from("genlyn_creators")
@@ -190,8 +195,8 @@ export async function startConnectOnboarding(options: {
 
   const link = await createRecipientOnboardingLink({
     accountId,
-    refreshUrl: `${options.returnOrigin}/creator?connect=refresh`,
-    returnUrl: `${options.returnOrigin}/creator?connect=return`,
+    refreshUrl: `${options.returnOrigin}/creator?payouts=refresh`,
+    returnUrl: `${options.returnOrigin}/creator?payouts=return`,
   });
 
   const refreshed = await getCreatorByUserId(options.creator.user_id);

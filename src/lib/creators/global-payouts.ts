@@ -49,6 +49,8 @@ export interface GlobalRecipient {
   id: string;
   contact_email?: string | null;
   display_name?: string | null;
+  applied_configurations?: string[];
+  dashboard?: string | null;
   configuration?: {
     recipient?: {
       capabilities?: {
@@ -60,6 +62,13 @@ export interface GlobalRecipient {
   requirements?: {
     entries?: unknown[];
   };
+}
+
+/** True when this Accounts v2 object is a Global Payouts recipient (not Connect Express). */
+export function isRecipientConfigured(account: GlobalRecipient): boolean {
+  if (account.configuration?.recipient) return true;
+  if (account.applied_configurations?.includes("recipient")) return true;
+  return false;
 }
 
 function capabilityActive(recipient: GlobalRecipient): boolean {
@@ -99,6 +108,8 @@ export async function createGlobalRecipient(options: {
   return stripeV2<GlobalRecipient>("POST", "/v2/core/accounts", {
     contact_email: options.email || undefined,
     display_name: options.displayName || undefined,
+    // Never grant Express/full Connect dashboards — recipients only.
+    dashboard: "none",
     identity: {
       country,
       entity_type: "individual",
@@ -106,10 +117,9 @@ export async function createGlobalRecipient(options: {
     configuration: {
       recipient: {
         capabilities: {
-          // OutboundPayments uses local banking rails
+          // OutboundPayments local rail (ACH domestically for US recipients).
           bank_accounts: {
             local: { requested: true },
-            ...(country === "us" ? { ach: { requested: true } } : {}),
           },
         },
       },
@@ -145,6 +155,9 @@ export async function createRecipientOnboardingLink(options: {
       use_case: {
         type: "account_onboarding",
         account_onboarding: {
+          // Required so Stripe hosts Global Payouts recipient collection,
+          // not Connect Express merchant onboarding.
+          configurations: ["recipient"],
           return_url: options.returnUrl,
           refresh_url: options.refreshUrl,
         },
@@ -152,6 +165,12 @@ export async function createRecipientOnboardingLink(options: {
     },
   );
   if (!link.url) throw new Error("Could not create payout setup link");
+  // Guard against accidentally receiving a Connect Express hosted URL.
+  if (/connect\.stripe\.com/i.test(link.url)) {
+    throw new Error(
+      "Stripe returned a Connect onboarding URL — Global Payouts recipient setup is required",
+    );
+  }
   return { url: link.url };
 }
 
@@ -165,12 +184,15 @@ export function recipientReady(recipient: GlobalRecipient): {
   };
 }
 
-/** True if this ID is usable as a Global Payouts recipient (v2 retrieve works). */
+/** True if this ID is a Global Payouts recipient (not legacy Connect Express). */
 export async function isGlobalRecipientAccount(
   accountId: string,
 ): Promise<boolean> {
   try {
-    await retrieveGlobalRecipient(accountId);
+    const account = await retrieveGlobalRecipient(accountId);
+    if (!isRecipientConfigured(account)) return false;
+    // Express dashboard = Connect Express, not a payouts recipient.
+    if (account.dashboard === "express") return false;
     return true;
   } catch {
     return false;

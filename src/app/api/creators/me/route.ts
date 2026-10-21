@@ -105,28 +105,42 @@ export async function POST(request: NextRequest) {
     }
 
     const refreshed = (await getCreatorByUserId(user.id)) ?? creator;
-    const origin = getRequestOrigin(request);
-    const { url } = await startConnectOnboarding({
-      creator: refreshed,
-      email: user.email,
-      returnOrigin: origin,
-    });
-
-    return NextResponse.json({ creator: refreshed, onboardingUrl: url });
+    try {
+      const origin = getRequestOrigin(request);
+      const { url } = await startConnectOnboarding({
+        creator: refreshed,
+        email: user.email,
+        returnOrigin: origin,
+      });
+      return NextResponse.json({ creator: refreshed, onboardingUrl: url });
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Could not start payout setup";
+      return NextResponse.json(
+        { creator: refreshed, error: message },
+        { status: 502 },
+      );
+    }
   }
 
-  if (action === "connect") {
+  if (action === "payouts" || action === "connect") {
     const creator = await getCreatorByUserId(user.id);
     if (!creator) {
       return NextResponse.json({ error: "Join the creator program first" }, { status: 400 });
     }
-    const origin = getRequestOrigin(request);
-    const { url, creator: next } = await startConnectOnboarding({
-      creator,
-      email: user.email,
-      returnOrigin: origin,
-    });
-    return NextResponse.json({ creator: next, onboardingUrl: url });
+    try {
+      const origin = getRequestOrigin(request);
+      const { url, creator: next } = await startConnectOnboarding({
+        creator,
+        email: user.email,
+        returnOrigin: origin,
+      });
+      return NextResponse.json({ creator: next, onboardingUrl: url });
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Could not start payout setup";
+      return NextResponse.json({ error: message }, { status: 502 });
+    }
   }
 
   if (action === "sync") {
