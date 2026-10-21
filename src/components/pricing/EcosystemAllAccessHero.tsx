@@ -603,10 +603,11 @@ export function EcosystemAllAccessHero({
       }
       if (
         !response.ok &&
-        result.code === "stripe_subscription_mode_mismatch"
+        (result.code === "stripe_subscription_mode_mismatch" ||
+          result.code === "stripe_subscription_missing")
       ) {
-        // Existing Ballr/Earnly rows are from the other Stripe mode — start a
-        // fresh live All Access checkout instead of consolidating.
+        // Stale / other-mode Stripe rows can't be consolidated — start a fresh
+        // All Access checkout instead of leaving the parent stuck on an error.
         const url = await postCheckout({
           planKey: checkoutPlanKey,
           childCount: count,
