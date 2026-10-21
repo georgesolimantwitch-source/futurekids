@@ -208,7 +208,7 @@ const fresherPlans = [
     name: "Freshys",
     description:
       "Find real food near your family — farms, farm stores, farmers markets, and locally produced food.",
-    unitAmount: 1.5,
+    unitAmount: 1.99,
     interval: "month",
     perChildQuantity: false,
     metadata: { billing_period: "monthly" },

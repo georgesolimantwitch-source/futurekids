@@ -152,15 +152,17 @@ const pricingPlanOverrides: Record<
   },
   ballr: {
     description:
-      "Find games, train, compete, and grow your sports community.",
+      "Sports, fitness, and fuel — games, workouts, calorie tracking, and diet plans.",
     monthlyPrice: { display: "From $4.99 / mo", amount: 4.99 },
     yearlyPrice: { display: "From $49.90 / yr", amount: 49.9 },
     features: [
       "$4.99 for 1 child",
       "+$1.99 per additional child",
-      "Pickup game finder",
-      "Nearby parks",
-      "Sports communities",
+      "Pickup games & nearby parks",
+      "Player cards, XP & ratings",
+      "Personalized workout plans",
+      "Calorie, macro & meal tracking",
+      "Diet plans & fuel goals",
     ],
     memberSavingsMessage:
       "Already subscribed to another app? Unlock member savings.",
@@ -182,7 +184,7 @@ const pricingPlanOverrides: Record<
   },
   fresher: {
     description: "Find real food near your family.",
-    monthlyPrice: { display: "$1.50 / mo", amount: 1.5 },
+    monthlyPrice: { display: "$1.99 / mo", amount: 1.99 },
     yearlyPrice: { display: "$9.99 / yr", amount: 9.99 },
     features: [
       "Interactive local map",
@@ -193,7 +195,7 @@ const pricingPlanOverrides: Record<
     ],
     memberSavingsMessage:
       "Already subscribed to another app? Unlock member savings.",
-    yearlyBadge: "Best Value · Save 44%",
+    yearlyBadge: "Best Value · Save 58%",
     recommendedPeriod: "yearly",
   },
 };
@@ -445,7 +447,7 @@ export function getCalculatorAppAmount(
     case "tinypal":
       return tinypalTotalPrice(1, period);
     case "fresher":
-      return period === "monthly" ? 1.5 : 9.99;
+      return period === "monthly" ? 1.99 : 9.99;
     default:
       return 0;
   }

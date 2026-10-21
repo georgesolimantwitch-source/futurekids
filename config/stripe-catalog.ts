@@ -162,7 +162,7 @@ export const ballrStripePlans: StripeCatalogPlan[] = Array.from(
       childCount === 1 ? "ballr.live.monthly" : `ballr.kids${childCount}.monthly`,
     name: `Ballr Live — ${childCount} ${childCount === 1 ? "Child" : "Children"} Monthly`,
     description:
-      "Find pickup games, train, compete, and grow your sports community.",
+      "Sports, fitness, and fuel — games, workouts, calorie tracking, and diet plans.",
     unitAmount: ballrTotalPrice(childCount, "monthly"),
     interval: "month" as const,
     metadata: {
@@ -229,7 +229,7 @@ export const fresherStripePlans: StripeCatalogPlan[] = [
     catalogId: "fresher.monthly",
     name: "Freshys",
     description: "Find real food near your family on an interactive map.",
-    unitAmount: 1.5,
+    unitAmount: 1.99,
     interval: "month",
     metadata: { billing_period: "monthly" },
   },

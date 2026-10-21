@@ -36,7 +36,7 @@ export const ecosystemBundle = {
   productName: "Genlyn All Access",
   tagline: "Every app. One subscription.",
   description:
-    "Earnly, Scholars Notes, Ballr Live, and Freshys — the complete ecosystem for learning, earning, playing, and finding real food.",
+    "Earnly, Scholars Notes, Ballr Live, and Freshys — learning, earning, sports & fitness, and real food in one ecosystem.",
   /** $19.99/mo with 1 Earnly child; +$0.99/mo per additional child */
   monthlyBase: 19.99,
   monthlyPerExtraChild: 0.99,
@@ -116,7 +116,7 @@ export function individualMonthlyTotal(
   const earnly = earnlyTotalPrice(s.earnly, "monthly");
   const scholars = scholarsTierTotalPrice(scholarsTier, s.scholars, "monthly");
   const ballr = ballrTotalPrice(s.ballr, "monthly");
-  const fresher = 1.5;
+  const fresher = 1.99;
   return Math.round((earnly + scholars + ballr + fresher) * 100) / 100;
 }
 

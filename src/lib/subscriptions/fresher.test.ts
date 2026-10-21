@@ -26,13 +26,13 @@ test("Freshys appears in the app catalog and pricing plans", () => {
   assert.equal(isAppKey("fresher"), true);
 });
 
-test("product catalog includes Freshys monthly (150¢) and yearly (999¢)", () => {
+test("product catalog includes Freshys monthly (199¢) and yearly (999¢)", () => {
   assert.ok(productCatalog.length >= 36);
   const monthly = getProductPlan("fresher_monthly");
   const yearly = getProductPlan("fresher_yearly");
   assert.ok(monthly);
   assert.ok(yearly);
-  assert.equal(monthly?.expectedAmountCents, 150);
+  assert.equal(monthly?.expectedAmountCents, 199);
   assert.equal(yearly?.expectedAmountCents, 999);
   assert.equal(monthly?.appKey, "fresher");
   assert.equal(yearly?.appKey, "fresher");

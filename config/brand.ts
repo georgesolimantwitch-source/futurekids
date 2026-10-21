@@ -430,15 +430,16 @@ export const apps: AppConfig[] = [
   {
     slug: "ballr",
     name: "Ballr",
-    tagline: "Discover pickup games near you and build your personal player card.",
+    tagline:
+      "Sports, fitness, and fuel — pickup games, workouts, calorie tracking, and diet plans in one app.",
     description:
-      "A social sports app that helps you find local pickup games and runs, nearby parks, friends, training sessions, and build your own player card with ratings in your community.",
+      "Ballr is the sports and fitness app for kids and athletes: find local pickup games and parks, build a player card with ratings and XP, follow personalized workout plans, track calories, water, and macros, log meals, and stick to diet plans that fuel performance on and off the field.",
     features: [
       "Pickup Games",
       "Player Cards",
       "Workouts",
       "Calorie Tracking",
-      "Meal Plans",
+      "Diet & Meal Plans",
       "Nearby Parks",
     ],
     accentColor: "#E8FF00",
@@ -450,8 +451,9 @@ export const apps: AppConfig[] = [
     /** Update when Android launches */
     playStoreUrl: "https://play.google.com/store/apps/details?id=com.ballr.app",
     learnMorePath: "/apps/ballr",
-    positioning: "Find local runs, build your player card, and grow your sports community",
-    audience: "Athletes and sports enthusiasts of all ages",
+    positioning:
+      "Train, compete, and fuel up — games, workouts, calories, and diet plans for young athletes",
+    audience: "Athletes, kids, and families building sports and fitness habits",
     availability: "live",
     cta: {
       type: "download",
@@ -469,46 +471,50 @@ export const apps: AppConfig[] = [
         description: "Explore courts, fields, and facilities with ratings and amenities.",
       },
       {
-        title: "Join sports communities",
-        description: "Connect with local groups organized by sport and skill level.",
+        title: "Player cards & ratings",
+        description: "Build a gamified athlete profile with OVR, XP, and community ratings.",
       },
       {
-        title: "Add friends",
-        description: "Build your network and get notified when friends are playing.",
+        title: "Personalized workouts",
+        description: "AI-recommended training plans tailored to sport, goals, and schedule.",
       },
       {
-        title: "Player ratings",
-        description: "Fair, community-driven ratings that help match skill levels.",
+        title: "Calorie & macro tracking",
+        description: "Log calories, protein, carbs, and fat so fuel matches training.",
       },
       {
-        title: "Training progress",
-        description: "Log sessions, track improvement, and set athletic goals.",
+        title: "Diet & meal plans",
+        description: "Follow meal plans, log food with photo recognition, and hit daily fuel goals.",
       },
       {
-        title: "Sports profiles",
-        description: "Showcase your sports, positions, stats, and achievements.",
+        title: "Water & habits",
+        description: "Track hydration and daily fitness habits that keep kids consistent.",
+      },
+      {
+        title: "Physique & progress",
+        description: "See potential, log sessions, and watch fitness improve over time.",
       },
     ],
     howItWorks: [
       {
         step: 1,
-        title: "Create your profile",
-        description: "Set up your sports, skill level, and preferred locations.",
+        title: "Create your athlete profile",
+        description: "Set sports, skill level, fitness goals, and preferred locations.",
       },
       {
         step: 2,
-        title: "Find games and parks",
-        description: "Browse nearby pickup games, courts, and fields on the map.",
+        title: "Play and train",
+        description: "Join pickup games nearby and follow personalized workout plans.",
       },
       {
         step: 3,
-        title: "Join and play",
-        description: "RSVP to games, meet players, and build your local network.",
+        title: "Fuel the day",
+        description: "Track calories, macros, water, and meals — or follow a diet plan.",
       },
       {
         step: 4,
-        title: "Track and grow",
-        description: "Log training, earn ratings, and watch your progress over time.",
+        title: "Level up",
+        description: "Earn XP, raise your player card rating, and watch progress stick.",
       },
     ],
     benefits: [
@@ -517,16 +523,16 @@ export const apps: AppConfig[] = [
         description: "Find pickup games and players at your skill level, any day of the week.",
       },
       {
-        title: "Discover new places",
-        description: "Uncover parks and courts you didn't know existed in your area.",
+        title: "Train with a plan",
+        description: "Personalized workouts keep practice structured between games.",
       },
       {
-        title: "Build your reputation",
-        description: "Player ratings and profiles help you find the right match-ups.",
+        title: "Eat for performance",
+        description: "Calorie tracking, macros, and diet plans make fueling simple for kids and parents.",
       },
       {
-        title: "Stay active and connected",
-        description: "Training logs and friend notifications keep you motivated.",
+        title: "See real progress",
+        description: "Player cards, XP, and fitness stats show improvement on and off the field.",
       },
     ],
     screenshotGalleryStyle: "marketing",
@@ -572,7 +578,12 @@ export const apps: AppConfig[] = [
       {
         question: "Is Ballr free?",
         answer:
-          "Yes. Core features like finding games and parks are free. Premium features include advanced stats and community tools.",
+          "Core discovery features help you find games and parks. Ballr Live unlocks full fitness tracking, workouts, calorie and meal tools, and family seats.",
+      },
+      {
+        question: "Does Ballr include fitness and diet tracking?",
+        answer:
+          "Yes. Ballr includes personalized workouts, calorie and macro tracking, water goals, meal logging, and diet plans alongside sports and player cards.",
       },
       {
         question: "How do player ratings work?",
@@ -582,7 +593,7 @@ export const apps: AppConfig[] = [
       {
         question: "Can parents use Ballr for their kids?",
         answer:
-          "Yes. Parents can manage accounts for younger athletes and control who their children connect with.",
+          "Yes. Parents can manage accounts for younger athletes, follow training and fuel habits, and control who their children connect with.",
       },
     ],
   },
@@ -863,7 +874,7 @@ export const apps: AppConfig[] = [
       {
         question: "How much does Freshys cost?",
         answer:
-          "Freshys is $1.50 per month or $9.99 per year. Yearly is the best value. It’s also included with Genlyn All Access.",
+          "Freshys is $1.99 per month or $9.99 per year. Yearly is the best value. It’s also included with Genlyn All Access.",
       },
       {
         question: "Does Freshys deliver food?",
@@ -900,8 +911,9 @@ export const ecosystemPillars = [
     icon: "📚",
   },
   {
-    title: "Sports",
-    description: "Ballr connects young athletes to games, parks, and communities near them.",
+    title: "Sports & fitness",
+    description:
+      "Ballr connects kids to games and parks — plus workouts, calorie tracking, meal plans, and player progress.",
     appSlug: "ballr" as AppSlug,
     icon: "⚽",
   },

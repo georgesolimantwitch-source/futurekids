@@ -207,7 +207,7 @@ const EXISTING_STRIPE_IDS: Record<
   },
   // Freshys — live Stripe catalog
   fresher_monthly: {
-    priceId: "price_1TwU0yLD305HTgIxP8xnRQJn",
+    priceId: "price_1UT7dPLD305HTgIxJj84bZkO",
     productId: "prod_UwMkFFPZtOZZ3l",
   },
   fresher_yearly: {
