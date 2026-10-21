@@ -131,7 +131,14 @@ export const apps: AppConfig[] = [
     tagline: "Learn to earn, save, and grow.",
     description:
       "Helps parents teach children how to earn, save, and manage money through chores, allowances, savings goals, and school rewards.",
-    features: ["Chores", "Allowances", "Savings Goals", "School Rewards"],
+    features: [
+      "Chores & Rewards",
+      "Allowances",
+      "Savings Goals",
+      "School Rewards",
+      "Parent Approvals",
+      "Family Dashboard",
+    ],
     accentColor: "#24C0FC",
     accentColorLight: "#E6F7FE",
     iconPath: "/images/apps/earnly/icon.png",
@@ -280,7 +287,14 @@ export const apps: AppConfig[] = [
     tagline: "Study smarter with AI.",
     description:
       "An AI-powered notes and studying app with notes, an AI tutor, study guides, quizzes, assignments, podcasts generated from notes, and handwriting practice.",
-    features: ["AI Tutor", "Study Guides", "Quizzes", "Podcasts"],
+    features: [
+      "AI Tutor",
+      "Notes & Study Guides",
+      "Quizzes",
+      "Podcasts",
+      "Class Hub",
+      "College Roadmap",
+    ],
     accentColor: "#009CFC",
     accentColorLight: "#E6F5FF",
     iconPath: "/images/apps/scholars/icon.png",
@@ -419,7 +433,14 @@ export const apps: AppConfig[] = [
     tagline: "Discover pickup games near you and build your personal player card.",
     description:
       "A social sports app that helps you find local pickup games and runs, nearby parks, friends, training sessions, and build your own player card with ratings in your community.",
-    features: ["Local Runs", "Player Cards", "Nearby Parks", "Communities"],
+    features: [
+      "Pickup Games",
+      "Player Cards",
+      "Workouts",
+      "Calorie Tracking",
+      "Meal Plans",
+      "Nearby Parks",
+    ],
     accentColor: "#E8FF00",
     accentColorLight: "#F7FFE0",
     iconPath: "/images/apps/ballr/icon.png",
@@ -714,7 +735,14 @@ export const apps: AppConfig[] = [
     tagline: "Find real food near your family.",
     description:
       "Freshys helps families discover nearby farms, farm stores, farmers markets, and locally produced food using an interactive map.",
-    features: ["Local Farms", "Farmers Markets", "Farm Stores", "Interactive Map"],
+    features: [
+      "Local Farms",
+      "Delivery & Pickup",
+      "Subscriptions",
+      "Seasonal Picks",
+      "Verified Growers",
+      "Interactive Map",
+    ],
     accentColor: "#248A45",
     accentColorLight: "#EDF7EF",
     iconPath: "/images/apps/fresher/icon.png",
