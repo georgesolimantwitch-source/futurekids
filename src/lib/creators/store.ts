@@ -8,6 +8,8 @@ import {
 import {
   createGlobalRecipient,
   createRecipientOnboardingLink,
+  ensureRecipientLocalBankCapability,
+  hasLocalBankCapabilityRequested,
   isGlobalRecipientAccount,
   recipientReady,
   retrieveGlobalRecipient,
@@ -144,6 +146,21 @@ export async function ensureCreatorForUser(options: {
   return data as GenlynCreator;
 }
 
+async function clearCreatorStripeAccount(
+  creatorId: string,
+): Promise<void> {
+  const admin = createAdminClient();
+  await admin
+    .from("genlyn_creators")
+    .update({
+      stripe_connect_account_id: null,
+      payouts_enabled: false,
+      details_submitted: false,
+      status: "onboarding",
+    })
+    .eq("id", creatorId);
+}
+
 /** Stripe Global Payouts recipient onboarding (hosted bank details form). */
 export async function startConnectOnboarding(options: {
   creator: GenlynCreator;
@@ -153,18 +170,10 @@ export async function startConnectOnboarding(options: {
   const admin = createAdminClient();
   let accountId = options.creator.stripe_connect_account_id;
 
-  // Drop legacy Connect Express accounts — creators use Global Payouts recipients only.
+  // Drop Connect / dashboard-tainted accounts — GP recipients must be clean.
   if (accountId && !(await isGlobalRecipientAccount(accountId))) {
+    await clearCreatorStripeAccount(options.creator.id);
     accountId = null;
-    await admin
-      .from("genlyn_creators")
-      .update({
-        stripe_connect_account_id: null,
-        payouts_enabled: false,
-        details_submitted: false,
-        status: "onboarding",
-      })
-      .eq("id", options.creator.id);
   }
 
   if (!accountId) {
@@ -178,11 +187,7 @@ export async function startConnectOnboarding(options: {
         genlyn_code: options.creator.code,
       },
     });
-    if (!(await isGlobalRecipientAccount(recipient.id))) {
-      throw new Error(
-        "Stripe did not create a Global Payouts recipient. Enable Global Payouts / Accounts v2 on this Stripe account.",
-      );
-    }
+    // GP creates omit dashboard; treat as valid even if Stripe omits config include.
     accountId = recipient.id;
     await admin
       .from("genlyn_creators")
@@ -191,6 +196,37 @@ export async function startConnectOnboarding(options: {
         status: "onboarding",
       })
       .eq("id", options.creator.id);
+  } else {
+    // Only request local bank if missing — never touch Connect-dashboard accounts.
+    try {
+      const existing = await retrieveGlobalRecipient(accountId);
+      if (!hasLocalBankCapabilityRequested(existing)) {
+        await ensureRecipientLocalBankCapability(accountId);
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      if (/other capabilities or configurations|dashboard/i.test(message)) {
+        await clearCreatorStripeAccount(options.creator.id);
+        const recipient = await createGlobalRecipient({
+          email: options.email,
+          displayName: options.creator.display_name,
+          country: "us",
+          metadata: {
+            genlyn_creator_id: options.creator.id,
+            genlyn_user_id: options.creator.user_id,
+            genlyn_code: options.creator.code,
+          },
+        });
+        accountId = recipient.id;
+        await admin
+          .from("genlyn_creators")
+          .update({
+            stripe_connect_account_id: accountId,
+            status: "onboarding",
+          })
+          .eq("id", options.creator.id);
+      }
+    }
   }
 
   const link = await createRecipientOnboardingLink({

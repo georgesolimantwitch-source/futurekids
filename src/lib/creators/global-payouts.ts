@@ -71,6 +71,34 @@ export function isRecipientConfigured(account: GlobalRecipient): boolean {
   return false;
 }
 
+/**
+ * Connect marketplace recipients set `dashboard` (even `none`).
+ * Pure Global Payouts recipients omit it — mixing GP bank caps with dashboard fails.
+ */
+export function isConnectDashboardAccount(account: GlobalRecipient): boolean {
+  return (
+    account.dashboard === "express" ||
+    account.dashboard === "full" ||
+    account.dashboard === "none"
+  );
+}
+
+export function hasLocalBankCapabilityRequested(
+  account: GlobalRecipient,
+): boolean {
+  const banks = account.configuration?.recipient?.capabilities?.bank_accounts;
+  if (!banks) return false;
+  return Object.values(banks).some(
+    (value) =>
+      value?.status === "active" ||
+      value?.status === "pending" ||
+      value?.status === "restricted" ||
+      value?.status === "unrequested" ||
+      // requested capability objects may only expose status after include
+      Boolean(value),
+  );
+}
+
 function capabilityActive(recipient: GlobalRecipient): boolean {
   const caps = recipient.configuration?.recipient?.capabilities;
   if (!caps) return false;
@@ -98,6 +126,12 @@ function detailsLikelySubmitted(recipient: GlobalRecipient): boolean {
   );
 }
 
+/**
+ * Create a Global Payouts recipient (Accounts v2).
+ * Payload matches Stripe docs — do NOT set `dashboard` or Connect configs;
+ * GP recipients reject those with:
+ * "may not have any other capabilities or configurations at this time."
+ */
 export async function createGlobalRecipient(options: {
   email?: string | null;
   displayName?: string | null;
@@ -108,8 +142,6 @@ export async function createGlobalRecipient(options: {
   return stripeV2<GlobalRecipient>("POST", "/v2/core/accounts", {
     contact_email: options.email || undefined,
     display_name: options.displayName || undefined,
-    // Never grant Express/full Connect dashboards — recipients only.
-    dashboard: "none",
     identity: {
       country,
       entity_type: "individual",
@@ -117,7 +149,7 @@ export async function createGlobalRecipient(options: {
     configuration: {
       recipient: {
         capabilities: {
-          // OutboundPayments local rail (ACH domestically for US recipients).
+          // OutboundPayments local rail (ACH for US recipients).
           bank_accounts: {
             local: { requested: true },
           },
@@ -127,6 +159,28 @@ export async function createGlobalRecipient(options: {
     metadata: options.metadata ?? undefined,
     include: ["requirements", "configuration.recipient", "identity"],
   });
+}
+
+/** Ensure OutboundPayments local bank capability is requested on an existing recipient. */
+export async function ensureRecipientLocalBankCapability(
+  accountId: string,
+): Promise<GlobalRecipient> {
+  return stripeV2<GlobalRecipient>(
+    "POST",
+    `/v2/core/accounts/${encodeURIComponent(accountId)}`,
+    {
+      configuration: {
+        recipient: {
+          capabilities: {
+            bank_accounts: {
+              local: { requested: true },
+            },
+          },
+        },
+      },
+      include: ["requirements", "configuration.recipient", "identity"],
+    },
+  );
 }
 
 export async function retrieveGlobalRecipient(
@@ -147,6 +201,8 @@ export async function createRecipientOnboardingLink(options: {
   returnUrl: string;
   refreshUrl: string;
 }): Promise<{ url: string }> {
+  // Match Global Payouts docs exactly — do not pass Connect `configurations`
+  // (that triggers "may not have any other … configurations" on GP accounts).
   const link = await stripeV2<{ url?: string }>(
     "POST",
     "/v2/core/account_links",
@@ -155,9 +211,6 @@ export async function createRecipientOnboardingLink(options: {
       use_case: {
         type: "account_onboarding",
         account_onboarding: {
-          // Required so Stripe hosts Global Payouts recipient collection,
-          // not Connect Express merchant onboarding.
-          configurations: ["recipient"],
           return_url: options.returnUrl,
           refresh_url: options.refreshUrl,
         },
@@ -184,15 +237,15 @@ export function recipientReady(recipient: GlobalRecipient): {
   };
 }
 
-/** True if this ID is a Global Payouts recipient (not legacy Connect Express). */
+/** True if this ID is a pure Global Payouts recipient (not Connect). */
 export async function isGlobalRecipientAccount(
   accountId: string,
 ): Promise<boolean> {
   try {
     const account = await retrieveGlobalRecipient(accountId);
     if (!isRecipientConfigured(account)) return false;
-    // Express dashboard = Connect Express, not a payouts recipient.
-    if (account.dashboard === "express") return false;
+    // Any dashboard value means Connect — cannot add GP bank capabilities.
+    if (isConnectDashboardAccount(account)) return false;
     return true;
   } catch {
     return false;
