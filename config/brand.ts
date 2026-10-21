@@ -232,28 +232,23 @@ export const apps: AppConfig[] = [
     screenshots: [
       {
         path: "/images/apps/earnly/mockup-home.png",
-        alt: "Earnly home screen with total family balance and a growth chart",
+        alt: "Earnly home screen with parent funds and family net worth chart",
         caption: "Watch your family money grow.",
       },
       {
         path: "/images/apps/earnly/mockup-chores.png",
-        alt: "Earnly chore manager assigning tasks and approving rewards",
+        alt: "Earnly chore manager with quick assign and needs-review approvals",
         caption: "Turn chores into real earnings.",
       },
       {
         path: "/images/apps/earnly/mockup-accounts.png",
-        alt: "Earnly accounts list showing a separate balance for each child",
+        alt: "Earnly accounts list showing each child's balance",
         caption: "Every kid gets their own account.",
       },
       {
         path: "/images/apps/earnly/mockup-balance.png",
-        alt: "Earnly balance screen with deposit, send money, and withdraw actions",
-        caption: "Move money in a couple taps.",
-      },
-      {
-        path: "/images/apps/earnly/mockup-safety.png",
-        alt: "Earnly family live map showing a child's location in real time",
-        caption: "Know they're safe, wherever they go.",
+        alt: "Earnly balance screen with parent funds and kid balances",
+        caption: "See every balance in one place.",
       },
     ],
     faqs: [
