@@ -802,27 +802,27 @@ export const apps: AppConfig[] = [
     screenshots: [
       {
         path: "/images/apps/fresher/marketing-discover.png",
-        alt: "Freshys discover screen with local farms and markets near you",
+        alt: "Freshys shop screen with nearby stores, categories, and in-season picks",
         caption: "Real fresh. Real close.",
       },
       {
-        path: "/images/apps/fresher/marketing-shopping-list.png",
-        alt: "Freshys markets grid with meat, seafood, and local vendors",
-        caption: "Shop nearby markets.",
-      },
-      {
         path: "/images/apps/fresher/marketing-farm-details.png",
-        alt: "Freshys farm store page with products and Freshys Verified badge",
+        alt: "Freshys farm store page with verified badge and farm products",
         caption: "Shop from local farms.",
       },
       {
         path: "/images/apps/fresher/marketing-directions.png",
         alt: "Freshys product detail for chicken breasts with subscribe options",
+        caption: "Order what you need.",
+      },
+      {
+        path: "/images/apps/fresher/marketing-shopping-list.png",
+        alt: "Freshys product detail for brisket with weekly subscribe options",
         caption: "Fresh food your way.",
       },
       {
         path: "/images/apps/fresher/marketing-farm-map.png",
-        alt: "Freshys map showing nearby farms and markets",
+        alt: "Freshys map showing nearby farms within a delivery radius",
         caption: "Find farms anywhere.",
       },
     ],
