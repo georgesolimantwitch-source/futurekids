@@ -33,6 +33,36 @@ export function isMissingStripeCustomerError(error: unknown): boolean {
   return /No such customer/i.test(message) || isStripeModeMismatchError(error);
 }
 
+/** Deleted / wrong-mode subscription IDs left in user_entitlements. */
+export function isMissingStripeSubscriptionError(error: unknown): boolean {
+  const message = error instanceof Error ? error.message : String(error ?? "");
+  if (/No such subscription/i.test(message)) return true;
+  // Stripe SDK often uses resource_missing for deleted objects.
+  if (
+    typeof error === "object" &&
+    error &&
+    "code" in error &&
+    (error as { code?: string }).code === "resource_missing"
+  ) {
+    return true;
+  }
+  return isStripeModeMismatchError(error);
+}
+
+export async function retrieveStripeSubscriptionOrNull(
+  stripe: Stripe,
+  subscriptionId: string | null | undefined,
+): Promise<Stripe.Subscription | null> {
+  const id = subscriptionId?.trim();
+  if (!id) return null;
+  try {
+    return await stripe.subscriptions.retrieve(id);
+  } catch (error) {
+    if (isMissingStripeSubscriptionError(error)) return null;
+    throw error;
+  }
+}
+
 /**
  * Return a Stripe customer ID that exists in the current API mode.
  * Test-mode IDs left over from sandbox testing are replaced with a new live customer.

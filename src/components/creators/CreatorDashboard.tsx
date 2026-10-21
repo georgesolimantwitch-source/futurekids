@@ -144,12 +144,12 @@ export function CreatorDashboard() {
             Become a Genlyn creator
           </h1>
           <p className="mt-4 text-lg text-ink-soft">
-            Share your short code. Earn{" "}
+            Share your short code. You get{" "}
             <span className="font-extrabold text-ink">
-              {Math.round(CREATOR_COMMISSION_RATE * 100)}%
+              {Math.round(CREATOR_COMMISSION_RATE * 100)}% commission
             </span>{" "}
-            of every Hub purchase and every subscription payment from people who
-            use it — paid out through Stripe.
+            on the total of every product sold with your code — Genlyn Hub and
+            app subscriptions — paid out to your bank through Stripe.
           </p>
           <form
             onSubmit={join}
@@ -252,9 +252,27 @@ export function CreatorDashboard() {
           </div>
           <p className="mt-4 break-all text-sm text-white/70">{shareUrl}</p>
           <p className="mt-2 text-sm text-white/60">
-            Share this link or code at checkout — you earn{" "}
-            {Math.round(CREATOR_COMMISSION_RATE * 100)}% of Hub sales and
-            subscription payments while they’re attributed to you.
+            Share this link or code at checkout. You earn{" "}
+            {Math.round(CREATOR_COMMISSION_RATE * 100)}% commission on the total
+            of every product sold with your code — Genlyn Hub hardware and app
+            subscriptions — for as long as that parent stays attributed to you.
+          </p>
+        </div>
+
+        <div className="mt-6 rounded-[28px] bg-white p-6 ring-1 ring-ink/5 sm:p-7">
+          <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-ink-faint">
+            What you get
+          </p>
+          <p className="mt-2 text-lg font-extrabold text-ink sm:text-xl">
+            {Math.round(CREATOR_COMMISSION_RATE * 100)}% commission on total products
+            sold with your code
+          </p>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-soft">
+            When a parent checks out with{" "}
+            <span className="font-bold text-ink">{creator.code}</span>, you earn{" "}
+            {Math.round(CREATOR_COMMISSION_RATE * 100)}% of what they pay — Hub
+            tablets and Genlyn subscriptions (Earnly, Scholars, Ballr, Freshys,
+            and All Access). Payouts go to the bank account you connected.
           </p>
         </div>
 

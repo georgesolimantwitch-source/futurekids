@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import type Stripe from "stripe";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { syncEarnlyChildAccess } from "@/lib/subscriptions/earnly-sync";
@@ -6,10 +7,13 @@ import {
   assertStripePriceMatchesCatalog,
   getServerCheckoutPlan,
   getStripe,
+  retrieveStripeSubscriptionOrNull,
   stripeModeMismatchMessage,
   stripeSubscriptionToVerified,
 } from "@/lib/subscriptions/stripe";
 import { applyVerifiedSubscriptionEvent } from "@/lib/subscriptions/store";
+import type { VerifiedSubscription } from "@/lib/subscriptions/catalog";
+import { getProductPlan } from "@/lib/subscriptions/product-catalog";
 
 type SwitchRequest = {
   targetPlanKey?: string;
@@ -17,8 +21,76 @@ type SwitchRequest = {
   requestId?: string;
 };
 
+type EntitlementRow = {
+  id: string;
+  app_key: string;
+  plan_key: string;
+  provider_subscription_id: string | null;
+  provider_customer_id: string | null;
+  provider_product_id: string | null;
+  provider_price_id: string | null;
+  current_period_start: string | null;
+  current_period_end: string | null;
+  tier_key: string | null;
+  entitlement_rank: number | null;
+  child_limit: number | null;
+  limits: Record<string, number | boolean | string> | null;
+  features: Record<string, boolean> | null;
+  quantity: number | null;
+  environment: string | null;
+};
+
 const UUID_PATTERN =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+function canceledFromEntitlement(
+  userId: string,
+  entitlement: EntitlementRow,
+): VerifiedSubscription | null {
+  const plan = getProductPlan(entitlement.plan_key);
+  if (!plan || !entitlement.provider_subscription_id) return null;
+  return {
+    userId,
+    appKey: plan.appKey,
+    planKey: plan.planKey,
+    provider: "stripe",
+    providerCustomerId: entitlement.provider_customer_id,
+    providerSubscriptionId: entitlement.provider_subscription_id,
+    providerProductId: entitlement.provider_product_id,
+    providerPriceId: entitlement.provider_price_id,
+    status: "canceled",
+    currentPeriodStart: entitlement.current_period_start,
+    currentPeriodEnd: entitlement.current_period_end ?? new Date().toISOString(),
+    cancelAtPeriodEnd: false,
+    quantity: entitlement.quantity ?? 1,
+    tierKey: entitlement.tier_key ?? plan.tierKey,
+    entitlementRank: entitlement.entitlement_rank ?? plan.entitlementRank,
+    childLimit: entitlement.child_limit ?? plan.childLimit,
+    limits: entitlement.limits ?? plan.limits,
+    features: entitlement.features ?? plan.features,
+    currentTransactionId: null,
+    environment: entitlement.environment,
+    autoRenewStatus: false,
+  };
+}
+
+async function markEntitlementCanceledLocally(options: {
+  userId: string;
+  entitlement: EntitlementRow;
+  requestId: string;
+  reason: string;
+}) {
+  const verified = canceledFromEntitlement(options.userId, options.entitlement);
+  if (!verified) return;
+  await applyVerifiedSubscriptionEvent(
+    {
+      eventId: `dashboard.switch-all-access.${options.requestId}.${options.reason}.${options.entitlement.id}`,
+      eventType: "dashboard.subscription.missing_consolidated",
+      occurredAt: new Date().toISOString(),
+    },
+    verified,
+  );
+}
 
 export async function POST(request: Request) {
   try {
@@ -63,7 +135,7 @@ export async function POST(request: Request) {
       .order("created_at", { ascending: true });
     if (entitlementError) throw entitlementError;
 
-    const activeEntitlements = (entitlements ?? []).filter(
+    const activeEntitlements = ((entitlements ?? []) as EntitlementRow[]).filter(
       (entitlement) =>
         !entitlement.current_period_end ||
         Date.parse(entitlement.current_period_end) > Date.now(),
@@ -74,13 +146,6 @@ export async function POST(request: Request) {
     const directEntitlements = activeEntitlements.filter(
       (entitlement) => entitlement.app_key !== "futurekids_all_access",
     );
-    const primary = existingAllAccess ?? directEntitlements[0];
-    if (!primary) {
-      return NextResponse.json(
-        { error: "No website subscription is available to switch" },
-        { status: 409 },
-      );
-    }
 
     const { data: family } = await supabase
       .from("families")
@@ -110,23 +175,60 @@ export async function POST(request: Request) {
 
     const stripe = getStripe();
     await assertStripePriceMatchesCatalog(stripe, target.plan, target.priceId);
-    let primarySubscription;
-    try {
-      primarySubscription = await stripe.subscriptions.retrieve(
-        primary.provider_subscription_id,
+
+    // Prefer a live Stripe subscription; skip stale IDs left in entitlements.
+    const primaryCandidates: EntitlementRow[] = [
+      ...(existingAllAccess ? [existingAllAccess] : []),
+      ...directEntitlements,
+    ];
+    let primary: EntitlementRow | null = null;
+    let primarySubscription: Stripe.Subscription | null = null;
+    const missingExtras: EntitlementRow[] = [];
+
+    for (const candidate of primaryCandidates) {
+      const subscription = await retrieveStripeSubscriptionOrNull(
+        stripe,
+        candidate.provider_subscription_id,
       );
-    } catch (error) {
-      const mismatch = stripeModeMismatchMessage(error, "subscription");
-      if (mismatch) {
-        return NextResponse.json(
-          { error: mismatch, code: "stripe_subscription_mode_mismatch" },
-          { status: 409 },
-        );
+      if (!subscription) {
+        if (candidate !== existingAllAccess) {
+          missingExtras.push(candidate);
+        } else if (existingAllAccess) {
+          // Stale All Access row — clear locally and keep looking for a real sub.
+          await markEntitlementCanceledLocally({
+            userId: user.id,
+            entitlement: candidate,
+            requestId: body.requestId,
+            reason: "stale_all_access",
+          });
+        }
+        continue;
       }
-      throw error;
+      if (subscription.metadata.future_kids_user_id !== user.id) {
+        return NextResponse.json({ error: "Billing identity mismatch" }, { status: 409 });
+      }
+      primary = candidate;
+      primarySubscription = subscription;
+      break;
     }
-    if (primarySubscription.metadata.future_kids_user_id !== user.id) {
-      return NextResponse.json({ error: "Billing identity mismatch" }, { status: 409 });
+
+    if (!primary || !primarySubscription) {
+      for (const entitlement of primaryCandidates) {
+        await markEntitlementCanceledLocally({
+          userId: user.id,
+          entitlement,
+          requestId: body.requestId,
+          reason: "orphaned",
+        });
+      }
+      return NextResponse.json(
+        {
+          error:
+            "No live website subscription was found in Stripe to switch. Start All Access checkout instead — stale plan records were cleared.",
+          code: "stripe_subscription_missing",
+        },
+        { status: 409 },
+      );
     }
 
     if (
@@ -179,11 +281,30 @@ export async function POST(request: Request) {
     if (assignmentError) throw assignmentError;
 
     const canceledPlanKeys: string[] = [];
-    for (const entitlement of directEntitlements) {
-      if (entitlement.id === primary.id) continue;
-      const subscription = await stripe.subscriptions.retrieve(
+    const toConsolidate = [
+      ...directEntitlements.filter((entitlement) => entitlement.id !== primary.id),
+      ...missingExtras.filter((entitlement) => entitlement.id !== primary.id),
+    ];
+    // Dedupe by entitlement id
+    const seen = new Set<string>();
+    for (const entitlement of toConsolidate) {
+      if (seen.has(entitlement.id)) continue;
+      seen.add(entitlement.id);
+
+      const subscription = await retrieveStripeSubscriptionOrNull(
+        stripe,
         entitlement.provider_subscription_id,
       );
+      if (!subscription) {
+        await markEntitlementCanceledLocally({
+          userId: user.id,
+          entitlement,
+          requestId: body.requestId,
+          reason: "missing",
+        });
+        canceledPlanKeys.push(entitlement.plan_key);
+        continue;
+      }
       if (subscription.metadata.future_kids_user_id !== user.id) {
         throw new Error("A subscription has mismatched billing identity");
       }
