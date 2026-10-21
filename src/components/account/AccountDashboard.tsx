@@ -84,6 +84,8 @@ export function AccountDashboard({
   const router = useRouter();
   const searchParams = useSearchParams();
   const checkoutSuccess = searchParams.get("checkout") === "success";
+  const checkoutApp = searchParams.get("app");
+  const checkoutCredits = searchParams.get("credits") === "1";
 
   const [rawAccount, setRawAccount] = useState(initialAccount);
   const [loading, setLoading] = useState(!initialAccount?.profile);
@@ -101,6 +103,10 @@ export function AccountDashboard({
   const [deleteConfirm, setDeleteConfirm] = useState("");
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const [deletingAccount, setDeletingAccount] = useState(false);
+  const [scholarsCredits, setScholarsCredits] = useState<{
+    generations: number;
+    tutor_minutes: number;
+  } | null>(null);
 
   useEffect(() => {
     if (initialAccount?.profile) return;
@@ -121,18 +127,57 @@ export function AccountDashboard({
   }, [initialAccount]);
 
   useEffect(() => {
+    let cancelled = false;
+    async function loadScholarsCredits() {
+      try {
+        const res = await fetch("/api/scholars/usage/balance?pool=1");
+        if (!res.ok || cancelled) return;
+        const data = (await res.json()) as {
+          generations?: number;
+          tutor_minutes?: number;
+        };
+        if (cancelled) return;
+        setScholarsCredits({
+          generations: Number(data.generations) || 0,
+          tutor_minutes: Number(data.tutor_minutes) || 0,
+        });
+      } catch {
+        // Ignore — card falls back to entitlement-only status.
+      }
+    }
+    loadScholarsCredits();
+    return () => {
+      cancelled = true;
+    };
+  }, [checkoutSuccess, rawAccount?.entitlements?.length]);
+
+  useEffect(() => {
     if (!checkoutSuccess) return;
     let cancelled = false;
     let timer: number | undefined;
     let attempts = 0;
 
     async function refreshEntitlements() {
+      if (!cancelled) {
+        await fetch("/api/subscriptions/stripe/reconcile", { method: "POST" });
+      }
       const data = await loadCanonicalAccount();
       if (cancelled) return;
       if (data) setRawAccount(data as EcosystemAccount);
 
+      const account = data as EcosystemAccount | null;
+      const scholarsReady = Boolean(
+        account && entitlementForApp(account, "scholars"),
+      );
+      const anyNew = Boolean(account?.entitlements?.length);
+      const waitingForScholars =
+        checkoutApp === "scholars" && !checkoutCredits && !scholarsReady;
+
       attempts += 1;
-      if (attempts < 5 && !(data as EcosystemAccount | null)?.entitlements?.length) {
+      if (
+        attempts < 8 &&
+        (waitingForScholars || (!anyNew && !checkoutCredits))
+      ) {
         timer = window.setTimeout(refreshEntitlements, 1500);
       }
     }
@@ -142,7 +187,7 @@ export function AccountDashboard({
       cancelled = true;
       if (timer) window.clearTimeout(timer);
     };
-  }, [checkoutSuccess]);
+  }, [checkoutSuccess, checkoutApp, checkoutCredits]);
 
   useEffect(() => {
     if (!initialAccount?.profile?.stripe_customer_id || checkoutSuccess) return;
@@ -457,7 +502,15 @@ export function AccountDashboard({
                   const brandApp = apps.find((a) => a.slug === appId)!;
                   const siteApp = getSiteApp(appId);
                   const entitlement = entitlementForApp(account, appId);
-                  const status = entitlement ? "active" : "inactive";
+                  const hasScholarsCredits =
+                    appId === "scholars" &&
+                    Boolean(
+                      scholarsCredits &&
+                        (scholarsCredits.generations > 0 ||
+                          scholarsCredits.tutor_minutes > 0),
+                    );
+                  const status =
+                    entitlement || hasScholarsCredits ? "active" : "inactive";
 
                   return (
                     <AppCard
@@ -470,6 +523,12 @@ export function AccountDashboard({
                       soft={siteApp?.colorSoft ?? "#f7f8fc"}
                       status={status}
                       entitlement={entitlement}
+                      creditsOnly={hasScholarsCredits && !entitlement}
+                      creditSummary={
+                        appId === "scholars" && scholarsCredits
+                          ? `${scholarsCredits.generations} gens · ${scholarsCredits.tutor_minutes} min`
+                          : null
+                      }
                       learnMore={brandApp.learnMorePath}
                       openHref={brandApp.appStoreUrl || brandApp.cta.href}
                       onManagePlan={
@@ -1102,6 +1161,8 @@ function AppCard({
   soft,
   status,
   entitlement,
+  creditsOnly = false,
+  creditSummary = null,
   learnMore,
   openHref,
   onManagePlan,
@@ -1114,12 +1175,20 @@ function AppCard({
   soft: string;
   status: "active" | "inactive" | "coming_soon";
   entitlement?: UserEntitlement;
+  creditsOnly?: boolean;
+  creditSummary?: string | null;
   learnMore: string;
   openHref: string;
   onManagePlan?: () => void;
 }) {
   const label =
-    status === "active" ? "Active" : status === "coming_soon" ? "Coming soon" : "Not subscribed";
+    status === "active"
+      ? creditsOnly
+        ? "Credits active"
+        : "Active"
+      : status === "coming_soon"
+        ? "Coming soon"
+        : "Not subscribed";
 
   return (
     <article
@@ -1141,15 +1210,19 @@ function AppCard({
         <p>
           Plan:{" "}
           <span className="font-medium text-ink">
-            {entitlement ? planDisplayName(entitlement.plan_key) : "None"}
+            {entitlement
+              ? planDisplayName(entitlement.plan_key)
+              : creditsOnly
+                ? "AI credits"
+                : "None"}
           </span>
         </p>
-        <p>
-          Provider:{" "}
-          <span className="font-medium capitalize text-ink">
-            {entitlement?.provider ?? "—"}
-          </span>
-        </p>
+        {creditSummary && (
+          <p>
+            Credits:{" "}
+            <span className="font-medium text-ink">{creditSummary}</span>
+          </p>
+        )}
         {entitlement?.current_period_end && (
           <p>
             Renews:{" "}
