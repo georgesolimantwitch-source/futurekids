@@ -221,12 +221,50 @@ export async function POST(request: Request) {
         console.error("Earnly sync on child login failed", error);
       }
     }
+
+    // Scholars: move parent-pool AI credits onto this kid when they are the
+    // sole unlocked seat so the iPad wallet matches Genlyn purchases.
+    if (appKey === "scholars" && access.parentId) {
+      try {
+        const { ensureChildReceivesParentPoolCredits } = await import(
+          "@/lib/scholars/credits"
+        );
+        await ensureChildReceivesParentPoolCredits({
+          parentUserId: access.parentId,
+          childUserId: child.id,
+          soleActiveOnly: true,
+        });
+      } catch (error) {
+        console.error("Scholars credit pull on child login failed", error);
+      }
+    }
+  }
+
+  let scholarsBalance: {
+    generations: number;
+    tutor_minutes: number;
+  } | null = null;
+  if (appKey === "scholars") {
+    try {
+      const { getScholarsCreditBalanceForChild } = await import(
+        "@/lib/scholars/credits"
+      );
+      scholarsBalance = await getScholarsCreditBalanceForChild(child.id);
+    } catch {
+      scholarsBalance = null;
+    }
   }
 
   return NextResponse.json({
     ok: true,
     code: "ok",
     app_key: appKey,
+    entitlement: {
+      has_access: true,
+      app_key: appKey,
+      plan_key: appKey === "scholars" ? "scholars_family" : appKey,
+    },
+    scholars_credits: scholarsBalance,
     child: {
       id: child.id,
       username: child.username,

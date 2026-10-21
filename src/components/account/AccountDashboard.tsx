@@ -570,7 +570,7 @@ export function AccountDashboard({
               />
               <div className="mt-6 flex flex-col gap-3 rounded-[28px] bg-[#f3efff] px-5 py-4 ring-1 ring-[#7c3aed]/15 sm:flex-row sm:items-center sm:justify-between">
                 <p className="text-sm font-medium text-ink">
-                  Add a Genlyn Hub to your home — wall tablet from $149.
+                  Add a Genlyn Hub to your home — wall tablet from $199.
                 </p>
                 <Link
                   href="/genlyn-hub"

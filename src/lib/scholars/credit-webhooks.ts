@@ -1,6 +1,7 @@
 import type Stripe from "stripe";
 import {
   calendarPeriodKey,
+  distributeParentPoolToSoleActiveChild,
   grantScholarsCredits,
   markScholarsCreditSubscriptionStatus,
   resolveScholarsSeatChildIds,
@@ -129,16 +130,26 @@ async function resolveCreditRecipients(
     metadata?.parent_user_id?.trim() ||
     null;
 
+  const preferred = parseChildIds(metadata);
+  const realKids = preferred.filter(
+    (id) => !parentUserId || id !== parentUserId.toLowerCase(),
+  );
+
+  // Explicit child targeting from checkout (Assign to kid).
+  if (
+    realKids.length > 0 &&
+    (metadata?.credit_held_by === "children" ||
+      metadata?.credit_held_by === "child")
+  ) {
+    return { childUserIds: realKids, parentUserId };
+  }
+
   // Standalone Scholars purchases (and optional All Access) hold credits on
   // the parent until assigned to a child in Manage kids.
-  if (
-    metadata?.credit_held_by === "parent" &&
-    parentUserId
-  ) {
+  if (metadata?.credit_held_by === "parent" && parentUserId) {
     return { childUserIds: [parentUserId], parentUserId };
   }
 
-  const preferred = parseChildIds(metadata);
   if (
     parentUserId &&
     preferred.length === 1 &&
@@ -360,6 +371,15 @@ export async function handleScholarsCreditCheckoutCompleted(
     }
   }
 
+  // Parent-pool grants: if exactly one kid already has Scholars on, move credits now.
+  if (
+    parentUserId &&
+    childUserIds.length === 1 &&
+    childUserIds[0].toLowerCase() === parentUserId.toLowerCase()
+  ) {
+    await distributeParentPoolToSoleActiveChild(parentUserId);
+  }
+
   const creatorCode = session.metadata?.creator_code?.trim();
   if (creatorCode) {
     await notifyScholarsCreatorAttribution({
@@ -457,6 +477,14 @@ export async function handleScholarsCreditInvoicePaid(
         subscriptionStatus: subscription.status,
       });
     }
+  }
+
+  if (
+    parentUserId &&
+    childUserIds.length === 1 &&
+    childUserIds[0].toLowerCase() === parentUserId.toLowerCase()
+  ) {
+    await distributeParentPoolToSoleActiveChild(parentUserId);
   }
 
   // First period is attributed on checkout.session.completed; renewals only here.

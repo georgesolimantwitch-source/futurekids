@@ -79,16 +79,23 @@ async function ensurePrice(
     limit: 1,
     expand: ["data.product"],
   });
+  const unitAmount = Math.round(sku.unitAmount * 100);
   const found = byLookup.data[0];
   if (found) {
-    return {
-      stripePriceId: found.id,
-      stripeProductId:
-        typeof found.product === "string" ? found.product : found.product.id,
-    };
+    const productIdFromFound =
+      typeof found.product === "string" ? found.product : found.product.id;
+    if (found.unit_amount === unitAmount && found.active) {
+      return {
+        stripePriceId: found.id,
+        stripeProductId: productIdFromFound,
+      };
+    }
+    // Lookup keys are immutable for amount — archive the stale price and recreate.
+    if (found.active) {
+      await stripe.prices.update(found.id, { active: false });
+    }
   }
 
-  const unitAmount = Math.round(sku.unitAmount * 100);
   const price = await stripe.prices.create({
     product: productId,
     currency: "usd",

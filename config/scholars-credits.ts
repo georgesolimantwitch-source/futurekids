@@ -1,11 +1,34 @@
 /**
  * Scholars AI credits — combined generations + tutor minutes.
  * Lookup: com.scholarsnotes.plan.g{GENS}.m{MINS}.{refill|monthly|yearly}
+ *
+ * Prices are the App Store / StoreKit catalog (same JSON as scholars-web).
+ * Formula fallback only covers rare missing SKUs.
  */
+
+import catalog from "./scholars-pricing-catalog.json";
 
 export type ScholarsCreditPeriod = "refill" | "monthly" | "yearly";
 export type ScholarsCreditKind = "generations" | "tutor_minutes";
 
+type CatalogPlan = {
+  productId: string;
+  gens: number;
+  mins: number;
+  period: ScholarsCreditPeriod;
+  price: number;
+  displayName: string;
+};
+
+const catalogPlans = catalog.plans as CatalogPlan[];
+
+const planByKey = new Map(
+  catalogPlans.map(
+    (plan) => [`${plan.gens}:${plan.mins}:${plan.period}`, plan] as const,
+  ),
+);
+
+/** Matches App Store / scholars-web `scholars-pricing-catalog.json` unitPricing. */
 export const scholarsCreditPricing = {
   generations: {
     step: 5,
@@ -13,19 +36,25 @@ export const scholarsCreditPricing = {
     max: 60,
     default: 20,
     /** Per block of 5 */
-    refillPerBlock: 2.99,
-    monthlyPerBlock: 1.99,
-    yearlyPerBlockMonthly: 1.49,
+    refillPerBlock: catalog.unitPricing.refill.per5Gens,
+    monthlyPerBlock: catalog.unitPricing.monthly.per5Gens,
+    yearlyPerBlockMonthly: catalog.unitPricing.yearly.per5GensMonthly,
   },
   tutorMinutes: {
-    step: 30,
+    step: 15,
     min: 0,
     max: 180,
     default: 60,
-    /** Per block of 30 */
-    refillPerBlock: 7.99,
-    monthlyPerBlock: 6.99,
-    yearlyPerBlockMonthly: 5.49,
+    /** Per block of 15 (half of App Store per-30 rates). */
+    refillPerBlock: Number(
+      (catalog.unitPricing.refill.per30Mins / 2).toFixed(2),
+    ),
+    monthlyPerBlock: Number(
+      (catalog.unitPricing.monthly.per30Mins / 2).toFixed(2),
+    ),
+    yearlyPerBlockMonthly: Number(
+      (catalog.unitPricing.yearly.per30MinsMonthly / 2).toFixed(2),
+    ),
   },
   defaultPeriod: "refill" as ScholarsCreditPeriod,
 } as const;
@@ -44,10 +73,8 @@ export function clampGenerations(qty: number): number {
   return Math.min(max, Math.max(min, rounded));
 }
 
-export function clampTutorMinutes(qty: number, generations = 0): number {
+export function clampTutorMinutes(qty: number, _generations = 0): number {
   if (!Number.isFinite(qty) || qty <= 0) return 0;
-  // App Store promo SKU: 5 gens + 15 min (half of a 30-min block).
-  if (qty === 15) return generations === 5 ? 15 : 0;
   const { step, max } = scholarsCreditPricing.tutorMinutes;
   const rounded = Math.round(qty / step) * step;
   return Math.min(max, Math.max(0, rounded));
@@ -61,7 +88,6 @@ export function generationBlocks(qty: number): number {
 export function tutorMinuteBlocks(qty: number, generations = 0): number {
   const n = clampTutorMinutes(qty, generations);
   if (n === 0) return 0;
-  // 15 min = half of a 30-min pricing block
   return n / scholarsCreditPricing.tutorMinutes.step;
 }
 
@@ -106,20 +132,39 @@ export function tutorMinutesPrice(
   return monthlyish;
 }
 
+/** Exact App Store SKU when it exists in the shared catalog. */
+export function findCatalogPlan(
+  generations: number,
+  tutorMinutes: number,
+  period: ScholarsCreditPeriod,
+): CatalogPlan | null {
+  const g = clampGenerations(generations);
+  const m = clampTutorMinutes(tutorMinutes, g);
+  return planByKey.get(`${g}:${m}:${period}`) ?? null;
+}
+
+export function isScholarsCreditSkuAvailable(
+  generations: number,
+  tutorMinutes: number,
+  period: ScholarsCreditPeriod,
+): boolean {
+  if (generations === 0 && tutorMinutes === 0) return false;
+  return findCatalogPlan(generations, tutorMinutes, period) != null;
+}
+
 export function combinedCreditPrice(
   generations: number,
   tutorMinutes: number,
   period: ScholarsCreditPeriod,
 ): number {
-  // Screen-protector promo — matches App Store Connect / StoreKit.
-  if (generations === 5 && tutorMinutes === 15) {
-    if (period === "yearly") return 41.88;
-    return 6.99;
-  }
+  const plan = findCatalogPlan(generations, tutorMinutes, period);
+  if (plan) return plan.price;
+
+  // Fallback for any SKU missing from the catalog snapshot.
   return (
     Math.round(
       (generationsPrice(generations, period) +
-        tutorMinutesPrice(tutorMinutes, period)) *
+        tutorMinutesPrice(tutorMinutes, period, generations)) *
         100,
     ) / 100
   );
@@ -136,8 +181,9 @@ export function combinedCompareAtPrice(
     return combinedCreditPrice(generations, tutorMinutes, "refill");
   }
   return (
-    Math.round(combinedCreditPrice(generations, tutorMinutes, "monthly") * 12 * 100) /
-    100
+    Math.round(
+      combinedCreditPrice(generations, tutorMinutes, "monthly") * 12 * 100,
+    ) / 100
   );
 }
 
@@ -156,13 +202,8 @@ export function combinedYearlyMonthlyEquivalent(
   generations: number,
   tutorMinutes: number,
 ): number {
-  return (
-    Math.round(
-      (generationsPrice(generations, "yearly") / 12 +
-        tutorMinutesPrice(tutorMinutes, "yearly") / 12) *
-        100,
-    ) / 100
-  );
+  const yearly = combinedCreditPrice(generations, tutorMinutes, "yearly");
+  return Math.round((yearly / 12) * 100) / 100;
 }
 
 export function creditPriceLine(
@@ -228,9 +269,10 @@ export function parseCombinedLookupKey(lookupKey: string): {
   tutorMinutes: number;
   period: ScholarsCreditPeriod | null;
 } | null {
-  const match = /^com\.scholarsnotes\.plan\.g(\d+)\.m(\d+)\.(refill|monthly|yearly)$/.exec(
-    lookupKey,
-  );
+  const match =
+    /^com\.scholarsnotes\.plan\.g(\d+)\.m(\d+)\.(refill|monthly|yearly)$/.exec(
+      lookupKey,
+    );
   if (!match) return null;
   return {
     generations: Number(match[1]),
@@ -239,7 +281,7 @@ export function parseCombinedLookupKey(lookupKey: string): {
   };
 }
 
-/** All combined SKUs for Stripe catalog (273 = App Store grid + g5.m15 promo). */
+/** All combined SKUs for Stripe — exact App Store catalog prices. */
 export function allScholarsCreditSkus(): Array<{
   kind: "combined_credits";
   generations: number;
@@ -252,40 +294,21 @@ export function allScholarsCreditSkus(): Array<{
   grantTutorMinutes: number;
   name: string;
 }> {
-  const skus: ReturnType<typeof allScholarsCreditSkus> = [];
-  const periods: ScholarsCreditPeriod[] = ["refill", "monthly", "yearly"];
-  const genOptions: number[] = [];
-  for (let g = 0; g <= 60; g += 5) genOptions.push(g);
-  const minOptions: number[] = [];
-  for (let m = 0; m <= 180; m += 30) minOptions.push(m);
-
-  const pairs: Array<{ generations: number; tutorMinutes: number }> = [];
-  for (const generations of genOptions) {
-    for (const tutorMinutes of minOptions) {
-      if (generations === 0 && tutorMinutes === 0) continue;
-      pairs.push({ generations, tutorMinutes });
-    }
-  }
-  // App Store promo tier (15 min only with 5 gens).
-  pairs.push({ generations: 5, tutorMinutes: 15 });
-
-  for (const { generations, tutorMinutes } of pairs) {
-    for (const period of periods) {
-      skus.push({
-        kind: "combined_credits",
-        generations,
-        tutorMinutes,
-        period,
-        lookupKey: scholarsCombinedLookupKey(generations, tutorMinutes, period),
-        unitAmount: combinedCreditPrice(generations, tutorMinutes, period),
-        interval:
-          period === "refill" ? null : period === "monthly" ? "month" : "year",
-        grantGenerations: generations,
-        grantTutorMinutes: tutorMinutes,
-        name: `Scholars AI · ${grantSummaryLabel(generations, tutorMinutes)}`,
-      });
-    }
-  }
-
-  return skus;
+  return catalogPlans.map((plan) => ({
+    kind: "combined_credits" as const,
+    generations: plan.gens,
+    tutorMinutes: plan.mins,
+    period: plan.period,
+    lookupKey: plan.productId,
+    unitAmount: plan.price,
+    interval:
+      plan.period === "refill"
+        ? null
+        : plan.period === "monthly"
+          ? ("month" as const)
+          : ("year" as const),
+    grantGenerations: plan.gens,
+    grantTutorMinutes: plan.mins,
+    name: `Scholars AI · ${grantSummaryLabel(plan.gens, plan.mins)}`,
+  }));
 }

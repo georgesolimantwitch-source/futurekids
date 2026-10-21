@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   clampGenerations,
   clampTutorMinutes,
@@ -11,12 +11,20 @@ import {
   creditPriceLine,
   formatCreditUsd,
   grantSummaryLabel,
+  isScholarsCreditSkuAvailable,
   periodLabel,
   scholarsCreditPricing,
   type ScholarsCreditPeriod,
 } from "@/config/scholars-credits";
 import { redirectToLoginForCheckout } from "@/lib/checkout/client";
 import { subscribeUpgradeDowngradeLabel } from "@/lib/subscriptions/plan-cta";
+
+type KidOption = {
+  id: string;
+  username: string | null;
+  display_name: string | null;
+  full_name: string | null;
+};
 
 function StepperCard({
   label,
@@ -88,11 +96,46 @@ export function ScholarsCreditBuilder({
   );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [kids, setKids] = useState<KidOption[]>([]);
+  const [selectedChildIds, setSelectedChildIds] = useState<string[]>([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function loadKids() {
+      try {
+        const res = await fetch("/api/kids");
+        if (!res.ok) return;
+        const data = (await res.json()) as { children?: KidOption[] };
+        if (cancelled || !Array.isArray(data.children)) return;
+        setKids(data.children);
+        if (data.children.length === 1) {
+          setSelectedChildIds([data.children[0].id]);
+        }
+      } catch {
+        // Guest / not signed in — checkout will redirect to login.
+      }
+    }
+    loadKids();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const gens = clampGenerations(generations);
-  const mins = clampTutorMinutes(tutorMinutes);
+  const mins = clampTutorMinutes(tutorMinutes, generations);
   const price = combinedCreditPrice(gens, mins, period);
-  const canCheckout = gens > 0 || mins > 0;
+  const canCheckout =
+    (gens > 0 || mins > 0) &&
+    isScholarsCreditSkuAvailable(gens, mins, period);
+
+  useEffect(() => {
+    if (gens === 0 && mins === 0) return;
+    if (isScholarsCreditSkuAvailable(gens, mins, period)) return;
+    const fallback = (["refill", "monthly", "yearly"] as const).find((p) =>
+      isScholarsCreditSkuAvailable(gens, mins, p),
+    );
+    if (fallback) setPeriod(fallback);
+  }, [gens, mins, period]);
   const selectedMonthly = period === "yearly" ? price / 12 : price;
   const creditVerb = subscribeUpgradeDowngradeLabel({
     hasExistingPlan,
@@ -119,6 +162,9 @@ export function ScholarsCreditBuilder({
           generations: gens,
           tutor_minutes: mins,
           period,
+          ...(selectedChildIds.length > 0
+            ? { child_user_ids: selectedChildIds }
+            : {}),
         }),
       });
       const raw = await res.text();
@@ -151,23 +197,29 @@ export function ScholarsCreditBuilder({
     id: ScholarsCreditPeriod;
     title: string;
     subtitle: string;
-  }> = [
-    {
-      id: "refill",
-      title: "Refill credits",
-      subtitle: "Pay once · credits never expire",
-    },
-    {
-      id: "monthly",
-      title: "Monthly",
-      subtitle: "Refills every month · cancel anytime",
-    },
-    {
-      id: "yearly",
-      title: "Yearly",
-      subtitle: "Same monthly refill · billed once a year",
-    },
-  ];
+  }> = (
+    [
+      {
+        id: "refill" as const,
+        title: "Refill credits",
+        subtitle: "Pay once · credits never expire",
+      },
+      {
+        id: "monthly" as const,
+        title: "Monthly",
+        subtitle: "Refills every month · cancel anytime",
+      },
+      {
+        id: "yearly" as const,
+        title: "Yearly",
+        subtitle: "Same monthly refill · billed once a year",
+      },
+    ] as const
+  ).filter((opt) =>
+    gens === 0 && mins === 0
+      ? true
+      : isScholarsCreditSkuAvailable(gens, mins, opt.id),
+  );
 
   const body = (
     <>
@@ -184,11 +236,66 @@ export function ScholarsCreditBuilder({
             embedded ? "max-w-none" : "mx-auto max-w-xl sm:text-base"
           }`}
         >
-          Credits land on your parent account. Assign them to a child anytime in
-          Account → Manage kids. Set either to 0 to skip it — you only pay for
-          what you pick.
+          Pick a child to receive credits on their Scholars iPad login, or leave
+          them on the parent pool and assign later in Account → Kids &amp; app
+          access. Set either meter to 0 to skip it — you only pay for what you
+          pick.
         </p>
       </div>
+
+      {kids.length > 0 && (
+        <div className="mt-5 rounded-2xl border border-neutral-200 bg-white p-4">
+          <p className="text-sm font-semibold text-[#1d1d1f]">
+            Assign to child
+          </p>
+          <p className="mt-1 text-xs text-neutral-500">
+            Selected kids get Scholars unlocked and these credits on their wallet
+            when payment completes.
+          </p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={() => setSelectedChildIds([])}
+              className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
+                selectedChildIds.length === 0
+                  ? "bg-[#007AFF] text-white"
+                  : "bg-neutral-100 text-neutral-700 hover:bg-neutral-200"
+              }`}
+            >
+              Parent pool
+            </button>
+            {kids.map((kid) => {
+              const selected = selectedChildIds.includes(kid.id);
+              const label =
+                kid.display_name ||
+                kid.full_name ||
+                kid.username ||
+                "Child";
+              return (
+                <button
+                  key={kid.id}
+                  type="button"
+                  onClick={() =>
+                    setSelectedChildIds((prev) =>
+                      selected
+                        ? prev.filter((id) => id !== kid.id)
+                        : [...prev, kid.id],
+                    )
+                  }
+                  className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
+                    selected
+                      ? "bg-[#007AFF] text-white"
+                      : "bg-neutral-100 text-neutral-700 hover:bg-neutral-200"
+                  }`}
+                >
+                  {label}
+                  {kid.username ? ` (@${kid.username})` : ""}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       <div className="mt-5 grid gap-3 sm:grid-cols-2">
         <div className="space-y-2">
@@ -227,15 +334,21 @@ export function ScholarsCreditBuilder({
             unit="minutes"
             onDec={() =>
               setTutorMinutes((v) =>
-                clampTutorMinutes(v - scholarsCreditPricing.tutorMinutes.step),
+                clampTutorMinutes(
+                  v - scholarsCreditPricing.tutorMinutes.step,
+                  gens,
+                ),
               )
             }
             onInc={() =>
               setTutorMinutes((v) =>
-                clampTutorMinutes(v + scholarsCreditPricing.tutorMinutes.step),
+                clampTutorMinutes(
+                  v + scholarsCreditPricing.tutorMinutes.step,
+                  gens,
+                ),
               )
             }
-            footer="Steps of 30 · 0 = skip"
+            footer="Steps of 15 · 0 = skip"
           />
           <div className="rounded-2xl border border-neutral-200 bg-white px-4 py-3">
             <p className="text-sm font-medium text-[#1d1d1f]">
@@ -355,7 +468,12 @@ export function ScholarsCreditBuilder({
       <div className="mx-auto flex max-w-3xl items-center justify-between gap-3">
         <div className="min-w-0">
           <p className="text-xs text-neutral-500">
-            {periodLabel(period)} · Parent account
+            {periodLabel(period)} ·{" "}
+            {selectedChildIds.length > 0
+              ? `${selectedChildIds.length} kid${
+                  selectedChildIds.length === 1 ? "" : "s"
+                }`
+              : "Parent pool"}
           </p>
           <p className="truncate text-sm font-semibold text-[#1d1d1f]">
             {grantSummaryLabel(gens, mins)}

@@ -4,6 +4,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { verifyAppleTransaction } from "@/lib/subscriptions/apple";
 import {
   calendarPeriodKey,
+  ensureChildReceivesParentPoolCredits,
   getScholarsCreditBalanceForChild,
   grantScholarsCredits,
   type ScholarsCreditBalance,
@@ -194,6 +195,24 @@ export type WalletSyncInput = {
   creatorCode?: string | null;
 };
 
+async function parentIdForChild(childUserId: string): Promise<string | null> {
+  const admin = createAdminClient();
+  const { data: membership } = await admin
+    .from("family_members")
+    .select("family_id")
+    .eq("user_id", childUserId)
+    .eq("role", "child")
+    .limit(1)
+    .maybeSingle();
+  if (!membership?.family_id) return null;
+  const { data: family } = await admin
+    .from("families")
+    .select("owner_id")
+    .eq("id", membership.family_id)
+    .maybeSingle();
+  return (family?.owner_id as string | undefined) ?? null;
+}
+
 /**
  * Brings one Genlyn account's Scholars wallet up to date: verified App Store purchases,
  * the monthly plan allotment, and the creator perk.
@@ -205,6 +224,22 @@ export async function syncScholarsWallet(input: WalletSyncInput): Promise<{
   const { userId } = input;
   const month = calendarPeriodKey();
   const now = Date.now();
+
+  // Child iPad sync: pull unassigned parent-pool credits when this is the sole
+  // Scholars-enabled kid (covers purchases that landed on the parent wallet).
+  try {
+    const parentId = await parentIdForChild(userId);
+    if (parentId) {
+      await ensureChildReceivesParentPoolCredits({
+        parentUserId: parentId,
+        childUserId: userId,
+        soleActiveOnly: true,
+      });
+    }
+  } catch (error) {
+    console.warn("[scholars-wallet] parent-pool pull failed", error);
+  }
+
   const context = await fetchScholarsCreditContext(input.email, input.creatorCode ?? null);
   const results: TransactionSyncResult[] = [];
 

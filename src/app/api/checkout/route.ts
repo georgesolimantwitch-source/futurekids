@@ -56,6 +56,7 @@ export async function POST(request: NextRequest) {
       scholarsGenerations?: unknown;
       scholarsTutorMinutes?: unknown;
       scholarsCreditChildId?: unknown;
+      child_user_ids?: unknown;
       creator_code?: unknown;
     };
     try {
@@ -164,13 +165,19 @@ export async function POST(request: NextRequest) {
         creditMins,
         creditPeriod,
       );
-      const listed = await stripe.prices.list({
-        lookup_keys: [lookupKey],
-        active: true,
-        limit: 1,
-      });
-      const creditPriceId = listed.data[0]?.id;
-      if (!creditPriceId) {
+      const { ensureScholarsCreditStripePrice } = await import(
+        "@/lib/scholars/ensure-credit-price"
+      );
+      let creditPriceId: string;
+      try {
+        creditPriceId = await ensureScholarsCreditStripePrice({
+          stripe,
+          generations: creditGens,
+          tutorMinutes: creditMins,
+          period: creditPeriod,
+          lookupKey,
+        });
+      } catch {
         return NextResponse.json(
           {
             error: `Scholars credit price missing for ${lookupKey}. Run create-scholars-credit-prices.`,
@@ -333,6 +340,37 @@ export async function POST(request: NextRequest) {
       await resolveCreatorForBuyer({ buyerUserId: user.id });
     }
 
+    const creditChildIds = Array.from(
+      new Set(
+        [
+          ...(Array.isArray(body.child_user_ids)
+            ? body.child_user_ids
+            : typeof body.child_user_ids === "string"
+              ? body.child_user_ids.split(",")
+              : []),
+          ...(typeof body.scholarsCreditChildId === "string"
+            ? [body.scholarsCreditChildId]
+            : []),
+        ]
+          .map((id) => String(id).trim().toLowerCase())
+          .filter(Boolean),
+      ),
+    ).filter((id) => id !== user.id.toLowerCase());
+
+    if (creditChildIds.length > 0) {
+      const { parentOwnsChild } = await import("@/lib/kids/portal");
+      for (const childId of creditChildIds) {
+        if (!(await parentOwnsChild(user.id, childId))) {
+          return NextResponse.json(
+            { error: "You can only assign credits to kids in your family." },
+            { status: 403 },
+          );
+        }
+      }
+    }
+
+    const assignCreditsToChildren = creditChildIds.length > 0;
+
     const sharedMetadata: Record<string, string> = {
       ...(creatorCode ? { creator_code: creatorCode } : {}),
       future_kids_user_id: user.id,
@@ -361,8 +399,10 @@ export async function POST(request: NextRequest) {
         ? {
             credit_checkout: "true",
             credit_period: plan.interval === "year" ? "yearly" : "monthly",
-            credit_held_by: "parent",
-            child_user_id: user.id,
+            credit_held_by: assignCreditsToChildren ? "children" : "parent",
+            child_user_id: assignCreditsToChildren
+              ? creditChildIds[0]
+              : user.id,
             parent_user_id: user.id,
             grant_generations: String(
               scholarsCreditAddon.generations * scholarsCreditAddon.seatCount,
@@ -373,6 +413,9 @@ export async function POST(request: NextRequest) {
             credit_lookup_key: scholarsCreditAddon.lookupKey,
             credit_seat_count: String(scholarsCreditAddon.seatCount),
             scholars_child_count: String(scholarsCreditAddon.seatCount),
+            ...(assignCreditsToChildren
+              ? { child_user_ids: creditChildIds.join(",") }
+              : {}),
           }
         : {}),
     };

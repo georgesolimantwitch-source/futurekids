@@ -1,0 +1,4053 @@
+{
+  "generatedFrom": "Scholars.storekit",
+  "currency": "USD",
+  "unitPricing": {
+    "refill": {
+      "per5Gens": 2.99,
+      "per30Mins": 29.98
+    },
+    "monthly": {
+      "per5Gens": 1.99,
+      "per30Mins": 25.98
+    },
+    "yearly": {
+      "per5GensMonthly": 1.49,
+      "per30MinsMonthly": 21.98
+    }
+  },
+  "legacyPlans": [],
+  "plans": [
+    {
+      "productId": "com.scholarsnotes.plan.g0.m15.refill",
+      "gens": 0,
+      "mins": 15,
+      "period": "refill",
+      "price": 14.99,
+      "displayName": "15 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m30.refill",
+      "gens": 0,
+      "mins": 30,
+      "period": "refill",
+      "price": 29.99,
+      "displayName": "30 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m45.refill",
+      "gens": 0,
+      "mins": 45,
+      "period": "refill",
+      "price": 44.99,
+      "displayName": "45 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m60.refill",
+      "gens": 0,
+      "mins": 60,
+      "period": "refill",
+      "price": 59.99,
+      "displayName": "60 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m75.refill",
+      "gens": 0,
+      "mins": 75,
+      "period": "refill",
+      "price": 74.99,
+      "displayName": "75 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m90.refill",
+      "gens": 0,
+      "mins": 90,
+      "period": "refill",
+      "price": 89.99,
+      "displayName": "90 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m105.refill",
+      "gens": 0,
+      "mins": 105,
+      "period": "refill",
+      "price": 104.99,
+      "displayName": "105 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m120.refill",
+      "gens": 0,
+      "mins": 120,
+      "period": "refill",
+      "price": 119.99,
+      "displayName": "120 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m135.refill",
+      "gens": 0,
+      "mins": 135,
+      "period": "refill",
+      "price": 134.99,
+      "displayName": "135 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m150.refill",
+      "gens": 0,
+      "mins": 150,
+      "period": "refill",
+      "price": 149.99,
+      "displayName": "150 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m165.refill",
+      "gens": 0,
+      "mins": 165,
+      "period": "refill",
+      "price": 164.99,
+      "displayName": "165 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m180.refill",
+      "gens": 0,
+      "mins": 180,
+      "period": "refill",
+      "price": 179.99,
+      "displayName": "180 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m0.refill",
+      "gens": 5,
+      "mins": 0,
+      "period": "refill",
+      "price": 2.99,
+      "displayName": "5 gens Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m15.refill",
+      "gens": 5,
+      "mins": 15,
+      "period": "refill",
+      "price": 17.99,
+      "displayName": "5 gens + 15 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m30.refill",
+      "gens": 5,
+      "mins": 30,
+      "period": "refill",
+      "price": 32.99,
+      "displayName": "5 gens + 30 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m45.refill",
+      "gens": 5,
+      "mins": 45,
+      "period": "refill",
+      "price": 47.99,
+      "displayName": "5 gens + 45 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m60.refill",
+      "gens": 5,
+      "mins": 60,
+      "period": "refill",
+      "price": 62.99,
+      "displayName": "5 gens + 60 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m75.refill",
+      "gens": 5,
+      "mins": 75,
+      "period": "refill",
+      "price": 77.99,
+      "displayName": "5 gens + 75 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m90.refill",
+      "gens": 5,
+      "mins": 90,
+      "period": "refill",
+      "price": 92.99,
+      "displayName": "5 gens + 90 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m105.refill",
+      "gens": 5,
+      "mins": 105,
+      "period": "refill",
+      "price": 107.99,
+      "displayName": "5 gens + 105 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m120.refill",
+      "gens": 5,
+      "mins": 120,
+      "period": "refill",
+      "price": 122.99,
+      "displayName": "5 gens + 120 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m135.refill",
+      "gens": 5,
+      "mins": 135,
+      "period": "refill",
+      "price": 137.99,
+      "displayName": "5 gens + 135 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m150.refill",
+      "gens": 5,
+      "mins": 150,
+      "period": "refill",
+      "price": 152.99,
+      "displayName": "5 gens + 150 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m165.refill",
+      "gens": 5,
+      "mins": 165,
+      "period": "refill",
+      "price": 167.99,
+      "displayName": "5 gens + 165 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m180.refill",
+      "gens": 5,
+      "mins": 180,
+      "period": "refill",
+      "price": 182.99,
+      "displayName": "5 gens + 180 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m0.refill",
+      "gens": 10,
+      "mins": 0,
+      "period": "refill",
+      "price": 5.98,
+      "displayName": "10 gens Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m15.refill",
+      "gens": 10,
+      "mins": 15,
+      "period": "refill",
+      "price": 20.99,
+      "displayName": "10 gens + 15 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m30.refill",
+      "gens": 10,
+      "mins": 30,
+      "period": "refill",
+      "price": 35.99,
+      "displayName": "10 gens + 30 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m45.refill",
+      "gens": 10,
+      "mins": 45,
+      "period": "refill",
+      "price": 50.99,
+      "displayName": "10 gens + 45 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m60.refill",
+      "gens": 10,
+      "mins": 60,
+      "period": "refill",
+      "price": 65.99,
+      "displayName": "10 gens + 60 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m75.refill",
+      "gens": 10,
+      "mins": 75,
+      "period": "refill",
+      "price": 80.99,
+      "displayName": "10 gens + 75 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m90.refill",
+      "gens": 10,
+      "mins": 90,
+      "period": "refill",
+      "price": 95.99,
+      "displayName": "10 gens + 90 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m105.refill",
+      "gens": 10,
+      "mins": 105,
+      "period": "refill",
+      "price": 110.99,
+      "displayName": "10 gens + 105 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m120.refill",
+      "gens": 10,
+      "mins": 120,
+      "period": "refill",
+      "price": 125.99,
+      "displayName": "10 gens + 120 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m135.refill",
+      "gens": 10,
+      "mins": 135,
+      "period": "refill",
+      "price": 140.99,
+      "displayName": "10 gens + 135 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m150.refill",
+      "gens": 10,
+      "mins": 150,
+      "period": "refill",
+      "price": 155.99,
+      "displayName": "10 gens + 150 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m165.refill",
+      "gens": 10,
+      "mins": 165,
+      "period": "refill",
+      "price": 170.99,
+      "displayName": "10 gens + 165 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m180.refill",
+      "gens": 10,
+      "mins": 180,
+      "period": "refill",
+      "price": 185.99,
+      "displayName": "10 gens + 180 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m0.refill",
+      "gens": 15,
+      "mins": 0,
+      "period": "refill",
+      "price": 8.97,
+      "displayName": "15 gens Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m15.refill",
+      "gens": 15,
+      "mins": 15,
+      "period": "refill",
+      "price": 23.99,
+      "displayName": "15 gens + 15 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m30.refill",
+      "gens": 15,
+      "mins": 30,
+      "period": "refill",
+      "price": 38.95,
+      "displayName": "15 gens + 30 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m45.refill",
+      "gens": 15,
+      "mins": 45,
+      "period": "refill",
+      "price": 53.99,
+      "displayName": "15 gens + 45 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m60.refill",
+      "gens": 15,
+      "mins": 60,
+      "period": "refill",
+      "price": 68.99,
+      "displayName": "15 gens + 60 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m75.refill",
+      "gens": 15,
+      "mins": 75,
+      "period": "refill",
+      "price": 83.99,
+      "displayName": "15 gens + 75 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m90.refill",
+      "gens": 15,
+      "mins": 90,
+      "period": "refill",
+      "price": 98.99,
+      "displayName": "15 gens + 90 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m105.refill",
+      "gens": 15,
+      "mins": 105,
+      "period": "refill",
+      "price": 113.99,
+      "displayName": "15 gens + 105 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m120.refill",
+      "gens": 15,
+      "mins": 120,
+      "period": "refill",
+      "price": 128.99,
+      "displayName": "15 gens + 120 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m135.refill",
+      "gens": 15,
+      "mins": 135,
+      "period": "refill",
+      "price": 143.99,
+      "displayName": "15 gens + 135 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m150.refill",
+      "gens": 15,
+      "mins": 150,
+      "period": "refill",
+      "price": 158.99,
+      "displayName": "15 gens + 150 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m165.refill",
+      "gens": 15,
+      "mins": 165,
+      "period": "refill",
+      "price": 173.99,
+      "displayName": "15 gens + 165 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m180.refill",
+      "gens": 15,
+      "mins": 180,
+      "period": "refill",
+      "price": 188.99,
+      "displayName": "15 gens + 180 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m0.refill",
+      "gens": 20,
+      "mins": 0,
+      "period": "refill",
+      "price": 11.96,
+      "displayName": "20 gens Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m15.refill",
+      "gens": 20,
+      "mins": 15,
+      "period": "refill",
+      "price": 26.95,
+      "displayName": "20 gens + 15 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m30.refill",
+      "gens": 20,
+      "mins": 30,
+      "period": "refill",
+      "price": 41.95,
+      "displayName": "20 gens + 30 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m45.refill",
+      "gens": 20,
+      "mins": 45,
+      "period": "refill",
+      "price": 56.99,
+      "displayName": "20 gens + 45 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m60.refill",
+      "gens": 20,
+      "mins": 60,
+      "period": "refill",
+      "price": 71.99,
+      "displayName": "20 gens + 60 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m75.refill",
+      "gens": 20,
+      "mins": 75,
+      "period": "refill",
+      "price": 86.99,
+      "displayName": "20 gens + 75 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m90.refill",
+      "gens": 20,
+      "mins": 90,
+      "period": "refill",
+      "price": 101.99,
+      "displayName": "20 gens + 90 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m105.refill",
+      "gens": 20,
+      "mins": 105,
+      "period": "refill",
+      "price": 116.99,
+      "displayName": "20 gens + 105 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m120.refill",
+      "gens": 20,
+      "mins": 120,
+      "period": "refill",
+      "price": 131.99,
+      "displayName": "20 gens + 120 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m135.refill",
+      "gens": 20,
+      "mins": 135,
+      "period": "refill",
+      "price": 146.99,
+      "displayName": "20 gens + 135 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m150.refill",
+      "gens": 20,
+      "mins": 150,
+      "period": "refill",
+      "price": 161.99,
+      "displayName": "20 gens + 150 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m165.refill",
+      "gens": 20,
+      "mins": 165,
+      "period": "refill",
+      "price": 176.99,
+      "displayName": "20 gens + 165 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m180.refill",
+      "gens": 20,
+      "mins": 180,
+      "period": "refill",
+      "price": 191.99,
+      "displayName": "20 gens + 180 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m0.refill",
+      "gens": 25,
+      "mins": 0,
+      "period": "refill",
+      "price": 14.95,
+      "displayName": "25 gens Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m15.refill",
+      "gens": 25,
+      "mins": 15,
+      "period": "refill",
+      "price": 29.95,
+      "displayName": "25 gens + 15 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m30.refill",
+      "gens": 25,
+      "mins": 30,
+      "period": "refill",
+      "price": 44.95,
+      "displayName": "25 gens + 30 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m45.refill",
+      "gens": 25,
+      "mins": 45,
+      "period": "refill",
+      "price": 59.99,
+      "displayName": "25 gens + 45 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m60.refill",
+      "gens": 25,
+      "mins": 60,
+      "period": "refill",
+      "price": 74.99,
+      "displayName": "25 gens + 60 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m75.refill",
+      "gens": 25,
+      "mins": 75,
+      "period": "refill",
+      "price": 89.9,
+      "displayName": "25 gens + 75 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m90.refill",
+      "gens": 25,
+      "mins": 90,
+      "period": "refill",
+      "price": 104.99,
+      "displayName": "25 gens + 90 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m105.refill",
+      "gens": 25,
+      "mins": 105,
+      "period": "refill",
+      "price": 119.99,
+      "displayName": "25 gens + 105 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m120.refill",
+      "gens": 25,
+      "mins": 120,
+      "period": "refill",
+      "price": 134.99,
+      "displayName": "25 gens + 120 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m135.refill",
+      "gens": 25,
+      "mins": 135,
+      "period": "refill",
+      "price": 149.99,
+      "displayName": "25 gens + 135 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m150.refill",
+      "gens": 25,
+      "mins": 150,
+      "period": "refill",
+      "price": 164.99,
+      "displayName": "25 gens + 150 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m165.refill",
+      "gens": 25,
+      "mins": 165,
+      "period": "refill",
+      "price": 179.99,
+      "displayName": "25 gens + 165 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m180.refill",
+      "gens": 25,
+      "mins": 180,
+      "period": "refill",
+      "price": 194.99,
+      "displayName": "25 gens + 180 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m0.refill",
+      "gens": 30,
+      "mins": 0,
+      "period": "refill",
+      "price": 17.94,
+      "displayName": "30 gens Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m15.refill",
+      "gens": 30,
+      "mins": 15,
+      "period": "refill",
+      "price": 32.95,
+      "displayName": "30 gens + 15 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m30.refill",
+      "gens": 30,
+      "mins": 30,
+      "period": "refill",
+      "price": 47.95,
+      "displayName": "30 gens + 30 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m45.refill",
+      "gens": 30,
+      "mins": 45,
+      "period": "refill",
+      "price": 62.99,
+      "displayName": "30 gens + 45 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m60.refill",
+      "gens": 30,
+      "mins": 60,
+      "period": "refill",
+      "price": 77.9,
+      "displayName": "30 gens + 60 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m75.refill",
+      "gens": 30,
+      "mins": 75,
+      "period": "refill",
+      "price": 92.9,
+      "displayName": "30 gens + 75 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m90.refill",
+      "gens": 30,
+      "mins": 90,
+      "period": "refill",
+      "price": 107.99,
+      "displayName": "30 gens + 90 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m105.refill",
+      "gens": 30,
+      "mins": 105,
+      "period": "refill",
+      "price": 122.99,
+      "displayName": "30 gens + 105 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m120.refill",
+      "gens": 30,
+      "mins": 120,
+      "period": "refill",
+      "price": 137.99,
+      "displayName": "30 gens + 120 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m135.refill",
+      "gens": 30,
+      "mins": 135,
+      "period": "refill",
+      "price": 152.99,
+      "displayName": "30 gens + 135 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m150.refill",
+      "gens": 30,
+      "mins": 150,
+      "period": "refill",
+      "price": 167.99,
+      "displayName": "30 gens + 150 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m165.refill",
+      "gens": 30,
+      "mins": 165,
+      "period": "refill",
+      "price": 182.99,
+      "displayName": "30 gens + 165 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m180.refill",
+      "gens": 30,
+      "mins": 180,
+      "period": "refill",
+      "price": 197.99,
+      "displayName": "30 gens + 180 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m0.refill",
+      "gens": 35,
+      "mins": 0,
+      "period": "refill",
+      "price": 20.93,
+      "displayName": "35 gens Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m15.refill",
+      "gens": 35,
+      "mins": 15,
+      "period": "refill",
+      "price": 35.95,
+      "displayName": "35 gens + 15 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m30.refill",
+      "gens": 35,
+      "mins": 30,
+      "period": "refill",
+      "price": 50.99,
+      "displayName": "35 gens + 30 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m45.refill",
+      "gens": 35,
+      "mins": 45,
+      "period": "refill",
+      "price": 65.9,
+      "displayName": "35 gens + 45 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m60.refill",
+      "gens": 35,
+      "mins": 60,
+      "period": "refill",
+      "price": 80.9,
+      "displayName": "35 gens + 60 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m75.refill",
+      "gens": 35,
+      "mins": 75,
+      "period": "refill",
+      "price": 95.9,
+      "displayName": "35 gens + 75 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m90.refill",
+      "gens": 35,
+      "mins": 90,
+      "period": "refill",
+      "price": 110.99,
+      "displayName": "35 gens + 90 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m105.refill",
+      "gens": 35,
+      "mins": 105,
+      "period": "refill",
+      "price": 125.99,
+      "displayName": "35 gens + 105 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m120.refill",
+      "gens": 35,
+      "mins": 120,
+      "period": "refill",
+      "price": 140.99,
+      "displayName": "35 gens + 120 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m135.refill",
+      "gens": 35,
+      "mins": 135,
+      "period": "refill",
+      "price": 155.99,
+      "displayName": "35 gens + 135 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m150.refill",
+      "gens": 35,
+      "mins": 150,
+      "period": "refill",
+      "price": 170.99,
+      "displayName": "35 gens + 150 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m165.refill",
+      "gens": 35,
+      "mins": 165,
+      "period": "refill",
+      "price": 185.99,
+      "displayName": "35 gens + 165 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m180.refill",
+      "gens": 35,
+      "mins": 180,
+      "period": "refill",
+      "price": 204.99,
+      "displayName": "35 gens + 180 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m0.refill",
+      "gens": 40,
+      "mins": 0,
+      "period": "refill",
+      "price": 23.92,
+      "displayName": "40 gens Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m15.refill",
+      "gens": 40,
+      "mins": 15,
+      "period": "refill",
+      "price": 38.95,
+      "displayName": "40 gens + 15 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m30.refill",
+      "gens": 40,
+      "mins": 30,
+      "period": "refill",
+      "price": 53.9,
+      "displayName": "40 gens + 30 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m45.refill",
+      "gens": 40,
+      "mins": 45,
+      "period": "refill",
+      "price": 68.9,
+      "displayName": "40 gens + 45 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m60.refill",
+      "gens": 40,
+      "mins": 60,
+      "period": "refill",
+      "price": 83.9,
+      "displayName": "40 gens + 60 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m75.refill",
+      "gens": 40,
+      "mins": 75,
+      "period": "refill",
+      "price": 98.9,
+      "displayName": "40 gens + 75 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m90.refill",
+      "gens": 40,
+      "mins": 90,
+      "period": "refill",
+      "price": 113.99,
+      "displayName": "40 gens + 90 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m105.refill",
+      "gens": 40,
+      "mins": 105,
+      "period": "refill",
+      "price": 128.99,
+      "displayName": "40 gens + 105 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m120.refill",
+      "gens": 40,
+      "mins": 120,
+      "period": "refill",
+      "price": 143.99,
+      "displayName": "40 gens + 120 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m135.refill",
+      "gens": 40,
+      "mins": 135,
+      "period": "refill",
+      "price": 158.99,
+      "displayName": "40 gens + 135 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m150.refill",
+      "gens": 40,
+      "mins": 150,
+      "period": "refill",
+      "price": 173.99,
+      "displayName": "40 gens + 150 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m165.refill",
+      "gens": 40,
+      "mins": 165,
+      "period": "refill",
+      "price": 188.99,
+      "displayName": "40 gens + 165 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m180.refill",
+      "gens": 40,
+      "mins": 180,
+      "period": "refill",
+      "price": 204.99,
+      "displayName": "40 gens + 180 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m0.refill",
+      "gens": 45,
+      "mins": 0,
+      "period": "refill",
+      "price": 26.91,
+      "displayName": "45 gens Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m15.refill",
+      "gens": 45,
+      "mins": 15,
+      "period": "refill",
+      "price": 41.9,
+      "displayName": "45 gens + 15 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m30.refill",
+      "gens": 45,
+      "mins": 30,
+      "period": "refill",
+      "price": 56.9,
+      "displayName": "45 gens + 30 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m45.refill",
+      "gens": 45,
+      "mins": 45,
+      "period": "refill",
+      "price": 71.9,
+      "displayName": "45 gens + 45 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m60.refill",
+      "gens": 45,
+      "mins": 60,
+      "period": "refill",
+      "price": 86.9,
+      "displayName": "45 gens + 60 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m75.refill",
+      "gens": 45,
+      "mins": 75,
+      "period": "refill",
+      "price": 101.99,
+      "displayName": "45 gens + 75 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m90.refill",
+      "gens": 45,
+      "mins": 90,
+      "period": "refill",
+      "price": 116.99,
+      "displayName": "45 gens + 90 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m105.refill",
+      "gens": 45,
+      "mins": 105,
+      "period": "refill",
+      "price": 131.99,
+      "displayName": "45 gens + 105 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m120.refill",
+      "gens": 45,
+      "mins": 120,
+      "period": "refill",
+      "price": 146.99,
+      "displayName": "45 gens + 120 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m135.refill",
+      "gens": 45,
+      "mins": 135,
+      "period": "refill",
+      "price": 161.99,
+      "displayName": "45 gens + 135 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m150.refill",
+      "gens": 45,
+      "mins": 150,
+      "period": "refill",
+      "price": 176.99,
+      "displayName": "45 gens + 150 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m165.refill",
+      "gens": 45,
+      "mins": 165,
+      "period": "refill",
+      "price": 191.99,
+      "displayName": "45 gens + 165 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m180.refill",
+      "gens": 45,
+      "mins": 180,
+      "period": "refill",
+      "price": 209.0,
+      "displayName": "45 gens + 180 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m0.refill",
+      "gens": 50,
+      "mins": 0,
+      "period": "refill",
+      "price": 29.9,
+      "displayName": "50 gens Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m15.refill",
+      "gens": 50,
+      "mins": 15,
+      "period": "refill",
+      "price": 44.9,
+      "displayName": "50 gens + 15 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m30.refill",
+      "gens": 50,
+      "mins": 30,
+      "period": "refill",
+      "price": 59.9,
+      "displayName": "50 gens + 30 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m45.refill",
+      "gens": 50,
+      "mins": 45,
+      "period": "refill",
+      "price": 74.9,
+      "displayName": "50 gens + 45 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m60.refill",
+      "gens": 50,
+      "mins": 60,
+      "period": "refill",
+      "price": 89.9,
+      "displayName": "50 gens + 60 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m75.refill",
+      "gens": 50,
+      "mins": 75,
+      "period": "refill",
+      "price": 104.99,
+      "displayName": "50 gens + 75 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m90.refill",
+      "gens": 50,
+      "mins": 90,
+      "period": "refill",
+      "price": 119.99,
+      "displayName": "50 gens + 90 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m105.refill",
+      "gens": 50,
+      "mins": 105,
+      "period": "refill",
+      "price": 134.99,
+      "displayName": "50 gens + 105 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m120.refill",
+      "gens": 50,
+      "mins": 120,
+      "period": "refill",
+      "price": 149.99,
+      "displayName": "50 gens + 120 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m135.refill",
+      "gens": 50,
+      "mins": 135,
+      "period": "refill",
+      "price": 164.99,
+      "displayName": "50 gens + 135 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m150.refill",
+      "gens": 50,
+      "mins": 150,
+      "period": "refill",
+      "price": 179.99,
+      "displayName": "50 gens + 150 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m165.refill",
+      "gens": 50,
+      "mins": 165,
+      "period": "refill",
+      "price": 194.99,
+      "displayName": "50 gens + 165 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m180.refill",
+      "gens": 50,
+      "mins": 180,
+      "period": "refill",
+      "price": 209.99,
+      "displayName": "50 gens + 180 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m0.refill",
+      "gens": 55,
+      "mins": 0,
+      "period": "refill",
+      "price": 32.89,
+      "displayName": "55 gens Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m15.refill",
+      "gens": 55,
+      "mins": 15,
+      "period": "refill",
+      "price": 47.9,
+      "displayName": "55 gens + 15 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m30.refill",
+      "gens": 55,
+      "mins": 30,
+      "period": "refill",
+      "price": 62.9,
+      "displayName": "55 gens + 30 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m45.refill",
+      "gens": 55,
+      "mins": 45,
+      "period": "refill",
+      "price": 77.9,
+      "displayName": "55 gens + 45 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m60.refill",
+      "gens": 55,
+      "mins": 60,
+      "period": "refill",
+      "price": 92.9,
+      "displayName": "55 gens + 60 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m75.refill",
+      "gens": 55,
+      "mins": 75,
+      "period": "refill",
+      "price": 107.99,
+      "displayName": "55 gens + 75 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m90.refill",
+      "gens": 55,
+      "mins": 90,
+      "period": "refill",
+      "price": 122.99,
+      "displayName": "55 gens + 90 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m105.refill",
+      "gens": 55,
+      "mins": 105,
+      "period": "refill",
+      "price": 137.99,
+      "displayName": "55 gens + 105 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m120.refill",
+      "gens": 55,
+      "mins": 120,
+      "period": "refill",
+      "price": 152.99,
+      "displayName": "55 gens + 120 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m135.refill",
+      "gens": 55,
+      "mins": 135,
+      "period": "refill",
+      "price": 167.99,
+      "displayName": "55 gens + 135 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m150.refill",
+      "gens": 55,
+      "mins": 150,
+      "period": "refill",
+      "price": 182.99,
+      "displayName": "55 gens + 150 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m165.refill",
+      "gens": 55,
+      "mins": 165,
+      "period": "refill",
+      "price": 197.99,
+      "displayName": "55 gens + 165 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m180.refill",
+      "gens": 55,
+      "mins": 180,
+      "period": "refill",
+      "price": 214.99,
+      "displayName": "55 gens + 180 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m0.refill",
+      "gens": 60,
+      "mins": 0,
+      "period": "refill",
+      "price": 35.88,
+      "displayName": "60 gens Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m15.refill",
+      "gens": 60,
+      "mins": 15,
+      "period": "refill",
+      "price": 50.9,
+      "displayName": "60 gens + 15 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m30.refill",
+      "gens": 60,
+      "mins": 30,
+      "period": "refill",
+      "price": 65.9,
+      "displayName": "60 gens + 30 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m45.refill",
+      "gens": 60,
+      "mins": 45,
+      "period": "refill",
+      "price": 80.9,
+      "displayName": "60 gens + 45 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m60.refill",
+      "gens": 60,
+      "mins": 60,
+      "period": "refill",
+      "price": 95.9,
+      "displayName": "60 gens + 60 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m75.refill",
+      "gens": 60,
+      "mins": 75,
+      "period": "refill",
+      "price": 110.99,
+      "displayName": "60 gens + 75 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m90.refill",
+      "gens": 60,
+      "mins": 90,
+      "period": "refill",
+      "price": 125.99,
+      "displayName": "60 gens + 90 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m105.refill",
+      "gens": 60,
+      "mins": 105,
+      "period": "refill",
+      "price": 140.99,
+      "displayName": "60 gens + 105 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m120.refill",
+      "gens": 60,
+      "mins": 120,
+      "period": "refill",
+      "price": 155.99,
+      "displayName": "60 gens + 120 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m135.refill",
+      "gens": 60,
+      "mins": 135,
+      "period": "refill",
+      "price": 170.99,
+      "displayName": "60 gens + 135 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m150.refill",
+      "gens": 60,
+      "mins": 150,
+      "period": "refill",
+      "price": 185.99,
+      "displayName": "60 gens + 150 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m165.refill",
+      "gens": 60,
+      "mins": 165,
+      "period": "refill",
+      "price": 204.99,
+      "displayName": "60 gens + 165 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m180.refill",
+      "gens": 60,
+      "mins": 180,
+      "period": "refill",
+      "price": 219.0,
+      "displayName": "60 gens + 180 min Refill"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m15.monthly",
+      "gens": 0,
+      "mins": 15,
+      "period": "monthly",
+      "price": 12.99,
+      "displayName": "15 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m30.monthly",
+      "gens": 0,
+      "mins": 30,
+      "period": "monthly",
+      "price": 25.99,
+      "displayName": "30 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m45.monthly",
+      "gens": 0,
+      "mins": 45,
+      "period": "monthly",
+      "price": 38.99,
+      "displayName": "45 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m60.monthly",
+      "gens": 0,
+      "mins": 60,
+      "period": "monthly",
+      "price": 51.99,
+      "displayName": "60 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m75.monthly",
+      "gens": 0,
+      "mins": 75,
+      "period": "monthly",
+      "price": 64.99,
+      "displayName": "75 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m90.monthly",
+      "gens": 0,
+      "mins": 90,
+      "period": "monthly",
+      "price": 77.99,
+      "displayName": "90 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m105.monthly",
+      "gens": 0,
+      "mins": 105,
+      "period": "monthly",
+      "price": 90.99,
+      "displayName": "105 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m120.monthly",
+      "gens": 0,
+      "mins": 120,
+      "period": "monthly",
+      "price": 103.99,
+      "displayName": "120 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m135.monthly",
+      "gens": 0,
+      "mins": 135,
+      "period": "monthly",
+      "price": 116.99,
+      "displayName": "135 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m150.monthly",
+      "gens": 0,
+      "mins": 150,
+      "period": "monthly",
+      "price": 129.99,
+      "displayName": "150 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m165.monthly",
+      "gens": 0,
+      "mins": 165,
+      "period": "monthly",
+      "price": 142.99,
+      "displayName": "165 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m180.monthly",
+      "gens": 0,
+      "mins": 180,
+      "period": "monthly",
+      "price": 155.99,
+      "displayName": "180 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m0.monthly",
+      "gens": 5,
+      "mins": 0,
+      "period": "monthly",
+      "price": 1.99,
+      "displayName": "5 gens Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m15.monthly",
+      "gens": 5,
+      "mins": 15,
+      "period": "monthly",
+      "price": 14.99,
+      "displayName": "5 gens + 15 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m30.monthly",
+      "gens": 5,
+      "mins": 30,
+      "period": "monthly",
+      "price": 27.99,
+      "displayName": "5 gens + 30 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m45.monthly",
+      "gens": 5,
+      "mins": 45,
+      "period": "monthly",
+      "price": 40.99,
+      "displayName": "5 gens + 45 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m60.monthly",
+      "gens": 5,
+      "mins": 60,
+      "period": "monthly",
+      "price": 53.99,
+      "displayName": "5 gens + 60 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m75.monthly",
+      "gens": 5,
+      "mins": 75,
+      "period": "monthly",
+      "price": 66.99,
+      "displayName": "5 gens + 75 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m90.monthly",
+      "gens": 5,
+      "mins": 90,
+      "period": "monthly",
+      "price": 79.99,
+      "displayName": "5 gens + 90 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m105.monthly",
+      "gens": 5,
+      "mins": 105,
+      "period": "monthly",
+      "price": 92.99,
+      "displayName": "5 gens + 105 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m120.monthly",
+      "gens": 5,
+      "mins": 120,
+      "period": "monthly",
+      "price": 105.99,
+      "displayName": "5 gens + 120 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m135.monthly",
+      "gens": 5,
+      "mins": 135,
+      "period": "monthly",
+      "price": 118.99,
+      "displayName": "5 gens + 135 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m150.monthly",
+      "gens": 5,
+      "mins": 150,
+      "period": "monthly",
+      "price": 131.99,
+      "displayName": "5 gens + 150 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m165.monthly",
+      "gens": 5,
+      "mins": 165,
+      "period": "monthly",
+      "price": 144.99,
+      "displayName": "5 gens + 165 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m180.monthly",
+      "gens": 5,
+      "mins": 180,
+      "period": "monthly",
+      "price": 157.99,
+      "displayName": "5 gens + 180 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m0.monthly",
+      "gens": 10,
+      "mins": 0,
+      "period": "monthly",
+      "price": 3.98,
+      "displayName": "10 gens Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m15.monthly",
+      "gens": 10,
+      "mins": 15,
+      "period": "monthly",
+      "price": 16.99,
+      "displayName": "10 gens + 15 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m30.monthly",
+      "gens": 10,
+      "mins": 30,
+      "period": "monthly",
+      "price": 29.99,
+      "displayName": "10 gens + 30 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m45.monthly",
+      "gens": 10,
+      "mins": 45,
+      "period": "monthly",
+      "price": 42.95,
+      "displayName": "10 gens + 45 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m60.monthly",
+      "gens": 10,
+      "mins": 60,
+      "period": "monthly",
+      "price": 55.99,
+      "displayName": "10 gens + 60 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m75.monthly",
+      "gens": 10,
+      "mins": 75,
+      "period": "monthly",
+      "price": 68.99,
+      "displayName": "10 gens + 75 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m90.monthly",
+      "gens": 10,
+      "mins": 90,
+      "period": "monthly",
+      "price": 81.99,
+      "displayName": "10 gens + 90 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m105.monthly",
+      "gens": 10,
+      "mins": 105,
+      "period": "monthly",
+      "price": 94.99,
+      "displayName": "10 gens + 105 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m120.monthly",
+      "gens": 10,
+      "mins": 120,
+      "period": "monthly",
+      "price": 107.99,
+      "displayName": "10 gens + 120 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m135.monthly",
+      "gens": 10,
+      "mins": 135,
+      "period": "monthly",
+      "price": 120.99,
+      "displayName": "10 gens + 135 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m150.monthly",
+      "gens": 10,
+      "mins": 150,
+      "period": "monthly",
+      "price": 133.99,
+      "displayName": "10 gens + 150 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m165.monthly",
+      "gens": 10,
+      "mins": 165,
+      "period": "monthly",
+      "price": 146.99,
+      "displayName": "10 gens + 165 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m180.monthly",
+      "gens": 10,
+      "mins": 180,
+      "period": "monthly",
+      "price": 159.99,
+      "displayName": "10 gens + 180 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m0.monthly",
+      "gens": 15,
+      "mins": 0,
+      "period": "monthly",
+      "price": 5.97,
+      "displayName": "15 gens Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m15.monthly",
+      "gens": 15,
+      "mins": 15,
+      "period": "monthly",
+      "price": 18.99,
+      "displayName": "15 gens + 15 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m30.monthly",
+      "gens": 15,
+      "mins": 30,
+      "period": "monthly",
+      "price": 31.95,
+      "displayName": "15 gens + 30 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m45.monthly",
+      "gens": 15,
+      "mins": 45,
+      "period": "monthly",
+      "price": 44.95,
+      "displayName": "15 gens + 45 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m60.monthly",
+      "gens": 15,
+      "mins": 60,
+      "period": "monthly",
+      "price": 57.99,
+      "displayName": "15 gens + 60 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m75.monthly",
+      "gens": 15,
+      "mins": 75,
+      "period": "monthly",
+      "price": 70.99,
+      "displayName": "15 gens + 75 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m90.monthly",
+      "gens": 15,
+      "mins": 90,
+      "period": "monthly",
+      "price": 83.99,
+      "displayName": "15 gens + 90 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m105.monthly",
+      "gens": 15,
+      "mins": 105,
+      "period": "monthly",
+      "price": 96.9,
+      "displayName": "15 gens + 105 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m120.monthly",
+      "gens": 15,
+      "mins": 120,
+      "period": "monthly",
+      "price": 109.99,
+      "displayName": "15 gens + 120 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m135.monthly",
+      "gens": 15,
+      "mins": 135,
+      "period": "monthly",
+      "price": 122.99,
+      "displayName": "15 gens + 135 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m150.monthly",
+      "gens": 15,
+      "mins": 150,
+      "period": "monthly",
+      "price": 135.99,
+      "displayName": "15 gens + 150 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m165.monthly",
+      "gens": 15,
+      "mins": 165,
+      "period": "monthly",
+      "price": 148.99,
+      "displayName": "15 gens + 165 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m180.monthly",
+      "gens": 15,
+      "mins": 180,
+      "period": "monthly",
+      "price": 161.99,
+      "displayName": "15 gens + 180 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m0.monthly",
+      "gens": 20,
+      "mins": 0,
+      "period": "monthly",
+      "price": 7.96,
+      "displayName": "20 gens Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m15.monthly",
+      "gens": 20,
+      "mins": 15,
+      "period": "monthly",
+      "price": 20.95,
+      "displayName": "20 gens + 15 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m30.monthly",
+      "gens": 20,
+      "mins": 30,
+      "period": "monthly",
+      "price": 33.95,
+      "displayName": "20 gens + 30 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m45.monthly",
+      "gens": 20,
+      "mins": 45,
+      "period": "monthly",
+      "price": 46.95,
+      "displayName": "20 gens + 45 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m60.monthly",
+      "gens": 20,
+      "mins": 60,
+      "period": "monthly",
+      "price": 59.99,
+      "displayName": "20 gens + 60 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m75.monthly",
+      "gens": 20,
+      "mins": 75,
+      "period": "monthly",
+      "price": 72.99,
+      "displayName": "20 gens + 75 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m90.monthly",
+      "gens": 20,
+      "mins": 90,
+      "period": "monthly",
+      "price": 85.9,
+      "displayName": "20 gens + 90 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m105.monthly",
+      "gens": 20,
+      "mins": 105,
+      "period": "monthly",
+      "price": 98.9,
+      "displayName": "20 gens + 105 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m120.monthly",
+      "gens": 20,
+      "mins": 120,
+      "period": "monthly",
+      "price": 111.99,
+      "displayName": "20 gens + 120 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m135.monthly",
+      "gens": 20,
+      "mins": 135,
+      "period": "monthly",
+      "price": 124.99,
+      "displayName": "20 gens + 135 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m150.monthly",
+      "gens": 20,
+      "mins": 150,
+      "period": "monthly",
+      "price": 137.99,
+      "displayName": "20 gens + 150 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m165.monthly",
+      "gens": 20,
+      "mins": 165,
+      "period": "monthly",
+      "price": 150.99,
+      "displayName": "20 gens + 165 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m180.monthly",
+      "gens": 20,
+      "mins": 180,
+      "period": "monthly",
+      "price": 163.99,
+      "displayName": "20 gens + 180 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m0.monthly",
+      "gens": 25,
+      "mins": 0,
+      "period": "monthly",
+      "price": 9.95,
+      "displayName": "25 gens Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m15.monthly",
+      "gens": 25,
+      "mins": 15,
+      "period": "monthly",
+      "price": 22.95,
+      "displayName": "25 gens + 15 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m30.monthly",
+      "gens": 25,
+      "mins": 30,
+      "period": "monthly",
+      "price": 35.95,
+      "displayName": "25 gens + 30 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m45.monthly",
+      "gens": 25,
+      "mins": 45,
+      "period": "monthly",
+      "price": 48.95,
+      "displayName": "25 gens + 45 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m60.monthly",
+      "gens": 25,
+      "mins": 60,
+      "period": "monthly",
+      "price": 61.99,
+      "displayName": "25 gens + 60 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m75.monthly",
+      "gens": 25,
+      "mins": 75,
+      "period": "monthly",
+      "price": 74.9,
+      "displayName": "25 gens + 75 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m90.monthly",
+      "gens": 25,
+      "mins": 90,
+      "period": "monthly",
+      "price": 87.9,
+      "displayName": "25 gens + 90 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m105.monthly",
+      "gens": 25,
+      "mins": 105,
+      "period": "monthly",
+      "price": 100.99,
+      "displayName": "25 gens + 105 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m120.monthly",
+      "gens": 25,
+      "mins": 120,
+      "period": "monthly",
+      "price": 113.99,
+      "displayName": "25 gens + 120 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m135.monthly",
+      "gens": 25,
+      "mins": 135,
+      "period": "monthly",
+      "price": 126.99,
+      "displayName": "25 gens + 135 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m150.monthly",
+      "gens": 25,
+      "mins": 150,
+      "period": "monthly",
+      "price": 139.99,
+      "displayName": "25 gens + 150 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m165.monthly",
+      "gens": 25,
+      "mins": 165,
+      "period": "monthly",
+      "price": 152.99,
+      "displayName": "25 gens + 165 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m180.monthly",
+      "gens": 25,
+      "mins": 180,
+      "period": "monthly",
+      "price": 165.99,
+      "displayName": "25 gens + 180 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m0.monthly",
+      "gens": 30,
+      "mins": 0,
+      "period": "monthly",
+      "price": 11.94,
+      "displayName": "30 gens Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m15.monthly",
+      "gens": 30,
+      "mins": 15,
+      "period": "monthly",
+      "price": 24.95,
+      "displayName": "30 gens + 15 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m30.monthly",
+      "gens": 30,
+      "mins": 30,
+      "period": "monthly",
+      "price": 37.95,
+      "displayName": "30 gens + 30 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m45.monthly",
+      "gens": 30,
+      "mins": 45,
+      "period": "monthly",
+      "price": 50.99,
+      "displayName": "30 gens + 45 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m60.monthly",
+      "gens": 30,
+      "mins": 60,
+      "period": "monthly",
+      "price": 63.9,
+      "displayName": "30 gens + 60 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m75.monthly",
+      "gens": 30,
+      "mins": 75,
+      "period": "monthly",
+      "price": 76.9,
+      "displayName": "30 gens + 75 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m90.monthly",
+      "gens": 30,
+      "mins": 90,
+      "period": "monthly",
+      "price": 89.9,
+      "displayName": "30 gens + 90 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m105.monthly",
+      "gens": 30,
+      "mins": 105,
+      "period": "monthly",
+      "price": 102.99,
+      "displayName": "30 gens + 105 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m120.monthly",
+      "gens": 30,
+      "mins": 120,
+      "period": "monthly",
+      "price": 115.99,
+      "displayName": "30 gens + 120 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m135.monthly",
+      "gens": 30,
+      "mins": 135,
+      "period": "monthly",
+      "price": 128.99,
+      "displayName": "30 gens + 135 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m150.monthly",
+      "gens": 30,
+      "mins": 150,
+      "period": "monthly",
+      "price": 141.99,
+      "displayName": "30 gens + 150 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m165.monthly",
+      "gens": 30,
+      "mins": 165,
+      "period": "monthly",
+      "price": 154.99,
+      "displayName": "30 gens + 165 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m180.monthly",
+      "gens": 30,
+      "mins": 180,
+      "period": "monthly",
+      "price": 167.99,
+      "displayName": "30 gens + 180 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m0.monthly",
+      "gens": 35,
+      "mins": 0,
+      "period": "monthly",
+      "price": 13.93,
+      "displayName": "35 gens Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m15.monthly",
+      "gens": 35,
+      "mins": 15,
+      "period": "monthly",
+      "price": 26.95,
+      "displayName": "35 gens + 15 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m30.monthly",
+      "gens": 35,
+      "mins": 30,
+      "period": "monthly",
+      "price": 39.95,
+      "displayName": "35 gens + 30 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m45.monthly",
+      "gens": 35,
+      "mins": 45,
+      "period": "monthly",
+      "price": 52.9,
+      "displayName": "35 gens + 45 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m60.monthly",
+      "gens": 35,
+      "mins": 60,
+      "period": "monthly",
+      "price": 65.9,
+      "displayName": "35 gens + 60 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m75.monthly",
+      "gens": 35,
+      "mins": 75,
+      "period": "monthly",
+      "price": 78.9,
+      "displayName": "35 gens + 75 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m90.monthly",
+      "gens": 35,
+      "mins": 90,
+      "period": "monthly",
+      "price": 91.9,
+      "displayName": "35 gens + 90 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m105.monthly",
+      "gens": 35,
+      "mins": 105,
+      "period": "monthly",
+      "price": 104.99,
+      "displayName": "35 gens + 105 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m120.monthly",
+      "gens": 35,
+      "mins": 120,
+      "period": "monthly",
+      "price": 117.99,
+      "displayName": "35 gens + 120 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m135.monthly",
+      "gens": 35,
+      "mins": 135,
+      "period": "monthly",
+      "price": 130.99,
+      "displayName": "35 gens + 135 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m150.monthly",
+      "gens": 35,
+      "mins": 150,
+      "period": "monthly",
+      "price": 143.99,
+      "displayName": "35 gens + 150 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m165.monthly",
+      "gens": 35,
+      "mins": 165,
+      "period": "monthly",
+      "price": 156.99,
+      "displayName": "35 gens + 165 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m180.monthly",
+      "gens": 35,
+      "mins": 180,
+      "period": "monthly",
+      "price": 169.99,
+      "displayName": "35 gens + 180 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m0.monthly",
+      "gens": 40,
+      "mins": 0,
+      "period": "monthly",
+      "price": 15.92,
+      "displayName": "40 gens Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m15.monthly",
+      "gens": 40,
+      "mins": 15,
+      "period": "monthly",
+      "price": 28.95,
+      "displayName": "40 gens + 15 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m30.monthly",
+      "gens": 40,
+      "mins": 30,
+      "period": "monthly",
+      "price": 41.9,
+      "displayName": "40 gens + 30 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m45.monthly",
+      "gens": 40,
+      "mins": 45,
+      "period": "monthly",
+      "price": 54.9,
+      "displayName": "40 gens + 45 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m60.monthly",
+      "gens": 40,
+      "mins": 60,
+      "period": "monthly",
+      "price": 67.9,
+      "displayName": "40 gens + 60 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m75.monthly",
+      "gens": 40,
+      "mins": 75,
+      "period": "monthly",
+      "price": 80.9,
+      "displayName": "40 gens + 75 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m90.monthly",
+      "gens": 40,
+      "mins": 90,
+      "period": "monthly",
+      "price": 93.9,
+      "displayName": "40 gens + 90 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m105.monthly",
+      "gens": 40,
+      "mins": 105,
+      "period": "monthly",
+      "price": 106.99,
+      "displayName": "40 gens + 105 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m120.monthly",
+      "gens": 40,
+      "mins": 120,
+      "period": "monthly",
+      "price": 119.99,
+      "displayName": "40 gens + 120 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m135.monthly",
+      "gens": 40,
+      "mins": 135,
+      "period": "monthly",
+      "price": 132.99,
+      "displayName": "40 gens + 135 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m150.monthly",
+      "gens": 40,
+      "mins": 150,
+      "period": "monthly",
+      "price": 145.99,
+      "displayName": "40 gens + 150 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m165.monthly",
+      "gens": 40,
+      "mins": 165,
+      "period": "monthly",
+      "price": 158.99,
+      "displayName": "40 gens + 165 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m180.monthly",
+      "gens": 40,
+      "mins": 180,
+      "period": "monthly",
+      "price": 171.99,
+      "displayName": "40 gens + 180 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m0.monthly",
+      "gens": 45,
+      "mins": 0,
+      "period": "monthly",
+      "price": 17.91,
+      "displayName": "45 gens Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m15.monthly",
+      "gens": 45,
+      "mins": 15,
+      "period": "monthly",
+      "price": 30.9,
+      "displayName": "45 gens + 15 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m30.monthly",
+      "gens": 45,
+      "mins": 30,
+      "period": "monthly",
+      "price": 43.9,
+      "displayName": "45 gens + 30 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m45.monthly",
+      "gens": 45,
+      "mins": 45,
+      "period": "monthly",
+      "price": 56.9,
+      "displayName": "45 gens + 45 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m60.monthly",
+      "gens": 45,
+      "mins": 60,
+      "period": "monthly",
+      "price": 69.9,
+      "displayName": "45 gens + 60 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m75.monthly",
+      "gens": 45,
+      "mins": 75,
+      "period": "monthly",
+      "price": 82.9,
+      "displayName": "45 gens + 75 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m90.monthly",
+      "gens": 45,
+      "mins": 90,
+      "period": "monthly",
+      "price": 95.9,
+      "displayName": "45 gens + 90 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m105.monthly",
+      "gens": 45,
+      "mins": 105,
+      "period": "monthly",
+      "price": 108.99,
+      "displayName": "45 gens + 105 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m120.monthly",
+      "gens": 45,
+      "mins": 120,
+      "period": "monthly",
+      "price": 121.99,
+      "displayName": "45 gens + 120 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m135.monthly",
+      "gens": 45,
+      "mins": 135,
+      "period": "monthly",
+      "price": 134.99,
+      "displayName": "45 gens + 135 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m150.monthly",
+      "gens": 45,
+      "mins": 150,
+      "period": "monthly",
+      "price": 147.99,
+      "displayName": "45 gens + 150 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m165.monthly",
+      "gens": 45,
+      "mins": 165,
+      "period": "monthly",
+      "price": 160.99,
+      "displayName": "45 gens + 165 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m180.monthly",
+      "gens": 45,
+      "mins": 180,
+      "period": "monthly",
+      "price": 173.99,
+      "displayName": "45 gens + 180 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m0.monthly",
+      "gens": 50,
+      "mins": 0,
+      "period": "monthly",
+      "price": 19.9,
+      "displayName": "50 gens Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m15.monthly",
+      "gens": 50,
+      "mins": 15,
+      "period": "monthly",
+      "price": 32.9,
+      "displayName": "50 gens + 15 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m30.monthly",
+      "gens": 50,
+      "mins": 30,
+      "period": "monthly",
+      "price": 45.9,
+      "displayName": "50 gens + 30 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m45.monthly",
+      "gens": 50,
+      "mins": 45,
+      "period": "monthly",
+      "price": 58.9,
+      "displayName": "50 gens + 45 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m60.monthly",
+      "gens": 50,
+      "mins": 60,
+      "period": "monthly",
+      "price": 71.9,
+      "displayName": "50 gens + 60 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m75.monthly",
+      "gens": 50,
+      "mins": 75,
+      "period": "monthly",
+      "price": 84.9,
+      "displayName": "50 gens + 75 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m90.monthly",
+      "gens": 50,
+      "mins": 90,
+      "period": "monthly",
+      "price": 97.9,
+      "displayName": "50 gens + 90 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m105.monthly",
+      "gens": 50,
+      "mins": 105,
+      "period": "monthly",
+      "price": 110.99,
+      "displayName": "50 gens + 105 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m120.monthly",
+      "gens": 50,
+      "mins": 120,
+      "period": "monthly",
+      "price": 123.99,
+      "displayName": "50 gens + 120 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m135.monthly",
+      "gens": 50,
+      "mins": 135,
+      "period": "monthly",
+      "price": 136.99,
+      "displayName": "50 gens + 135 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m150.monthly",
+      "gens": 50,
+      "mins": 150,
+      "period": "monthly",
+      "price": 149.99,
+      "displayName": "50 gens + 150 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m165.monthly",
+      "gens": 50,
+      "mins": 165,
+      "period": "monthly",
+      "price": 162.99,
+      "displayName": "50 gens + 165 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m180.monthly",
+      "gens": 50,
+      "mins": 180,
+      "period": "monthly",
+      "price": 175.99,
+      "displayName": "50 gens + 180 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m0.monthly",
+      "gens": 55,
+      "mins": 0,
+      "period": "monthly",
+      "price": 21.89,
+      "displayName": "55 gens Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m15.monthly",
+      "gens": 55,
+      "mins": 15,
+      "period": "monthly",
+      "price": 34.9,
+      "displayName": "55 gens + 15 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m30.monthly",
+      "gens": 55,
+      "mins": 30,
+      "period": "monthly",
+      "price": 47.9,
+      "displayName": "55 gens + 30 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m45.monthly",
+      "gens": 55,
+      "mins": 45,
+      "period": "monthly",
+      "price": 60.9,
+      "displayName": "55 gens + 45 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m60.monthly",
+      "gens": 55,
+      "mins": 60,
+      "period": "monthly",
+      "price": 73.9,
+      "displayName": "55 gens + 60 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m75.monthly",
+      "gens": 55,
+      "mins": 75,
+      "period": "monthly",
+      "price": 86.9,
+      "displayName": "55 gens + 75 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m90.monthly",
+      "gens": 55,
+      "mins": 90,
+      "period": "monthly",
+      "price": 99.9,
+      "displayName": "55 gens + 90 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m105.monthly",
+      "gens": 55,
+      "mins": 105,
+      "period": "monthly",
+      "price": 112.99,
+      "displayName": "55 gens + 105 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m120.monthly",
+      "gens": 55,
+      "mins": 120,
+      "period": "monthly",
+      "price": 125.99,
+      "displayName": "55 gens + 120 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m135.monthly",
+      "gens": 55,
+      "mins": 135,
+      "period": "monthly",
+      "price": 138.99,
+      "displayName": "55 gens + 135 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m150.monthly",
+      "gens": 55,
+      "mins": 150,
+      "period": "monthly",
+      "price": 151.99,
+      "displayName": "55 gens + 150 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m165.monthly",
+      "gens": 55,
+      "mins": 165,
+      "period": "monthly",
+      "price": 164.99,
+      "displayName": "55 gens + 165 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m180.monthly",
+      "gens": 55,
+      "mins": 180,
+      "period": "monthly",
+      "price": 177.99,
+      "displayName": "55 gens + 180 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m0.monthly",
+      "gens": 60,
+      "mins": 0,
+      "period": "monthly",
+      "price": 23.88,
+      "displayName": "60 gens Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m15.monthly",
+      "gens": 60,
+      "mins": 15,
+      "period": "monthly",
+      "price": 36.9,
+      "displayName": "60 gens + 15 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m30.monthly",
+      "gens": 60,
+      "mins": 30,
+      "period": "monthly",
+      "price": 49.9,
+      "displayName": "60 gens + 30 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m45.monthly",
+      "gens": 60,
+      "mins": 45,
+      "period": "monthly",
+      "price": 62.9,
+      "displayName": "60 gens + 45 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m60.monthly",
+      "gens": 60,
+      "mins": 60,
+      "period": "monthly",
+      "price": 75.9,
+      "displayName": "60 gens + 60 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m75.monthly",
+      "gens": 60,
+      "mins": 75,
+      "period": "monthly",
+      "price": 88.9,
+      "displayName": "60 gens + 75 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m90.monthly",
+      "gens": 60,
+      "mins": 90,
+      "period": "monthly",
+      "price": 101.99,
+      "displayName": "60 gens + 90 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m105.monthly",
+      "gens": 60,
+      "mins": 105,
+      "period": "monthly",
+      "price": 114.99,
+      "displayName": "60 gens + 105 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m120.monthly",
+      "gens": 60,
+      "mins": 120,
+      "period": "monthly",
+      "price": 127.99,
+      "displayName": "60 gens + 120 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m135.monthly",
+      "gens": 60,
+      "mins": 135,
+      "period": "monthly",
+      "price": 140.99,
+      "displayName": "60 gens + 135 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m150.monthly",
+      "gens": 60,
+      "mins": 150,
+      "period": "monthly",
+      "price": 153.99,
+      "displayName": "60 gens + 150 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m165.monthly",
+      "gens": 60,
+      "mins": 165,
+      "period": "monthly",
+      "price": 166.99,
+      "displayName": "60 gens + 165 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m180.monthly",
+      "gens": 60,
+      "mins": 180,
+      "period": "monthly",
+      "price": 179.99,
+      "displayName": "60 gens + 180 min Monthly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m15.yearly",
+      "gens": 0,
+      "mins": 15,
+      "period": "yearly",
+      "price": 131.99,
+      "displayName": "15 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m30.yearly",
+      "gens": 0,
+      "mins": 30,
+      "period": "yearly",
+      "price": 264.99,
+      "displayName": "30 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m45.yearly",
+      "gens": 0,
+      "mins": 45,
+      "period": "yearly",
+      "price": 399.0,
+      "displayName": "45 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m60.yearly",
+      "gens": 0,
+      "mins": 60,
+      "period": "yearly",
+      "price": 529.0,
+      "displayName": "60 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m75.yearly",
+      "gens": 0,
+      "mins": 75,
+      "period": "yearly",
+      "price": 659.99,
+      "displayName": "75 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m90.yearly",
+      "gens": 0,
+      "mins": 90,
+      "period": "yearly",
+      "price": 799.0,
+      "displayName": "90 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m105.yearly",
+      "gens": 0,
+      "mins": 105,
+      "period": "yearly",
+      "price": 929.0,
+      "displayName": "105 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m120.yearly",
+      "gens": 0,
+      "mins": 120,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "120 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m135.yearly",
+      "gens": 0,
+      "mins": 135,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "135 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m150.yearly",
+      "gens": 0,
+      "mins": 150,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "150 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m165.yearly",
+      "gens": 0,
+      "mins": 165,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "165 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g0.m180.yearly",
+      "gens": 0,
+      "mins": 180,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "180 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m0.yearly",
+      "gens": 5,
+      "mins": 0,
+      "period": "yearly",
+      "price": 17.88,
+      "displayName": "5 gens Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m15.yearly",
+      "gens": 5,
+      "mins": 15,
+      "period": "yearly",
+      "price": 149.99,
+      "displayName": "5 gens + 15 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m30.yearly",
+      "gens": 5,
+      "mins": 30,
+      "period": "yearly",
+      "price": 284.99,
+      "displayName": "5 gens + 30 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m45.yearly",
+      "gens": 5,
+      "mins": 45,
+      "period": "yearly",
+      "price": 414.99,
+      "displayName": "5 gens + 45 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m60.yearly",
+      "gens": 5,
+      "mins": 60,
+      "period": "yearly",
+      "price": 549.0,
+      "displayName": "5 gens + 60 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m75.yearly",
+      "gens": 5,
+      "mins": 75,
+      "period": "yearly",
+      "price": 679.0,
+      "displayName": "5 gens + 75 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m90.yearly",
+      "gens": 5,
+      "mins": 90,
+      "period": "yearly",
+      "price": 809.99,
+      "displayName": "5 gens + 90 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m105.yearly",
+      "gens": 5,
+      "mins": 105,
+      "period": "yearly",
+      "price": 949.0,
+      "displayName": "5 gens + 105 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m120.yearly",
+      "gens": 5,
+      "mins": 120,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "5 gens + 120 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m135.yearly",
+      "gens": 5,
+      "mins": 135,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "5 gens + 135 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m150.yearly",
+      "gens": 5,
+      "mins": 150,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "5 gens + 150 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m165.yearly",
+      "gens": 5,
+      "mins": 165,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "5 gens + 165 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g5.m180.yearly",
+      "gens": 5,
+      "mins": 180,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "5 gens + 180 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m0.yearly",
+      "gens": 10,
+      "mins": 0,
+      "period": "yearly",
+      "price": 35.76,
+      "displayName": "10 gens Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m15.yearly",
+      "gens": 10,
+      "mins": 15,
+      "period": "yearly",
+      "price": 167.99,
+      "displayName": "10 gens + 15 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m30.yearly",
+      "gens": 10,
+      "mins": 30,
+      "period": "yearly",
+      "price": 299.99,
+      "displayName": "10 gens + 30 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m45.yearly",
+      "gens": 10,
+      "mins": 45,
+      "period": "yearly",
+      "price": 434.99,
+      "displayName": "10 gens + 45 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m60.yearly",
+      "gens": 10,
+      "mins": 60,
+      "period": "yearly",
+      "price": 569.0,
+      "displayName": "10 gens + 60 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m75.yearly",
+      "gens": 10,
+      "mins": 75,
+      "period": "yearly",
+      "price": 699.0,
+      "displayName": "10 gens + 75 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m90.yearly",
+      "gens": 10,
+      "mins": 90,
+      "period": "yearly",
+      "price": 829.0,
+      "displayName": "10 gens + 90 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m105.yearly",
+      "gens": 10,
+      "mins": 105,
+      "period": "yearly",
+      "price": 959.0,
+      "displayName": "10 gens + 105 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m120.yearly",
+      "gens": 10,
+      "mins": 120,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "10 gens + 120 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m135.yearly",
+      "gens": 10,
+      "mins": 135,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "10 gens + 135 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m150.yearly",
+      "gens": 10,
+      "mins": 150,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "10 gens + 150 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m165.yearly",
+      "gens": 10,
+      "mins": 165,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "10 gens + 165 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g10.m180.yearly",
+      "gens": 10,
+      "mins": 180,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "10 gens + 180 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m0.yearly",
+      "gens": 15,
+      "mins": 0,
+      "period": "yearly",
+      "price": 53.64,
+      "displayName": "15 gens Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m15.yearly",
+      "gens": 15,
+      "mins": 15,
+      "period": "yearly",
+      "price": 185.99,
+      "displayName": "15 gens + 15 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m30.yearly",
+      "gens": 15,
+      "mins": 30,
+      "period": "yearly",
+      "price": 319.0,
+      "displayName": "15 gens + 30 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m45.yearly",
+      "gens": 15,
+      "mins": 45,
+      "period": "yearly",
+      "price": 449.99,
+      "displayName": "15 gens + 45 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m60.yearly",
+      "gens": 15,
+      "mins": 60,
+      "period": "yearly",
+      "price": 589.0,
+      "displayName": "15 gens + 60 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m75.yearly",
+      "gens": 15,
+      "mins": 75,
+      "period": "yearly",
+      "price": 719.0,
+      "displayName": "15 gens + 75 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m90.yearly",
+      "gens": 15,
+      "mins": 90,
+      "period": "yearly",
+      "price": 849.0,
+      "displayName": "15 gens + 90 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m105.yearly",
+      "gens": 15,
+      "mins": 105,
+      "period": "yearly",
+      "price": 979.0,
+      "displayName": "15 gens + 105 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m120.yearly",
+      "gens": 15,
+      "mins": 120,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "15 gens + 120 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m135.yearly",
+      "gens": 15,
+      "mins": 135,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "15 gens + 135 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m150.yearly",
+      "gens": 15,
+      "mins": 150,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "15 gens + 150 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m165.yearly",
+      "gens": 15,
+      "mins": 165,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "15 gens + 165 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g15.m180.yearly",
+      "gens": 15,
+      "mins": 180,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "15 gens + 180 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m0.yearly",
+      "gens": 20,
+      "mins": 0,
+      "period": "yearly",
+      "price": 71.52,
+      "displayName": "20 gens Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m15.yearly",
+      "gens": 20,
+      "mins": 15,
+      "period": "yearly",
+      "price": 204.99,
+      "displayName": "20 gens + 15 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m30.yearly",
+      "gens": 20,
+      "mins": 30,
+      "period": "yearly",
+      "price": 339.0,
+      "displayName": "20 gens + 30 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m45.yearly",
+      "gens": 20,
+      "mins": 45,
+      "period": "yearly",
+      "price": 469.0,
+      "displayName": "20 gens + 45 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m60.yearly",
+      "gens": 20,
+      "mins": 60,
+      "period": "yearly",
+      "price": 599.99,
+      "displayName": "20 gens + 60 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m75.yearly",
+      "gens": 20,
+      "mins": 75,
+      "period": "yearly",
+      "price": 739.0,
+      "displayName": "20 gens + 75 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m90.yearly",
+      "gens": 20,
+      "mins": 90,
+      "period": "yearly",
+      "price": 869.0,
+      "displayName": "20 gens + 90 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m105.yearly",
+      "gens": 20,
+      "mins": 105,
+      "period": "yearly",
+      "price": 999.0,
+      "displayName": "20 gens + 105 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m120.yearly",
+      "gens": 20,
+      "mins": 120,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "20 gens + 120 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m135.yearly",
+      "gens": 20,
+      "mins": 135,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "20 gens + 135 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m150.yearly",
+      "gens": 20,
+      "mins": 150,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "20 gens + 150 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m165.yearly",
+      "gens": 20,
+      "mins": 165,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "20 gens + 165 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g20.m180.yearly",
+      "gens": 20,
+      "mins": 180,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "20 gens + 180 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m0.yearly",
+      "gens": 25,
+      "mins": 0,
+      "period": "yearly",
+      "price": 89.4,
+      "displayName": "25 gens Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m15.yearly",
+      "gens": 25,
+      "mins": 15,
+      "period": "yearly",
+      "price": 224.99,
+      "displayName": "25 gens + 15 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m30.yearly",
+      "gens": 25,
+      "mins": 30,
+      "period": "yearly",
+      "price": 354.99,
+      "displayName": "25 gens + 30 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m45.yearly",
+      "gens": 25,
+      "mins": 45,
+      "period": "yearly",
+      "price": 489.0,
+      "displayName": "25 gens + 45 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m60.yearly",
+      "gens": 25,
+      "mins": 60,
+      "period": "yearly",
+      "price": 619.0,
+      "displayName": "25 gens + 60 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m75.yearly",
+      "gens": 25,
+      "mins": 75,
+      "period": "yearly",
+      "price": 749.0,
+      "displayName": "25 gens + 75 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m90.yearly",
+      "gens": 25,
+      "mins": 90,
+      "period": "yearly",
+      "price": 889.0,
+      "displayName": "25 gens + 90 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m105.yearly",
+      "gens": 25,
+      "mins": 105,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "25 gens + 105 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m120.yearly",
+      "gens": 25,
+      "mins": 120,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "25 gens + 120 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m135.yearly",
+      "gens": 25,
+      "mins": 135,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "25 gens + 135 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m150.yearly",
+      "gens": 25,
+      "mins": 150,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "25 gens + 150 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m165.yearly",
+      "gens": 25,
+      "mins": 165,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "25 gens + 165 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g25.m180.yearly",
+      "gens": 25,
+      "mins": 180,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "25 gens + 180 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m0.yearly",
+      "gens": 30,
+      "mins": 0,
+      "period": "yearly",
+      "price": 107.28,
+      "displayName": "30 gens Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m15.yearly",
+      "gens": 30,
+      "mins": 15,
+      "period": "yearly",
+      "price": 239.99,
+      "displayName": "30 gens + 15 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m30.yearly",
+      "gens": 30,
+      "mins": 30,
+      "period": "yearly",
+      "price": 374.99,
+      "displayName": "30 gens + 30 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m45.yearly",
+      "gens": 30,
+      "mins": 45,
+      "period": "yearly",
+      "price": 509.0,
+      "displayName": "30 gens + 45 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m60.yearly",
+      "gens": 30,
+      "mins": 60,
+      "period": "yearly",
+      "price": 639.0,
+      "displayName": "30 gens + 60 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m75.yearly",
+      "gens": 30,
+      "mins": 75,
+      "period": "yearly",
+      "price": 769.0,
+      "displayName": "30 gens + 75 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m90.yearly",
+      "gens": 30,
+      "mins": 90,
+      "period": "yearly",
+      "price": 899.0,
+      "displayName": "30 gens + 90 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m105.yearly",
+      "gens": 30,
+      "mins": 105,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "30 gens + 105 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m120.yearly",
+      "gens": 30,
+      "mins": 120,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "30 gens + 120 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m135.yearly",
+      "gens": 30,
+      "mins": 135,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "30 gens + 135 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m150.yearly",
+      "gens": 30,
+      "mins": 150,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "30 gens + 150 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m165.yearly",
+      "gens": 30,
+      "mins": 165,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "30 gens + 165 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g30.m180.yearly",
+      "gens": 30,
+      "mins": 180,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "30 gens + 180 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m0.yearly",
+      "gens": 35,
+      "mins": 0,
+      "period": "yearly",
+      "price": 125.16,
+      "displayName": "35 gens Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m15.yearly",
+      "gens": 35,
+      "mins": 15,
+      "period": "yearly",
+      "price": 259.0,
+      "displayName": "35 gens + 15 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m30.yearly",
+      "gens": 35,
+      "mins": 30,
+      "period": "yearly",
+      "price": 389.0,
+      "displayName": "35 gens + 30 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m45.yearly",
+      "gens": 35,
+      "mins": 45,
+      "period": "yearly",
+      "price": 529.0,
+      "displayName": "35 gens + 45 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m60.yearly",
+      "gens": 35,
+      "mins": 60,
+      "period": "yearly",
+      "price": 659.0,
+      "displayName": "35 gens + 60 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m75.yearly",
+      "gens": 35,
+      "mins": 75,
+      "period": "yearly",
+      "price": 789.0,
+      "displayName": "35 gens + 75 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m90.yearly",
+      "gens": 35,
+      "mins": 90,
+      "period": "yearly",
+      "price": 919.0,
+      "displayName": "35 gens + 90 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m105.yearly",
+      "gens": 35,
+      "mins": 105,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "35 gens + 105 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m120.yearly",
+      "gens": 35,
+      "mins": 120,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "35 gens + 120 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m135.yearly",
+      "gens": 35,
+      "mins": 135,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "35 gens + 135 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m150.yearly",
+      "gens": 35,
+      "mins": 150,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "35 gens + 150 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m165.yearly",
+      "gens": 35,
+      "mins": 165,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "35 gens + 165 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g35.m180.yearly",
+      "gens": 35,
+      "mins": 180,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "35 gens + 180 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m0.yearly",
+      "gens": 40,
+      "mins": 0,
+      "period": "yearly",
+      "price": 143.04,
+      "displayName": "40 gens Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m15.yearly",
+      "gens": 40,
+      "mins": 15,
+      "period": "yearly",
+      "price": 274.99,
+      "displayName": "40 gens + 15 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m30.yearly",
+      "gens": 40,
+      "mins": 30,
+      "period": "yearly",
+      "price": 409.0,
+      "displayName": "40 gens + 30 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m45.yearly",
+      "gens": 40,
+      "mins": 45,
+      "period": "yearly",
+      "price": 539.0,
+      "displayName": "40 gens + 45 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m60.yearly",
+      "gens": 40,
+      "mins": 60,
+      "period": "yearly",
+      "price": 679.0,
+      "displayName": "40 gens + 60 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m75.yearly",
+      "gens": 40,
+      "mins": 75,
+      "period": "yearly",
+      "price": 809.0,
+      "displayName": "40 gens + 75 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m90.yearly",
+      "gens": 40,
+      "mins": 90,
+      "period": "yearly",
+      "price": 939.0,
+      "displayName": "40 gens + 90 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m105.yearly",
+      "gens": 40,
+      "mins": 105,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "40 gens + 105 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m120.yearly",
+      "gens": 40,
+      "mins": 120,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "40 gens + 120 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m135.yearly",
+      "gens": 40,
+      "mins": 135,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "40 gens + 135 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m150.yearly",
+      "gens": 40,
+      "mins": 150,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "40 gens + 150 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m165.yearly",
+      "gens": 40,
+      "mins": 165,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "40 gens + 165 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g40.m180.yearly",
+      "gens": 40,
+      "mins": 180,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "40 gens + 180 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m0.yearly",
+      "gens": 45,
+      "mins": 0,
+      "period": "yearly",
+      "price": 160.92,
+      "displayName": "45 gens Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m15.yearly",
+      "gens": 45,
+      "mins": 15,
+      "period": "yearly",
+      "price": 294.99,
+      "displayName": "45 gens + 15 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m30.yearly",
+      "gens": 45,
+      "mins": 30,
+      "period": "yearly",
+      "price": 424.99,
+      "displayName": "45 gens + 30 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m45.yearly",
+      "gens": 45,
+      "mins": 45,
+      "period": "yearly",
+      "price": 559.0,
+      "displayName": "45 gens + 45 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m60.yearly",
+      "gens": 45,
+      "mins": 60,
+      "period": "yearly",
+      "price": 689.0,
+      "displayName": "45 gens + 60 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m75.yearly",
+      "gens": 45,
+      "mins": 75,
+      "period": "yearly",
+      "price": 829.0,
+      "displayName": "45 gens + 75 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m90.yearly",
+      "gens": 45,
+      "mins": 90,
+      "period": "yearly",
+      "price": 959.0,
+      "displayName": "45 gens + 90 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m105.yearly",
+      "gens": 45,
+      "mins": 105,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "45 gens + 105 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m120.yearly",
+      "gens": 45,
+      "mins": 120,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "45 gens + 120 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m135.yearly",
+      "gens": 45,
+      "mins": 135,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "45 gens + 135 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m150.yearly",
+      "gens": 45,
+      "mins": 150,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "45 gens + 150 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m165.yearly",
+      "gens": 45,
+      "mins": 165,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "45 gens + 165 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g45.m180.yearly",
+      "gens": 45,
+      "mins": 180,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "45 gens + 180 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m0.yearly",
+      "gens": 50,
+      "mins": 0,
+      "period": "yearly",
+      "price": 178.8,
+      "displayName": "50 gens Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m15.yearly",
+      "gens": 50,
+      "mins": 15,
+      "period": "yearly",
+      "price": 314.99,
+      "displayName": "50 gens + 15 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m30.yearly",
+      "gens": 50,
+      "mins": 30,
+      "period": "yearly",
+      "price": 444.99,
+      "displayName": "50 gens + 30 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m45.yearly",
+      "gens": 50,
+      "mins": 45,
+      "period": "yearly",
+      "price": 579.0,
+      "displayName": "50 gens + 45 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m60.yearly",
+      "gens": 50,
+      "mins": 60,
+      "period": "yearly",
+      "price": 709.0,
+      "displayName": "50 gens + 60 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m75.yearly",
+      "gens": 50,
+      "mins": 75,
+      "period": "yearly",
+      "price": 839.0,
+      "displayName": "50 gens + 75 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m90.yearly",
+      "gens": 50,
+      "mins": 90,
+      "period": "yearly",
+      "price": 979.0,
+      "displayName": "50 gens + 90 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m105.yearly",
+      "gens": 50,
+      "mins": 105,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "50 gens + 105 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m120.yearly",
+      "gens": 50,
+      "mins": 120,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "50 gens + 120 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m135.yearly",
+      "gens": 50,
+      "mins": 135,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "50 gens + 135 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m150.yearly",
+      "gens": 50,
+      "mins": 150,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "50 gens + 150 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m165.yearly",
+      "gens": 50,
+      "mins": 165,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "50 gens + 165 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g50.m180.yearly",
+      "gens": 50,
+      "mins": 180,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "50 gens + 180 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m0.yearly",
+      "gens": 55,
+      "mins": 0,
+      "period": "yearly",
+      "price": 196.68,
+      "displayName": "55 gens Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m15.yearly",
+      "gens": 55,
+      "mins": 15,
+      "period": "yearly",
+      "price": 329.0,
+      "displayName": "55 gens + 15 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m30.yearly",
+      "gens": 55,
+      "mins": 30,
+      "period": "yearly",
+      "price": 464.99,
+      "displayName": "55 gens + 30 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m45.yearly",
+      "gens": 55,
+      "mins": 45,
+      "period": "yearly",
+      "price": 599.0,
+      "displayName": "55 gens + 45 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m60.yearly",
+      "gens": 55,
+      "mins": 60,
+      "period": "yearly",
+      "price": 729.0,
+      "displayName": "55 gens + 60 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m75.yearly",
+      "gens": 55,
+      "mins": 75,
+      "period": "yearly",
+      "price": 859.0,
+      "displayName": "55 gens + 75 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m90.yearly",
+      "gens": 55,
+      "mins": 90,
+      "period": "yearly",
+      "price": 989.0,
+      "displayName": "55 gens + 90 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m105.yearly",
+      "gens": 55,
+      "mins": 105,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "55 gens + 105 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m120.yearly",
+      "gens": 55,
+      "mins": 120,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "55 gens + 120 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m135.yearly",
+      "gens": 55,
+      "mins": 135,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "55 gens + 135 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m150.yearly",
+      "gens": 55,
+      "mins": 150,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "55 gens + 150 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m165.yearly",
+      "gens": 55,
+      "mins": 165,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "55 gens + 165 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g55.m180.yearly",
+      "gens": 55,
+      "mins": 180,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "55 gens + 180 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m0.yearly",
+      "gens": 60,
+      "mins": 0,
+      "period": "yearly",
+      "price": 214.56,
+      "displayName": "60 gens Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m15.yearly",
+      "gens": 60,
+      "mins": 15,
+      "period": "yearly",
+      "price": 349.0,
+      "displayName": "60 gens + 15 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m30.yearly",
+      "gens": 60,
+      "mins": 30,
+      "period": "yearly",
+      "price": 479.0,
+      "displayName": "60 gens + 30 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m45.yearly",
+      "gens": 60,
+      "mins": 45,
+      "period": "yearly",
+      "price": 619.0,
+      "displayName": "60 gens + 45 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m60.yearly",
+      "gens": 60,
+      "mins": 60,
+      "period": "yearly",
+      "price": 749.0,
+      "displayName": "60 gens + 60 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m75.yearly",
+      "gens": 60,
+      "mins": 75,
+      "period": "yearly",
+      "price": 879.0,
+      "displayName": "60 gens + 75 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m90.yearly",
+      "gens": 60,
+      "mins": 90,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "60 gens + 90 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m105.yearly",
+      "gens": 60,
+      "mins": 105,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "60 gens + 105 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m120.yearly",
+      "gens": 60,
+      "mins": 120,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "60 gens + 120 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m135.yearly",
+      "gens": 60,
+      "mins": 135,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "60 gens + 135 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m150.yearly",
+      "gens": 60,
+      "mins": 150,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "60 gens + 150 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m165.yearly",
+      "gens": 60,
+      "mins": 165,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "60 gens + 165 min Yearly"
+    },
+    {
+      "productId": "com.scholarsnotes.plan.g60.m180.yearly",
+      "gens": 60,
+      "mins": 180,
+      "period": "yearly",
+      "price": 1000.0,
+      "displayName": "60 gens + 180 min Yearly"
+    }
+  ]
+}

@@ -6,6 +6,7 @@ import { requireBearerUser } from "@/lib/subscriptions/auth";
 import {
   clampGenerations,
   clampTutorMinutes,
+  isScholarsCreditSkuAvailable,
   scholarsCombinedLookupKey,
   type ScholarsCreditPeriod,
 } from "@/config/scholars-credits";
@@ -14,6 +15,8 @@ import {
   getStripe,
 } from "@/lib/subscriptions/stripe";
 import { ensureCreatorPromotionCode } from "@/lib/scholars/creator-promo";
+import { ensureScholarsCreditStripePrice } from "@/lib/scholars/ensure-credit-price";
+import { parentOwnsChild } from "@/lib/kids/portal";
 
 export const runtime = "nodejs";
 
@@ -71,16 +74,6 @@ async function resolveUserId(request: NextRequest): Promise<string | null> {
   return user?.id ?? null;
 }
 
-async function priceIdForLookupKey(lookupKey: string): Promise<string | null> {
-  const stripe = getStripe();
-  const listed = await stripe.prices.list({
-    lookup_keys: [lookupKey],
-    active: true,
-    limit: 1,
-  });
-  return listed.data[0]?.id ?? null;
-}
-
 export async function POST(request: NextRequest) {
   try {
     const userId = await resolveUserId(request);
@@ -98,6 +91,8 @@ export async function POST(request: NextRequest) {
       success_url?: unknown;
       cancel_url?: unknown;
       creator_code?: unknown;
+      child_user_ids?: unknown;
+      child_user_id?: unknown;
     };
     try {
       body = (await request.json()) as typeof body;
@@ -121,14 +116,58 @@ export async function POST(request: NextRequest) {
         { status: 400 },
       );
     }
+    if (!isScholarsCreditSkuAvailable(generations, tutorMinutes, period)) {
+      return NextResponse.json(
+        {
+          error:
+            "This mix isn’t offered. Adjust generations or tutor minutes.",
+        },
+        { status: 400 },
+      );
+    }
+
+    const requestedChildIds = Array.from(
+      new Set(
+        [
+          ...(Array.isArray(body.child_user_ids)
+            ? body.child_user_ids
+            : typeof body.child_user_ids === "string"
+              ? body.child_user_ids.split(",")
+              : []),
+          ...(typeof body.child_user_id === "string" ? [body.child_user_id] : []),
+        ]
+          .map((id) => String(id).trim().toLowerCase())
+          .filter(Boolean),
+      ),
+    ).filter((id) => id !== userId.toLowerCase());
+
+    for (const childId of requestedChildIds) {
+      const owns = await parentOwnsChild(userId, childId);
+      if (!owns) {
+        return NextResponse.json(
+          { error: "You can only assign credits to kids in your family." },
+          { status: 403 },
+        );
+      }
+    }
 
     const lookupKey = scholarsCombinedLookupKey(
       generations,
       tutorMinutes,
       period,
     );
-    const priceId = await priceIdForLookupKey(lookupKey);
-    if (!priceId) {
+    const stripe = getStripe();
+    let priceId: string;
+    try {
+      priceId = await ensureScholarsCreditStripePrice({
+        stripe,
+        generations,
+        tutorMinutes,
+        period,
+        lookupKey,
+      });
+    } catch (priceErr) {
+      console.error("[scholars/usage/checkout] ensure price", priceErr);
       return NextResponse.json(
         {
           error: `Stripe price missing for ${lookupKey}. Run create-scholars-credit-prices.`,
@@ -147,7 +186,6 @@ export async function POST(request: NextRequest) {
     const { data: authUser } = await admin.auth.admin.getUserById(userId);
     const email = authUser?.user?.email ?? profile?.email ?? undefined;
 
-    const stripe = getStripe();
     const customerId = await ensureStripeCustomerId({
       stripe,
       userId,
@@ -174,17 +212,21 @@ export async function POST(request: NextRequest) {
         ? body.creator_code.trim().toUpperCase().slice(0, 32)
         : "";
 
+    const assignToChildren = requestedChildIds.length > 0;
     const metadata: Record<string, string> = {
       future_kids_user_id: userId,
-      child_user_id: userId,
+      child_user_id: assignToChildren ? requestedChildIds[0] : userId,
       parent_user_id: userId,
-      credit_held_by: "parent",
+      credit_held_by: assignToChildren ? "children" : "parent",
       app_key: "scholars",
       credit_checkout: "true",
       credit_period: period,
       grant_generations: String(generations),
       grant_tutor_minutes: String(tutorMinutes),
       credit_lookup_key: lookupKey,
+      ...(assignToChildren
+        ? { child_user_ids: requestedChildIds.join(",") }
+        : {}),
       ...(creatorCode ? { creator_code: creatorCode } : {}),
     };
 

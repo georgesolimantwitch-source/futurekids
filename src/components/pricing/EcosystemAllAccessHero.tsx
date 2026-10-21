@@ -1322,13 +1322,20 @@ export function EcosystemAllAccessHero({
                         }
                         className="rounded-lg border border-neutral-200 bg-white px-2 py-1.5 text-xs font-semibold tabular-nums text-[#0b1020] outline-none focus:border-neutral-400"
                       >
-                        {Array.from({ length: 6 }, (_, i) => (i + 1) * 30).map(
-                          (n) => (
-                            <option key={n} value={n}>
-                              {n} min
-                            </option>
-                          ),
-                        )}
+                        {Array.from(
+                          {
+                            length: Math.floor(
+                              scholarsCreditPricing.tutorMinutes.max /
+                                scholarsCreditPricing.tutorMinutes.step,
+                            ),
+                          },
+                          (_, i) =>
+                            (i + 1) * scholarsCreditPricing.tutorMinutes.step,
+                        ).map((n) => (
+                          <option key={n} value={n}>
+                            {n} min
+                          </option>
+                        ))}
                       </select>
                     </label>
                   </div>

@@ -137,6 +137,126 @@ export async function transferScholarsCredits(params: {
   };
 }
 
+/**
+ * True when the parent can unlock Scholars for kids: seat/All Access plan,
+ * active credit subscription, or AI credits on the parent pool / any kid.
+ */
+export async function parentHasScholarsProductAccess(
+  parentUserId: string,
+): Promise<boolean> {
+  const admin = createAdminClient();
+  const now = Date.now();
+  const { data: entitlements } = await admin
+    .from("user_entitlements")
+    .select("status, current_period_end")
+    .eq("user_id", parentUserId)
+    .in("app_key", ["scholars", "futurekids_all_access"]);
+  if (
+    (entitlements ?? []).some((row) => {
+      const status = String(row.status);
+      if (!["active", "trialing", "grace_period", "canceled"].includes(status)) {
+        return false;
+      }
+      if (!row.current_period_end) return true;
+      return Date.parse(String(row.current_period_end)) > now;
+    })
+  ) {
+    return true;
+  }
+
+  const { data: subs } = await admin
+    .from("scholars_credit_subscriptions")
+    .select("id")
+    .or(
+      `parent_user_id.eq.${parentUserId},child_user_id.eq.${parentUserId}`,
+    )
+    .in("status", ["active", "trialing", "past_due"])
+    .limit(1);
+  if ((subs ?? []).length > 0) return true;
+
+  const walletIds = new Set<string>([parentUserId.toLowerCase()]);
+  const { data: families } = await admin
+    .from("families")
+    .select("id")
+    .eq("owner_id", parentUserId)
+    .limit(1);
+  const familyId = families?.[0]?.id as string | undefined;
+  if (familyId) {
+    const { data: members } = await admin
+      .from("family_members")
+      .select("user_id")
+      .eq("family_id", familyId)
+      .eq("role", "child");
+    for (const row of members ?? []) {
+      walletIds.add(String(row.user_id).toLowerCase());
+    }
+  }
+
+  const { data: balances } = await admin
+    .from("scholars_credit_balances")
+    .select("generations_remaining, tutor_minutes_remaining")
+    .in("child_user_id", Array.from(walletIds));
+  return (balances ?? []).some(
+    (row) =>
+      Number(row.generations_remaining) > 0 ||
+      Number(row.tutor_minutes_remaining) > 0,
+  );
+}
+
+/**
+ * Moves unassigned parent-pool credits onto a child when that child is unlocked
+ * for Scholars (or when they are the only unlocked Scholars kid).
+ */
+export async function ensureChildReceivesParentPoolCredits(params: {
+  parentUserId: string;
+  childUserId: string;
+  /** When true, only transfer if this child is the sole active Scholars seat. */
+  soleActiveOnly?: boolean;
+}): Promise<{
+  outcome: "transferred" | "noop" | "skipped";
+  generations: number;
+  tutor_minutes: number;
+}> {
+  const parentId = params.parentUserId.trim().toLowerCase();
+  const childId = params.childUserId.trim().toLowerCase();
+  if (!parentId || !childId || parentId === childId) {
+    return { outcome: "noop", generations: 0, tutor_minutes: 0 };
+  }
+
+  if (params.soleActiveOnly) {
+    const { listActiveScholarsChildIds } = await import("@/lib/kids/portal");
+    const active = await listActiveScholarsChildIds(parentId);
+    if (active.length !== 1 || active[0] !== childId) {
+      return { outcome: "skipped", generations: 0, tutor_minutes: 0 };
+    }
+  }
+
+  const pool = await getScholarsCreditBalanceForChild(parentId);
+  if (pool.generations <= 0 && pool.tutor_minutes <= 0) {
+    return { outcome: "noop", generations: 0, tutor_minutes: 0 };
+  }
+
+  return transferScholarsCredits({
+    parentUserId: parentId,
+    fromChildId: parentId,
+    toChildId: childId,
+  });
+}
+
+/** After credits land on the parent pool, push them to the sole unlocked kid. */
+export async function distributeParentPoolToSoleActiveChild(
+  parentUserId: string,
+): Promise<void> {
+  const { listActiveScholarsChildIds } = await import("@/lib/kids/portal");
+  const active = await listActiveScholarsChildIds(parentUserId);
+  if (active.length !== 1) return;
+  await ensureChildReceivesParentPoolCredits({
+    parentUserId,
+    childUserId: active[0],
+    soleActiveOnly: true,
+  });
+}
+
 /** Resolve which children receive All Access Scholars seats + credit grants. */
 export async function resolveScholarsSeatChildIds(params: {
   parentUserId: string;
@@ -144,7 +264,7 @@ export async function resolveScholarsSeatChildIds(params: {
   preferredChildIds?: string[];
 }): Promise<string[]> {
   const admin = createAdminClient();
-  const seatCount = Math.max(1, Math.min(5, Math.trunc(params.seatCount)));
+  const seatCount = Math.max(1, Math.min(6, Math.trunc(params.seatCount)));
   const preferred = (params.preferredChildIds ?? [])
     .map((id) => id.trim().toLowerCase())
     .filter(Boolean);

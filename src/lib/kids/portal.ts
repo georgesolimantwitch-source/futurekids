@@ -38,15 +38,32 @@ export async function parentHasAppEntitlement(
   const admin = createAdminClient();
   const { data } = await admin
     .from("user_entitlements")
-    .select("id, app_key, status")
+    .select("id, app_key, status, current_period_end")
     .eq("user_id", parentId)
     .in("app_key", [appKey, "futurekids_all_access"]);
 
-  return (data ?? []).some(
-    (row) =>
-      ACTIVE_ENTITLEMENT_STATUSES.has(String(row.status)) &&
-      (row.app_key === appKey || row.app_key === "futurekids_all_access"),
-  );
+  const now = Date.now();
+  const hasSeat = (data ?? []).some((row) => {
+    if (
+      !ACTIVE_ENTITLEMENT_STATUSES.has(String(row.status)) ||
+      (row.app_key !== appKey && row.app_key !== "futurekids_all_access")
+    ) {
+      return false;
+    }
+    if (!row.current_period_end) return true;
+    return Date.parse(String(row.current_period_end)) > now;
+  });
+  if (hasSeat) return true;
+
+  // Scholars AI credits (Stripe on Genlyn) also unlock kid sign-in + seat toggles.
+  if (appKey === "scholars") {
+    const { parentHasScholarsProductAccess } = await import(
+      "@/lib/scholars/credits"
+    );
+    return parentHasScholarsProductAccess(parentId);
+  }
+
+  return false;
 }
 
 export async function getScholarsSeatLimit(parentId: string): Promise<number> {
@@ -78,7 +95,7 @@ export async function getScholarsSeatLimit(parentId: string): Promise<number> {
           : row.app_key === "futurekids_all_access"
             ? 1
             : 0;
-    limit = Math.max(limit, Math.min(5, seat));
+    limit = Math.max(limit, Math.min(6, seat));
   }
   return Math.max(1, limit || 1);
 }
