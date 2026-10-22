@@ -3,9 +3,17 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { hubFaqs, hubFeatures, hubGallery, hubSizes, type HubSizeId } from "@/config/hub";
+import {
+  hubFaqs,
+  hubFeatures,
+  hubGallery,
+  hubSizePath,
+  hubSizes,
+  type HubSizeId,
+} from "@/config/hub";
 import { siteApps } from "@/config/site";
 import { Accordion } from "@/components/site/Accordion";
+import { Icon } from "@/components/site/Icon";
 import { Magnetic, Reveal } from "@/components/site/motion";
 import {
   AppIcon,
@@ -90,31 +98,28 @@ export function HubPage() {
           lead="Pick the display that fits your kitchen, entryway, or command center."
         />
         <div className="mt-12 grid gap-5 lg:grid-cols-2">
-          {hubSizes.map((item, index) => {
-            const active = item.id === size;
-            return (
-              <Reveal key={item.id} delay={index * 90}>
-                <button
-                  type="button"
-                  onClick={() => setSize(item.id)}
-                  className={`lift relative w-full overflow-hidden rounded-[32px] text-left ring-1 transition ${
-                    active
-                      ? "bg-white ring-ink/20 shadow-[0_30px_60px_-40px_rgba(15,23,42,0.45)]"
-                      : "bg-white/70 ring-ink/5 hover:bg-white"
-                  }`}
-                >
-                  {item.recommended && (
-                    <span className="absolute right-4 top-4 z-10 rounded-full bg-ink px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-white">
-                      Popular
-                    </span>
-                  )}
+          {hubSizes.map((item, index) => (
+            <Reveal key={item.id} delay={index * 90}>
+              <article
+                className={`relative overflow-hidden rounded-[32px] bg-white ring-1 transition ${
+                  item.recommended
+                    ? "ring-ink/15 shadow-[0_30px_60px_-40px_rgba(15,23,42,0.45)]"
+                    : "ring-ink/5"
+                }`}
+              >
+                {item.recommended && (
+                  <span className="absolute right-4 top-4 z-10 rounded-full bg-ink px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-white">
+                    Popular
+                  </span>
+                )}
+                <Link href={hubSizePath(item)} className="block">
                   <div className="bg-[#f7f8fc] p-3 sm:p-4">
                     <Image
                       src={item.image}
                       alt={item.imageAlt}
                       width={1024}
                       height={1024}
-                      className="aspect-[4/3] h-auto w-full rounded-[22px] object-cover object-center"
+                      className="aspect-[4/3] h-auto w-full rounded-[22px] object-cover object-center transition duration-500 hover:scale-[1.02]"
                     />
                   </div>
                   <div className="p-7 pt-5">
@@ -125,25 +130,39 @@ export function HubPage() {
                       {item.label}
                     </h3>
                     <p className="mt-2 text-sm leading-relaxed text-ink-soft">{item.blurb}</p>
-                    <div className="mt-6 flex items-end justify-between gap-4">
-                      <p className="font-display text-4xl font-extrabold text-ink">
-                        {item.priceDisplay}
-                      </p>
-                      <span
-                        className={`rounded-full px-4 py-2 text-sm font-bold ${
-                          active ? "bg-ink text-white" : "bg-[#f7f8fc] text-ink-soft"
-                        }`}
-                      >
-                        {active ? "Selected" : "Select"}
-                      </span>
-                    </div>
+                    <p className="font-display mt-5 text-4xl font-extrabold text-ink">
+                      {item.priceDisplay}
+                    </p>
                   </div>
-                </button>
-              </Reveal>
-            );
-          })}
+                </Link>
+                <div className="flex flex-wrap gap-2 px-7 pb-7">
+                  <Link
+                    href={hubSizePath(item)}
+                    className="press inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-full bg-[#f7f8fc] px-4 text-sm font-bold text-ink ring-1 ring-ink/5 transition hover:bg-white hover:ring-ink/15"
+                  >
+                    See photos & details
+                    <Icon name="arrow-right" className="h-4 w-4" />
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => setSize(item.id)}
+                    className={`press inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-bold transition ${
+                      size === item.id
+                        ? "bg-ink text-white"
+                        : "bg-white text-ink ring-1 ring-ink/10"
+                    }`}
+                  >
+                    {size === item.id ? "Selected" : "Select"}
+                  </button>
+                </div>
+              </article>
+            </Reveal>
+          ))}
         </div>
-        <div className="mt-8 flex justify-center">
+        <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+          <PillLink href={hubSizePath(selected)} variant="soft" size="lg" arrow={false}>
+            Open {selected.inches} details
+          </PillLink>
           <PillLink href={`/genlyn-hub/checkout?size=${size}`} variant="dark" size="lg">
             Continue to checkout · {selected.priceDisplay}
           </PillLink>

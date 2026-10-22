@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { brand, listedApps } from "@/config/brand";
+import { hubSizePath, hubSizes } from "@/config/hub";
 import { resources } from "@/config/resources";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -25,6 +26,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: path === "" ? 1 : 0.7,
   }));
 
+  const hubProductRoutes = hubSizes.map((size) => ({
+    url: `${brand.siteUrl}${hubSizePath(size)}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.85,
+  }));
+
   const appRoutes = listedApps.map((app) => ({
     url: `${brand.siteUrl}${app.learnMorePath}`,
     lastModified: new Date(),
@@ -39,5 +47,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticRoutes, ...appRoutes, ...resourceRoutes];
+  return [...staticRoutes, ...hubProductRoutes, ...appRoutes, ...resourceRoutes];
 }

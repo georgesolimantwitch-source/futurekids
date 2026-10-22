@@ -32,7 +32,7 @@ export function HubAddonPromo() {
                   {hubSizes.map((size) => (
                     <Link
                       key={size.id}
-                      href={`/genlyn-hub/checkout?size=${size.id}`}
+                      href={`/genlyn-hub/${size.slug}`}
                       className="press rounded-full bg-[#f7f8fc] px-5 py-3 text-sm font-bold text-ink ring-1 ring-ink/5 transition hover:bg-white hover:ring-ink/15"
                     >
                       {size.inches} · {size.priceDisplay}
