@@ -161,19 +161,26 @@ export function HubCheckoutForm({ initialSize }: { initialSize: HubSizeId }) {
                   type="button"
                   disabled={phase === "payment"}
                   onClick={() => setSizeId(item.id)}
-                  className={`flex w-full items-center justify-between rounded-[24px] px-5 py-4 text-left ring-1 transition ${
+                  className={`flex w-full items-center gap-4 rounded-[24px] px-4 py-3 text-left ring-1 transition sm:px-5 sm:py-4 ${
                     active
                       ? "bg-white ring-ink/20 shadow-[0_20px_40px_-28px_rgba(15,23,42,0.4)]"
                       : "bg-white/70 ring-ink/5"
                   } disabled:opacity-70`}
                 >
-                  <span>
+                  <Image
+                    src={item.image}
+                    alt=""
+                    width={96}
+                    height={96}
+                    className="h-16 w-16 shrink-0 rounded-2xl object-cover ring-1 ring-ink/5 sm:h-20 sm:w-20"
+                  />
+                  <span className="min-w-0 flex-1">
                     <span className="block font-extrabold text-ink">
                       {item.label}
                     </span>
                     <span className="block text-sm text-ink-soft">{item.blurb}</span>
                   </span>
-                  <span className="font-display text-2xl font-extrabold text-ink">
+                  <span className="font-display shrink-0 text-2xl font-extrabold text-ink">
                     {item.priceDisplay}
                   </span>
                 </button>
@@ -183,10 +190,10 @@ export function HubCheckoutForm({ initialSize }: { initialSize: HubSizeId }) {
 
           <div className="mt-8 overflow-hidden rounded-[28px] bg-white p-4 ring-1 ring-ink/5 lg:hidden">
             <Image
-              src="/images/hub/genlyn-hub-hero.png"
-              alt=""
-              width={800}
-              height={600}
+              src={size.image}
+              alt={size.imageAlt}
+              width={1024}
+              height={1024}
               className="h-auto w-full rounded-[20px] object-cover"
             />
           </div>

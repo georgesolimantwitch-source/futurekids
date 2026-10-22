@@ -48,7 +48,7 @@ export function HubAddonPromo() {
               <div className="relative mx-auto w-full max-w-md overflow-hidden rounded-[28px] bg-[#f7f8fc] p-4 ring-1 ring-ink/5">
                 <Image
                   src="/images/hub/genlyn-hub-hero.png"
-                  alt="Genlyn Hub tablet showing a family calendar"
+                  alt="Genlyn Hub with Earnly family calendar on tablet and phone"
                   width={900}
                   height={700}
                   className="h-auto w-full rounded-[20px] object-cover"

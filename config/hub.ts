@@ -9,6 +9,8 @@ export interface HubSize {
   priceCents: number;
   priceDisplay: string;
   blurb: string;
+  image: string;
+  imageAlt: string;
   recommended?: boolean;
   lookupKey: string;
   envPriceId: "STRIPE_HUB_10_PRICE_ID" | "STRIPE_HUB_15_PRICE_ID";
@@ -22,9 +24,11 @@ export const hubSizes: HubSize[] = [
     id: "10.1",
     label: "Genlyn Hub 10.1″",
     inches: "10.1″",
-    priceCents: 14900,
-    priceDisplay: "$149",
+    priceCents: 19900,
+    priceDisplay: "$199",
     blurb: "Perfect for a kitchen counter or desk — the compact family command center.",
+    image: "/images/hub/hub-earnly-family.png",
+    imageAlt: "Genlyn Hub 10.1″ showing Earnly family calendar on tablet and phone",
     lookupKey: "com.genlyn.hub.10_1",
     envPriceId: "STRIPE_HUB_10_PRICE_ID",
   },
@@ -32,9 +36,11 @@ export const hubSizes: HubSize[] = [
     id: "15.6",
     label: "Genlyn Hub 15.6″",
     inches: "15.6″",
-    priceCents: 19900,
-    priceDisplay: "$199",
+    priceCents: 24900,
+    priceDisplay: "$249",
     blurb: "Wall-ready display for the whole household schedule at a glance.",
+    image: "/images/hub/hub-scholars.png",
+    imageAlt: "Genlyn Hub 15.6″ showing Scholars school dashboard on tablet and phone",
     recommended: true,
     lookupKey: "com.genlyn.hub.15_6",
     envPriceId: "STRIPE_HUB_15_PRICE_ID",
@@ -117,20 +123,28 @@ export const hubFaqs: { question: string; answer: string }[] = [
 
 export const hubGallery = [
   {
-    src: "/images/hub/genlyn-hub-hero.png",
-    alt: "Genlyn Hub showing a family weekly calendar on a white framed display",
-    caption: "Your family’s week, always on the wall.",
+    src: "/images/hub/hub-earnly-family.png",
+    alt: "Genlyn Hub Earnly view with family chore calendar on tablet and phone",
+    caption: "Earnly — chores & family calendar on the wall.",
   },
   {
-    src: "/images/hub/genlyn-hub-hero.png",
-    alt: "Close-up of the Genlyn Hub calendar interface",
-    caption: "Color-coded events for every family member.",
-    crop: "close" as const,
+    src: "/images/hub/hub-earnly-balance.png",
+    alt: "Genlyn Hub Earnly balance dashboard with parent funds and kid wallets",
+    caption: "Earnly — parent funds and kid balances.",
   },
   {
-    src: "/images/hub/genlyn-hub-hero.png",
-    alt: "Genlyn Hub product shot emphasizing the white frame",
-    caption: "Clean hardware that fits the home.",
-    crop: "frame" as const,
+    src: "/images/hub/hub-scholars.png",
+    alt: "Genlyn Hub Scholars school dashboard with classes, GPA, and study stats",
+    caption: "Scholars — classes, grades, and study streaks.",
+  },
+  {
+    src: "/images/hub/hub-ballr.png",
+    alt: "Genlyn Hub Ballr fitness dashboard with player cards and fuel tracking",
+    caption: "Ballr — sports, workouts, calories & diet plans.",
+  },
+  {
+    src: "/images/hub/hub-freshys.png",
+    alt: "Genlyn Hub Freshys healthy eating dashboard with farm orders",
+    caption: "Freshys — local farm orders at a glance.",
   },
 ];

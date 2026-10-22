@@ -39,8 +39,9 @@ export function HubPage() {
             </Reveal>
             <Reveal delay={160}>
               <p className="mt-6 max-w-lg text-lg leading-relaxed text-ink-soft">
-                Genlyn Hub is the household tablet for calendars, chores, meals, and
-                the week ahead — a beautiful display that keeps everyone in sync.
+                Genlyn Hub is the household tablet for Earnly, Scholars, Ballr, and
+                Freshys — calendars, chores, school, fitness, and fresh food on one
+                wall display that keeps everyone in sync.
               </p>
             </Reveal>
             <Reveal delay={240}>
@@ -70,9 +71,9 @@ export function HubPage() {
             <div className="relative overflow-hidden rounded-[36px] bg-white p-4 shadow-[0_40px_90px_-44px_rgba(15,23,42,0.5)] ring-1 ring-ink/5 sm:p-6">
               <Image
                 src="/images/hub/genlyn-hub-hero.png"
-                alt="Genlyn Hub family calendar on a white framed tablet"
-                width={1200}
-                height={900}
+                alt="Genlyn Hub with Earnly family calendar on tablet and phone"
+                width={1024}
+                height={1024}
                 priority
                 className="h-auto w-full rounded-[24px] object-cover"
               />
@@ -96,35 +97,46 @@ export function HubPage() {
                 <button
                   type="button"
                   onClick={() => setSize(item.id)}
-                  className={`lift relative w-full rounded-[32px] p-7 text-left ring-1 transition ${
+                  className={`lift relative w-full overflow-hidden rounded-[32px] text-left ring-1 transition ${
                     active
                       ? "bg-white ring-ink/20 shadow-[0_30px_60px_-40px_rgba(15,23,42,0.45)]"
                       : "bg-white/70 ring-ink/5 hover:bg-white"
                   }`}
                 >
                   {item.recommended && (
-                    <span className="absolute right-6 top-6 rounded-full bg-ink px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-white">
+                    <span className="absolute right-4 top-4 z-10 rounded-full bg-ink px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-white">
                       Popular
                     </span>
                   )}
-                  <p className="text-xs font-bold uppercase tracking-[0.16em] text-ink-faint">
-                    {item.inches} display
-                  </p>
-                  <h3 className="font-display mt-3 text-3xl font-extrabold text-ink">
-                    {item.label}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-ink-soft">{item.blurb}</p>
-                  <div className="mt-6 flex items-end justify-between gap-4">
-                    <p className="font-display text-4xl font-extrabold text-ink">
-                      {item.priceDisplay}
+                  <div className="bg-[#f7f8fc] p-3 sm:p-4">
+                    <Image
+                      src={item.image}
+                      alt={item.imageAlt}
+                      width={1024}
+                      height={1024}
+                      className="aspect-[4/3] h-auto w-full rounded-[22px] object-cover object-center"
+                    />
+                  </div>
+                  <div className="p-7 pt-5">
+                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-ink-faint">
+                      {item.inches} display
                     </p>
-                    <span
-                      className={`rounded-full px-4 py-2 text-sm font-bold ${
-                        active ? "bg-ink text-white" : "bg-[#f7f8fc] text-ink-soft"
-                      }`}
-                    >
-                      {active ? "Selected" : "Select"}
-                    </span>
+                    <h3 className="font-display mt-3 text-3xl font-extrabold text-ink">
+                      {item.label}
+                    </h3>
+                    <p className="mt-2 text-sm leading-relaxed text-ink-soft">{item.blurb}</p>
+                    <div className="mt-6 flex items-end justify-between gap-4">
+                      <p className="font-display text-4xl font-extrabold text-ink">
+                        {item.priceDisplay}
+                      </p>
+                      <span
+                        className={`rounded-full px-4 py-2 text-sm font-bold ${
+                          active ? "bg-ink text-white" : "bg-[#f7f8fc] text-ink-soft"
+                        }`}
+                      >
+                        {active ? "Selected" : "Select"}
+                      </span>
+                    </div>
                   </div>
                 </button>
               </Reveal>
@@ -158,10 +170,10 @@ export function HubPage() {
         <SectionHeading
           eyebrow="Inside the Hub"
           eyebrowColor="#f4511e"
-          title="See it up close."
-          lead="A soft white frame and a colorful family board — designed to look at home on your wall."
+          title="Every Genlyn app, on one display."
+          lead="Earnly, Scholars, Ballr, and Freshys — tablet on the wall, phone in your pocket."
         />
-        <div className="mt-12 grid gap-5 md:grid-cols-3">
+        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {hubGallery.map((shot, index) => (
             <Reveal key={`${shot.caption}-${index}`} delay={index * 90}>
               <figure className="overflow-hidden rounded-[28px] bg-white p-3 shadow-[0_30px_60px_-40px_rgba(15,23,42,0.4)] ring-1 ring-ink/5">
@@ -169,15 +181,9 @@ export function HubPage() {
                   <Image
                     src={shot.src}
                     alt={shot.alt}
-                    width={800}
-                    height={600}
-                    className={`h-56 w-full object-cover sm:h-64 ${
-                      shot.crop === "close"
-                        ? "scale-125 object-[55%_40%]"
-                        : shot.crop === "frame"
-                          ? "scale-110 object-[50%_60%]"
-                          : "object-center"
-                    }`}
+                    width={1024}
+                    height={1024}
+                    className="aspect-square h-auto w-full object-cover object-center"
                   />
                 </div>
                 <figcaption className="px-2 py-4 text-sm font-bold text-ink">
