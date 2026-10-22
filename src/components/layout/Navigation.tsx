@@ -111,7 +111,7 @@ export function Navigation() {
         <div className="flex h-[68px] shrink-0 items-center justify-between gap-4 px-5 sm:px-8">
           <Link
             href="/"
-            className="shrink-0"
+            className="flex h-9 max-w-[140px] shrink-0 items-center"
             aria-label={brand.productName}
             onClick={() => setMobileOpen(false)}
           >

@@ -48,10 +48,10 @@ body {
   position: relative;
 }
 
+/* Cap width only — never force height:auto (it overrides Tailwind h-* on logos). */
 img,
 video {
   max-width: 100%;
-  height: auto;
 }
 
 ::selection {
