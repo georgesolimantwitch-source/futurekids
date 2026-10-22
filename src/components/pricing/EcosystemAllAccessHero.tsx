@@ -112,8 +112,10 @@ export function EcosystemAllAccessHero({
   const [scholarsMins, setScholarsMins] = useState<number>(
     scholarsCreditPricing.tutorMinutes.default,
   );
-  /** All Access: add Scholars unlimited text tutor at the same billing cadence */
-  const [includeTextTutor, setIncludeTextTutor] = useState(false);
+  /** All Access: optional Unlimited AI — null = not adding */
+  const [textTutorPeriod, setTextTutorPeriod] = useState<
+    "monthly" | "yearly" | null
+  >(null);
   const [childCount, setChildCount] = useState(
     initialEntitlement?.child_limit ?? familyChildFloor,
   );
@@ -276,9 +278,10 @@ export function EcosystemAllAccessHero({
         bundleCreditPeriod,
       ) * scholarsCount
     : 0;
-  const bundleTextTutorAmount = isBundle && includeTextTutor
-    ? scholarsTextTutorPrice(bundleCreditPeriod) * scholarsCount
-    : 0;
+  const bundleTextTutorAmount =
+    isBundle && textTutorPeriod
+      ? scholarsTextTutorPrice(textTutorPeriod) * scholarsCount
+      : 0;
 
   const individualTotal =
     billingPeriod === "monthly"
@@ -468,8 +471,8 @@ export function EcosystemAllAccessHero({
                     ballrChildCount: ballrCount,
                     scholarsGenerations: bundleCreditGens,
                     scholarsTutorMinutes: bundleCreditMins,
-                    ...(includeTextTutor
-                      ? { scholarsTextTutor: bundleCreditPeriod }
+                    ...(textTutorPeriod
+                      ? { scholarsTextTutor: textTutorPeriod }
                       : {}),
                   }
                 : isScholars
@@ -574,9 +577,7 @@ export function EcosystemAllAccessHero({
           scholarsTier,
           scholarsGenerations: bundleCreditGens,
           scholarsTutorMinutes: bundleCreditMins,
-          ...(includeTextTutor
-            ? { scholarsTextTutor: bundleCreditPeriod }
-            : {}),
+          ...(textTutorPeriod ? { scholarsTextTutor: textTutorPeriod } : {}),
         });
         if (url) {
           globalThis.location.assign(url);
@@ -633,9 +634,7 @@ export function EcosystemAllAccessHero({
           ballrChildCount: ballrCount,
           scholarsGenerations: bundleCreditGens,
           scholarsTutorMinutes: bundleCreditMins,
-          ...(includeTextTutor
-            ? { scholarsTextTutor: bundleCreditPeriod }
-            : {}),
+          ...(textTutorPeriod ? { scholarsTextTutor: textTutorPeriod } : {}),
         });
         if (url) {
           globalThis.location.assign(url);
@@ -687,8 +686,8 @@ export function EcosystemAllAccessHero({
                 ? ` AI ${creditPriceLine(bundleCreditAmount, bundleCreditPeriod)}`
                 : ""}
               {bundleCreditAmount > 0 && bundleTextTutorAmount > 0 ? " · " : ""}
-              {bundleTextTutorAmount > 0
-                ? `Unlimited text ${creditPriceLine(bundleTextTutorAmount, bundleCreditPeriod)}`
+              {bundleTextTutorAmount > 0 && textTutorPeriod
+                ? `Unlimited text ${creditPriceLine(bundleTextTutorAmount, textTutorPeriod)}`
                 : ""}
             </p>
           )}
@@ -1395,49 +1394,68 @@ export function EcosystemAllAccessHero({
                     </div>
                     <p className="mt-1 text-[10px] leading-relaxed text-[#5b6275]">
                       Type with the tutor unlimited. Voice minutes & generations
-                      above stay separate. Matches your{" "}
-                      {billingPeriod === "yearly" ? "yearly" : "monthly"} All
-                      Access billing.
+                      above stay separate.
                     </p>
                     <div className="mt-2 grid grid-cols-2 gap-1.5">
-                      <button
-                        type="button"
-                        onClick={() => setIncludeTextTutor(false)}
-                        className={`rounded-lg border px-2.5 py-2 text-left transition ${
-                          !includeTextTutor
-                            ? "border-[#007AFF] bg-white shadow-sm"
-                            : "border-neutral-200 bg-white/70 hover:border-neutral-300"
-                        }`}
-                      >
-                        <p className="text-[10px] font-semibold text-[#8a90a2]">
-                          Not included
-                        </p>
-                        <p className="mt-0.5 text-xs font-bold text-[#0b1020]">
-                          Skip
-                        </p>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setIncludeTextTutor(true)}
-                        className={`rounded-lg border px-2.5 py-2 text-left transition ${
-                          includeTextTutor
-                            ? "border-[#007AFF] bg-white shadow-sm"
-                            : "border-neutral-200 bg-white/70 hover:border-neutral-300"
-                        }`}
-                      >
-                        <p className="text-[10px] font-semibold text-[#8a90a2]">
-                          {billingPeriod === "yearly" ? "Yearly" : "Monthly"}
-                          {billingPeriod === "yearly" ? (
-                            <span className="ml-1 rounded-full bg-[#007AFF]/10 px-1.5 py-0.5 text-[9px] font-semibold text-[#007AFF]">
-                              Best value
-                            </span>
-                          ) : null}
-                        </p>
-                        <p className="mt-0.5 text-xs font-bold tabular-nums text-[#0b1020]">
-                          {scholarsTextTutorPriceLine(bundleCreditPeriod)}
-                          {scholarsCount > 1 ? ` × ${scholarsCount}` : ""}
-                        </p>
-                      </button>
+                      {(
+                        [
+                          {
+                            id: "monthly" as const,
+                            label: "Monthly",
+                            subtitle: "Cancel anytime",
+                          },
+                          {
+                            id: "yearly" as const,
+                            label: "Yearly",
+                            subtitle: "$8.33/mo effective",
+                            badge: "Best value",
+                          },
+                        ] as const
+                      ).map((opt) => {
+                        const selected = textTutorPeriod === opt.id;
+                        const lineAmount =
+                          scholarsTextTutorPrice(opt.id) * scholarsCount;
+                        return (
+                          <button
+                            key={opt.id}
+                            type="button"
+                            onClick={() => {
+                              if (selected) {
+                                setTextTutorPeriod(null);
+                                return;
+                              }
+                              setTextTutorPeriod(opt.id);
+                              setBillingPeriod(opt.id);
+                            }}
+                            className={`rounded-lg border px-2.5 py-2 text-left transition ${
+                              selected
+                                ? "border-[#007AFF] bg-white shadow-sm"
+                                : "border-neutral-200 bg-white/70 hover:border-neutral-300"
+                            }`}
+                          >
+                            <div className="flex flex-wrap items-center gap-1">
+                              <p className="text-[10px] font-semibold text-[#8a90a2]">
+                                {opt.label}
+                              </p>
+                              {"badge" in opt && opt.badge ? (
+                                <span className="rounded-full bg-[#007AFF]/10 px-1.5 py-0.5 text-[9px] font-semibold text-[#007AFF]">
+                                  {opt.badge}
+                                </span>
+                              ) : null}
+                            </div>
+                            <p className="mt-0.5 text-xs font-bold tabular-nums text-[#0b1020]">
+                              {scholarsCount > 1
+                                ? `${formatUsd(lineAmount)}${
+                                    opt.id === "monthly" ? "/mo" : "/yr"
+                                  }`
+                                : scholarsTextTutorPriceLine(opt.id)}
+                            </p>
+                            <p className="mt-0.5 text-[10px] text-[#8a90a2]">
+                              {opt.subtitle}
+                            </p>
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
