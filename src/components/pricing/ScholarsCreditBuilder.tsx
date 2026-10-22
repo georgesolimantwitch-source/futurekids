@@ -16,6 +16,10 @@ import {
   scholarsCreditPricing,
   type ScholarsCreditPeriod,
 } from "@/config/scholars-credits";
+import {
+  scholarsTextTutorPriceLine,
+  type ScholarsTextTutorPeriod,
+} from "@/config/scholars-text-tutor";
 import { redirectToLoginForCheckout } from "@/lib/checkout/client";
 import { subscribeUpgradeDowngradeLabel } from "@/lib/subscriptions/plan-cta";
 
@@ -97,7 +101,14 @@ export function ScholarsCreditBuilder({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [kids, setKids] = useState<KidOption[]>([]);
+  /** 0 = parent pool; 1–6 = assign to that many child logins */
+  const [childCount, setChildCount] = useState(0);
   const [selectedChildIds, setSelectedChildIds] = useState<string[]>([]);
+  const [textTutorLoading, setTextTutorLoading] = useState<
+    ScholarsTextTutorPeriod | null
+  >(null);
+
+  const maxAssignableKids = Math.min(6, Math.max(kids.length, 1));
 
   useEffect(() => {
     let cancelled = false;
@@ -109,6 +120,7 @@ export function ScholarsCreditBuilder({
         if (cancelled || !Array.isArray(data.children)) return;
         setKids(data.children);
         if (data.children.length === 1) {
+          setChildCount(1);
           setSelectedChildIds([data.children[0].id]);
         }
       } catch {
@@ -121,12 +133,32 @@ export function ScholarsCreditBuilder({
     };
   }, []);
 
+  useEffect(() => {
+    if (childCount <= 0) {
+      setSelectedChildIds([]);
+      return;
+    }
+    setSelectedChildIds((prev) => {
+      const kept = prev.filter((id) => kids.some((kid) => kid.id === id));
+      if (kept.length > childCount) return kept.slice(0, childCount);
+      if (kept.length === childCount) return kept;
+      const fill = kids
+        .map((kid) => kid.id)
+        .filter((id) => !kept.includes(id))
+        .slice(0, childCount - kept.length);
+      return [...kept, ...fill];
+    });
+  }, [childCount, kids]);
+
   const gens = clampGenerations(generations);
   const mins = clampTutorMinutes(tutorMinutes, generations);
   const price = combinedCreditPrice(gens, mins, period);
+  const assignReady =
+    childCount === 0 || selectedChildIds.length === childCount;
   const canCheckout =
     (gens > 0 || mins > 0) &&
-    isScholarsCreditSkuAvailable(gens, mins, period);
+    isScholarsCreditSkuAvailable(gens, mins, period) &&
+    assignReady;
 
   useEffect(() => {
     if (gens === 0 && mins === 0) return;
@@ -150,8 +182,58 @@ export function ScholarsCreditBuilder({
         ? "Subscribe"
         : creditVerb;
 
+  async function checkoutTextTutor(periodChoice: ScholarsTextTutorPeriod) {
+    if (childCount > 0 && selectedChildIds.length !== childCount) {
+      setError(
+        `Select ${childCount} child login${childCount === 1 ? "" : "s"} before continuing.`,
+      );
+      return;
+    }
+    setTextTutorLoading(periodChoice);
+    setError(null);
+    try {
+      const res = await fetch("/api/scholars/text-tutor/checkout", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          period: periodChoice,
+          ...(selectedChildIds.length > 0
+            ? { child_user_ids: selectedChildIds }
+            : {}),
+        }),
+      });
+      const raw = await res.text();
+      let data: { url?: string; error?: string; code?: string } = {};
+      try {
+        data = raw ? (JSON.parse(raw) as typeof data) : {};
+      } catch {
+        throw new Error("Could not start checkout");
+      }
+      if (res.status === 401 || data.code === "AUTH_REQUIRED") {
+        redirectToLoginForCheckout({
+          planKey: `scholars_text_tutor_${periodChoice}`,
+        });
+        return;
+      }
+      if (!res.ok || !data.url) {
+        throw new Error(data.error ?? "Could not start checkout");
+      }
+      globalThis.location.assign(data.url);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Checkout failed");
+      setTextTutorLoading(null);
+    }
+  }
+
   async function checkout() {
-    if (!canCheckout) return;
+    if (!canCheckout) {
+      if (childCount > 0 && selectedChildIds.length !== childCount) {
+        setError(
+          `Select ${childCount} child login${childCount === 1 ? "" : "s"} before continuing.`,
+        );
+      }
+      return;
+    }
     setLoading(true);
     setError(null);
     try {
@@ -236,66 +318,68 @@ export function ScholarsCreditBuilder({
             embedded ? "max-w-none" : "mx-auto max-w-xl sm:text-base"
           }`}
         >
-          Pick a child to receive credits on their Scholars iPad login, or leave
-          them on the parent pool and assign later in Account → Kids &amp; app
-          access. Set either meter to 0 to skip it — you only pay for what you
-          pick.
+          Add unlimited text tutor, then buy generations and realtime voice as
+          separate purchases. Choose how many kids with the counter, then assign
+          each seat to a child login — or leave on the parent pool. Set either
+          meter to 0 to skip it.
         </p>
       </div>
 
-      {kids.length > 0 && (
-        <div className="mt-5 rounded-2xl border border-neutral-200 bg-white p-4">
-          <p className="text-sm font-semibold text-[#1d1d1f]">
-            Assign to child
+      <div className="mt-5 rounded-2xl border-2 border-[#007AFF]/30 bg-[#F0F7FF] p-4">
+        <div className="flex flex-wrap items-center gap-2">
+          <p className="text-[15px] font-semibold text-[#1d1d1f]">
+            Unlimited AI (text tutor)
           </p>
-          <p className="mt-1 text-xs text-neutral-500">
-            Selected kids get Scholars unlocked and these credits on their wallet
-            when payment completes.
-          </p>
-          <div className="mt-3 flex flex-wrap gap-2">
-            <button
-              type="button"
-              onClick={() => setSelectedChildIds([])}
-              className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
-                selectedChildIds.length === 0
-                  ? "bg-[#007AFF] text-white"
-                  : "bg-neutral-100 text-neutral-700 hover:bg-neutral-200"
-              }`}
-            >
-              Parent pool
-            </button>
-            {kids.map((kid) => {
-              const selected = selectedChildIds.includes(kid.id);
-              const label =
-                kid.display_name ||
-                kid.full_name ||
-                kid.username ||
-                "Child";
-              return (
-                <button
-                  key={kid.id}
-                  type="button"
-                  onClick={() =>
-                    setSelectedChildIds((prev) =>
-                      selected
-                        ? prev.filter((id) => id !== kid.id)
-                        : [...prev, kid.id],
-                    )
-                  }
-                  className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
-                    selected
-                      ? "bg-[#007AFF] text-white"
-                      : "bg-neutral-100 text-neutral-700 hover:bg-neutral-200"
-                  }`}
-                >
-                  {label}
-                  {kid.username ? ` (@${kid.username})` : ""}
-                </button>
-              );
-            })}
-          </div>
+          <span className="rounded-full bg-[#007AFF] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
+            Flat rate
+          </span>
         </div>
-      )}
+        <p className="mt-1 text-xs leading-relaxed text-neutral-500">
+          Type with the tutor unlimited — $14.99/mo or $99.99/yr. Realtime voice
+          and generations below are separate meters.
+        </p>
+        <div className="mt-3 grid gap-2 sm:grid-cols-2">
+          {(
+            [
+              {
+                id: "monthly" as const,
+                label: "Monthly",
+                subtitle: "Cancel anytime",
+              },
+              {
+                id: "yearly" as const,
+                label: "Yearly",
+                subtitle: "$8.33/mo effective",
+              },
+            ] as const
+          ).map((opt) => (
+            <button
+              key={opt.id}
+              type="button"
+              disabled={textTutorLoading != null || loading}
+              onClick={() => checkoutTextTutor(opt.id)}
+              className="rounded-xl border border-neutral-200 bg-white px-4 py-3.5 text-left shadow-sm transition hover:border-[#007AFF] hover:shadow-md disabled:opacity-40"
+            >
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-xs font-semibold text-neutral-500">
+                  {opt.label}
+                </p>
+                {opt.id === "yearly" ? (
+                  <span className="rounded-full bg-[#007AFF]/10 px-2 py-0.5 text-[10px] font-semibold text-[#007AFF]">
+                    Best value
+                  </span>
+                ) : null}
+              </div>
+              <p className="mt-1 text-xl font-bold tabular-nums tracking-tight text-[#1d1d1f]">
+                {textTutorLoading === opt.id
+                  ? "Starting…"
+                  : scholarsTextTutorPriceLine(opt.id)}
+              </p>
+              <p className="mt-0.5 text-[11px] text-neutral-500">{opt.subtitle}</p>
+            </button>
+          ))}
+        </div>
+      </div>
 
       <div className="mt-5 grid gap-3 sm:grid-cols-2">
         <div className="space-y-2">
@@ -366,6 +450,122 @@ export function ScholarsCreditBuilder({
         Mix generations and tutor minutes in one plan. Dial either to 0 and you
         only pay for what you&apos;ll use.
       </p>
+
+      {kids.length > 0 && (
+        <div className="mt-5 space-y-3">
+          <StepperCard
+            label="Children"
+            hint="How many child logins get Scholars unlocked and these credits"
+            amount={childCount}
+            unit={childCount === 1 ? "child" : "children"}
+            onDec={() =>
+              setChildCount((current) => Math.max(0, current - 1))
+            }
+            onInc={() =>
+              setChildCount((current) =>
+                Math.min(maxAssignableKids, current + 1),
+              )
+            }
+            footer={`0 = parent pool · up to ${maxAssignableKids}`}
+          />
+
+          {childCount > 0 ? (
+            <div className="rounded-2xl border border-neutral-200 bg-white p-4">
+              <p className="text-sm font-semibold text-[#1d1d1f]">
+                Assign to child login
+              </p>
+              <p className="mt-1 text-xs text-neutral-500">
+                Pick {childCount} login
+                {childCount === 1 ? "" : "s"}. Each selected kid gets this
+                purchase on their wallet when payment completes.
+              </p>
+              <div className="mt-3 space-y-2">
+                {kids.map((kid) => {
+                  const selected = selectedChildIds.includes(kid.id);
+                  const atCap =
+                    !selected && selectedChildIds.length >= childCount;
+                  const label =
+                    kid.display_name ||
+                    kid.full_name ||
+                    kid.username ||
+                    "Child";
+                  return (
+                    <button
+                      key={kid.id}
+                      type="button"
+                      disabled={atCap}
+                      onClick={() =>
+                        setSelectedChildIds((prev) => {
+                          if (selected) {
+                            return prev.filter((id) => id !== kid.id);
+                          }
+                          if (prev.length >= childCount) return prev;
+                          return [...prev, kid.id];
+                        })
+                      }
+                      className={`flex w-full items-center justify-between gap-3 rounded-xl border px-3.5 py-3 text-left transition disabled:opacity-40 ${
+                        selected
+                          ? "border-[#007AFF] bg-[#F0F7FF]"
+                          : "border-neutral-200 bg-white hover:border-neutral-300"
+                      }`}
+                    >
+                      <span className="min-w-0">
+                        <span className="block text-sm font-semibold text-[#1d1d1f]">
+                          {label}
+                        </span>
+                        {kid.username ? (
+                          <span className="mt-0.5 block text-xs text-neutral-500">
+                            @{kid.username}
+                          </span>
+                        ) : null}
+                      </span>
+                      <span
+                        className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 ${
+                          selected
+                            ? "border-[#007AFF] bg-[#007AFF] text-white"
+                            : "border-neutral-300"
+                        }`}
+                        aria-hidden
+                      >
+                        {selected ? (
+                          <svg
+                            viewBox="0 0 12 12"
+                            className="h-3 w-3"
+                            fill="none"
+                          >
+                            <path
+                              d="M2.5 6.2 4.8 8.5 9.5 3.5"
+                              stroke="currentColor"
+                              strokeWidth="1.8"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        ) : null}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+              {selectedChildIds.length < childCount ? (
+                <p className="mt-3 text-xs font-medium text-amber-700">
+                  Select {childCount - selectedChildIds.length} more login
+                  {childCount - selectedChildIds.length === 1 ? "" : "s"} to
+                  continue.
+                </p>
+              ) : null}
+            </div>
+          ) : (
+            <div className="rounded-2xl border border-neutral-200 bg-[#f7f8fc] px-4 py-3">
+              <p className="text-sm font-medium text-[#1d1d1f]">Parent pool</p>
+              <p className="mt-0.5 text-xs leading-relaxed text-neutral-500">
+                Credits stay on your parent account until you assign them to a
+                child login later.
+              </p>
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="mt-6">
         <p className="mb-2 text-sm font-semibold text-[#1d1d1f]">Billing</p>
@@ -469,9 +669,9 @@ export function ScholarsCreditBuilder({
         <div className="min-w-0">
           <p className="text-xs text-neutral-500">
             {periodLabel(period)} ·{" "}
-            {selectedChildIds.length > 0
-              ? `${selectedChildIds.length} kid${
-                  selectedChildIds.length === 1 ? "" : "s"
+            {childCount > 0
+              ? `${selectedChildIds.length}/${childCount} kid${
+                  childCount === 1 ? "" : "s"
                 }`
               : "Parent pool"}
           </p>
