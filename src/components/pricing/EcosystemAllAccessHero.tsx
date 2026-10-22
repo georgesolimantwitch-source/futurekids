@@ -50,6 +50,10 @@ import {
   scholarsCreditPricing,
   type ScholarsCreditPeriod,
 } from "@/config/scholars-credits";
+import {
+  scholarsTextTutorPrice,
+  scholarsTextTutorPriceLine,
+} from "@/config/scholars-text-tutor";
 import { getPricingPlan } from "@/config/pricing";
 import { postCheckout } from "@/lib/checkout/client";
 import { ScholarsCreditBuilder } from "@/components/pricing/ScholarsCreditBuilder";
@@ -108,6 +112,8 @@ export function EcosystemAllAccessHero({
   const [scholarsMins, setScholarsMins] = useState<number>(
     scholarsCreditPricing.tutorMinutes.default,
   );
+  /** All Access: add Scholars unlimited text tutor at the same billing cadence */
+  const [includeTextTutor, setIncludeTextTutor] = useState(false);
   const [childCount, setChildCount] = useState(
     initialEntitlement?.child_limit ?? familyChildFloor,
   );
@@ -269,6 +275,9 @@ export function EcosystemAllAccessHero({
         bundleCreditMins,
         bundleCreditPeriod,
       ) * scholarsCount
+    : 0;
+  const bundleTextTutorAmount = isBundle && includeTextTutor
+    ? scholarsTextTutorPrice(bundleCreditPeriod) * scholarsCount
     : 0;
 
   const individualTotal =
@@ -459,6 +468,9 @@ export function EcosystemAllAccessHero({
                     ballrChildCount: ballrCount,
                     scholarsGenerations: bundleCreditGens,
                     scholarsTutorMinutes: bundleCreditMins,
+                    ...(includeTextTutor
+                      ? { scholarsTextTutor: bundleCreditPeriod }
+                      : {}),
                   }
                 : isScholars
                   ? { scholarsTier }
@@ -560,6 +572,11 @@ export function EcosystemAllAccessHero({
           scholarsChildCount: scholarsCount,
           ballrChildCount: ballrCount,
           scholarsTier,
+          scholarsGenerations: bundleCreditGens,
+          scholarsTutorMinutes: bundleCreditMins,
+          ...(includeTextTutor
+            ? { scholarsTextTutor: bundleCreditPeriod }
+            : {}),
         });
         if (url) {
           globalThis.location.assign(url);
@@ -616,6 +633,9 @@ export function EcosystemAllAccessHero({
           ballrChildCount: ballrCount,
           scholarsGenerations: bundleCreditGens,
           scholarsTutorMinutes: bundleCreditMins,
+          ...(includeTextTutor
+            ? { scholarsTextTutor: bundleCreditPeriod }
+            : {}),
         });
         if (url) {
           globalThis.location.assign(url);
@@ -647,7 +667,9 @@ export function EcosystemAllAccessHero({
         ballrCount,
         "full",
       );
-      const total = Math.round((base + bundleCreditAmount) * 100) / 100;
+      const total =
+        Math.round((base + bundleCreditAmount + bundleTextTutorAmount) * 100) /
+        100;
       return (
         <>
           {savings > 0 && (
@@ -658,10 +680,16 @@ export function EcosystemAllAccessHero({
           <p className="text-3xl font-semibold tracking-tight text-[#0b1020] sm:text-4xl">
             {formatUsd(total)} / {suffix}
           </p>
-          {bundleCreditAmount > 0 && (
+          {(bundleCreditAmount > 0 || bundleTextTutorAmount > 0) && (
             <p className="mt-0.5 text-xs text-[#8a90a2] sm:text-sm">
-              Includes Scholars AI{" "}
-              {creditPriceLine(bundleCreditAmount, bundleCreditPeriod)}
+              Includes Scholars
+              {bundleCreditAmount > 0
+                ? ` AI ${creditPriceLine(bundleCreditAmount, bundleCreditPeriod)}`
+                : ""}
+              {bundleCreditAmount > 0 && bundleTextTutorAmount > 0 ? " · " : ""}
+              {bundleTextTutorAmount > 0
+                ? `Unlimited text ${creditPriceLine(bundleTextTutorAmount, bundleCreditPeriod)}`
+                : ""}
             </p>
           )}
           {savings > 0 ? (
@@ -810,7 +838,9 @@ export function EcosystemAllAccessHero({
         scholarsCount,
         ballrCount,
         "full",
-      ) + bundleCreditAmount
+      ) +
+      bundleCreditAmount +
+      bundleTextTutorAmount
     : null;
 
   const selectedMonthly = (() => {
@@ -876,7 +906,7 @@ export function EcosystemAllAccessHero({
             }`}
           >
             {isScholars
-              ? "Build your AI plan with generations and tutor minutes."
+              ? "Unlimited text tutor from $14.99/mo, plus generations and voice minutes."
               : isBundle
                 ? ecosystemBundle.tagline
                 : ecosystemBundle.description}
@@ -1253,91 +1283,162 @@ export function EcosystemAllAccessHero({
                   </div>
                 ))}
 
-                <div className="flex flex-col gap-2 border-t border-neutral-200/80 px-3 py-2.5 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+                <div className="flex items-center justify-between gap-3 border-t border-neutral-200/80 px-3 py-2.5">
                   <div className="min-w-0">
-                    <p className="text-xs font-medium text-[#0b1020]">Scholars</p>
+                    <p className="text-xs font-medium text-[#0b1020]">Freshys</p>
                     <p className="text-[10px] tabular-nums text-[#8a90a2]">
-                      +
-                      {creditPriceLine(bundleCreditAmount, bundleCreditPeriod)}
-                      {scholarsCount > 1
-                        ? ` · ${scholarsCount} seats`
-                        : ""}
+                      Included · family (no per-kid seats)
                     </p>
                   </div>
-                  <div className="flex flex-wrap items-center gap-1.5 sm:shrink-0 sm:justify-end">
-                    <label>
-                      <span className="sr-only">Scholars kids</span>
-                      <select
-                        value={scholarsCount}
-                        onChange={(e) =>
-                          setScholarsChildCount(
-                            clampAllAccessScholarsChildCount(
-                              Number(e.target.value),
-                            ),
-                          )
-                        }
-                        className="rounded-lg border border-neutral-200 bg-white px-2 py-1.5 text-xs font-semibold tabular-nums text-[#0b1020] outline-none focus:border-neutral-400"
-                      >
-                        {Array.from({ length: 5 }, (_, i) => i + 1).map((n) => (
-                          <option key={n} value={n}>
-                            {n} {n === 1 ? "kid" : "kids"}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                    <label>
-                      <span className="sr-only">Scholars generations</span>
-                      <select
-                        value={bundleCreditGens}
-                        onChange={(e) =>
-                          setScholarsGens(
-                            Math.max(
-                              scholarsCreditPricing.generations.step,
-                              clampGenerations(Number(e.target.value)),
-                            ),
-                          )
-                        }
-                        className="rounded-lg border border-neutral-200 bg-white px-2 py-1.5 text-xs font-semibold tabular-nums text-[#0b1020] outline-none focus:border-neutral-400"
-                      >
-                        {Array.from({ length: 12 }, (_, i) => (i + 1) * 5).map(
-                          (n) => (
+                  <span className="rounded-lg border border-emerald-200 bg-emerald-50 px-2.5 py-1.5 text-xs font-semibold text-emerald-800">
+                    Family
+                  </span>
+                </div>
+
+                <div className="flex flex-col gap-2 border-t border-neutral-200/80 px-3 py-2.5">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+                    <div className="min-w-0">
+                      <p className="text-xs font-medium text-[#0b1020]">Scholars</p>
+                      <p className="text-[10px] tabular-nums text-[#8a90a2]">
+                        +
+                        {creditPriceLine(bundleCreditAmount, bundleCreditPeriod)}
+                        {scholarsCount > 1
+                          ? ` · ${scholarsCount} seats`
+                          : ""}
+                      </p>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-1.5 sm:shrink-0 sm:justify-end">
+                      <label>
+                        <span className="sr-only">Scholars kids</span>
+                        <select
+                          value={scholarsCount}
+                          onChange={(e) =>
+                            setScholarsChildCount(
+                              clampAllAccessScholarsChildCount(
+                                Number(e.target.value),
+                              ),
+                            )
+                          }
+                          className="rounded-lg border border-neutral-200 bg-white px-2 py-1.5 text-xs font-semibold tabular-nums text-[#0b1020] outline-none focus:border-neutral-400"
+                        >
+                          {Array.from({ length: 5 }, (_, i) => i + 1).map((n) => (
                             <option key={n} value={n}>
-                              {n} generations
+                              {n} {n === 1 ? "kid" : "kids"}
                             </option>
-                          ),
-                        )}
-                      </select>
-                    </label>
-                    <label>
-                      <span className="sr-only">Scholars tutor minutes</span>
-                      <select
-                        value={bundleCreditMins}
-                        onChange={(e) =>
-                          setScholarsMins(
-                            Math.max(
-                              scholarsCreditPricing.tutorMinutes.step,
-                              clampTutorMinutes(Number(e.target.value)),
+                          ))}
+                        </select>
+                      </label>
+                      <label>
+                        <span className="sr-only">Scholars generations</span>
+                        <select
+                          value={bundleCreditGens}
+                          onChange={(e) =>
+                            setScholarsGens(
+                              Math.max(
+                                scholarsCreditPricing.generations.step,
+                                clampGenerations(Number(e.target.value)),
+                              ),
+                            )
+                          }
+                          className="rounded-lg border border-neutral-200 bg-white px-2 py-1.5 text-xs font-semibold tabular-nums text-[#0b1020] outline-none focus:border-neutral-400"
+                        >
+                          {Array.from({ length: 12 }, (_, i) => (i + 1) * 5).map(
+                            (n) => (
+                              <option key={n} value={n}>
+                                {n} generations
+                              </option>
                             ),
-                          )
-                        }
-                        className="rounded-lg border border-neutral-200 bg-white px-2 py-1.5 text-xs font-semibold tabular-nums text-[#0b1020] outline-none focus:border-neutral-400"
-                      >
-                        {Array.from(
-                          {
-                            length: Math.floor(
-                              scholarsCreditPricing.tutorMinutes.max /
+                          )}
+                        </select>
+                      </label>
+                      <label>
+                        <span className="sr-only">Scholars tutor minutes</span>
+                        <select
+                          value={bundleCreditMins}
+                          onChange={(e) =>
+                            setScholarsMins(
+                              Math.max(
                                 scholarsCreditPricing.tutorMinutes.step,
-                            ),
-                          },
-                          (_, i) =>
-                            (i + 1) * scholarsCreditPricing.tutorMinutes.step,
-                        ).map((n) => (
-                          <option key={n} value={n}>
-                            {n} min
-                          </option>
-                        ))}
-                      </select>
-                    </label>
+                                clampTutorMinutes(Number(e.target.value)),
+                              ),
+                            )
+                          }
+                          className="rounded-lg border border-neutral-200 bg-white px-2 py-1.5 text-xs font-semibold tabular-nums text-[#0b1020] outline-none focus:border-neutral-400"
+                        >
+                          {Array.from(
+                            {
+                              length: Math.floor(
+                                scholarsCreditPricing.tutorMinutes.max /
+                                  scholarsCreditPricing.tutorMinutes.step,
+                              ),
+                            },
+                            (_, i) =>
+                              (i + 1) * scholarsCreditPricing.tutorMinutes.step,
+                          ).map((n) => (
+                            <option key={n} value={n}>
+                              {n} min
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div className="rounded-xl border border-[#007AFF]/25 bg-[#F0F7FF] p-2.5">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <p className="text-xs font-semibold text-[#0b1020]">
+                        Unlimited AI (text tutor)
+                      </p>
+                      <span className="rounded-full bg-[#007AFF] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-white">
+                        Flat rate
+                      </span>
+                    </div>
+                    <p className="mt-1 text-[10px] leading-relaxed text-[#5b6275]">
+                      Type with the tutor unlimited. Voice minutes & generations
+                      above stay separate. Matches your{" "}
+                      {billingPeriod === "yearly" ? "yearly" : "monthly"} All
+                      Access billing.
+                    </p>
+                    <div className="mt-2 grid grid-cols-2 gap-1.5">
+                      <button
+                        type="button"
+                        onClick={() => setIncludeTextTutor(false)}
+                        className={`rounded-lg border px-2.5 py-2 text-left transition ${
+                          !includeTextTutor
+                            ? "border-[#007AFF] bg-white shadow-sm"
+                            : "border-neutral-200 bg-white/70 hover:border-neutral-300"
+                        }`}
+                      >
+                        <p className="text-[10px] font-semibold text-[#8a90a2]">
+                          Not included
+                        </p>
+                        <p className="mt-0.5 text-xs font-bold text-[#0b1020]">
+                          Skip
+                        </p>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setIncludeTextTutor(true)}
+                        className={`rounded-lg border px-2.5 py-2 text-left transition ${
+                          includeTextTutor
+                            ? "border-[#007AFF] bg-white shadow-sm"
+                            : "border-neutral-200 bg-white/70 hover:border-neutral-300"
+                        }`}
+                      >
+                        <p className="text-[10px] font-semibold text-[#8a90a2]">
+                          {billingPeriod === "yearly" ? "Yearly" : "Monthly"}
+                          {billingPeriod === "yearly" ? (
+                            <span className="ml-1 rounded-full bg-[#007AFF]/10 px-1.5 py-0.5 text-[9px] font-semibold text-[#007AFF]">
+                              Best value
+                            </span>
+                          ) : null}
+                        </p>
+                        <p className="mt-0.5 text-xs font-bold tabular-nums text-[#0b1020]">
+                          {scholarsTextTutorPriceLine(bundleCreditPeriod)}
+                          {scholarsCount > 1 ? ` × ${scholarsCount}` : ""}
+                        </p>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

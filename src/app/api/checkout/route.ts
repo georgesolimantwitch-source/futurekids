@@ -55,6 +55,7 @@ export async function POST(request: NextRequest) {
       ballrChildCount?: unknown;
       scholarsGenerations?: unknown;
       scholarsTutorMinutes?: unknown;
+      scholarsTextTutor?: unknown;
       scholarsCreditChildId?: unknown;
       child_user_ids?: unknown;
       creator_code?: unknown;
@@ -192,6 +193,47 @@ export async function POST(request: NextRequest) {
         tutorMinutes: creditMins,
         seatCount: effectiveScholarsChildCount,
       };
+    }
+
+    // All Access: optional Unlimited Text Tutor (same billing cadence as the bundle).
+    let scholarsTextTutorAddon: {
+      priceId: string;
+      period: "monthly" | "yearly";
+      seatCount: number;
+    } | null = null;
+    const wantTextTutor =
+      plan.appKey === "futurekids_all_access" &&
+      (body.scholarsTextTutor === true ||
+        body.scholarsTextTutor === "monthly" ||
+        body.scholarsTextTutor === "yearly" ||
+        body.scholarsTextTutor === "1" ||
+        body.scholarsTextTutor === 1);
+    if (wantTextTutor) {
+      // Keep addon interval aligned with the All Access subscription.
+      const alignedPeriod =
+        plan.interval === "year" ? ("yearly" as const) : ("monthly" as const);
+      const { ensureScholarsTextTutorStripePrice } = await import(
+        "@/lib/scholars/ensure-text-tutor-price"
+      );
+      try {
+        const textPriceId = await ensureScholarsTextTutorStripePrice({
+          stripe,
+          period: alignedPeriod,
+        });
+        scholarsTextTutorAddon = {
+          priceId: textPriceId,
+          period: alignedPeriod,
+          seatCount: effectiveScholarsChildCount,
+        };
+      } catch {
+        return NextResponse.json(
+          {
+            error:
+              "Scholars unlimited text tutor price is not configured. Try again shortly.",
+          },
+          { status: 500 },
+        );
+      }
     }
 
     // Legacy Tutor/Study Guide seat add-ons (kept for old clients)
@@ -418,6 +460,13 @@ export async function POST(request: NextRequest) {
               : {}),
           }
         : {}),
+      ...(scholarsTextTutorAddon
+        ? {
+            unlimited_text_tutor: "true",
+            scholars_text_tutor_period: scholarsTextTutorAddon.period,
+            scholars_text_tutor_seats: String(scholarsTextTutorAddon.seatCount),
+          }
+        : {}),
     };
 
     const items: Stripe.SubscriptionCreateParams.Item[] = [
@@ -430,6 +479,14 @@ export async function POST(request: NextRequest) {
             {
               price: scholarsCreditAddon.priceId,
               quantity: scholarsCreditAddon.seatCount,
+            },
+          ]
+        : []),
+      ...(scholarsTextTutorAddon
+        ? [
+            {
+              price: scholarsTextTutorAddon.priceId,
+              quantity: scholarsTextTutorAddon.seatCount,
             },
           ]
         : []),
