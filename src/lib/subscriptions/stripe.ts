@@ -196,16 +196,28 @@ export function stripeSubscriptionToVerified(
     throw new Error("Stripe app and plan metadata do not match the catalog");
   }
 
+  const isTextTutor =
+    planKey === "scholars_text_tutor_monthly" ||
+    planKey === "scholars_text_tutor_yearly" ||
+    subscription.metadata.text_tutor_checkout === "true" ||
+    subscription.metadata.unlimited_text_tutor === "true";
+
   const expectedProductId = configuredStripeProductId(mapped.plan);
   const item =
     subscription.items.data.find(
       (candidate) => candidate.price.id === mapped.priceId,
     ) ??
     subscription.items.data.find(
-      (candidate) => productId(candidate.price.product) === expectedProductId,
-    );
+      (candidate) =>
+        expectedProductId &&
+        productId(candidate.price.product) === expectedProductId,
+    ) ??
+    (isTextTutor ? subscription.items.data[0] : undefined);
+  if (!item) {
+    throw new Error("Stripe subscription item is not an existing Genlyn product");
+  }
   if (
-    !item ||
+    !isTextTutor &&
     productId(item.price.product) !== expectedProductId
   ) {
     throw new Error("Stripe subscription item is not an existing Genlyn product");

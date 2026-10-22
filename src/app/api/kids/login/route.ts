@@ -244,6 +244,12 @@ export async function POST(request: Request) {
     generations: number;
     tutor_minutes: number;
   } | null = null;
+  let entitlementFeatures: Record<string, boolean> = { allAccess: true };
+  let entitlementPlanKey =
+    appKey === "scholars" ? "scholars_family" : (appKey ?? "ok");
+  let entitlementTierKey: string | null =
+    appKey === "scholars" ? "all_access" : null;
+
   if (appKey === "scholars") {
     try {
       const { getScholarsCreditBalanceForChild } = await import(
@@ -252,6 +258,43 @@ export async function POST(request: Request) {
       scholarsBalance = await getScholarsCreditBalanceForChild(child.id);
     } catch {
       scholarsBalance = null;
+    }
+
+    const parentId = access.parentId;
+    if (parentId) {
+      try {
+        const { data: parentEnt } = await admin
+          .from("user_entitlements")
+          .select("plan_key, tier_key, features, status, current_period_end")
+          .eq("user_id", parentId)
+          .in("app_key", ["scholars", "futurekids_all_access"])
+          .in("status", ["active", "trialing", "grace_period", "canceled"])
+          .order("entitlement_rank", { ascending: false })
+          .limit(8);
+        const now = Date.now();
+        for (const row of parentEnt ?? []) {
+          if (
+            row.current_period_end &&
+            Date.parse(String(row.current_period_end)) <= now
+          ) {
+            continue;
+          }
+          const feats = (row.features ?? {}) as Record<string, boolean>;
+          entitlementFeatures = {
+            ...entitlementFeatures,
+            ...feats,
+          };
+          if (typeof row.plan_key === "string" && row.plan_key) {
+            entitlementPlanKey = row.plan_key;
+          }
+          if (typeof row.tier_key === "string" && row.tier_key) {
+            entitlementTierKey = row.tier_key;
+          }
+          if (feats.unlimitedTextTutor) break;
+        }
+      } catch (error) {
+        console.error("Scholars parent features on child login failed", error);
+      }
     }
   }
 
@@ -262,7 +305,9 @@ export async function POST(request: Request) {
     entitlement: {
       has_access: true,
       app_key: appKey,
-      plan_key: appKey === "scholars" ? "scholars_family" : appKey,
+      plan_key: entitlementPlanKey,
+      tier_key: entitlementTierKey,
+      features: entitlementFeatures,
     },
     scholars_credits: scholarsBalance,
     child: {

@@ -663,6 +663,18 @@ function capabilities(
         },
       };
     }
+    if (planKey.includes("text_tutor")) {
+      return {
+        tierKey: "text_tutor",
+        entitlementRank: 250,
+        childLimit: childCount ?? 1,
+        limits: {
+          childLimit: childCount ?? 1,
+          scholarsChildLimit: childCount ?? 1,
+        },
+        features: { unlimitedTextTutor: true, aiTutor: true },
+      };
+    }
     if (planKey.includes("_tutor")) {
       return {
         tierKey: "tutor",
@@ -739,8 +751,49 @@ const plansByCatalogId = new Map(
   productCatalog.map((plan) => [plan.legacyCatalogId, plan]),
 );
 
+function syntheticTextTutorPlan(
+  planKey: string,
+): ProductCatalogPlan | null {
+  if (
+    planKey !== "scholars_text_tutor_monthly" &&
+    planKey !== "scholars_text_tutor_yearly"
+  ) {
+    return null;
+  }
+  const yearly = planKey.endsWith("_yearly");
+  const amount = yearly ? 99.99 : 14.99;
+  const caps = capabilities("scholars", planKey, 1);
+  return {
+    appKey: "scholars",
+    planKey,
+    providers: ["stripe", "apple", "google"] as const,
+    stripePriceEnv: yearly
+      ? "STRIPE_SCHOLARS_TEXT_TUTOR_YEARLY_PRICE_ID"
+      : "STRIPE_SCHOLARS_TEXT_TUTOR_MONTHLY_PRICE_ID",
+    stripeProductEnv: "STRIPE_SCHOLARS_TEXT_TUTOR_PRODUCT_ID",
+    stripePriceId: "",
+    stripeProductId: "",
+    appleProductEnv: yearly
+      ? "APPLE_SCHOLARS_TEXT_TUTOR_YEARLY_PRODUCT_ID"
+      : "APPLE_SCHOLARS_TEXT_TUTOR_MONTHLY_PRODUCT_ID",
+    googleProductId: null,
+    googleBasePlanId: null,
+    interval: yearly ? "year" : "month",
+    displayName: yearly
+      ? "Unlimited Text Tutor Yearly"
+      : "Unlimited Text Tutor Monthly",
+    expectedAmountCents: Math.round(amount * 100),
+    perChildQuantity: false,
+    fixedChildCount: 1,
+    ...caps,
+    legacyCatalogId: yearly
+      ? "com.scholarsnotes.tutor.text.yearly"
+      : "com.scholarsnotes.tutor.text.monthly",
+  };
+}
+
 export function getProductPlan(planKey: string): ProductCatalogPlan | null {
-  return plansByKey.get(planKey) ?? null;
+  return plansByKey.get(planKey) ?? syntheticTextTutorPlan(planKey);
 }
 
 export function getProductPlanByCatalogId(catalogId: string): ProductCatalogPlan | null {

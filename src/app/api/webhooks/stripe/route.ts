@@ -347,6 +347,44 @@ export async function POST(request: Request) {
       );
     }
 
+    // Unlimited text tutor (and other Scholars seat plans) — unlock selected kids.
+    if (
+      entitlement.appKey === "scholars" &&
+      (subscription.metadata.text_tutor_checkout === "true" ||
+        entitlement.planKey.startsWith("scholars_text_tutor_"))
+    ) {
+      const rawKids =
+        subscription.metadata.child_user_ids?.trim() ||
+        subscription.metadata.child_user_id?.trim() ||
+        "";
+      const childIds = rawKids
+        .split(",")
+        .map((id) => id.trim().toLowerCase())
+        .filter(
+          (id) => id && id !== entitlement.userId.toLowerCase(),
+        );
+      if (childIds.length > 0) {
+        const { setKidAppEnabled } = await import("@/lib/kids/portal");
+        for (const childId of childIds) {
+          try {
+            await setKidAppEnabled({
+              parentId: entitlement.userId,
+              childId,
+              appKey: "scholars",
+              enabled: true,
+              bypassEntitlementCheck: true,
+              bypassSeatLimit: true,
+            });
+          } catch (error) {
+            console.error("[stripe-webhook] text tutor seat enable failed", {
+              childId,
+              message: error instanceof Error ? error.message : "unknown",
+            });
+          }
+        }
+      }
+    }
+
     // Genlyn Creator Program — 20% of subscription charges while attributed
     if (event.type === "invoice.paid" && application.outcome !== "duplicate") {
       try {
