@@ -39,7 +39,7 @@ export function HomePage() {
               </Eyebrow>
             </Reveal>
             <Reveal delay={90} dir="blur">
-              <h1 className="font-display mt-6 text-[3.1rem] font-extrabold leading-[0.98] text-ink sm:text-7xl lg:text-[5.1rem]">
+              <h1 className="font-display mt-6 text-[2.55rem] font-extrabold leading-[1.02] text-ink sm:text-7xl lg:text-[5.1rem]">
                 Raise Kids
                 <br />
                 Ready for{" "}
@@ -151,25 +151,25 @@ export function HomePage() {
 
       <Section>
         <div className="grid items-center gap-14 lg:grid-cols-2">
-          <Reveal dir="left" className="relative">
-            <div className="relative overflow-hidden rounded-[36px] shadow-[0_40px_80px_-40px_rgba(15,23,42,0.5)]">
+          <Reveal dir="left" className="relative overflow-x-clip px-1 sm:overflow-visible sm:px-0">
+            <div className="relative overflow-hidden rounded-[28px] shadow-[0_40px_80px_-40px_rgba(15,23,42,0.5)] sm:rounded-[36px]">
               <Parallax speed={-0.06}>
                 <Image
                   src="/images/about/earnly-family.jpg"
                   alt="A parent and daughter saving coins together while tracking chores on a tablet"
                   width={1536}
                   height={1024}
-                  className="h-[440px] w-full scale-110 object-cover"
+                  className="h-[320px] w-full scale-110 object-cover sm:h-[440px]"
                 />
               </Parallax>
             </div>
-            <FloatChip className="-right-3 top-8 sm:-right-6" delay={-1}>
+            <FloatChip className="right-2 top-6 sm:-right-6 sm:top-8" delay={-1}>
               <p className="text-[11px] font-semibold text-ink-soft">Saved this month</p>
               <p className="text-xl font-extrabold" style={{ color: earnly.color }}>
                 <CountUp value={86.5} decimals={2} prefix="$" />
               </p>
             </FloatChip>
-            <FloatChip className="-left-3 bottom-10 flex items-center gap-2.5 sm:-left-6" delay={-3}>
+            <FloatChip className="bottom-6 left-2 flex items-center gap-2.5 sm:-left-6 sm:bottom-10" delay={-3}>
               <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#ecfdf3] text-[#16a34a]">
                 <Icon name="check" className="h-4 w-4" strokeWidth={3} />
               </span>
@@ -223,7 +223,7 @@ export function HomePage() {
             columns={4}
             items={[
               { icon: "leaf", title: "Healthier kids", description: "Fresh, local food and better nutrition habits.", color: freshys.color, soft: freshys.colorSoft },
-              { icon: "activity", title: "More active lives", description: "Confidence, discipline, and teamwork through sport.", color: ballr.color, soft: ballr.colorSoft },
+              { icon: "activity", title: "More active lives", description: "Sports, workouts, calorie tracking, and diet habits that stick.", color: ballr.color, soft: ballr.colorSoft },
               { icon: "graduation-cap", title: "Stronger education", description: "Smarter learning and greater opportunities.", color: scholars.color, soft: scholars.colorSoft },
               { icon: "trending-up", title: "Brighter futures", description: "Real-world money skills and responsibility.", color: earnly.color, soft: earnly.colorSoft },
             ]}
@@ -237,9 +237,46 @@ export function HomePage() {
 function HeroCollage() {
   const [freshys, ballr, scholars, earnly] = siteApps;
   return (
-    <Reveal dir="scale" delay={150} className="relative mx-auto w-full max-w-[560px]">
-      <div aria-hidden className="brand-glow absolute inset-[-8%] rounded-full opacity-60 blur-3xl" />
-      <div className="relative aspect-[1/1.02]">
+    <Reveal
+      dir="scale"
+      delay={150}
+      className="relative mx-auto w-full max-w-[560px] overflow-hidden"
+    >
+      <div
+        aria-hidden
+        className="brand-glow absolute inset-[-8%] rounded-full opacity-60 blur-3xl"
+      />
+
+      {/* iPhone: one clear composition — no overlapping chips */}
+      <div className="relative overflow-hidden rounded-[28px] ring-1 ring-ink/5 sm:hidden">
+        <Image
+          src="/images/home/hero-kids.jpg"
+          alt="Three kids laughing on a soccer field at sunset"
+          width={1536}
+          height={1024}
+          priority
+          className="aspect-[5/6] w-full object-cover object-[62%_center]"
+        />
+        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 via-black/20 to-transparent p-4 pt-16">
+          <div className="flex gap-2 overflow-x-auto scrollbar-none">
+            {[freshys, ballr, scholars, earnly].map((app) => (
+              <span
+                key={app.slug}
+                className="flex shrink-0 items-center gap-2 rounded-full bg-white/95 px-3 py-2 text-xs font-bold text-ink shadow-sm"
+              >
+                <AppIcon src={app.iconPath} name={app.name} size={22} />
+                {app.homeChip.label}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className="absolute right-3 top-3">
+          <AppPreview slug="earnly" width={118} priority />
+        </div>
+      </div>
+
+      {/* Tablet / desktop collage */}
+      <div className="relative hidden aspect-[1/1.02] sm:block">
         <div className="absolute left-0 top-[6%] w-[72%] overflow-hidden rounded-[34px] shadow-[0_40px_80px_-35px_rgba(15,23,42,0.55)] ring-4 ring-white/70">
           <Parallax speed={-0.05}>
             <Image
@@ -247,7 +284,6 @@ function HeroCollage() {
               alt="Three kids laughing on a soccer field at sunset"
               width={1536}
               height={1024}
-              priority
               className="aspect-[4/4.4] w-full scale-110 object-cover object-[62%_center]"
             />
           </Parallax>
@@ -263,11 +299,14 @@ function HeroCollage() {
           />
         </div>
 
-        <div className="float absolute right-[2%] top-0 z-10" style={{ "--float-speed": "7s" } as CSSProperties}>
-          <AppPreview slug="earnly" width={168} priority />
+        <div
+          className="float absolute right-[2%] top-0 z-10"
+          style={{ "--float-speed": "7s" } as CSSProperties}
+        >
+          <AppPreview slug="earnly" width={168} />
         </div>
 
-        <FloatChip className="left-[-4%] top-[44%] flex items-center gap-2.5" delay={-2}>
+        <FloatChip className="left-[2%] top-[44%] flex max-w-[min(100%,220px)] items-center gap-2.5" delay={-2}>
           <AppIcon src={freshys.iconPath} name={freshys.name} size={30} />
           <span className="text-xs font-bold leading-tight">
             Fresh, local food for

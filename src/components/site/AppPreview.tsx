@@ -10,7 +10,7 @@ const PREVIEW: Record<FeaturedSlug, { src: string; alt: string }> = {
   },
   ballr: {
     src: "/images/apps/ballr/mockup-player-card.png",
-    alt: "Ballr player card with overall rating and XP progress",
+    alt: "Ballr player card with overall rating, XP, and fitness progress",
   },
   scholars: {
     src: "/images/apps/scholars/marketing-classes.png",
@@ -45,10 +45,10 @@ export function AppPreview({
   const height = landscape ? Math.round(width * 0.75) : Math.round(width * 2.05);
 
   return (
-    <PlayOnView className={className}>
+    <PlayOnView className={`max-w-full ${className}`}>
       <div
-        className="overflow-hidden rounded-[28px] bg-white shadow-[0_40px_80px_-36px_rgba(15,23,42,0.55)] ring-1 ring-ink/5"
-        style={{ width, height }}
+        className="max-w-full overflow-hidden rounded-[28px] bg-white shadow-[0_40px_80px_-36px_rgba(15,23,42,0.55)] ring-1 ring-ink/5"
+        style={{ width, height, maxWidth: "100%" }}
       >
         <Image
           src={src}

@@ -1,10 +1,19 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import { brand } from "@/config/brand";
 import { Navigation } from "@/components/layout/Navigation";
 import { Footer } from "@/components/layout/Footer";
 import { JsonLd } from "@/components/seo/JsonLd";
 import "./globals.css";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: "cover",
+  themeColor: "#fbfbfe",
+};
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -84,7 +93,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${jakarta.variable} scroll-smooth`}>
+    <html lang="en" className={`${jakarta.variable} scroll-smooth overflow-x-hidden`}>
       <head>
         {/* Explicit scheme icons — file-based favicon.ico was forcing the wrong mark */}
         <link
@@ -100,10 +109,12 @@ export default function RootLayout({
           media="(prefers-color-scheme: dark)"
         />
       </head>
-      <body className="min-h-screen overflow-x-hidden bg-background font-sans text-ink antialiased">
+      <body className="min-h-screen w-full max-w-[100vw] overflow-x-hidden bg-background font-sans text-ink antialiased">
         <JsonLd />
         <Navigation />
-        <main id="main-content">{children}</main>
+        <main id="main-content" className="relative w-full max-w-[100vw] overflow-x-clip">
+          {children}
+        </main>
         <Footer />
       </body>
     </html>

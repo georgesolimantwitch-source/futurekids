@@ -451,7 +451,7 @@ export function AccountDashboard({
             </a>
           ))}
         </div>
-        <div className="grid gap-8 lg:grid-cols-[220px_minmax(0,1fr)]">
+        <div className="grid min-w-0 gap-8 lg:grid-cols-[220px_minmax(0,1fr)]">
           <aside className="hidden lg:block">
             <nav className="sticky top-24 space-y-1 rounded-[28px] bg-white p-3 shadow-[0_24px_50px_-36px_rgba(15,23,42,0.45)] ring-1 ring-ink/5">
               {NAV_ITEMS.map((item) => (
@@ -466,8 +466,8 @@ export function AccountDashboard({
             </nav>
           </aside>
 
-          <div className="space-y-10">
-            <section id="overview" className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="min-w-0 space-y-10">
+            <section id="overview" className="grid min-w-0 gap-4 sm:grid-cols-2 xl:grid-cols-4">
               <OverviewCard label="Active plans" value={String(activePlans)} hint="Paid subscriptions" />
               <OverviewCard label="Apps with access" value={String(activeApps)} hint="Across the ecosystem" />
               <OverviewCard
@@ -497,7 +497,7 @@ export function AccountDashboard({
                     : "Manage plans and choose which kids can use each app."
                 }
               />
-              <div className="mt-6 grid gap-4 md:grid-cols-2">
+              <div className="mt-6 grid min-w-0 gap-4 md:grid-cols-2">
                 {REQUIRED_APP_IDS.map((appId) => {
                   const brandApp = apps.find((a) => a.slug === appId)!;
                   const siteApp = getSiteApp(appId);
@@ -886,9 +886,9 @@ function OverviewCard({
   hint: string;
 }) {
   return (
-    <div className="rounded-[28px] bg-white p-5 shadow-[0_24px_50px_-36px_rgba(15,23,42,0.4)] ring-1 ring-ink/5">
+    <div className="min-w-0 rounded-[28px] bg-white p-5 shadow-[0_24px_50px_-36px_rgba(15,23,42,0.4)] ring-1 ring-ink/5">
       <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-ink-faint">{label}</p>
-      <p className="font-display mt-3 text-3xl font-extrabold text-ink">{value}</p>
+      <p className="font-display mt-3 break-words text-3xl font-extrabold text-ink">{value}</p>
       <p className="mt-2 text-sm text-ink-soft">{hint}</p>
     </div>
   );
@@ -1192,13 +1192,13 @@ function AppCard({
 
   return (
     <article
-      className="lift flex h-full flex-col rounded-[28px] p-6 ring-1 ring-ink/5 shadow-[0_30px_60px_-40px_rgba(15,23,42,0.45)]"
+      className="lift flex h-full min-w-0 flex-col rounded-[28px] p-5 ring-1 ring-ink/5 shadow-[0_30px_60px_-40px_rgba(15,23,42,0.45)] sm:p-6"
       style={{ background: `linear-gradient(180deg, ${soft} 0%, #ffffff 58%)` }}
     >
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <Image src={icon} alt="" width={40} height={40} className="h-10 w-10 rounded-[28%]" aria-hidden />
-          <div>
+      <div className="flex min-w-0 items-start justify-between gap-3">
+        <div className="flex min-w-0 items-center gap-3">
+          <Image src={icon} alt="" width={40} height={40} className="h-10 w-10 shrink-0 rounded-[28%]" aria-hidden />
+          <div className="min-w-0">
             <h3 className="font-extrabold text-ink">{name}</h3>
             <p className="mt-1 text-xs text-ink-soft">{tagline}</p>
           </div>
