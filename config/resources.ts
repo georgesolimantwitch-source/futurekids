@@ -40,8 +40,8 @@ export const resources: Resource[] = [
     app: "earnly",
     readMinutes: 5,
     publishedAt: "2026-09-22",
-    cover: "/images/home/hero-kids.jpg",
-    coverAlt: "Kids laughing together on a soccer field at sunset",
+    cover: "/images/about/earnly-family.jpg",
+    coverAlt: "A parent and daughter counting coins into savings jars",
     sections: [
       {
         heading: "Start with the why",
@@ -80,8 +80,8 @@ export const resources: Resource[] = [
     app: "scholars",
     readMinutes: 6,
     publishedAt: "2026-09-15",
-    cover: "/images/home/hero-kids.jpg",
-    coverAlt: "Kids laughing together on a soccer field at sunset",
+    cover: "/images/about/scholars-family.jpg",
+    coverAlt: "A parent helping her son study with flashcards and a laptop",
     sections: [
       {
         heading: "Study in short, focused blocks",
@@ -123,7 +123,7 @@ export const resources: Resource[] = [
     app: "ballr",
     readMinutes: 4,
     publishedAt: "2026-09-08",
-    cover: "/images/home/hero-kids.jpg",
+    cover: "/images/about/ballr-family.jpg",
     coverAlt: "Kids playing a neighborhood soccer game",
     sections: [
       {
@@ -141,13 +141,9 @@ export const resources: Resource[] = [
       {
         heading: "Community close to home",
         paragraphs: [
-          "Pickup games and local runs connect kids with neighbors and friends outside of school. Ballr helps families find nearby games and parks — and pairs that with workouts, calorie tracking, and meal plans so fitness sticks beyond game day.",
+          "Pickup games and local runs connect kids with neighbors and friends outside of school. Ballr helps families find nearby games and parks so getting outside is easy.",
         ],
-        list: [
-          "Find games and runs near you",
-          "Follow workouts and track calories",
-          "Build a player card that grows with every game",
-        ],
+        list: ["Find games and runs near you", "Meet players in your area", "Build a player card that grows with every game"],
       },
     ],
   },
@@ -190,7 +186,7 @@ export const resources: Resource[] = [
     category: "Parenting",
     readMinutes: 5,
     publishedAt: "2026-08-21",
-    cover: "/images/home/hero-kids.jpg",
+    cover: "/images/about/scholars-family.jpg",
     coverAlt: "A parent and child using a laptop together",
     sections: [
       {
@@ -221,7 +217,7 @@ export const resources: Resource[] = [
     app: "earnly",
     readMinutes: 4,
     publishedAt: "2026-08-12",
-    cover: "/images/home/hero-kids.jpg",
+    cover: "/images/about/earnly-family.jpg",
     coverAlt: "A girl dropping a coin into a savings jar",
     sections: [
       {

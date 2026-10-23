@@ -78,8 +78,8 @@ export function HubPage() {
             <div aria-hidden className="brand-glow absolute inset-[-6%] rounded-full opacity-55 blur-3xl" />
             <div className="relative overflow-hidden rounded-[36px] bg-white p-4 shadow-[0_40px_90px_-44px_rgba(15,23,42,0.5)] ring-1 ring-ink/5 sm:p-6">
               <Image
-                src="/images/home/hero-kids.jpg"
-                alt="Kids laughing together on a soccer field at sunset"
+                src="/images/hub/genlyn-hub-hero.png"
+                alt="Genlyn Hub with Earnly family calendar on tablet and phone"
                 width={1024}
                 height={1024}
                 priority
