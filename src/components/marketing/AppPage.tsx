@@ -5,9 +5,12 @@ import { siteApps, type FeaturedSlug, type SiteApp } from "@/config/site";
 import { AppProductPricing } from "@/components/apps/product/AppProductPricing";
 import { Accordion } from "@/components/site/Accordion";
 import { AppPreview } from "@/components/site/AppPreview";
+import { EmojiTile } from "@/components/site/EmojiTile";
 import { Icon, type IconName } from "@/components/site/Icon";
 import { CountUp, Magnetic, Parallax, Reveal, Tilt } from "@/components/site/motion";
 import { StoreBadges, hasStoreLinks } from "@/components/site/StoreBadges";
+
+const G = "/images/graphics/3d";
 import {
   AppIcon,
   Container,
@@ -212,7 +215,7 @@ export function AppPage({ app }: { app: SiteApp }) {
 }
 
 function HeroVisual({ app }: { app: SiteApp }) {
-  if (app.slug === "scholars") return <ScholarsVisual app={app} />;
+  if (app.slug === "scholars") return <ScholarsVisual />;
 
   const photo: Partial<Record<FeaturedSlug, { src: string; alt: string }>> = {
     ballr: { src: "/images/about/ballr-family.jpg", alt: "Kids playing a soccer game while a parent finds the field in Ballr" },
@@ -231,8 +234,10 @@ function HeroVisual({ app }: { app: SiteApp }) {
             </Parallax>
           </div>
         ) : (
-          <ProduceOrbit />
+          <div aria-hidden className="absolute inset-x-[8%] bottom-[4%] top-[14%] rounded-[44px] bg-gradient-to-br from-[#dcfce7] via-white to-[#fef9c3] ring-1 ring-ink/5" />
         )}
+
+        <ConceptOrbit slug={app.slug} />
 
         <div
           className={`absolute top-0 z-10 scale-[0.8] sm:scale-100 ${
@@ -249,38 +254,20 @@ function HeroVisual({ app }: { app: SiteApp }) {
         </div>
 
         {app.slug === "ballr" && (
-          <>
-            <FloatChip className="left-[4%] top-[8%]" delay={-2}>
-              <p className="text-[11px] font-semibold text-ink-soft">Weekly sessions</p>
-              <p className="text-xl font-extrabold" style={{ color: app.color }}>
-                <CountUp value={12} />
-              </p>
-            </FloatChip>
-            <FloatChip className="bottom-[2%] right-[6%] flex items-center gap-2" delay={-4}>
-              <Icon name="trophy" className="h-4 w-4" style={{ color: app.color }} />
-              <span className="text-xs font-bold">New badge: Rookie I</span>
-            </FloatChip>
-          </>
+          <FloatChip className="bottom-[2%] right-[6%] flex items-center gap-2.5" delay={-4}>
+            <EmojiTile src={`${G}/trophy.png`} size={36} />
+            <span className="text-xs font-bold">New badge: Rookie I</span>
+          </FloatChip>
         )}
         {app.slug === "earnly" && (
-          <>
-            <FloatChip className="left-[4%] top-[10%]" delay={-2}>
-              <p className="text-[11px] font-semibold text-ink-soft">Savings goal</p>
-              <p className="text-xl font-extrabold" style={{ color: app.color }}>
-                <CountUp value={68} suffix="%" />
-              </p>
-            </FloatChip>
-            <FloatChip className="bottom-[2%] right-[6%] flex items-center gap-2" delay={-4}>
-              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#ecfdf3] text-[#16a34a]">
-                <Icon name="check" className="h-3.5 w-3.5" strokeWidth={3} />
-              </span>
-              <span className="text-xs font-bold">Parent approved · +$5.00</span>
-            </FloatChip>
-          </>
+          <FloatChip className="bottom-[2%] right-[6%] flex items-center gap-2.5" delay={-4}>
+            <EmojiTile src={`${G}/check-mark.png`} size={36} />
+            <span className="text-xs font-bold">Parent approved · +$5.00</span>
+          </FloatChip>
         )}
         {app.slug === "fresher" && (
-          <FloatChip className="bottom-[6%] right-0 flex items-center gap-2" delay={-3}>
-            <Icon name="map-pin" className="h-4 w-4" style={{ color: app.color }} />
+          <FloatChip className="bottom-[6%] right-0 flex items-center gap-2.5" delay={-3}>
+            <EmojiTile src={`${G}/round-pushpin.png`} size={36} />
             <span className="text-xs font-bold">
               <CountUp value={14} /> farms within 10 miles
             </span>
@@ -291,31 +278,53 @@ function HeroVisual({ app }: { app: SiteApp }) {
   );
 }
 
-function ProduceOrbit() {
-  const items: { icon: IconName; color: string; bg: string; style: CSSProperties }[] = [
-    { icon: "apple", color: "#dc2626", bg: "#fee2e2", style: { left: "2%", top: "18%" } },
-    { icon: "carrot", color: "#ea580c", bg: "#ffedd5", style: { right: "2%", top: "26%" } },
-    { icon: "leaf", color: "#16a34a", bg: "#dcfce7", style: { left: "8%", bottom: "16%" } },
-    { icon: "milk", color: "#0284c7", bg: "#e0f2fe", style: { right: "10%", top: "4%" } },
-    { icon: "basket", color: "#a16207", bg: "#fef9c3", style: { left: "20%", top: "2%" } },
-  ];
+type OrbitItem = { src: string; style: CSSProperties; size?: number };
+
+/** 3D category-style tiles — matches Freshys category chip look. */
+const orbitBySlug: Record<Exclude<FeaturedSlug, "scholars">, OrbitItem[]> = {
+  fresher: [
+    { src: `${G}/basket.png`, style: { left: "18%", top: "2%" }, size: 72 },
+    { src: `${G}/red-apple.png`, style: { left: "2%", top: "18%" } },
+    { src: `${G}/carrot.png`, style: { right: "2%", top: "24%" } },
+    { src: `${G}/milk.png`, style: { right: "8%", top: "4%" } },
+    { src: `${G}/leaf.png`, style: { left: "6%", bottom: "14%" } },
+    { src: `${G}/tomato.png`, style: { right: "14%", bottom: "22%" }, size: 56 },
+    { src: `${G}/cut-of-meat.png`, style: { left: "42%", bottom: "6%" }, size: 52 },
+    { src: `${G}/egg.png`, style: { right: "40%", top: "8%" }, size: 50 },
+  ],
+  ballr: [
+    { src: `${G}/soccer-ball.png`, style: { left: "2%", top: "8%" }, size: 60 },
+    { src: `${G}/trophy.png`, style: { right: "4%", top: "4%" }, size: 56 },
+    { src: `${G}/fire.png`, style: { left: "8%", bottom: "30%" }, size: 54 },
+  ],
+  earnly: [
+    { src: `${G}/money-bag.png`, style: { left: "2%", top: "6%" }, size: 60 },
+    { src: `${G}/coin.png`, style: { right: "2%", top: "12%" }, size: 54 },
+    { src: `${G}/glowing-star.png`, style: { left: "10%", bottom: "28%" }, size: 52 },
+  ],
+};
+
+function ConceptOrbit({ slug }: { slug: FeaturedSlug }) {
+  if (slug === "scholars") return null;
   return (
     <>
-      <div aria-hidden className="absolute inset-x-[8%] bottom-[4%] top-[14%] rounded-[44px] bg-gradient-to-br from-[#dcfce7] via-white to-[#fef9c3] ring-1 ring-ink/5" />
-      {items.map((item, index) => (
-        <span
-          key={item.icon}
-          className="float absolute z-20 flex h-16 w-16 items-center justify-center rounded-3xl shadow-[0_20px_40px_-20px_rgba(15,23,42,0.45)] ring-4 ring-white"
-          style={{ ...item.style, background: item.bg, color: item.color, "--float-delay": `${index * -1.1}s`, "--float-speed": `${5 + index}s` } as CSSProperties}
-        >
-          <Icon name={item.icon} className="h-7 w-7" />
-        </span>
+      {orbitBySlug[slug].map((item, index) => (
+        <EmojiTile
+          key={item.src}
+          src={item.src}
+          size={item.size ?? 64}
+          float
+          delay={index * -1.05}
+          speed={5 + (index % 4)}
+          className="absolute z-20"
+          style={item.style}
+        />
       ))}
     </>
   );
 }
 
-function ScholarsVisual({ app }: { app: SiteApp }) {
+function ScholarsVisual() {
   return (
     <Reveal dir="scale" delay={120} className="relative mx-auto w-full max-w-[560px]">
       <div aria-hidden className="brand-glow absolute inset-[4%] rounded-full opacity-30 blur-3xl" />
@@ -332,46 +341,50 @@ function ScholarsVisual({ app }: { app: SiteApp }) {
             />
           </Parallax>
         </div>
-        <FloatChip className="left-0 top-[4%] flex items-center gap-2.5" delay={-1}>
-          <span className="flex h-8 w-8 items-center justify-center rounded-xl" style={{ background: app.colorSoft, color: app.color }}>
-            <Icon name="file-text" className="h-4 w-4" />
-          </span>
+        <EmojiTile
+          src={`${G}/memo.png`}
+          size={68}
+          float
+          delay={-1}
+          className="absolute left-0 top-[2%] z-20"
+        />
+        <EmojiTile
+          src={`${G}/books.png`}
+          size={64}
+          float
+          delay={-3}
+          speed={7}
+          className="absolute right-0 top-[12%] z-20"
+        />
+        <EmojiTile
+          src={`${G}/graduation-cap.png`}
+          size={60}
+          float
+          delay={-2}
+          speed={5.5}
+          className="absolute bottom-[20%] left-[-2%] z-20"
+        />
+        <EmojiTile
+          src={`${G}/glowing-star.png`}
+          size={56}
+          float
+          delay={-4}
+          speed={6}
+          className="absolute bottom-[6%] right-[2%] z-20"
+        />
+        <FloatChip className="left-[14%] top-[18%] flex items-center gap-2.5" delay={-1.5}>
           <span className="text-xs font-bold leading-tight">
             Create notes
             <br />
             from any content
           </span>
         </FloatChip>
-        <FloatChip className="right-0 top-[18%] flex items-center gap-2.5" delay={-3}>
-          <span className="flex h-8 w-8 items-center justify-center rounded-xl" style={{ background: app.colorSoft, color: app.color }}>
-            <Icon name="book" className="h-4 w-4" />
-          </span>
-          <span className="text-xs leading-tight">
-            <span className="block font-bold">Biology</span>
-            <span className="text-ink-soft">
-              <CountUp value={1250} /> notes
-            </span>
-          </span>
-        </FloatChip>
-        <FloatChip className="bottom-[18%] left-[-2%] flex items-center gap-3" delay={-2} speed={7}>
-          <svg viewBox="0 0 40 40" className="h-10 w-10 -rotate-90">
-            <circle cx="20" cy="20" r="16" fill="none" stroke="#e0e7ff" strokeWidth="5" />
-            <circle cx="20" cy="20" r="16" fill="none" stroke={app.color} strokeWidth="5" strokeLinecap="round" strokeDasharray={`${2 * Math.PI * 16 * 0.85} 200`} />
-          </svg>
+        <FloatChip className="bottom-[4%] right-[18%] flex items-center gap-2.5" delay={-3.5} speed={5.5}>
           <span className="text-xs leading-tight">
             <span className="block font-bold">Practice test</span>
             <span className="text-ink-soft">
               <CountUp value={85} suffix="%" />
             </span>
-          </span>
-        </FloatChip>
-        <FloatChip className="bottom-[4%] right-[4%] flex items-center gap-2.5" delay={-4} speed={5.5}>
-          <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#fff7ed] text-[#ea580c]">
-            <Icon name="layers" className="h-4 w-4" />
-          </span>
-          <span className="text-xs leading-tight">
-            <span className="block font-bold">Study guide</span>
-            <span className="text-ink-soft">32 key ideas</span>
           </span>
         </FloatChip>
       </div>
