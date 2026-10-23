@@ -61,8 +61,8 @@ export const familyChallenges = {
       description:
         "Earnly turns chores and allowances into money lessons kids can practice every week — with parents approving the important moves.",
       app: "Earnly",
-      illustration: "/images/about/earnly-family.jpg",
-      illustrationAlt: "A parent helping their child manage allowance and savings",
+      illustration: "/images/home/hero-kids.jpg",
+      illustrationAlt: "Kids laughing together on a soccer field at sunset",
       parentBenefit: "You set the rules and approve spending",
       childBenefit: "They learn to earn, save, and stay accountable",
       accent: "#24C0FC",
@@ -74,8 +74,8 @@ export const familyChallenges = {
       description:
         "Scholars Notes helps students capture notes, get AI tutoring, build study guides, and quiz themselves — so studying feels clearer and more doable.",
       app: "Scholars Notes",
-      illustration: "/images/about/scholars-family.jpg",
-      illustrationAlt: "A student studying with notes and digital tools",
+      illustration: "/images/home/hero-kids.jpg",
+      illustrationAlt: "Kids laughing together on a soccer field at sunset",
       parentBenefit: "You support progress without doing the work for them",
       childBenefit: "They study with focus and confidence",
       accent: "#009CFC",
@@ -83,14 +83,14 @@ export const familyChallenges = {
     },
     {
       id: "activity",
-      title: "Find local runs",
+      title: "Train, play, and fuel up",
       description:
-        "Ballr helps athletes find nearby pickup games and runs, join the local community, and build a player card that shows who they are on the field.",
+        "Ballr helps athletes find nearby pickup games and parks, build a player card, follow workout plans, track calories and macros, and stick to diet plans that support performance.",
       app: "Ballr",
-      illustration: "/images/about/ballr-family.jpg",
-      illustrationAlt: "Kids playing a neighborhood sports game",
-      parentBenefit: "You help them get outside and involved",
-      childBenefit: "They find games and grow their player card",
+      illustration: "/images/home/hero-kids.jpg",
+      illustrationAlt: "Kids laughing together on a soccer field at sunset",
+      parentBenefit: "You see training, fuel, and games in one place",
+      childBenefit: "They play more, train smarter, and eat with a plan",
       accent: "#E8B400",
       accentLight: "#FFF6D6",
     },
@@ -100,8 +100,8 @@ export const familyChallenges = {
       description:
         "Freshys helps families discover nearby farms, farm stores, farmers markets, and locally produced food on an interactive map.",
       app: "Freshys",
-      illustration: "/images/apps/fresher/screenshot.png",
-      illustrationAlt: "Freshys map highlighting nearby farms and markets",
+      illustration: "/images/home/hero-kids.jpg",
+      illustrationAlt: "Kids laughing together on a soccer field at sunset",
       parentBenefit: "You find local food without the research rabbit hole",
       childBenefit: "They grow up closer to real, local food",
       accent: "#248A45",
@@ -123,7 +123,7 @@ export function getEcosystemCircleApps() {
 export const aboutFinalCta = {
   headline: ["Healthy kids.", "Capable kids.", "Ready for what’s next."],
   subtext: `Explore the Genlyn apps and pick the plan that fits your family.`,
-  illustration: "/images/about/earnly-family.jpg",
+  illustration: "/images/home/hero-kids.jpg",
   primary: { label: "Explore Apps", href: "/#apps" },
   secondary: { label: "Plans & Pricing", href: "/pricing" },
 };

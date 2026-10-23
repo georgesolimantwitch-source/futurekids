@@ -142,9 +142,11 @@ export const apps: AppConfig[] = [
     accentColor: "#24C0FC",
     accentColorLight: "#E6F7FE",
     iconPath: "/images/apps/earnly/icon.png",
-    screenshotPath: "/images/apps/earnly/screenshot.png",
+    screenshotPath: "/images/home/hero-kids.jpg",
     screenshotDevice: "phone",
     appStoreUrl: "https://apps.apple.com/us/app/earnly-family/id6761389561",
+    playStoreUrl:
+      "https://play.google.com/store/apps/details?id=com.earnly.family&hl=en_US",
     learnMorePath: "/apps/earnly",
     positioning: "Teach kids how to earn, save, and build responsible money habits",
     audience: "Parents and children",
@@ -238,22 +240,22 @@ export const apps: AppConfig[] = [
     screenshotAspect: "37/80",
     screenshots: [
       {
-        path: "/images/apps/earnly/mockup-home.png",
+        path: "/images/home/hero-kids.jpg",
         alt: "Earnly home screen with parent funds and family net worth chart",
         caption: "Watch your family money grow.",
       },
       {
-        path: "/images/apps/earnly/mockup-chores.png",
+        path: "/images/home/hero-kids.jpg",
         alt: "Earnly chore manager with quick assign and needs-review approvals",
         caption: "Turn chores into real earnings.",
       },
       {
-        path: "/images/apps/earnly/mockup-accounts.png",
+        path: "/images/home/hero-kids.jpg",
         alt: "Earnly accounts list showing each child's balance",
         caption: "Every kid gets their own account.",
       },
       {
-        path: "/images/apps/earnly/mockup-balance.png",
+        path: "/images/home/hero-kids.jpg",
         alt: "Earnly balance screen with parent funds and kid balances",
         caption: "See every balance in one place.",
       },
@@ -298,9 +300,10 @@ export const apps: AppConfig[] = [
     accentColor: "#009CFC",
     accentColorLight: "#E6F5FF",
     iconPath: "/images/apps/scholars/icon.png",
-    screenshotPath: "/images/apps/scholars/screenshot.png",
+    screenshotPath: "/images/home/hero-kids.jpg",
     screenshotDevice: "tablet",
-    appStoreUrl: "https://apps.apple.com/us/app/scholars-notes/id6763737199",
+    appStoreUrl: "https://apps.apple.com/us/app/scholarsnotes/id6763737199",
+    playStoreUrl: "",
     learnMorePath: "/apps/scholars",
     positioning: "A complete AI-powered study workspace",
     audience: "High school and college students",
@@ -308,7 +311,7 @@ export const apps: AppConfig[] = [
     cta: {
       type: "download",
       label: "Download Scholars Notes",
-      href: "https://apps.apple.com/us/app/scholars-notes/id6763737199",
+      href: "https://apps.apple.com/us/app/scholarsnotes/id6763737199",
     },
     productFeatures: [
       {
@@ -384,22 +387,22 @@ export const apps: AppConfig[] = [
     screenshotAspect: "4/3",
     screenshots: [
       {
-        path: "/images/apps/scholars/marketing-classes.png",
+        path: "/images/home/hero-kids.jpg",
         alt: "Scholars Notes course dashboard listing every class in one place",
         caption: "All your classes. All in one place.",
       },
       {
-        path: "/images/apps/scholars/marketing-class-detail.png",
+        path: "/images/home/hero-kids.jpg",
         alt: "Scholars Notes Biology 101 class hub with notes, resources, and quick actions",
         caption: "Master every topic.",
       },
       {
-        path: "/images/apps/scholars/marketing-notes.png",
+        path: "/images/home/hero-kids.jpg",
         alt: "Scholars Notes handwritten study guide on tablet",
         caption: "Create, organize, and understand better.",
       },
       {
-        path: "/images/apps/scholars/marketing-road-to-college.png",
+        path: "/images/home/hero-kids.jpg",
         alt: "Scholars Notes Road to College planner with GPA, SAT targets, and goals",
         caption: "Plan today. Achieve tomorrow.",
       },
@@ -445,11 +448,11 @@ export const apps: AppConfig[] = [
     accentColor: "#E8FF00",
     accentColorLight: "#F7FFE0",
     iconPath: "/images/apps/ballr/icon.png",
-    screenshotPath: "/images/apps/ballr/screenshot.png",
+    screenshotPath: "/images/home/hero-kids.jpg",
     screenshotDevice: "phone",
-    appStoreUrl: "https://apps.apple.com/app/ballr",
-    /** Update when Android launches */
-    playStoreUrl: "https://play.google.com/store/apps/details?id=com.ballr.app",
+    appStoreUrl: "",
+    /** Update when store listings go live */
+    playStoreUrl: "",
     learnMorePath: "/apps/ballr",
     positioning:
       "Train, compete, and fuel up — games, workouts, calories, and diet plans for young athletes",
@@ -457,8 +460,8 @@ export const apps: AppConfig[] = [
     availability: "live",
     cta: {
       type: "download",
-      label: "Download Ballr",
-      href: "https://apps.apple.com/app/ballr",
+      label: "Get Ballr",
+      href: "/pricing?app=ballr",
     },
     supportedSports: ["Soccer", "Basketball", "Football", "Tennis", "Pickleball"],
     productFeatures: [
@@ -539,32 +542,32 @@ export const apps: AppConfig[] = [
     screenshotAspect: "9/16",
     screenshots: [
       {
-        path: "/images/apps/ballr/mockup-player-card.png",
+        path: "/images/home/hero-kids.jpg",
         alt: "Ballr player card showing overall rating and XP progress",
         caption: "Build your player card.",
       },
       {
-        path: "/images/apps/ballr/mockup-potential.png",
+        path: "/images/home/hero-kids.jpg",
         alt: "Ballr physique potential comparing current build with future potential",
         caption: "See your potential.",
       },
       {
-        path: "/images/apps/ballr/mockup-fuel.png",
+        path: "/images/home/hero-kids.jpg",
         alt: "Ballr fuel screen tracking daily calories and macros",
         caption: "Track your fuel.",
       },
       {
-        path: "/images/apps/ballr/mockup-meals.png",
+        path: "/images/home/hero-kids.jpg",
         alt: "Ballr meals list with photo recognition and macro breakdown",
         caption: "Log every meal.",
       },
       {
-        path: "/images/apps/ballr/mockup-workouts.png",
+        path: "/images/home/hero-kids.jpg",
         alt: "Ballr personalized workout plan with AI recommended exercises",
         caption: "Personalized workouts.",
       },
       {
-        path: "/images/apps/ballr/marketing-parks-map.png",
+        path: "/images/home/hero-kids.jpg",
         alt: "Ballr map finding games and parks near you with ratings",
         caption: "Find games and parks near you.",
       },
@@ -607,7 +610,7 @@ export const apps: AppConfig[] = [
     accentColor: "#FC6C0C",
     accentColorLight: "#FFF1E6",
     iconPath: "/images/apps/tinypal/icon.png",
-    screenshotPath: "/images/apps/tinypal/screenshot.svg",
+    screenshotPath: "/images/home/hero-kids.jpg",
     appStoreUrl: "",
     learnMorePath: "/apps/tinypal",
     listed: false,
@@ -702,17 +705,17 @@ export const apps: AppConfig[] = [
     },
     screenshots: [
       {
-        path: "/images/apps/tinypal/screenshot.svg",
+        path: "/images/home/hero-kids.jpg",
         alt: "TinyPal messaging interface",
         caption: "Safe messaging",
       },
       {
-        path: "/images/apps/tinypal/screenshot-2.svg",
+        path: "/images/home/hero-kids.jpg",
         alt: "TinyPal parent dashboard",
         caption: "Parent dashboard",
       },
       {
-        path: "/images/apps/tinypal/screenshot-3.svg",
+        path: "/images/home/hero-kids.jpg",
         alt: "TinyPal family contacts",
         caption: "Family contacts",
       },
@@ -757,10 +760,10 @@ export const apps: AppConfig[] = [
     accentColor: "#248A45",
     accentColorLight: "#EDF7EF",
     iconPath: "/images/apps/fresher/icon.png",
-    screenshotPath: "/images/apps/fresher/screenshot.png",
+    screenshotPath: "/images/home/hero-kids.jpg",
     screenshotDevice: "phone",
-    appStoreUrl: "",
-    playStoreUrl: "",
+    appStoreUrl: "https://apps.apple.com/us/app/freshys/id6791099777",
+    playStoreUrl: "https://play.google.com/store/apps/details?id=com.freshys.app",
     learnMorePath: "/apps/fresher",
     positioning: "Find real food near your family on an interactive map",
     audience: "Parents and families",
@@ -768,7 +771,7 @@ export const apps: AppConfig[] = [
     cta: {
       type: "download",
       label: "Get Freshys",
-      href: "/pricing?app=fresher",
+      href: "https://apps.apple.com/us/app/freshys/id6791099777",
     },
     productFeatures: [
       {
@@ -840,27 +843,27 @@ export const apps: AppConfig[] = [
     screenshotAspect: "9/16",
     screenshots: [
       {
-        path: "/images/apps/fresher/marketing-discover.png",
+        path: "/images/home/hero-kids.jpg",
         alt: "Freshys shop screen with nearby stores, categories, and in-season picks",
         caption: "Real fresh. Real close.",
       },
       {
-        path: "/images/apps/fresher/marketing-farm-details.png",
+        path: "/images/home/hero-kids.jpg",
         alt: "Freshys farm store page with verified badge and farm products",
         caption: "Shop from local farms.",
       },
       {
-        path: "/images/apps/fresher/marketing-directions.png",
+        path: "/images/home/hero-kids.jpg",
         alt: "Freshys product detail for chicken breasts with subscribe options",
         caption: "Order what you need.",
       },
       {
-        path: "/images/apps/fresher/marketing-shopping-list.png",
+        path: "/images/home/hero-kids.jpg",
         alt: "Freshys product detail for brisket with weekly subscribe options",
         caption: "Fresh food your way.",
       },
       {
-        path: "/images/apps/fresher/marketing-farm-map.png",
+        path: "/images/home/hero-kids.jpg",
         alt: "Freshys map showing nearby farms within a delivery radius",
         caption: "Find farms anywhere.",
       },

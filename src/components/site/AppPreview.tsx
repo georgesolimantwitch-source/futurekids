@@ -1,28 +1,11 @@
 import Image from "next/image";
-import { apps } from "@/config/brand";
+import { appLifePhotos } from "@/config/photos";
 import type { FeaturedSlug } from "@/config/site";
 import { PlayOnView } from "@/components/site/motion";
+import { AppIcon } from "@/components/site/ui";
+import { getSiteApp } from "@/config/site";
 
-const PREVIEW: Record<FeaturedSlug, { src: string; alt: string }> = {
-  fresher: {
-    src: "/images/apps/fresher/marketing-discover.png",
-    alt: "Freshys discover screen with local farms near you",
-  },
-  ballr: {
-    src: "/images/apps/ballr/mockup-player-card.png",
-    alt: "Ballr player card with overall rating, XP, and fitness progress",
-  },
-  scholars: {
-    src: "/images/apps/scholars/marketing-classes.png",
-    alt: "Scholars Notes course dashboard",
-  },
-  earnly: {
-    src: "/images/apps/earnly/mockup-home.png",
-    alt: "Earnly home screen with family balance and growth chart",
-  },
-};
-
-/** Real app marketing screenshot — never a CSS fake UI. */
+/** Real-life photo preview for an app — never AI, 3D, or UI mockups. */
 export function AppPreview({
   slug,
   width = 240,
@@ -34,30 +17,30 @@ export function AppPreview({
   className?: string;
   priority?: boolean;
 }) {
-  const shot = PREVIEW[slug];
-  const app = apps.find((item) => item.slug === slug);
-  const src = shot?.src ?? app?.screenshots[0]?.path ?? app?.screenshotPath;
-  const alt = shot?.alt ?? app?.screenshots[0]?.alt ?? `${app?.name ?? slug} preview`;
-  if (!src) return null;
-
-  // Scholars previews are landscape tablet marketing shots
-  const landscape = slug === "scholars";
-  const height = landscape ? Math.round(width * 0.75) : Math.round(width * 2.05);
+  const photo = appLifePhotos[slug];
+  const app = getSiteApp(slug);
+  const height = Math.round(width * 1.25);
 
   return (
     <PlayOnView className={`max-w-full ${className}`}>
       <div
-        className="max-w-full overflow-hidden rounded-[28px] bg-white shadow-[0_40px_80px_-36px_rgba(15,23,42,0.55)] ring-1 ring-ink/5"
+        className="relative max-w-full overflow-hidden rounded-[28px] bg-white shadow-[0_40px_80px_-36px_rgba(15,23,42,0.55)] ring-1 ring-ink/5"
         style={{ width, height, maxWidth: "100%" }}
       >
         <Image
-          src={src}
-          alt={alt}
-          width={landscape ? 1024 : 460}
-          height={landscape ? 768 : 996}
+          src={photo.src}
+          alt={photo.alt}
+          width={920}
+          height={1150}
           priority={priority}
-          className="h-full w-full object-cover object-top"
+          className="h-full w-full object-cover"
         />
+        {app ? (
+          <span className="absolute bottom-3 left-3 flex items-center gap-2 rounded-full bg-white/95 px-2.5 py-1.5 shadow-sm ring-1 ring-ink/5">
+            <AppIcon src={app.iconPath} name={app.name} size={22} />
+            <span className="text-xs font-extrabold text-ink">{app.name}</span>
+          </span>
+        ) : null}
       </div>
     </PlayOnView>
   );

@@ -3,6 +3,7 @@ import type { SiteApp } from "@/config/site";
 import { AppPreview } from "@/components/site/AppPreview";
 import { Icon, type IconName } from "@/components/site/Icon";
 import { Reveal, Tilt } from "@/components/site/motion";
+import { StoreBadges, hasStoreLinks } from "@/components/site/StoreBadges";
 import {
   AppIcon,
   Blobs,
@@ -95,7 +96,10 @@ export function ProductCard({ app, index = 0 }: { app: SiteApp; index?: number }
               </CheckItem>
             ))}
           </ul>
-          <div className="relative mt-auto pt-7">
+          <div className="relative mt-auto space-y-3 pt-7">
+            {hasStoreLinks(app.config) ? (
+              <StoreBadges app={app.config} size="sm" className="justify-center" />
+            ) : null}
             <PillLink href={app.href} color={app.color} className="w-full">
               Explore {app.name}
             </PillLink>

@@ -4,13 +4,14 @@ import { getSiteApp, siteApps } from "@/config/site";
 import { Icon, type IconName } from "@/components/site/Icon";
 import { CountUp, Magnetic, Parallax, Reveal } from "@/components/site/motion";
 import { AppIcon, Container, Eyebrow, FloatChip, PillLink, PlayLink, SectionHeading } from "@/components/site/ui";
+import { realPhotos } from "@/config/photos";
 import { FamilyDashboardDemo } from "./interactive";
 import { IconFeatureGrid, PageHero, Section, StepCards } from "./shared";
 
 const day: { time: string; slug: "scholars" | "ballr" | "earnly" | "fresher"; title: string; text: string }[] = [
   { time: "After school", slug: "scholars", title: "Homework clicks faster", text: "Notes turn into study guides and practice quizzes — with a tutor ready when they’re stuck." },
   { time: "Before dinner", slug: "earnly", title: "Chores become paychecks", text: "Kids check off chores, you approve, and the money lands in their account to save or spend." },
-  { time: "Evening", slug: "ballr", title: "Find tonight’s game", text: "Nearby runs and pickup games on a map — so kids get outside and meet their local community." },
+  { time: "Evening", slug: "ballr", title: "Train, play, fuel up", text: "Pickup games nearby, a quick workout, and calorie or meal tracking — so kids move more and fuel right." },
   { time: "Weekend", slug: "fresher", title: "A trip to the farm stand", text: "Discover farms and farmers markets near home and shop real, local food together." },
 ];
 
@@ -57,8 +58,8 @@ export function FamiliesPage() {
             <div className="relative overflow-hidden rounded-[36px] shadow-[0_40px_80px_-40px_rgba(15,23,42,0.55)] ring-4 ring-white/70">
               <Parallax speed={-0.05}>
                 <Image
-                  src="/images/about/earnly-family.jpg"
-                  alt="A parent and daughter saving coins together"
+                  src={realPhotos.kidsField.src}
+                  alt={realPhotos.kidsField.alt}
                   width={1536}
                   height={1024}
                   priority

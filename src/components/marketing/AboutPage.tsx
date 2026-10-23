@@ -76,7 +76,7 @@ export function AboutPage() {
                 <Parallax speed={-0.05}>
                   <Image
                     src="/images/home/hero-kids.jpg"
-                    alt="Three kids laughing on a soccer field at sunset"
+                    alt="Kids laughing together on a soccer field at sunset"
                     width={1536}
                     height={1024}
                     className="aspect-[4/3.3] w-full scale-110 object-cover"
@@ -86,8 +86,8 @@ export function AboutPage() {
               <div className="absolute bottom-0 right-0 w-[56%] overflow-hidden rounded-[28px] shadow-[0_30px_60px_-30px_rgba(15,23,42,0.5)] ring-4 ring-white">
                 <Parallax speed={0.05}>
                   <Image
-                    src="/images/about/scholars-family.jpg"
-                    alt="A parent helping her son study"
+                    src="/images/home/hero-kids.jpg"
+                    alt="Kids laughing together on a soccer field at sunset"
                     width={1536}
                     height={1024}
                     className="aspect-[4/3] w-full scale-110 object-cover"

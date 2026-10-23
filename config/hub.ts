@@ -34,28 +34,28 @@ export const HUB_KIND = "genlyn_hub";
 
 export const hubGallery: HubGalleryShot[] = [
   {
-    src: "/images/hub/hub-earnly-family.png",
-    alt: "Genlyn Hub Earnly view with family chore calendar on tablet and phone",
+    src: "/images/home/hero-kids.jpg",
+    alt: "Kids laughing together on a soccer field at sunset",
     caption: "Earnly — chores & family calendar on the wall.",
   },
   {
-    src: "/images/hub/hub-earnly-balance.png",
-    alt: "Genlyn Hub Earnly balance dashboard with parent funds and kid wallets",
+    src: "/images/home/hero-kids.jpg",
+    alt: "Kids laughing together on a soccer field at sunset",
     caption: "Earnly — parent funds and kid balances.",
   },
   {
-    src: "/images/hub/hub-scholars.png",
-    alt: "Genlyn Hub Scholars school dashboard with classes, GPA, and study stats",
+    src: "/images/home/hero-kids.jpg",
+    alt: "Kids laughing together on a soccer field at sunset",
     caption: "Scholars — classes, grades, and study streaks.",
   },
   {
-    src: "/images/hub/hub-ballr.png",
-    alt: "Genlyn Hub Ballr fitness dashboard with player cards and fuel tracking",
+    src: "/images/home/hero-kids.jpg",
+    alt: "Kids laughing together on a soccer field at sunset",
     caption: "Ballr — sports, workouts, calories & diet plans.",
   },
   {
-    src: "/images/hub/hub-freshys.png",
-    alt: "Genlyn Hub Freshys healthy eating dashboard with farm orders",
+    src: "/images/home/hero-kids.jpg",
+    alt: "Kids laughing together on a soccer field at sunset",
     caption: "Freshys — local farm orders at a glance.",
   },
 ];
@@ -71,8 +71,8 @@ export const hubSizes: HubSize[] = [
     blurb: "Perfect for a kitchen counter or desk — the compact family command center.",
     description:
       "The compact Hub sits on a counter, shelf, or desk and keeps Earnly chores, Scholars school, Ballr fitness, and Freshys meals in view without taking over the room. Ideal when you want the family brain close at hand.",
-    image: "/images/hub/hub-earnly-family.png",
-    imageAlt: "Genlyn Hub 10.1″ showing Earnly family calendar on tablet and phone",
+    image: "/images/home/hero-kids.jpg",
+    imageAlt: "Kids laughing together on a soccer field at sunset",
     lookupKey: "com.genlyn.hub.10_1",
     envPriceId: "STRIPE_HUB_10_PRICE_ID",
     bestFor: "Kitchen counters, desks, and smaller spaces",
@@ -99,8 +99,8 @@ export const hubSizes: HubSize[] = [
     blurb: "Wall-ready display for the whole household schedule at a glance.",
     description:
       "The larger Hub is built to live on the wall — readable from across the kitchen or entryway so everyone can see the week, chores, school, and meals without crowding around a phone. Same Genlyn brain, bigger presence.",
-    image: "/images/hub/hub-scholars.png",
-    imageAlt: "Genlyn Hub 15.6″ showing Scholars school dashboard on tablet and phone",
+    image: "/images/home/hero-kids.jpg",
+    imageAlt: "Kids laughing together on a soccer field at sunset",
     recommended: true,
     lookupKey: "com.genlyn.hub.15_6",
     envPriceId: "STRIPE_HUB_15_PRICE_ID",

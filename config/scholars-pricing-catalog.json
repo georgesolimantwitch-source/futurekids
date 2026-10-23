@@ -4,15 +4,15 @@
   "unitPricing": {
     "refill": {
       "per5Gens": 2.99,
-      "per30Mins": 29.98
+      "per30Mins": 7.5
     },
     "monthly": {
       "per5Gens": 1.99,
-      "per30Mins": 25.98
+      "per30Mins": 6.5
     },
     "yearly": {
       "per5GensMonthly": 1.49,
-      "per30MinsMonthly": 21.98
+      "per30MinsMonthly": 5.5
     }
   },
   "legacyPlans": [],
@@ -22,7 +22,7 @@
       "gens": 0,
       "mins": 15,
       "period": "refill",
-      "price": 14.99,
+      "price": 3.75,
       "displayName": "15 min Refill"
     },
     {
@@ -30,7 +30,7 @@
       "gens": 0,
       "mins": 30,
       "period": "refill",
-      "price": 29.99,
+      "price": 7.5,
       "displayName": "30 min Refill"
     },
     {
@@ -38,7 +38,7 @@
       "gens": 0,
       "mins": 45,
       "period": "refill",
-      "price": 44.99,
+      "price": 11.25,
       "displayName": "45 min Refill"
     },
     {
@@ -46,7 +46,7 @@
       "gens": 0,
       "mins": 60,
       "period": "refill",
-      "price": 59.99,
+      "price": 15.0,
       "displayName": "60 min Refill"
     },
     {
@@ -54,7 +54,7 @@
       "gens": 0,
       "mins": 75,
       "period": "refill",
-      "price": 74.99,
+      "price": 18.75,
       "displayName": "75 min Refill"
     },
     {
@@ -62,7 +62,7 @@
       "gens": 0,
       "mins": 90,
       "period": "refill",
-      "price": 89.99,
+      "price": 22.5,
       "displayName": "90 min Refill"
     },
     {
@@ -70,7 +70,7 @@
       "gens": 0,
       "mins": 105,
       "period": "refill",
-      "price": 104.99,
+      "price": 26.25,
       "displayName": "105 min Refill"
     },
     {
@@ -78,7 +78,7 @@
       "gens": 0,
       "mins": 120,
       "period": "refill",
-      "price": 119.99,
+      "price": 30.0,
       "displayName": "120 min Refill"
     },
     {
@@ -86,7 +86,7 @@
       "gens": 0,
       "mins": 135,
       "period": "refill",
-      "price": 134.99,
+      "price": 33.75,
       "displayName": "135 min Refill"
     },
     {
@@ -94,7 +94,7 @@
       "gens": 0,
       "mins": 150,
       "period": "refill",
-      "price": 149.99,
+      "price": 37.5,
       "displayName": "150 min Refill"
     },
     {
@@ -102,7 +102,7 @@
       "gens": 0,
       "mins": 165,
       "period": "refill",
-      "price": 164.99,
+      "price": 41.25,
       "displayName": "165 min Refill"
     },
     {
@@ -110,7 +110,7 @@
       "gens": 0,
       "mins": 180,
       "period": "refill",
-      "price": 179.99,
+      "price": 45.0,
       "displayName": "180 min Refill"
     },
     {
@@ -118,7 +118,7 @@
       "gens": 5,
       "mins": 0,
       "period": "refill",
-      "price": 2.99,
+      "price": 3.0,
       "displayName": "5 gens Refill"
     },
     {
@@ -126,7 +126,7 @@
       "gens": 5,
       "mins": 15,
       "period": "refill",
-      "price": 17.99,
+      "price": 6.74,
       "displayName": "5 gens + 15 min Refill"
     },
     {
@@ -134,7 +134,7 @@
       "gens": 5,
       "mins": 30,
       "period": "refill",
-      "price": 32.99,
+      "price": 10.49,
       "displayName": "5 gens + 30 min Refill"
     },
     {
@@ -142,7 +142,7 @@
       "gens": 5,
       "mins": 45,
       "period": "refill",
-      "price": 47.99,
+      "price": 14.24,
       "displayName": "5 gens + 45 min Refill"
     },
     {
@@ -150,7 +150,7 @@
       "gens": 5,
       "mins": 60,
       "period": "refill",
-      "price": 62.99,
+      "price": 17.99,
       "displayName": "5 gens + 60 min Refill"
     },
     {
@@ -158,7 +158,7 @@
       "gens": 5,
       "mins": 75,
       "period": "refill",
-      "price": 77.99,
+      "price": 21.74,
       "displayName": "5 gens + 75 min Refill"
     },
     {
@@ -166,7 +166,7 @@
       "gens": 5,
       "mins": 90,
       "period": "refill",
-      "price": 92.99,
+      "price": 25.49,
       "displayName": "5 gens + 90 min Refill"
     },
     {
@@ -174,7 +174,7 @@
       "gens": 5,
       "mins": 105,
       "period": "refill",
-      "price": 107.99,
+      "price": 29.24,
       "displayName": "5 gens + 105 min Refill"
     },
     {
@@ -182,7 +182,7 @@
       "gens": 5,
       "mins": 120,
       "period": "refill",
-      "price": 122.99,
+      "price": 32.99,
       "displayName": "5 gens + 120 min Refill"
     },
     {
@@ -190,7 +190,7 @@
       "gens": 5,
       "mins": 135,
       "period": "refill",
-      "price": 137.99,
+      "price": 36.74,
       "displayName": "5 gens + 135 min Refill"
     },
     {
@@ -198,7 +198,7 @@
       "gens": 5,
       "mins": 150,
       "period": "refill",
-      "price": 152.99,
+      "price": 40.49,
       "displayName": "5 gens + 150 min Refill"
     },
     {
@@ -206,7 +206,7 @@
       "gens": 5,
       "mins": 165,
       "period": "refill",
-      "price": 167.99,
+      "price": 44.24,
       "displayName": "5 gens + 165 min Refill"
     },
     {
@@ -214,7 +214,7 @@
       "gens": 5,
       "mins": 180,
       "period": "refill",
-      "price": 182.99,
+      "price": 47.99,
       "displayName": "5 gens + 180 min Refill"
     },
     {
@@ -222,7 +222,7 @@
       "gens": 10,
       "mins": 0,
       "period": "refill",
-      "price": 5.98,
+      "price": 3.0,
       "displayName": "10 gens Refill"
     },
     {
@@ -230,7 +230,7 @@
       "gens": 10,
       "mins": 15,
       "period": "refill",
-      "price": 20.99,
+      "price": 9.73,
       "displayName": "10 gens + 15 min Refill"
     },
     {
@@ -238,7 +238,7 @@
       "gens": 10,
       "mins": 30,
       "period": "refill",
-      "price": 35.99,
+      "price": 13.48,
       "displayName": "10 gens + 30 min Refill"
     },
     {
@@ -246,7 +246,7 @@
       "gens": 10,
       "mins": 45,
       "period": "refill",
-      "price": 50.99,
+      "price": 17.23,
       "displayName": "10 gens + 45 min Refill"
     },
     {
@@ -254,7 +254,7 @@
       "gens": 10,
       "mins": 60,
       "period": "refill",
-      "price": 65.99,
+      "price": 20.98,
       "displayName": "10 gens + 60 min Refill"
     },
     {
@@ -262,7 +262,7 @@
       "gens": 10,
       "mins": 75,
       "period": "refill",
-      "price": 80.99,
+      "price": 24.73,
       "displayName": "10 gens + 75 min Refill"
     },
     {
@@ -270,7 +270,7 @@
       "gens": 10,
       "mins": 90,
       "period": "refill",
-      "price": 95.99,
+      "price": 28.48,
       "displayName": "10 gens + 90 min Refill"
     },
     {
@@ -278,7 +278,7 @@
       "gens": 10,
       "mins": 105,
       "period": "refill",
-      "price": 110.99,
+      "price": 32.23,
       "displayName": "10 gens + 105 min Refill"
     },
     {
@@ -286,7 +286,7 @@
       "gens": 10,
       "mins": 120,
       "period": "refill",
-      "price": 125.99,
+      "price": 35.98,
       "displayName": "10 gens + 120 min Refill"
     },
     {
@@ -294,7 +294,7 @@
       "gens": 10,
       "mins": 135,
       "period": "refill",
-      "price": 140.99,
+      "price": 39.73,
       "displayName": "10 gens + 135 min Refill"
     },
     {
@@ -302,7 +302,7 @@
       "gens": 10,
       "mins": 150,
       "period": "refill",
-      "price": 155.99,
+      "price": 43.48,
       "displayName": "10 gens + 150 min Refill"
     },
     {
@@ -310,7 +310,7 @@
       "gens": 10,
       "mins": 165,
       "period": "refill",
-      "price": 170.99,
+      "price": 47.23,
       "displayName": "10 gens + 165 min Refill"
     },
     {
@@ -318,7 +318,7 @@
       "gens": 10,
       "mins": 180,
       "period": "refill",
-      "price": 185.99,
+      "price": 50.98,
       "displayName": "10 gens + 180 min Refill"
     },
     {
@@ -326,7 +326,7 @@
       "gens": 15,
       "mins": 0,
       "period": "refill",
-      "price": 8.97,
+      "price": 3.0,
       "displayName": "15 gens Refill"
     },
     {
@@ -334,7 +334,7 @@
       "gens": 15,
       "mins": 15,
       "period": "refill",
-      "price": 23.99,
+      "price": 12.72,
       "displayName": "15 gens + 15 min Refill"
     },
     {
@@ -342,7 +342,7 @@
       "gens": 15,
       "mins": 30,
       "period": "refill",
-      "price": 38.95,
+      "price": 16.47,
       "displayName": "15 gens + 30 min Refill"
     },
     {
@@ -350,7 +350,7 @@
       "gens": 15,
       "mins": 45,
       "period": "refill",
-      "price": 53.99,
+      "price": 20.22,
       "displayName": "15 gens + 45 min Refill"
     },
     {
@@ -358,7 +358,7 @@
       "gens": 15,
       "mins": 60,
       "period": "refill",
-      "price": 68.99,
+      "price": 23.97,
       "displayName": "15 gens + 60 min Refill"
     },
     {
@@ -366,7 +366,7 @@
       "gens": 15,
       "mins": 75,
       "period": "refill",
-      "price": 83.99,
+      "price": 27.72,
       "displayName": "15 gens + 75 min Refill"
     },
     {
@@ -374,7 +374,7 @@
       "gens": 15,
       "mins": 90,
       "period": "refill",
-      "price": 98.99,
+      "price": 31.47,
       "displayName": "15 gens + 90 min Refill"
     },
     {
@@ -382,7 +382,7 @@
       "gens": 15,
       "mins": 105,
       "period": "refill",
-      "price": 113.99,
+      "price": 35.22,
       "displayName": "15 gens + 105 min Refill"
     },
     {
@@ -390,7 +390,7 @@
       "gens": 15,
       "mins": 120,
       "period": "refill",
-      "price": 128.99,
+      "price": 38.97,
       "displayName": "15 gens + 120 min Refill"
     },
     {
@@ -398,7 +398,7 @@
       "gens": 15,
       "mins": 135,
       "period": "refill",
-      "price": 143.99,
+      "price": 42.72,
       "displayName": "15 gens + 135 min Refill"
     },
     {
@@ -406,7 +406,7 @@
       "gens": 15,
       "mins": 150,
       "period": "refill",
-      "price": 158.99,
+      "price": 46.47,
       "displayName": "15 gens + 150 min Refill"
     },
     {
@@ -414,7 +414,7 @@
       "gens": 15,
       "mins": 165,
       "period": "refill",
-      "price": 173.99,
+      "price": 50.22,
       "displayName": "15 gens + 165 min Refill"
     },
     {
@@ -422,7 +422,7 @@
       "gens": 15,
       "mins": 180,
       "period": "refill",
-      "price": 188.99,
+      "price": 53.97,
       "displayName": "15 gens + 180 min Refill"
     },
     {
@@ -430,7 +430,7 @@
       "gens": 20,
       "mins": 0,
       "period": "refill",
-      "price": 11.96,
+      "price": 4.0,
       "displayName": "20 gens Refill"
     },
     {
@@ -438,7 +438,7 @@
       "gens": 20,
       "mins": 15,
       "period": "refill",
-      "price": 26.95,
+      "price": 15.71,
       "displayName": "20 gens + 15 min Refill"
     },
     {
@@ -446,7 +446,7 @@
       "gens": 20,
       "mins": 30,
       "period": "refill",
-      "price": 41.95,
+      "price": 19.46,
       "displayName": "20 gens + 30 min Refill"
     },
     {
@@ -454,7 +454,7 @@
       "gens": 20,
       "mins": 45,
       "period": "refill",
-      "price": 56.99,
+      "price": 23.21,
       "displayName": "20 gens + 45 min Refill"
     },
     {
@@ -462,7 +462,7 @@
       "gens": 20,
       "mins": 60,
       "period": "refill",
-      "price": 71.99,
+      "price": 26.96,
       "displayName": "20 gens + 60 min Refill"
     },
     {
@@ -470,7 +470,7 @@
       "gens": 20,
       "mins": 75,
       "period": "refill",
-      "price": 86.99,
+      "price": 30.71,
       "displayName": "20 gens + 75 min Refill"
     },
     {
@@ -478,7 +478,7 @@
       "gens": 20,
       "mins": 90,
       "period": "refill",
-      "price": 101.99,
+      "price": 34.46,
       "displayName": "20 gens + 90 min Refill"
     },
     {
@@ -486,7 +486,7 @@
       "gens": 20,
       "mins": 105,
       "period": "refill",
-      "price": 116.99,
+      "price": 38.21,
       "displayName": "20 gens + 105 min Refill"
     },
     {
@@ -494,7 +494,7 @@
       "gens": 20,
       "mins": 120,
       "period": "refill",
-      "price": 131.99,
+      "price": 41.96,
       "displayName": "20 gens + 120 min Refill"
     },
     {
@@ -502,7 +502,7 @@
       "gens": 20,
       "mins": 135,
       "period": "refill",
-      "price": 146.99,
+      "price": 45.71,
       "displayName": "20 gens + 135 min Refill"
     },
     {
@@ -510,7 +510,7 @@
       "gens": 20,
       "mins": 150,
       "period": "refill",
-      "price": 161.99,
+      "price": 49.46,
       "displayName": "20 gens + 150 min Refill"
     },
     {
@@ -518,7 +518,7 @@
       "gens": 20,
       "mins": 165,
       "period": "refill",
-      "price": 176.99,
+      "price": 53.21,
       "displayName": "20 gens + 165 min Refill"
     },
     {
@@ -526,7 +526,7 @@
       "gens": 20,
       "mins": 180,
       "period": "refill",
-      "price": 191.99,
+      "price": 56.96,
       "displayName": "20 gens + 180 min Refill"
     },
     {
@@ -534,7 +534,7 @@
       "gens": 25,
       "mins": 0,
       "period": "refill",
-      "price": 14.95,
+      "price": 5.0,
       "displayName": "25 gens Refill"
     },
     {
@@ -542,7 +542,7 @@
       "gens": 25,
       "mins": 15,
       "period": "refill",
-      "price": 29.95,
+      "price": 18.7,
       "displayName": "25 gens + 15 min Refill"
     },
     {
@@ -550,7 +550,7 @@
       "gens": 25,
       "mins": 30,
       "period": "refill",
-      "price": 44.95,
+      "price": 22.45,
       "displayName": "25 gens + 30 min Refill"
     },
     {
@@ -558,7 +558,7 @@
       "gens": 25,
       "mins": 45,
       "period": "refill",
-      "price": 59.99,
+      "price": 26.2,
       "displayName": "25 gens + 45 min Refill"
     },
     {
@@ -566,7 +566,7 @@
       "gens": 25,
       "mins": 60,
       "period": "refill",
-      "price": 74.99,
+      "price": 29.95,
       "displayName": "25 gens + 60 min Refill"
     },
     {
@@ -574,7 +574,7 @@
       "gens": 25,
       "mins": 75,
       "period": "refill",
-      "price": 89.9,
+      "price": 33.7,
       "displayName": "25 gens + 75 min Refill"
     },
     {
@@ -582,7 +582,7 @@
       "gens": 25,
       "mins": 90,
       "period": "refill",
-      "price": 104.99,
+      "price": 37.45,
       "displayName": "25 gens + 90 min Refill"
     },
     {
@@ -590,7 +590,7 @@
       "gens": 25,
       "mins": 105,
       "period": "refill",
-      "price": 119.99,
+      "price": 41.2,
       "displayName": "25 gens + 105 min Refill"
     },
     {
@@ -598,7 +598,7 @@
       "gens": 25,
       "mins": 120,
       "period": "refill",
-      "price": 134.99,
+      "price": 44.95,
       "displayName": "25 gens + 120 min Refill"
     },
     {
@@ -606,7 +606,7 @@
       "gens": 25,
       "mins": 135,
       "period": "refill",
-      "price": 149.99,
+      "price": 48.7,
       "displayName": "25 gens + 135 min Refill"
     },
     {
@@ -614,7 +614,7 @@
       "gens": 25,
       "mins": 150,
       "period": "refill",
-      "price": 164.99,
+      "price": 52.45,
       "displayName": "25 gens + 150 min Refill"
     },
     {
@@ -622,7 +622,7 @@
       "gens": 25,
       "mins": 165,
       "period": "refill",
-      "price": 179.99,
+      "price": 56.2,
       "displayName": "25 gens + 165 min Refill"
     },
     {
@@ -630,7 +630,7 @@
       "gens": 25,
       "mins": 180,
       "period": "refill",
-      "price": 194.99,
+      "price": 59.95,
       "displayName": "25 gens + 180 min Refill"
     },
     {
@@ -638,7 +638,7 @@
       "gens": 30,
       "mins": 0,
       "period": "refill",
-      "price": 17.94,
+      "price": 6.0,
       "displayName": "30 gens Refill"
     },
     {
@@ -646,7 +646,7 @@
       "gens": 30,
       "mins": 15,
       "period": "refill",
-      "price": 32.95,
+      "price": 21.69,
       "displayName": "30 gens + 15 min Refill"
     },
     {
@@ -654,7 +654,7 @@
       "gens": 30,
       "mins": 30,
       "period": "refill",
-      "price": 47.95,
+      "price": 25.44,
       "displayName": "30 gens + 30 min Refill"
     },
     {
@@ -662,7 +662,7 @@
       "gens": 30,
       "mins": 45,
       "period": "refill",
-      "price": 62.99,
+      "price": 29.19,
       "displayName": "30 gens + 45 min Refill"
     },
     {
@@ -670,7 +670,7 @@
       "gens": 30,
       "mins": 60,
       "period": "refill",
-      "price": 77.9,
+      "price": 32.94,
       "displayName": "30 gens + 60 min Refill"
     },
     {
@@ -678,7 +678,7 @@
       "gens": 30,
       "mins": 75,
       "period": "refill",
-      "price": 92.9,
+      "price": 36.69,
       "displayName": "30 gens + 75 min Refill"
     },
     {
@@ -686,7 +686,7 @@
       "gens": 30,
       "mins": 90,
       "period": "refill",
-      "price": 107.99,
+      "price": 40.44,
       "displayName": "30 gens + 90 min Refill"
     },
     {
@@ -694,7 +694,7 @@
       "gens": 30,
       "mins": 105,
       "period": "refill",
-      "price": 122.99,
+      "price": 44.19,
       "displayName": "30 gens + 105 min Refill"
     },
     {
@@ -702,7 +702,7 @@
       "gens": 30,
       "mins": 120,
       "period": "refill",
-      "price": 137.99,
+      "price": 47.94,
       "displayName": "30 gens + 120 min Refill"
     },
     {
@@ -710,7 +710,7 @@
       "gens": 30,
       "mins": 135,
       "period": "refill",
-      "price": 152.99,
+      "price": 51.69,
       "displayName": "30 gens + 135 min Refill"
     },
     {
@@ -718,7 +718,7 @@
       "gens": 30,
       "mins": 150,
       "period": "refill",
-      "price": 167.99,
+      "price": 55.44,
       "displayName": "30 gens + 150 min Refill"
     },
     {
@@ -726,7 +726,7 @@
       "gens": 30,
       "mins": 165,
       "period": "refill",
-      "price": 182.99,
+      "price": 59.19,
       "displayName": "30 gens + 165 min Refill"
     },
     {
@@ -734,7 +734,7 @@
       "gens": 30,
       "mins": 180,
       "period": "refill",
-      "price": 197.99,
+      "price": 62.94,
       "displayName": "30 gens + 180 min Refill"
     },
     {
@@ -742,7 +742,7 @@
       "gens": 35,
       "mins": 0,
       "period": "refill",
-      "price": 20.93,
+      "price": 7.0,
       "displayName": "35 gens Refill"
     },
     {
@@ -750,7 +750,7 @@
       "gens": 35,
       "mins": 15,
       "period": "refill",
-      "price": 35.95,
+      "price": 24.68,
       "displayName": "35 gens + 15 min Refill"
     },
     {
@@ -758,7 +758,7 @@
       "gens": 35,
       "mins": 30,
       "period": "refill",
-      "price": 50.99,
+      "price": 28.43,
       "displayName": "35 gens + 30 min Refill"
     },
     {
@@ -766,7 +766,7 @@
       "gens": 35,
       "mins": 45,
       "period": "refill",
-      "price": 65.9,
+      "price": 32.18,
       "displayName": "35 gens + 45 min Refill"
     },
     {
@@ -774,7 +774,7 @@
       "gens": 35,
       "mins": 60,
       "period": "refill",
-      "price": 80.9,
+      "price": 35.93,
       "displayName": "35 gens + 60 min Refill"
     },
     {
@@ -782,7 +782,7 @@
       "gens": 35,
       "mins": 75,
       "period": "refill",
-      "price": 95.9,
+      "price": 39.68,
       "displayName": "35 gens + 75 min Refill"
     },
     {
@@ -790,7 +790,7 @@
       "gens": 35,
       "mins": 90,
       "period": "refill",
-      "price": 110.99,
+      "price": 43.43,
       "displayName": "35 gens + 90 min Refill"
     },
     {
@@ -798,7 +798,7 @@
       "gens": 35,
       "mins": 105,
       "period": "refill",
-      "price": 125.99,
+      "price": 47.18,
       "displayName": "35 gens + 105 min Refill"
     },
     {
@@ -806,7 +806,7 @@
       "gens": 35,
       "mins": 120,
       "period": "refill",
-      "price": 140.99,
+      "price": 50.93,
       "displayName": "35 gens + 120 min Refill"
     },
     {
@@ -814,7 +814,7 @@
       "gens": 35,
       "mins": 135,
       "period": "refill",
-      "price": 155.99,
+      "price": 54.68,
       "displayName": "35 gens + 135 min Refill"
     },
     {
@@ -822,7 +822,7 @@
       "gens": 35,
       "mins": 150,
       "period": "refill",
-      "price": 170.99,
+      "price": 58.43,
       "displayName": "35 gens + 150 min Refill"
     },
     {
@@ -830,7 +830,7 @@
       "gens": 35,
       "mins": 165,
       "period": "refill",
-      "price": 185.99,
+      "price": 62.18,
       "displayName": "35 gens + 165 min Refill"
     },
     {
@@ -838,7 +838,7 @@
       "gens": 35,
       "mins": 180,
       "period": "refill",
-      "price": 204.99,
+      "price": 65.93,
       "displayName": "35 gens + 180 min Refill"
     },
     {
@@ -846,7 +846,7 @@
       "gens": 40,
       "mins": 0,
       "period": "refill",
-      "price": 23.92,
+      "price": 8.0,
       "displayName": "40 gens Refill"
     },
     {
@@ -854,7 +854,7 @@
       "gens": 40,
       "mins": 15,
       "period": "refill",
-      "price": 38.95,
+      "price": 27.67,
       "displayName": "40 gens + 15 min Refill"
     },
     {
@@ -862,7 +862,7 @@
       "gens": 40,
       "mins": 30,
       "period": "refill",
-      "price": 53.9,
+      "price": 31.42,
       "displayName": "40 gens + 30 min Refill"
     },
     {
@@ -870,7 +870,7 @@
       "gens": 40,
       "mins": 45,
       "period": "refill",
-      "price": 68.9,
+      "price": 35.17,
       "displayName": "40 gens + 45 min Refill"
     },
     {
@@ -878,7 +878,7 @@
       "gens": 40,
       "mins": 60,
       "period": "refill",
-      "price": 83.9,
+      "price": 38.92,
       "displayName": "40 gens + 60 min Refill"
     },
     {
@@ -886,7 +886,7 @@
       "gens": 40,
       "mins": 75,
       "period": "refill",
-      "price": 98.9,
+      "price": 42.67,
       "displayName": "40 gens + 75 min Refill"
     },
     {
@@ -894,7 +894,7 @@
       "gens": 40,
       "mins": 90,
       "period": "refill",
-      "price": 113.99,
+      "price": 46.42,
       "displayName": "40 gens + 90 min Refill"
     },
     {
@@ -902,7 +902,7 @@
       "gens": 40,
       "mins": 105,
       "period": "refill",
-      "price": 128.99,
+      "price": 50.17,
       "displayName": "40 gens + 105 min Refill"
     },
     {
@@ -910,7 +910,7 @@
       "gens": 40,
       "mins": 120,
       "period": "refill",
-      "price": 143.99,
+      "price": 53.92,
       "displayName": "40 gens + 120 min Refill"
     },
     {
@@ -918,7 +918,7 @@
       "gens": 40,
       "mins": 135,
       "period": "refill",
-      "price": 158.99,
+      "price": 57.67,
       "displayName": "40 gens + 135 min Refill"
     },
     {
@@ -926,7 +926,7 @@
       "gens": 40,
       "mins": 150,
       "period": "refill",
-      "price": 173.99,
+      "price": 61.42,
       "displayName": "40 gens + 150 min Refill"
     },
     {
@@ -934,7 +934,7 @@
       "gens": 40,
       "mins": 165,
       "period": "refill",
-      "price": 188.99,
+      "price": 65.17,
       "displayName": "40 gens + 165 min Refill"
     },
     {
@@ -942,7 +942,7 @@
       "gens": 40,
       "mins": 180,
       "period": "refill",
-      "price": 204.99,
+      "price": 68.92,
       "displayName": "40 gens + 180 min Refill"
     },
     {
@@ -950,7 +950,7 @@
       "gens": 45,
       "mins": 0,
       "period": "refill",
-      "price": 26.91,
+      "price": 9.0,
       "displayName": "45 gens Refill"
     },
     {
@@ -958,7 +958,7 @@
       "gens": 45,
       "mins": 15,
       "period": "refill",
-      "price": 41.9,
+      "price": 30.66,
       "displayName": "45 gens + 15 min Refill"
     },
     {
@@ -966,7 +966,7 @@
       "gens": 45,
       "mins": 30,
       "period": "refill",
-      "price": 56.9,
+      "price": 34.41,
       "displayName": "45 gens + 30 min Refill"
     },
     {
@@ -974,7 +974,7 @@
       "gens": 45,
       "mins": 45,
       "period": "refill",
-      "price": 71.9,
+      "price": 38.16,
       "displayName": "45 gens + 45 min Refill"
     },
     {
@@ -982,7 +982,7 @@
       "gens": 45,
       "mins": 60,
       "period": "refill",
-      "price": 86.9,
+      "price": 41.91,
       "displayName": "45 gens + 60 min Refill"
     },
     {
@@ -990,7 +990,7 @@
       "gens": 45,
       "mins": 75,
       "period": "refill",
-      "price": 101.99,
+      "price": 45.66,
       "displayName": "45 gens + 75 min Refill"
     },
     {
@@ -998,7 +998,7 @@
       "gens": 45,
       "mins": 90,
       "period": "refill",
-      "price": 116.99,
+      "price": 49.41,
       "displayName": "45 gens + 90 min Refill"
     },
     {
@@ -1006,7 +1006,7 @@
       "gens": 45,
       "mins": 105,
       "period": "refill",
-      "price": 131.99,
+      "price": 53.16,
       "displayName": "45 gens + 105 min Refill"
     },
     {
@@ -1014,7 +1014,7 @@
       "gens": 45,
       "mins": 120,
       "period": "refill",
-      "price": 146.99,
+      "price": 56.91,
       "displayName": "45 gens + 120 min Refill"
     },
     {
@@ -1022,7 +1022,7 @@
       "gens": 45,
       "mins": 135,
       "period": "refill",
-      "price": 161.99,
+      "price": 60.66,
       "displayName": "45 gens + 135 min Refill"
     },
     {
@@ -1030,7 +1030,7 @@
       "gens": 45,
       "mins": 150,
       "period": "refill",
-      "price": 176.99,
+      "price": 64.41,
       "displayName": "45 gens + 150 min Refill"
     },
     {
@@ -1038,7 +1038,7 @@
       "gens": 45,
       "mins": 165,
       "period": "refill",
-      "price": 191.99,
+      "price": 68.16,
       "displayName": "45 gens + 165 min Refill"
     },
     {
@@ -1046,7 +1046,7 @@
       "gens": 45,
       "mins": 180,
       "period": "refill",
-      "price": 209.0,
+      "price": 71.91,
       "displayName": "45 gens + 180 min Refill"
     },
     {
@@ -1054,7 +1054,7 @@
       "gens": 50,
       "mins": 0,
       "period": "refill",
-      "price": 29.9,
+      "price": 10.0,
       "displayName": "50 gens Refill"
     },
     {
@@ -1062,7 +1062,7 @@
       "gens": 50,
       "mins": 15,
       "period": "refill",
-      "price": 44.9,
+      "price": 33.65,
       "displayName": "50 gens + 15 min Refill"
     },
     {
@@ -1070,7 +1070,7 @@
       "gens": 50,
       "mins": 30,
       "period": "refill",
-      "price": 59.9,
+      "price": 37.4,
       "displayName": "50 gens + 30 min Refill"
     },
     {
@@ -1078,7 +1078,7 @@
       "gens": 50,
       "mins": 45,
       "period": "refill",
-      "price": 74.9,
+      "price": 41.15,
       "displayName": "50 gens + 45 min Refill"
     },
     {
@@ -1086,7 +1086,7 @@
       "gens": 50,
       "mins": 60,
       "period": "refill",
-      "price": 89.9,
+      "price": 44.9,
       "displayName": "50 gens + 60 min Refill"
     },
     {
@@ -1094,7 +1094,7 @@
       "gens": 50,
       "mins": 75,
       "period": "refill",
-      "price": 104.99,
+      "price": 48.65,
       "displayName": "50 gens + 75 min Refill"
     },
     {
@@ -1102,7 +1102,7 @@
       "gens": 50,
       "mins": 90,
       "period": "refill",
-      "price": 119.99,
+      "price": 52.4,
       "displayName": "50 gens + 90 min Refill"
     },
     {
@@ -1110,7 +1110,7 @@
       "gens": 50,
       "mins": 105,
       "period": "refill",
-      "price": 134.99,
+      "price": 56.15,
       "displayName": "50 gens + 105 min Refill"
     },
     {
@@ -1118,7 +1118,7 @@
       "gens": 50,
       "mins": 120,
       "period": "refill",
-      "price": 149.99,
+      "price": 59.9,
       "displayName": "50 gens + 120 min Refill"
     },
     {
@@ -1126,7 +1126,7 @@
       "gens": 50,
       "mins": 135,
       "period": "refill",
-      "price": 164.99,
+      "price": 63.65,
       "displayName": "50 gens + 135 min Refill"
     },
     {
@@ -1134,7 +1134,7 @@
       "gens": 50,
       "mins": 150,
       "period": "refill",
-      "price": 179.99,
+      "price": 67.4,
       "displayName": "50 gens + 150 min Refill"
     },
     {
@@ -1142,7 +1142,7 @@
       "gens": 50,
       "mins": 165,
       "period": "refill",
-      "price": 194.99,
+      "price": 71.15,
       "displayName": "50 gens + 165 min Refill"
     },
     {
@@ -1150,7 +1150,7 @@
       "gens": 50,
       "mins": 180,
       "period": "refill",
-      "price": 209.99,
+      "price": 74.9,
       "displayName": "50 gens + 180 min Refill"
     },
     {
@@ -1158,7 +1158,7 @@
       "gens": 55,
       "mins": 0,
       "period": "refill",
-      "price": 32.89,
+      "price": 11.0,
       "displayName": "55 gens Refill"
     },
     {
@@ -1166,7 +1166,7 @@
       "gens": 55,
       "mins": 15,
       "period": "refill",
-      "price": 47.9,
+      "price": 36.64,
       "displayName": "55 gens + 15 min Refill"
     },
     {
@@ -1174,7 +1174,7 @@
       "gens": 55,
       "mins": 30,
       "period": "refill",
-      "price": 62.9,
+      "price": 40.39,
       "displayName": "55 gens + 30 min Refill"
     },
     {
@@ -1182,7 +1182,7 @@
       "gens": 55,
       "mins": 45,
       "period": "refill",
-      "price": 77.9,
+      "price": 44.14,
       "displayName": "55 gens + 45 min Refill"
     },
     {
@@ -1190,7 +1190,7 @@
       "gens": 55,
       "mins": 60,
       "period": "refill",
-      "price": 92.9,
+      "price": 47.89,
       "displayName": "55 gens + 60 min Refill"
     },
     {
@@ -1198,7 +1198,7 @@
       "gens": 55,
       "mins": 75,
       "period": "refill",
-      "price": 107.99,
+      "price": 51.64,
       "displayName": "55 gens + 75 min Refill"
     },
     {
@@ -1206,7 +1206,7 @@
       "gens": 55,
       "mins": 90,
       "period": "refill",
-      "price": 122.99,
+      "price": 55.39,
       "displayName": "55 gens + 90 min Refill"
     },
     {
@@ -1214,7 +1214,7 @@
       "gens": 55,
       "mins": 105,
       "period": "refill",
-      "price": 137.99,
+      "price": 59.14,
       "displayName": "55 gens + 105 min Refill"
     },
     {
@@ -1222,7 +1222,7 @@
       "gens": 55,
       "mins": 120,
       "period": "refill",
-      "price": 152.99,
+      "price": 62.89,
       "displayName": "55 gens + 120 min Refill"
     },
     {
@@ -1230,7 +1230,7 @@
       "gens": 55,
       "mins": 135,
       "period": "refill",
-      "price": 167.99,
+      "price": 66.64,
       "displayName": "55 gens + 135 min Refill"
     },
     {
@@ -1238,7 +1238,7 @@
       "gens": 55,
       "mins": 150,
       "period": "refill",
-      "price": 182.99,
+      "price": 70.39,
       "displayName": "55 gens + 150 min Refill"
     },
     {
@@ -1246,7 +1246,7 @@
       "gens": 55,
       "mins": 165,
       "period": "refill",
-      "price": 197.99,
+      "price": 74.14,
       "displayName": "55 gens + 165 min Refill"
     },
     {
@@ -1254,7 +1254,7 @@
       "gens": 55,
       "mins": 180,
       "period": "refill",
-      "price": 214.99,
+      "price": 77.89,
       "displayName": "55 gens + 180 min Refill"
     },
     {
@@ -1262,7 +1262,7 @@
       "gens": 60,
       "mins": 0,
       "period": "refill",
-      "price": 35.88,
+      "price": 12.0,
       "displayName": "60 gens Refill"
     },
     {
@@ -1270,7 +1270,7 @@
       "gens": 60,
       "mins": 15,
       "period": "refill",
-      "price": 50.9,
+      "price": 39.63,
       "displayName": "60 gens + 15 min Refill"
     },
     {
@@ -1278,7 +1278,7 @@
       "gens": 60,
       "mins": 30,
       "period": "refill",
-      "price": 65.9,
+      "price": 43.38,
       "displayName": "60 gens + 30 min Refill"
     },
     {
@@ -1286,7 +1286,7 @@
       "gens": 60,
       "mins": 45,
       "period": "refill",
-      "price": 80.9,
+      "price": 47.13,
       "displayName": "60 gens + 45 min Refill"
     },
     {
@@ -1294,7 +1294,7 @@
       "gens": 60,
       "mins": 60,
       "period": "refill",
-      "price": 95.9,
+      "price": 50.88,
       "displayName": "60 gens + 60 min Refill"
     },
     {
@@ -1302,7 +1302,7 @@
       "gens": 60,
       "mins": 75,
       "period": "refill",
-      "price": 110.99,
+      "price": 54.63,
       "displayName": "60 gens + 75 min Refill"
     },
     {
@@ -1310,7 +1310,7 @@
       "gens": 60,
       "mins": 90,
       "period": "refill",
-      "price": 125.99,
+      "price": 58.38,
       "displayName": "60 gens + 90 min Refill"
     },
     {
@@ -1318,7 +1318,7 @@
       "gens": 60,
       "mins": 105,
       "period": "refill",
-      "price": 140.99,
+      "price": 62.13,
       "displayName": "60 gens + 105 min Refill"
     },
     {
@@ -1326,7 +1326,7 @@
       "gens": 60,
       "mins": 120,
       "period": "refill",
-      "price": 155.99,
+      "price": 65.88,
       "displayName": "60 gens + 120 min Refill"
     },
     {
@@ -1334,7 +1334,7 @@
       "gens": 60,
       "mins": 135,
       "period": "refill",
-      "price": 170.99,
+      "price": 69.63,
       "displayName": "60 gens + 135 min Refill"
     },
     {
@@ -1342,7 +1342,7 @@
       "gens": 60,
       "mins": 150,
       "period": "refill",
-      "price": 185.99,
+      "price": 73.38,
       "displayName": "60 gens + 150 min Refill"
     },
     {
@@ -1350,7 +1350,7 @@
       "gens": 60,
       "mins": 165,
       "period": "refill",
-      "price": 204.99,
+      "price": 77.13,
       "displayName": "60 gens + 165 min Refill"
     },
     {
@@ -1358,7 +1358,7 @@
       "gens": 60,
       "mins": 180,
       "period": "refill",
-      "price": 219.0,
+      "price": 80.88,
       "displayName": "60 gens + 180 min Refill"
     },
     {
@@ -1366,7 +1366,7 @@
       "gens": 0,
       "mins": 15,
       "period": "monthly",
-      "price": 12.99,
+      "price": 3.25,
       "displayName": "15 min Monthly"
     },
     {
@@ -1374,7 +1374,7 @@
       "gens": 0,
       "mins": 30,
       "period": "monthly",
-      "price": 25.99,
+      "price": 6.5,
       "displayName": "30 min Monthly"
     },
     {
@@ -1382,7 +1382,7 @@
       "gens": 0,
       "mins": 45,
       "period": "monthly",
-      "price": 38.99,
+      "price": 9.75,
       "displayName": "45 min Monthly"
     },
     {
@@ -1390,7 +1390,7 @@
       "gens": 0,
       "mins": 60,
       "period": "monthly",
-      "price": 51.99,
+      "price": 13.0,
       "displayName": "60 min Monthly"
     },
     {
@@ -1398,7 +1398,7 @@
       "gens": 0,
       "mins": 75,
       "period": "monthly",
-      "price": 64.99,
+      "price": 16.25,
       "displayName": "75 min Monthly"
     },
     {
@@ -1406,7 +1406,7 @@
       "gens": 0,
       "mins": 90,
       "period": "monthly",
-      "price": 77.99,
+      "price": 19.5,
       "displayName": "90 min Monthly"
     },
     {
@@ -1414,7 +1414,7 @@
       "gens": 0,
       "mins": 105,
       "period": "monthly",
-      "price": 90.99,
+      "price": 22.75,
       "displayName": "105 min Monthly"
     },
     {
@@ -1422,7 +1422,7 @@
       "gens": 0,
       "mins": 120,
       "period": "monthly",
-      "price": 103.99,
+      "price": 26.0,
       "displayName": "120 min Monthly"
     },
     {
@@ -1430,7 +1430,7 @@
       "gens": 0,
       "mins": 135,
       "period": "monthly",
-      "price": 116.99,
+      "price": 29.25,
       "displayName": "135 min Monthly"
     },
     {
@@ -1438,7 +1438,7 @@
       "gens": 0,
       "mins": 150,
       "period": "monthly",
-      "price": 129.99,
+      "price": 32.5,
       "displayName": "150 min Monthly"
     },
     {
@@ -1446,7 +1446,7 @@
       "gens": 0,
       "mins": 165,
       "period": "monthly",
-      "price": 142.99,
+      "price": 35.75,
       "displayName": "165 min Monthly"
     },
     {
@@ -1454,7 +1454,7 @@
       "gens": 0,
       "mins": 180,
       "period": "monthly",
-      "price": 155.99,
+      "price": 39.0,
       "displayName": "180 min Monthly"
     },
     {
@@ -1462,7 +1462,7 @@
       "gens": 5,
       "mins": 0,
       "period": "monthly",
-      "price": 1.99,
+      "price": 3.0,
       "displayName": "5 gens Monthly"
     },
     {
@@ -1470,7 +1470,7 @@
       "gens": 5,
       "mins": 15,
       "period": "monthly",
-      "price": 14.99,
+      "price": 5.24,
       "displayName": "5 gens + 15 min Monthly"
     },
     {
@@ -1478,7 +1478,7 @@
       "gens": 5,
       "mins": 30,
       "period": "monthly",
-      "price": 27.99,
+      "price": 8.49,
       "displayName": "5 gens + 30 min Monthly"
     },
     {
@@ -1486,7 +1486,7 @@
       "gens": 5,
       "mins": 45,
       "period": "monthly",
-      "price": 40.99,
+      "price": 11.74,
       "displayName": "5 gens + 45 min Monthly"
     },
     {
@@ -1494,7 +1494,7 @@
       "gens": 5,
       "mins": 60,
       "period": "monthly",
-      "price": 53.99,
+      "price": 14.99,
       "displayName": "5 gens + 60 min Monthly"
     },
     {
@@ -1502,7 +1502,7 @@
       "gens": 5,
       "mins": 75,
       "period": "monthly",
-      "price": 66.99,
+      "price": 18.24,
       "displayName": "5 gens + 75 min Monthly"
     },
     {
@@ -1510,7 +1510,7 @@
       "gens": 5,
       "mins": 90,
       "period": "monthly",
-      "price": 79.99,
+      "price": 21.49,
       "displayName": "5 gens + 90 min Monthly"
     },
     {
@@ -1518,7 +1518,7 @@
       "gens": 5,
       "mins": 105,
       "period": "monthly",
-      "price": 92.99,
+      "price": 24.74,
       "displayName": "5 gens + 105 min Monthly"
     },
     {
@@ -1526,7 +1526,7 @@
       "gens": 5,
       "mins": 120,
       "period": "monthly",
-      "price": 105.99,
+      "price": 27.99,
       "displayName": "5 gens + 120 min Monthly"
     },
     {
@@ -1534,7 +1534,7 @@
       "gens": 5,
       "mins": 135,
       "period": "monthly",
-      "price": 118.99,
+      "price": 31.24,
       "displayName": "5 gens + 135 min Monthly"
     },
     {
@@ -1542,7 +1542,7 @@
       "gens": 5,
       "mins": 150,
       "period": "monthly",
-      "price": 131.99,
+      "price": 34.49,
       "displayName": "5 gens + 150 min Monthly"
     },
     {
@@ -1550,7 +1550,7 @@
       "gens": 5,
       "mins": 165,
       "period": "monthly",
-      "price": 144.99,
+      "price": 37.74,
       "displayName": "5 gens + 165 min Monthly"
     },
     {
@@ -1558,7 +1558,7 @@
       "gens": 5,
       "mins": 180,
       "period": "monthly",
-      "price": 157.99,
+      "price": 40.99,
       "displayName": "5 gens + 180 min Monthly"
     },
     {
@@ -1566,7 +1566,7 @@
       "gens": 10,
       "mins": 0,
       "period": "monthly",
-      "price": 3.98,
+      "price": 3.0,
       "displayName": "10 gens Monthly"
     },
     {
@@ -1574,7 +1574,7 @@
       "gens": 10,
       "mins": 15,
       "period": "monthly",
-      "price": 16.99,
+      "price": 7.23,
       "displayName": "10 gens + 15 min Monthly"
     },
     {
@@ -1582,7 +1582,7 @@
       "gens": 10,
       "mins": 30,
       "period": "monthly",
-      "price": 29.99,
+      "price": 10.48,
       "displayName": "10 gens + 30 min Monthly"
     },
     {
@@ -1590,7 +1590,7 @@
       "gens": 10,
       "mins": 45,
       "period": "monthly",
-      "price": 42.95,
+      "price": 13.73,
       "displayName": "10 gens + 45 min Monthly"
     },
     {
@@ -1598,7 +1598,7 @@
       "gens": 10,
       "mins": 60,
       "period": "monthly",
-      "price": 55.99,
+      "price": 16.98,
       "displayName": "10 gens + 60 min Monthly"
     },
     {
@@ -1606,7 +1606,7 @@
       "gens": 10,
       "mins": 75,
       "period": "monthly",
-      "price": 68.99,
+      "price": 20.23,
       "displayName": "10 gens + 75 min Monthly"
     },
     {
@@ -1614,7 +1614,7 @@
       "gens": 10,
       "mins": 90,
       "period": "monthly",
-      "price": 81.99,
+      "price": 23.48,
       "displayName": "10 gens + 90 min Monthly"
     },
     {
@@ -1622,7 +1622,7 @@
       "gens": 10,
       "mins": 105,
       "period": "monthly",
-      "price": 94.99,
+      "price": 26.73,
       "displayName": "10 gens + 105 min Monthly"
     },
     {
@@ -1630,7 +1630,7 @@
       "gens": 10,
       "mins": 120,
       "period": "monthly",
-      "price": 107.99,
+      "price": 29.98,
       "displayName": "10 gens + 120 min Monthly"
     },
     {
@@ -1638,7 +1638,7 @@
       "gens": 10,
       "mins": 135,
       "period": "monthly",
-      "price": 120.99,
+      "price": 33.23,
       "displayName": "10 gens + 135 min Monthly"
     },
     {
@@ -1646,7 +1646,7 @@
       "gens": 10,
       "mins": 150,
       "period": "monthly",
-      "price": 133.99,
+      "price": 36.48,
       "displayName": "10 gens + 150 min Monthly"
     },
     {
@@ -1654,7 +1654,7 @@
       "gens": 10,
       "mins": 165,
       "period": "monthly",
-      "price": 146.99,
+      "price": 39.73,
       "displayName": "10 gens + 165 min Monthly"
     },
     {
@@ -1662,7 +1662,7 @@
       "gens": 10,
       "mins": 180,
       "period": "monthly",
-      "price": 159.99,
+      "price": 42.98,
       "displayName": "10 gens + 180 min Monthly"
     },
     {
@@ -1670,7 +1670,7 @@
       "gens": 15,
       "mins": 0,
       "period": "monthly",
-      "price": 5.97,
+      "price": 3.0,
       "displayName": "15 gens Monthly"
     },
     {
@@ -1678,7 +1678,7 @@
       "gens": 15,
       "mins": 15,
       "period": "monthly",
-      "price": 18.99,
+      "price": 9.22,
       "displayName": "15 gens + 15 min Monthly"
     },
     {
@@ -1686,7 +1686,7 @@
       "gens": 15,
       "mins": 30,
       "period": "monthly",
-      "price": 31.95,
+      "price": 12.47,
       "displayName": "15 gens + 30 min Monthly"
     },
     {
@@ -1694,7 +1694,7 @@
       "gens": 15,
       "mins": 45,
       "period": "monthly",
-      "price": 44.95,
+      "price": 15.72,
       "displayName": "15 gens + 45 min Monthly"
     },
     {
@@ -1702,7 +1702,7 @@
       "gens": 15,
       "mins": 60,
       "period": "monthly",
-      "price": 57.99,
+      "price": 18.97,
       "displayName": "15 gens + 60 min Monthly"
     },
     {
@@ -1710,7 +1710,7 @@
       "gens": 15,
       "mins": 75,
       "period": "monthly",
-      "price": 70.99,
+      "price": 22.22,
       "displayName": "15 gens + 75 min Monthly"
     },
     {
@@ -1718,7 +1718,7 @@
       "gens": 15,
       "mins": 90,
       "period": "monthly",
-      "price": 83.99,
+      "price": 25.47,
       "displayName": "15 gens + 90 min Monthly"
     },
     {
@@ -1726,7 +1726,7 @@
       "gens": 15,
       "mins": 105,
       "period": "monthly",
-      "price": 96.9,
+      "price": 28.72,
       "displayName": "15 gens + 105 min Monthly"
     },
     {
@@ -1734,7 +1734,7 @@
       "gens": 15,
       "mins": 120,
       "period": "monthly",
-      "price": 109.99,
+      "price": 31.97,
       "displayName": "15 gens + 120 min Monthly"
     },
     {
@@ -1742,7 +1742,7 @@
       "gens": 15,
       "mins": 135,
       "period": "monthly",
-      "price": 122.99,
+      "price": 35.22,
       "displayName": "15 gens + 135 min Monthly"
     },
     {
@@ -1750,7 +1750,7 @@
       "gens": 15,
       "mins": 150,
       "period": "monthly",
-      "price": 135.99,
+      "price": 38.47,
       "displayName": "15 gens + 150 min Monthly"
     },
     {
@@ -1758,7 +1758,7 @@
       "gens": 15,
       "mins": 165,
       "period": "monthly",
-      "price": 148.99,
+      "price": 41.72,
       "displayName": "15 gens + 165 min Monthly"
     },
     {
@@ -1766,7 +1766,7 @@
       "gens": 15,
       "mins": 180,
       "period": "monthly",
-      "price": 161.99,
+      "price": 44.97,
       "displayName": "15 gens + 180 min Monthly"
     },
     {
@@ -1774,7 +1774,7 @@
       "gens": 20,
       "mins": 0,
       "period": "monthly",
-      "price": 7.96,
+      "price": 4.0,
       "displayName": "20 gens Monthly"
     },
     {
@@ -1782,7 +1782,7 @@
       "gens": 20,
       "mins": 15,
       "period": "monthly",
-      "price": 20.95,
+      "price": 11.21,
       "displayName": "20 gens + 15 min Monthly"
     },
     {
@@ -1790,7 +1790,7 @@
       "gens": 20,
       "mins": 30,
       "period": "monthly",
-      "price": 33.95,
+      "price": 14.46,
       "displayName": "20 gens + 30 min Monthly"
     },
     {
@@ -1798,7 +1798,7 @@
       "gens": 20,
       "mins": 45,
       "period": "monthly",
-      "price": 46.95,
+      "price": 17.71,
       "displayName": "20 gens + 45 min Monthly"
     },
     {
@@ -1806,7 +1806,7 @@
       "gens": 20,
       "mins": 60,
       "period": "monthly",
-      "price": 59.99,
+      "price": 20.96,
       "displayName": "20 gens + 60 min Monthly"
     },
     {
@@ -1814,7 +1814,7 @@
       "gens": 20,
       "mins": 75,
       "period": "monthly",
-      "price": 72.99,
+      "price": 24.21,
       "displayName": "20 gens + 75 min Monthly"
     },
     {
@@ -1822,7 +1822,7 @@
       "gens": 20,
       "mins": 90,
       "period": "monthly",
-      "price": 85.9,
+      "price": 27.46,
       "displayName": "20 gens + 90 min Monthly"
     },
     {
@@ -1830,7 +1830,7 @@
       "gens": 20,
       "mins": 105,
       "period": "monthly",
-      "price": 98.9,
+      "price": 30.71,
       "displayName": "20 gens + 105 min Monthly"
     },
     {
@@ -1838,7 +1838,7 @@
       "gens": 20,
       "mins": 120,
       "period": "monthly",
-      "price": 111.99,
+      "price": 33.96,
       "displayName": "20 gens + 120 min Monthly"
     },
     {
@@ -1846,7 +1846,7 @@
       "gens": 20,
       "mins": 135,
       "period": "monthly",
-      "price": 124.99,
+      "price": 37.21,
       "displayName": "20 gens + 135 min Monthly"
     },
     {
@@ -1854,7 +1854,7 @@
       "gens": 20,
       "mins": 150,
       "period": "monthly",
-      "price": 137.99,
+      "price": 40.46,
       "displayName": "20 gens + 150 min Monthly"
     },
     {
@@ -1862,7 +1862,7 @@
       "gens": 20,
       "mins": 165,
       "period": "monthly",
-      "price": 150.99,
+      "price": 43.71,
       "displayName": "20 gens + 165 min Monthly"
     },
     {
@@ -1870,7 +1870,7 @@
       "gens": 20,
       "mins": 180,
       "period": "monthly",
-      "price": 163.99,
+      "price": 46.96,
       "displayName": "20 gens + 180 min Monthly"
     },
     {
@@ -1878,7 +1878,7 @@
       "gens": 25,
       "mins": 0,
       "period": "monthly",
-      "price": 9.95,
+      "price": 5.0,
       "displayName": "25 gens Monthly"
     },
     {
@@ -1886,7 +1886,7 @@
       "gens": 25,
       "mins": 15,
       "period": "monthly",
-      "price": 22.95,
+      "price": 13.2,
       "displayName": "25 gens + 15 min Monthly"
     },
     {
@@ -1894,7 +1894,7 @@
       "gens": 25,
       "mins": 30,
       "period": "monthly",
-      "price": 35.95,
+      "price": 16.45,
       "displayName": "25 gens + 30 min Monthly"
     },
     {
@@ -1902,7 +1902,7 @@
       "gens": 25,
       "mins": 45,
       "period": "monthly",
-      "price": 48.95,
+      "price": 19.7,
       "displayName": "25 gens + 45 min Monthly"
     },
     {
@@ -1910,7 +1910,7 @@
       "gens": 25,
       "mins": 60,
       "period": "monthly",
-      "price": 61.99,
+      "price": 22.95,
       "displayName": "25 gens + 60 min Monthly"
     },
     {
@@ -1918,7 +1918,7 @@
       "gens": 25,
       "mins": 75,
       "period": "monthly",
-      "price": 74.9,
+      "price": 26.2,
       "displayName": "25 gens + 75 min Monthly"
     },
     {
@@ -1926,7 +1926,7 @@
       "gens": 25,
       "mins": 90,
       "period": "monthly",
-      "price": 87.9,
+      "price": 29.45,
       "displayName": "25 gens + 90 min Monthly"
     },
     {
@@ -1934,7 +1934,7 @@
       "gens": 25,
       "mins": 105,
       "period": "monthly",
-      "price": 100.99,
+      "price": 32.7,
       "displayName": "25 gens + 105 min Monthly"
     },
     {
@@ -1942,7 +1942,7 @@
       "gens": 25,
       "mins": 120,
       "period": "monthly",
-      "price": 113.99,
+      "price": 35.95,
       "displayName": "25 gens + 120 min Monthly"
     },
     {
@@ -1950,7 +1950,7 @@
       "gens": 25,
       "mins": 135,
       "period": "monthly",
-      "price": 126.99,
+      "price": 39.2,
       "displayName": "25 gens + 135 min Monthly"
     },
     {
@@ -1958,7 +1958,7 @@
       "gens": 25,
       "mins": 150,
       "period": "monthly",
-      "price": 139.99,
+      "price": 42.45,
       "displayName": "25 gens + 150 min Monthly"
     },
     {
@@ -1966,7 +1966,7 @@
       "gens": 25,
       "mins": 165,
       "period": "monthly",
-      "price": 152.99,
+      "price": 45.7,
       "displayName": "25 gens + 165 min Monthly"
     },
     {
@@ -1974,7 +1974,7 @@
       "gens": 25,
       "mins": 180,
       "period": "monthly",
-      "price": 165.99,
+      "price": 48.95,
       "displayName": "25 gens + 180 min Monthly"
     },
     {
@@ -1982,7 +1982,7 @@
       "gens": 30,
       "mins": 0,
       "period": "monthly",
-      "price": 11.94,
+      "price": 6.0,
       "displayName": "30 gens Monthly"
     },
     {
@@ -1990,7 +1990,7 @@
       "gens": 30,
       "mins": 15,
       "period": "monthly",
-      "price": 24.95,
+      "price": 15.19,
       "displayName": "30 gens + 15 min Monthly"
     },
     {
@@ -1998,7 +1998,7 @@
       "gens": 30,
       "mins": 30,
       "period": "monthly",
-      "price": 37.95,
+      "price": 18.44,
       "displayName": "30 gens + 30 min Monthly"
     },
     {
@@ -2006,7 +2006,7 @@
       "gens": 30,
       "mins": 45,
       "period": "monthly",
-      "price": 50.99,
+      "price": 21.69,
       "displayName": "30 gens + 45 min Monthly"
     },
     {
@@ -2014,7 +2014,7 @@
       "gens": 30,
       "mins": 60,
       "period": "monthly",
-      "price": 63.9,
+      "price": 24.94,
       "displayName": "30 gens + 60 min Monthly"
     },
     {
@@ -2022,7 +2022,7 @@
       "gens": 30,
       "mins": 75,
       "period": "monthly",
-      "price": 76.9,
+      "price": 28.19,
       "displayName": "30 gens + 75 min Monthly"
     },
     {
@@ -2030,7 +2030,7 @@
       "gens": 30,
       "mins": 90,
       "period": "monthly",
-      "price": 89.9,
+      "price": 31.44,
       "displayName": "30 gens + 90 min Monthly"
     },
     {
@@ -2038,7 +2038,7 @@
       "gens": 30,
       "mins": 105,
       "period": "monthly",
-      "price": 102.99,
+      "price": 34.69,
       "displayName": "30 gens + 105 min Monthly"
     },
     {
@@ -2046,7 +2046,7 @@
       "gens": 30,
       "mins": 120,
       "period": "monthly",
-      "price": 115.99,
+      "price": 37.94,
       "displayName": "30 gens + 120 min Monthly"
     },
     {
@@ -2054,7 +2054,7 @@
       "gens": 30,
       "mins": 135,
       "period": "monthly",
-      "price": 128.99,
+      "price": 41.19,
       "displayName": "30 gens + 135 min Monthly"
     },
     {
@@ -2062,7 +2062,7 @@
       "gens": 30,
       "mins": 150,
       "period": "monthly",
-      "price": 141.99,
+      "price": 44.44,
       "displayName": "30 gens + 150 min Monthly"
     },
     {
@@ -2070,7 +2070,7 @@
       "gens": 30,
       "mins": 165,
       "period": "monthly",
-      "price": 154.99,
+      "price": 47.69,
       "displayName": "30 gens + 165 min Monthly"
     },
     {
@@ -2078,7 +2078,7 @@
       "gens": 30,
       "mins": 180,
       "period": "monthly",
-      "price": 167.99,
+      "price": 50.94,
       "displayName": "30 gens + 180 min Monthly"
     },
     {
@@ -2086,7 +2086,7 @@
       "gens": 35,
       "mins": 0,
       "period": "monthly",
-      "price": 13.93,
+      "price": 7.0,
       "displayName": "35 gens Monthly"
     },
     {
@@ -2094,7 +2094,7 @@
       "gens": 35,
       "mins": 15,
       "period": "monthly",
-      "price": 26.95,
+      "price": 17.18,
       "displayName": "35 gens + 15 min Monthly"
     },
     {
@@ -2102,7 +2102,7 @@
       "gens": 35,
       "mins": 30,
       "period": "monthly",
-      "price": 39.95,
+      "price": 20.43,
       "displayName": "35 gens + 30 min Monthly"
     },
     {
@@ -2110,7 +2110,7 @@
       "gens": 35,
       "mins": 45,
       "period": "monthly",
-      "price": 52.9,
+      "price": 23.68,
       "displayName": "35 gens + 45 min Monthly"
     },
     {
@@ -2118,7 +2118,7 @@
       "gens": 35,
       "mins": 60,
       "period": "monthly",
-      "price": 65.9,
+      "price": 26.93,
       "displayName": "35 gens + 60 min Monthly"
     },
     {
@@ -2126,7 +2126,7 @@
       "gens": 35,
       "mins": 75,
       "period": "monthly",
-      "price": 78.9,
+      "price": 30.18,
       "displayName": "35 gens + 75 min Monthly"
     },
     {
@@ -2134,7 +2134,7 @@
       "gens": 35,
       "mins": 90,
       "period": "monthly",
-      "price": 91.9,
+      "price": 33.43,
       "displayName": "35 gens + 90 min Monthly"
     },
     {
@@ -2142,7 +2142,7 @@
       "gens": 35,
       "mins": 105,
       "period": "monthly",
-      "price": 104.99,
+      "price": 36.68,
       "displayName": "35 gens + 105 min Monthly"
     },
     {
@@ -2150,7 +2150,7 @@
       "gens": 35,
       "mins": 120,
       "period": "monthly",
-      "price": 117.99,
+      "price": 39.93,
       "displayName": "35 gens + 120 min Monthly"
     },
     {
@@ -2158,7 +2158,7 @@
       "gens": 35,
       "mins": 135,
       "period": "monthly",
-      "price": 130.99,
+      "price": 43.18,
       "displayName": "35 gens + 135 min Monthly"
     },
     {
@@ -2166,7 +2166,7 @@
       "gens": 35,
       "mins": 150,
       "period": "monthly",
-      "price": 143.99,
+      "price": 46.43,
       "displayName": "35 gens + 150 min Monthly"
     },
     {
@@ -2174,7 +2174,7 @@
       "gens": 35,
       "mins": 165,
       "period": "monthly",
-      "price": 156.99,
+      "price": 49.68,
       "displayName": "35 gens + 165 min Monthly"
     },
     {
@@ -2182,7 +2182,7 @@
       "gens": 35,
       "mins": 180,
       "period": "monthly",
-      "price": 169.99,
+      "price": 52.93,
       "displayName": "35 gens + 180 min Monthly"
     },
     {
@@ -2190,7 +2190,7 @@
       "gens": 40,
       "mins": 0,
       "period": "monthly",
-      "price": 15.92,
+      "price": 8.0,
       "displayName": "40 gens Monthly"
     },
     {
@@ -2198,7 +2198,7 @@
       "gens": 40,
       "mins": 15,
       "period": "monthly",
-      "price": 28.95,
+      "price": 19.17,
       "displayName": "40 gens + 15 min Monthly"
     },
     {
@@ -2206,7 +2206,7 @@
       "gens": 40,
       "mins": 30,
       "period": "monthly",
-      "price": 41.9,
+      "price": 22.42,
       "displayName": "40 gens + 30 min Monthly"
     },
     {
@@ -2214,7 +2214,7 @@
       "gens": 40,
       "mins": 45,
       "period": "monthly",
-      "price": 54.9,
+      "price": 25.67,
       "displayName": "40 gens + 45 min Monthly"
     },
     {
@@ -2222,7 +2222,7 @@
       "gens": 40,
       "mins": 60,
       "period": "monthly",
-      "price": 67.9,
+      "price": 28.92,
       "displayName": "40 gens + 60 min Monthly"
     },
     {
@@ -2230,7 +2230,7 @@
       "gens": 40,
       "mins": 75,
       "period": "monthly",
-      "price": 80.9,
+      "price": 32.17,
       "displayName": "40 gens + 75 min Monthly"
     },
     {
@@ -2238,7 +2238,7 @@
       "gens": 40,
       "mins": 90,
       "period": "monthly",
-      "price": 93.9,
+      "price": 35.42,
       "displayName": "40 gens + 90 min Monthly"
     },
     {
@@ -2246,7 +2246,7 @@
       "gens": 40,
       "mins": 105,
       "period": "monthly",
-      "price": 106.99,
+      "price": 38.67,
       "displayName": "40 gens + 105 min Monthly"
     },
     {
@@ -2254,7 +2254,7 @@
       "gens": 40,
       "mins": 120,
       "period": "monthly",
-      "price": 119.99,
+      "price": 41.92,
       "displayName": "40 gens + 120 min Monthly"
     },
     {
@@ -2262,7 +2262,7 @@
       "gens": 40,
       "mins": 135,
       "period": "monthly",
-      "price": 132.99,
+      "price": 45.17,
       "displayName": "40 gens + 135 min Monthly"
     },
     {
@@ -2270,7 +2270,7 @@
       "gens": 40,
       "mins": 150,
       "period": "monthly",
-      "price": 145.99,
+      "price": 48.42,
       "displayName": "40 gens + 150 min Monthly"
     },
     {
@@ -2278,7 +2278,7 @@
       "gens": 40,
       "mins": 165,
       "period": "monthly",
-      "price": 158.99,
+      "price": 51.67,
       "displayName": "40 gens + 165 min Monthly"
     },
     {
@@ -2286,7 +2286,7 @@
       "gens": 40,
       "mins": 180,
       "period": "monthly",
-      "price": 171.99,
+      "price": 54.92,
       "displayName": "40 gens + 180 min Monthly"
     },
     {
@@ -2294,7 +2294,7 @@
       "gens": 45,
       "mins": 0,
       "period": "monthly",
-      "price": 17.91,
+      "price": 9.0,
       "displayName": "45 gens Monthly"
     },
     {
@@ -2302,7 +2302,7 @@
       "gens": 45,
       "mins": 15,
       "period": "monthly",
-      "price": 30.9,
+      "price": 21.16,
       "displayName": "45 gens + 15 min Monthly"
     },
     {
@@ -2310,7 +2310,7 @@
       "gens": 45,
       "mins": 30,
       "period": "monthly",
-      "price": 43.9,
+      "price": 24.41,
       "displayName": "45 gens + 30 min Monthly"
     },
     {
@@ -2318,7 +2318,7 @@
       "gens": 45,
       "mins": 45,
       "period": "monthly",
-      "price": 56.9,
+      "price": 27.66,
       "displayName": "45 gens + 45 min Monthly"
     },
     {
@@ -2326,7 +2326,7 @@
       "gens": 45,
       "mins": 60,
       "period": "monthly",
-      "price": 69.9,
+      "price": 30.91,
       "displayName": "45 gens + 60 min Monthly"
     },
     {
@@ -2334,7 +2334,7 @@
       "gens": 45,
       "mins": 75,
       "period": "monthly",
-      "price": 82.9,
+      "price": 34.16,
       "displayName": "45 gens + 75 min Monthly"
     },
     {
@@ -2342,7 +2342,7 @@
       "gens": 45,
       "mins": 90,
       "period": "monthly",
-      "price": 95.9,
+      "price": 37.41,
       "displayName": "45 gens + 90 min Monthly"
     },
     {
@@ -2350,7 +2350,7 @@
       "gens": 45,
       "mins": 105,
       "period": "monthly",
-      "price": 108.99,
+      "price": 40.66,
       "displayName": "45 gens + 105 min Monthly"
     },
     {
@@ -2358,7 +2358,7 @@
       "gens": 45,
       "mins": 120,
       "period": "monthly",
-      "price": 121.99,
+      "price": 43.91,
       "displayName": "45 gens + 120 min Monthly"
     },
     {
@@ -2366,7 +2366,7 @@
       "gens": 45,
       "mins": 135,
       "period": "monthly",
-      "price": 134.99,
+      "price": 47.16,
       "displayName": "45 gens + 135 min Monthly"
     },
     {
@@ -2374,7 +2374,7 @@
       "gens": 45,
       "mins": 150,
       "period": "monthly",
-      "price": 147.99,
+      "price": 50.41,
       "displayName": "45 gens + 150 min Monthly"
     },
     {
@@ -2382,7 +2382,7 @@
       "gens": 45,
       "mins": 165,
       "period": "monthly",
-      "price": 160.99,
+      "price": 53.66,
       "displayName": "45 gens + 165 min Monthly"
     },
     {
@@ -2390,7 +2390,7 @@
       "gens": 45,
       "mins": 180,
       "period": "monthly",
-      "price": 173.99,
+      "price": 56.91,
       "displayName": "45 gens + 180 min Monthly"
     },
     {
@@ -2398,7 +2398,7 @@
       "gens": 50,
       "mins": 0,
       "period": "monthly",
-      "price": 19.9,
+      "price": 10.0,
       "displayName": "50 gens Monthly"
     },
     {
@@ -2406,7 +2406,7 @@
       "gens": 50,
       "mins": 15,
       "period": "monthly",
-      "price": 32.9,
+      "price": 23.15,
       "displayName": "50 gens + 15 min Monthly"
     },
     {
@@ -2414,7 +2414,7 @@
       "gens": 50,
       "mins": 30,
       "period": "monthly",
-      "price": 45.9,
+      "price": 26.4,
       "displayName": "50 gens + 30 min Monthly"
     },
     {
@@ -2422,7 +2422,7 @@
       "gens": 50,
       "mins": 45,
       "period": "monthly",
-      "price": 58.9,
+      "price": 29.65,
       "displayName": "50 gens + 45 min Monthly"
     },
     {
@@ -2430,7 +2430,7 @@
       "gens": 50,
       "mins": 60,
       "period": "monthly",
-      "price": 71.9,
+      "price": 32.9,
       "displayName": "50 gens + 60 min Monthly"
     },
     {
@@ -2438,7 +2438,7 @@
       "gens": 50,
       "mins": 75,
       "period": "monthly",
-      "price": 84.9,
+      "price": 36.15,
       "displayName": "50 gens + 75 min Monthly"
     },
     {
@@ -2446,7 +2446,7 @@
       "gens": 50,
       "mins": 90,
       "period": "monthly",
-      "price": 97.9,
+      "price": 39.4,
       "displayName": "50 gens + 90 min Monthly"
     },
     {
@@ -2454,7 +2454,7 @@
       "gens": 50,
       "mins": 105,
       "period": "monthly",
-      "price": 110.99,
+      "price": 42.65,
       "displayName": "50 gens + 105 min Monthly"
     },
     {
@@ -2462,7 +2462,7 @@
       "gens": 50,
       "mins": 120,
       "period": "monthly",
-      "price": 123.99,
+      "price": 45.9,
       "displayName": "50 gens + 120 min Monthly"
     },
     {
@@ -2470,7 +2470,7 @@
       "gens": 50,
       "mins": 135,
       "period": "monthly",
-      "price": 136.99,
+      "price": 49.15,
       "displayName": "50 gens + 135 min Monthly"
     },
     {
@@ -2478,7 +2478,7 @@
       "gens": 50,
       "mins": 150,
       "period": "monthly",
-      "price": 149.99,
+      "price": 52.4,
       "displayName": "50 gens + 150 min Monthly"
     },
     {
@@ -2486,7 +2486,7 @@
       "gens": 50,
       "mins": 165,
       "period": "monthly",
-      "price": 162.99,
+      "price": 55.65,
       "displayName": "50 gens + 165 min Monthly"
     },
     {
@@ -2494,7 +2494,7 @@
       "gens": 50,
       "mins": 180,
       "period": "monthly",
-      "price": 175.99,
+      "price": 58.9,
       "displayName": "50 gens + 180 min Monthly"
     },
     {
@@ -2502,7 +2502,7 @@
       "gens": 55,
       "mins": 0,
       "period": "monthly",
-      "price": 21.89,
+      "price": 11.0,
       "displayName": "55 gens Monthly"
     },
     {
@@ -2510,7 +2510,7 @@
       "gens": 55,
       "mins": 15,
       "period": "monthly",
-      "price": 34.9,
+      "price": 25.14,
       "displayName": "55 gens + 15 min Monthly"
     },
     {
@@ -2518,7 +2518,7 @@
       "gens": 55,
       "mins": 30,
       "period": "monthly",
-      "price": 47.9,
+      "price": 28.39,
       "displayName": "55 gens + 30 min Monthly"
     },
     {
@@ -2526,7 +2526,7 @@
       "gens": 55,
       "mins": 45,
       "period": "monthly",
-      "price": 60.9,
+      "price": 31.64,
       "displayName": "55 gens + 45 min Monthly"
     },
     {
@@ -2534,7 +2534,7 @@
       "gens": 55,
       "mins": 60,
       "period": "monthly",
-      "price": 73.9,
+      "price": 34.89,
       "displayName": "55 gens + 60 min Monthly"
     },
     {
@@ -2542,7 +2542,7 @@
       "gens": 55,
       "mins": 75,
       "period": "monthly",
-      "price": 86.9,
+      "price": 38.14,
       "displayName": "55 gens + 75 min Monthly"
     },
     {
@@ -2550,7 +2550,7 @@
       "gens": 55,
       "mins": 90,
       "period": "monthly",
-      "price": 99.9,
+      "price": 41.39,
       "displayName": "55 gens + 90 min Monthly"
     },
     {
@@ -2558,7 +2558,7 @@
       "gens": 55,
       "mins": 105,
       "period": "monthly",
-      "price": 112.99,
+      "price": 44.64,
       "displayName": "55 gens + 105 min Monthly"
     },
     {
@@ -2566,7 +2566,7 @@
       "gens": 55,
       "mins": 120,
       "period": "monthly",
-      "price": 125.99,
+      "price": 47.89,
       "displayName": "55 gens + 120 min Monthly"
     },
     {
@@ -2574,7 +2574,7 @@
       "gens": 55,
       "mins": 135,
       "period": "monthly",
-      "price": 138.99,
+      "price": 51.14,
       "displayName": "55 gens + 135 min Monthly"
     },
     {
@@ -2582,7 +2582,7 @@
       "gens": 55,
       "mins": 150,
       "period": "monthly",
-      "price": 151.99,
+      "price": 54.39,
       "displayName": "55 gens + 150 min Monthly"
     },
     {
@@ -2590,7 +2590,7 @@
       "gens": 55,
       "mins": 165,
       "period": "monthly",
-      "price": 164.99,
+      "price": 57.64,
       "displayName": "55 gens + 165 min Monthly"
     },
     {
@@ -2598,7 +2598,7 @@
       "gens": 55,
       "mins": 180,
       "period": "monthly",
-      "price": 177.99,
+      "price": 60.89,
       "displayName": "55 gens + 180 min Monthly"
     },
     {
@@ -2606,7 +2606,7 @@
       "gens": 60,
       "mins": 0,
       "period": "monthly",
-      "price": 23.88,
+      "price": 12.0,
       "displayName": "60 gens Monthly"
     },
     {
@@ -2614,7 +2614,7 @@
       "gens": 60,
       "mins": 15,
       "period": "monthly",
-      "price": 36.9,
+      "price": 27.13,
       "displayName": "60 gens + 15 min Monthly"
     },
     {
@@ -2622,7 +2622,7 @@
       "gens": 60,
       "mins": 30,
       "period": "monthly",
-      "price": 49.9,
+      "price": 30.38,
       "displayName": "60 gens + 30 min Monthly"
     },
     {
@@ -2630,7 +2630,7 @@
       "gens": 60,
       "mins": 45,
       "period": "monthly",
-      "price": 62.9,
+      "price": 33.63,
       "displayName": "60 gens + 45 min Monthly"
     },
     {
@@ -2638,7 +2638,7 @@
       "gens": 60,
       "mins": 60,
       "period": "monthly",
-      "price": 75.9,
+      "price": 36.88,
       "displayName": "60 gens + 60 min Monthly"
     },
     {
@@ -2646,7 +2646,7 @@
       "gens": 60,
       "mins": 75,
       "period": "monthly",
-      "price": 88.9,
+      "price": 40.13,
       "displayName": "60 gens + 75 min Monthly"
     },
     {
@@ -2654,7 +2654,7 @@
       "gens": 60,
       "mins": 90,
       "period": "monthly",
-      "price": 101.99,
+      "price": 43.38,
       "displayName": "60 gens + 90 min Monthly"
     },
     {
@@ -2662,7 +2662,7 @@
       "gens": 60,
       "mins": 105,
       "period": "monthly",
-      "price": 114.99,
+      "price": 46.63,
       "displayName": "60 gens + 105 min Monthly"
     },
     {
@@ -2670,7 +2670,7 @@
       "gens": 60,
       "mins": 120,
       "period": "monthly",
-      "price": 127.99,
+      "price": 49.88,
       "displayName": "60 gens + 120 min Monthly"
     },
     {
@@ -2678,7 +2678,7 @@
       "gens": 60,
       "mins": 135,
       "period": "monthly",
-      "price": 140.99,
+      "price": 53.13,
       "displayName": "60 gens + 135 min Monthly"
     },
     {
@@ -2686,7 +2686,7 @@
       "gens": 60,
       "mins": 150,
       "period": "monthly",
-      "price": 153.99,
+      "price": 56.38,
       "displayName": "60 gens + 150 min Monthly"
     },
     {
@@ -2694,7 +2694,7 @@
       "gens": 60,
       "mins": 165,
       "period": "monthly",
-      "price": 166.99,
+      "price": 59.63,
       "displayName": "60 gens + 165 min Monthly"
     },
     {
@@ -2702,7 +2702,7 @@
       "gens": 60,
       "mins": 180,
       "period": "monthly",
-      "price": 179.99,
+      "price": 62.88,
       "displayName": "60 gens + 180 min Monthly"
     },
     {
@@ -2710,7 +2710,7 @@
       "gens": 0,
       "mins": 15,
       "period": "yearly",
-      "price": 131.99,
+      "price": 33.0,
       "displayName": "15 min Yearly"
     },
     {
@@ -2718,7 +2718,7 @@
       "gens": 0,
       "mins": 30,
       "period": "yearly",
-      "price": 264.99,
+      "price": 66.0,
       "displayName": "30 min Yearly"
     },
     {
@@ -2726,7 +2726,7 @@
       "gens": 0,
       "mins": 45,
       "period": "yearly",
-      "price": 399.0,
+      "price": 99.0,
       "displayName": "45 min Yearly"
     },
     {
@@ -2734,7 +2734,7 @@
       "gens": 0,
       "mins": 60,
       "period": "yearly",
-      "price": 529.0,
+      "price": 132.0,
       "displayName": "60 min Yearly"
     },
     {
@@ -2742,7 +2742,7 @@
       "gens": 0,
       "mins": 75,
       "period": "yearly",
-      "price": 659.99,
+      "price": 165.0,
       "displayName": "75 min Yearly"
     },
     {
@@ -2750,7 +2750,7 @@
       "gens": 0,
       "mins": 90,
       "period": "yearly",
-      "price": 799.0,
+      "price": 198.0,
       "displayName": "90 min Yearly"
     },
     {
@@ -2758,7 +2758,7 @@
       "gens": 0,
       "mins": 105,
       "period": "yearly",
-      "price": 929.0,
+      "price": 231.0,
       "displayName": "105 min Yearly"
     },
     {
@@ -2766,7 +2766,7 @@
       "gens": 0,
       "mins": 120,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 264.0,
       "displayName": "120 min Yearly"
     },
     {
@@ -2774,7 +2774,7 @@
       "gens": 0,
       "mins": 135,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 297.0,
       "displayName": "135 min Yearly"
     },
     {
@@ -2782,7 +2782,7 @@
       "gens": 0,
       "mins": 150,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 330.0,
       "displayName": "150 min Yearly"
     },
     {
@@ -2790,7 +2790,7 @@
       "gens": 0,
       "mins": 165,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 363.0,
       "displayName": "165 min Yearly"
     },
     {
@@ -2798,7 +2798,7 @@
       "gens": 0,
       "mins": 180,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 396.0,
       "displayName": "180 min Yearly"
     },
     {
@@ -2806,7 +2806,7 @@
       "gens": 5,
       "mins": 0,
       "period": "yearly",
-      "price": 17.88,
+      "price": 12.0,
       "displayName": "5 gens Yearly"
     },
     {
@@ -2814,7 +2814,7 @@
       "gens": 5,
       "mins": 15,
       "period": "yearly",
-      "price": 149.99,
+      "price": 50.88,
       "displayName": "5 gens + 15 min Yearly"
     },
     {
@@ -2822,7 +2822,7 @@
       "gens": 5,
       "mins": 30,
       "period": "yearly",
-      "price": 284.99,
+      "price": 83.88,
       "displayName": "5 gens + 30 min Yearly"
     },
     {
@@ -2830,7 +2830,7 @@
       "gens": 5,
       "mins": 45,
       "period": "yearly",
-      "price": 414.99,
+      "price": 116.88,
       "displayName": "5 gens + 45 min Yearly"
     },
     {
@@ -2838,7 +2838,7 @@
       "gens": 5,
       "mins": 60,
       "period": "yearly",
-      "price": 549.0,
+      "price": 149.88,
       "displayName": "5 gens + 60 min Yearly"
     },
     {
@@ -2846,7 +2846,7 @@
       "gens": 5,
       "mins": 75,
       "period": "yearly",
-      "price": 679.0,
+      "price": 182.88,
       "displayName": "5 gens + 75 min Yearly"
     },
     {
@@ -2854,7 +2854,7 @@
       "gens": 5,
       "mins": 90,
       "period": "yearly",
-      "price": 809.99,
+      "price": 215.88,
       "displayName": "5 gens + 90 min Yearly"
     },
     {
@@ -2862,7 +2862,7 @@
       "gens": 5,
       "mins": 105,
       "period": "yearly",
-      "price": 949.0,
+      "price": 248.88,
       "displayName": "5 gens + 105 min Yearly"
     },
     {
@@ -2870,7 +2870,7 @@
       "gens": 5,
       "mins": 120,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 281.88,
       "displayName": "5 gens + 120 min Yearly"
     },
     {
@@ -2878,7 +2878,7 @@
       "gens": 5,
       "mins": 135,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 314.88,
       "displayName": "5 gens + 135 min Yearly"
     },
     {
@@ -2886,7 +2886,7 @@
       "gens": 5,
       "mins": 150,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 347.88,
       "displayName": "5 gens + 150 min Yearly"
     },
     {
@@ -2894,7 +2894,7 @@
       "gens": 5,
       "mins": 165,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 380.88,
       "displayName": "5 gens + 165 min Yearly"
     },
     {
@@ -2902,7 +2902,7 @@
       "gens": 5,
       "mins": 180,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 413.88,
       "displayName": "5 gens + 180 min Yearly"
     },
     {
@@ -2910,7 +2910,7 @@
       "gens": 10,
       "mins": 0,
       "period": "yearly",
-      "price": 35.76,
+      "price": 24.0,
       "displayName": "10 gens Yearly"
     },
     {
@@ -2918,7 +2918,7 @@
       "gens": 10,
       "mins": 15,
       "period": "yearly",
-      "price": 167.99,
+      "price": 68.76,
       "displayName": "10 gens + 15 min Yearly"
     },
     {
@@ -2926,7 +2926,7 @@
       "gens": 10,
       "mins": 30,
       "period": "yearly",
-      "price": 299.99,
+      "price": 101.76,
       "displayName": "10 gens + 30 min Yearly"
     },
     {
@@ -2934,7 +2934,7 @@
       "gens": 10,
       "mins": 45,
       "period": "yearly",
-      "price": 434.99,
+      "price": 134.76,
       "displayName": "10 gens + 45 min Yearly"
     },
     {
@@ -2942,7 +2942,7 @@
       "gens": 10,
       "mins": 60,
       "period": "yearly",
-      "price": 569.0,
+      "price": 167.76,
       "displayName": "10 gens + 60 min Yearly"
     },
     {
@@ -2950,7 +2950,7 @@
       "gens": 10,
       "mins": 75,
       "period": "yearly",
-      "price": 699.0,
+      "price": 200.76,
       "displayName": "10 gens + 75 min Yearly"
     },
     {
@@ -2958,7 +2958,7 @@
       "gens": 10,
       "mins": 90,
       "period": "yearly",
-      "price": 829.0,
+      "price": 233.76,
       "displayName": "10 gens + 90 min Yearly"
     },
     {
@@ -2966,7 +2966,7 @@
       "gens": 10,
       "mins": 105,
       "period": "yearly",
-      "price": 959.0,
+      "price": 266.76,
       "displayName": "10 gens + 105 min Yearly"
     },
     {
@@ -2974,7 +2974,7 @@
       "gens": 10,
       "mins": 120,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 299.76,
       "displayName": "10 gens + 120 min Yearly"
     },
     {
@@ -2982,7 +2982,7 @@
       "gens": 10,
       "mins": 135,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 332.76,
       "displayName": "10 gens + 135 min Yearly"
     },
     {
@@ -2990,7 +2990,7 @@
       "gens": 10,
       "mins": 150,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 365.76,
       "displayName": "10 gens + 150 min Yearly"
     },
     {
@@ -2998,7 +2998,7 @@
       "gens": 10,
       "mins": 165,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 398.76,
       "displayName": "10 gens + 165 min Yearly"
     },
     {
@@ -3006,7 +3006,7 @@
       "gens": 10,
       "mins": 180,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 431.76,
       "displayName": "10 gens + 180 min Yearly"
     },
     {
@@ -3014,7 +3014,7 @@
       "gens": 15,
       "mins": 0,
       "period": "yearly",
-      "price": 53.64,
+      "price": 36.0,
       "displayName": "15 gens Yearly"
     },
     {
@@ -3022,7 +3022,7 @@
       "gens": 15,
       "mins": 15,
       "period": "yearly",
-      "price": 185.99,
+      "price": 86.64,
       "displayName": "15 gens + 15 min Yearly"
     },
     {
@@ -3030,7 +3030,7 @@
       "gens": 15,
       "mins": 30,
       "period": "yearly",
-      "price": 319.0,
+      "price": 119.64,
       "displayName": "15 gens + 30 min Yearly"
     },
     {
@@ -3038,7 +3038,7 @@
       "gens": 15,
       "mins": 45,
       "period": "yearly",
-      "price": 449.99,
+      "price": 152.64,
       "displayName": "15 gens + 45 min Yearly"
     },
     {
@@ -3046,7 +3046,7 @@
       "gens": 15,
       "mins": 60,
       "period": "yearly",
-      "price": 589.0,
+      "price": 185.64,
       "displayName": "15 gens + 60 min Yearly"
     },
     {
@@ -3054,7 +3054,7 @@
       "gens": 15,
       "mins": 75,
       "period": "yearly",
-      "price": 719.0,
+      "price": 218.64,
       "displayName": "15 gens + 75 min Yearly"
     },
     {
@@ -3062,7 +3062,7 @@
       "gens": 15,
       "mins": 90,
       "period": "yearly",
-      "price": 849.0,
+      "price": 251.64,
       "displayName": "15 gens + 90 min Yearly"
     },
     {
@@ -3070,7 +3070,7 @@
       "gens": 15,
       "mins": 105,
       "period": "yearly",
-      "price": 979.0,
+      "price": 284.64,
       "displayName": "15 gens + 105 min Yearly"
     },
     {
@@ -3078,7 +3078,7 @@
       "gens": 15,
       "mins": 120,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 317.64,
       "displayName": "15 gens + 120 min Yearly"
     },
     {
@@ -3086,7 +3086,7 @@
       "gens": 15,
       "mins": 135,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 350.64,
       "displayName": "15 gens + 135 min Yearly"
     },
     {
@@ -3094,7 +3094,7 @@
       "gens": 15,
       "mins": 150,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 383.64,
       "displayName": "15 gens + 150 min Yearly"
     },
     {
@@ -3102,7 +3102,7 @@
       "gens": 15,
       "mins": 165,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 416.64,
       "displayName": "15 gens + 165 min Yearly"
     },
     {
@@ -3110,7 +3110,7 @@
       "gens": 15,
       "mins": 180,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 449.64,
       "displayName": "15 gens + 180 min Yearly"
     },
     {
@@ -3118,7 +3118,7 @@
       "gens": 20,
       "mins": 0,
       "period": "yearly",
-      "price": 71.52,
+      "price": 48.0,
       "displayName": "20 gens Yearly"
     },
     {
@@ -3126,7 +3126,7 @@
       "gens": 20,
       "mins": 15,
       "period": "yearly",
-      "price": 204.99,
+      "price": 104.52,
       "displayName": "20 gens + 15 min Yearly"
     },
     {
@@ -3134,7 +3134,7 @@
       "gens": 20,
       "mins": 30,
       "period": "yearly",
-      "price": 339.0,
+      "price": 137.52,
       "displayName": "20 gens + 30 min Yearly"
     },
     {
@@ -3142,7 +3142,7 @@
       "gens": 20,
       "mins": 45,
       "period": "yearly",
-      "price": 469.0,
+      "price": 170.52,
       "displayName": "20 gens + 45 min Yearly"
     },
     {
@@ -3150,7 +3150,7 @@
       "gens": 20,
       "mins": 60,
       "period": "yearly",
-      "price": 599.99,
+      "price": 203.52,
       "displayName": "20 gens + 60 min Yearly"
     },
     {
@@ -3158,7 +3158,7 @@
       "gens": 20,
       "mins": 75,
       "period": "yearly",
-      "price": 739.0,
+      "price": 236.52,
       "displayName": "20 gens + 75 min Yearly"
     },
     {
@@ -3166,7 +3166,7 @@
       "gens": 20,
       "mins": 90,
       "period": "yearly",
-      "price": 869.0,
+      "price": 269.52,
       "displayName": "20 gens + 90 min Yearly"
     },
     {
@@ -3174,7 +3174,7 @@
       "gens": 20,
       "mins": 105,
       "period": "yearly",
-      "price": 999.0,
+      "price": 302.52,
       "displayName": "20 gens + 105 min Yearly"
     },
     {
@@ -3182,7 +3182,7 @@
       "gens": 20,
       "mins": 120,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 335.52,
       "displayName": "20 gens + 120 min Yearly"
     },
     {
@@ -3190,7 +3190,7 @@
       "gens": 20,
       "mins": 135,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 368.52,
       "displayName": "20 gens + 135 min Yearly"
     },
     {
@@ -3198,7 +3198,7 @@
       "gens": 20,
       "mins": 150,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 401.52,
       "displayName": "20 gens + 150 min Yearly"
     },
     {
@@ -3206,7 +3206,7 @@
       "gens": 20,
       "mins": 165,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 434.52,
       "displayName": "20 gens + 165 min Yearly"
     },
     {
@@ -3214,7 +3214,7 @@
       "gens": 20,
       "mins": 180,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 467.52,
       "displayName": "20 gens + 180 min Yearly"
     },
     {
@@ -3222,7 +3222,7 @@
       "gens": 25,
       "mins": 0,
       "period": "yearly",
-      "price": 89.4,
+      "price": 60.0,
       "displayName": "25 gens Yearly"
     },
     {
@@ -3230,7 +3230,7 @@
       "gens": 25,
       "mins": 15,
       "period": "yearly",
-      "price": 224.99,
+      "price": 122.4,
       "displayName": "25 gens + 15 min Yearly"
     },
     {
@@ -3238,7 +3238,7 @@
       "gens": 25,
       "mins": 30,
       "period": "yearly",
-      "price": 354.99,
+      "price": 155.4,
       "displayName": "25 gens + 30 min Yearly"
     },
     {
@@ -3246,7 +3246,7 @@
       "gens": 25,
       "mins": 45,
       "period": "yearly",
-      "price": 489.0,
+      "price": 188.4,
       "displayName": "25 gens + 45 min Yearly"
     },
     {
@@ -3254,7 +3254,7 @@
       "gens": 25,
       "mins": 60,
       "period": "yearly",
-      "price": 619.0,
+      "price": 221.4,
       "displayName": "25 gens + 60 min Yearly"
     },
     {
@@ -3262,7 +3262,7 @@
       "gens": 25,
       "mins": 75,
       "period": "yearly",
-      "price": 749.0,
+      "price": 254.4,
       "displayName": "25 gens + 75 min Yearly"
     },
     {
@@ -3270,7 +3270,7 @@
       "gens": 25,
       "mins": 90,
       "period": "yearly",
-      "price": 889.0,
+      "price": 287.4,
       "displayName": "25 gens + 90 min Yearly"
     },
     {
@@ -3278,7 +3278,7 @@
       "gens": 25,
       "mins": 105,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 320.4,
       "displayName": "25 gens + 105 min Yearly"
     },
     {
@@ -3286,7 +3286,7 @@
       "gens": 25,
       "mins": 120,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 353.4,
       "displayName": "25 gens + 120 min Yearly"
     },
     {
@@ -3294,7 +3294,7 @@
       "gens": 25,
       "mins": 135,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 386.4,
       "displayName": "25 gens + 135 min Yearly"
     },
     {
@@ -3302,7 +3302,7 @@
       "gens": 25,
       "mins": 150,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 419.4,
       "displayName": "25 gens + 150 min Yearly"
     },
     {
@@ -3310,7 +3310,7 @@
       "gens": 25,
       "mins": 165,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 452.4,
       "displayName": "25 gens + 165 min Yearly"
     },
     {
@@ -3318,7 +3318,7 @@
       "gens": 25,
       "mins": 180,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 485.4,
       "displayName": "25 gens + 180 min Yearly"
     },
     {
@@ -3326,7 +3326,7 @@
       "gens": 30,
       "mins": 0,
       "period": "yearly",
-      "price": 107.28,
+      "price": 72.0,
       "displayName": "30 gens Yearly"
     },
     {
@@ -3334,7 +3334,7 @@
       "gens": 30,
       "mins": 15,
       "period": "yearly",
-      "price": 239.99,
+      "price": 140.28,
       "displayName": "30 gens + 15 min Yearly"
     },
     {
@@ -3342,7 +3342,7 @@
       "gens": 30,
       "mins": 30,
       "period": "yearly",
-      "price": 374.99,
+      "price": 173.28,
       "displayName": "30 gens + 30 min Yearly"
     },
     {
@@ -3350,7 +3350,7 @@
       "gens": 30,
       "mins": 45,
       "period": "yearly",
-      "price": 509.0,
+      "price": 206.28,
       "displayName": "30 gens + 45 min Yearly"
     },
     {
@@ -3358,7 +3358,7 @@
       "gens": 30,
       "mins": 60,
       "period": "yearly",
-      "price": 639.0,
+      "price": 239.28,
       "displayName": "30 gens + 60 min Yearly"
     },
     {
@@ -3366,7 +3366,7 @@
       "gens": 30,
       "mins": 75,
       "period": "yearly",
-      "price": 769.0,
+      "price": 272.28,
       "displayName": "30 gens + 75 min Yearly"
     },
     {
@@ -3374,7 +3374,7 @@
       "gens": 30,
       "mins": 90,
       "period": "yearly",
-      "price": 899.0,
+      "price": 305.28,
       "displayName": "30 gens + 90 min Yearly"
     },
     {
@@ -3382,7 +3382,7 @@
       "gens": 30,
       "mins": 105,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 338.28,
       "displayName": "30 gens + 105 min Yearly"
     },
     {
@@ -3390,7 +3390,7 @@
       "gens": 30,
       "mins": 120,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 371.28,
       "displayName": "30 gens + 120 min Yearly"
     },
     {
@@ -3398,7 +3398,7 @@
       "gens": 30,
       "mins": 135,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 404.28,
       "displayName": "30 gens + 135 min Yearly"
     },
     {
@@ -3406,7 +3406,7 @@
       "gens": 30,
       "mins": 150,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 437.28,
       "displayName": "30 gens + 150 min Yearly"
     },
     {
@@ -3414,7 +3414,7 @@
       "gens": 30,
       "mins": 165,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 470.28,
       "displayName": "30 gens + 165 min Yearly"
     },
     {
@@ -3422,7 +3422,7 @@
       "gens": 30,
       "mins": 180,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 503.28,
       "displayName": "30 gens + 180 min Yearly"
     },
     {
@@ -3430,7 +3430,7 @@
       "gens": 35,
       "mins": 0,
       "period": "yearly",
-      "price": 125.16,
+      "price": 84.0,
       "displayName": "35 gens Yearly"
     },
     {
@@ -3438,7 +3438,7 @@
       "gens": 35,
       "mins": 15,
       "period": "yearly",
-      "price": 259.0,
+      "price": 158.16,
       "displayName": "35 gens + 15 min Yearly"
     },
     {
@@ -3446,7 +3446,7 @@
       "gens": 35,
       "mins": 30,
       "period": "yearly",
-      "price": 389.0,
+      "price": 191.16,
       "displayName": "35 gens + 30 min Yearly"
     },
     {
@@ -3454,7 +3454,7 @@
       "gens": 35,
       "mins": 45,
       "period": "yearly",
-      "price": 529.0,
+      "price": 224.16,
       "displayName": "35 gens + 45 min Yearly"
     },
     {
@@ -3462,7 +3462,7 @@
       "gens": 35,
       "mins": 60,
       "period": "yearly",
-      "price": 659.0,
+      "price": 257.16,
       "displayName": "35 gens + 60 min Yearly"
     },
     {
@@ -3470,7 +3470,7 @@
       "gens": 35,
       "mins": 75,
       "period": "yearly",
-      "price": 789.0,
+      "price": 290.16,
       "displayName": "35 gens + 75 min Yearly"
     },
     {
@@ -3478,7 +3478,7 @@
       "gens": 35,
       "mins": 90,
       "period": "yearly",
-      "price": 919.0,
+      "price": 323.16,
       "displayName": "35 gens + 90 min Yearly"
     },
     {
@@ -3486,7 +3486,7 @@
       "gens": 35,
       "mins": 105,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 356.16,
       "displayName": "35 gens + 105 min Yearly"
     },
     {
@@ -3494,7 +3494,7 @@
       "gens": 35,
       "mins": 120,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 389.16,
       "displayName": "35 gens + 120 min Yearly"
     },
     {
@@ -3502,7 +3502,7 @@
       "gens": 35,
       "mins": 135,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 422.16,
       "displayName": "35 gens + 135 min Yearly"
     },
     {
@@ -3510,7 +3510,7 @@
       "gens": 35,
       "mins": 150,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 455.16,
       "displayName": "35 gens + 150 min Yearly"
     },
     {
@@ -3518,7 +3518,7 @@
       "gens": 35,
       "mins": 165,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 488.16,
       "displayName": "35 gens + 165 min Yearly"
     },
     {
@@ -3526,7 +3526,7 @@
       "gens": 35,
       "mins": 180,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 521.16,
       "displayName": "35 gens + 180 min Yearly"
     },
     {
@@ -3534,7 +3534,7 @@
       "gens": 40,
       "mins": 0,
       "period": "yearly",
-      "price": 143.04,
+      "price": 96.0,
       "displayName": "40 gens Yearly"
     },
     {
@@ -3542,7 +3542,7 @@
       "gens": 40,
       "mins": 15,
       "period": "yearly",
-      "price": 274.99,
+      "price": 176.04,
       "displayName": "40 gens + 15 min Yearly"
     },
     {
@@ -3550,7 +3550,7 @@
       "gens": 40,
       "mins": 30,
       "period": "yearly",
-      "price": 409.0,
+      "price": 209.04,
       "displayName": "40 gens + 30 min Yearly"
     },
     {
@@ -3558,7 +3558,7 @@
       "gens": 40,
       "mins": 45,
       "period": "yearly",
-      "price": 539.0,
+      "price": 242.04,
       "displayName": "40 gens + 45 min Yearly"
     },
     {
@@ -3566,7 +3566,7 @@
       "gens": 40,
       "mins": 60,
       "period": "yearly",
-      "price": 679.0,
+      "price": 275.04,
       "displayName": "40 gens + 60 min Yearly"
     },
     {
@@ -3574,7 +3574,7 @@
       "gens": 40,
       "mins": 75,
       "period": "yearly",
-      "price": 809.0,
+      "price": 308.04,
       "displayName": "40 gens + 75 min Yearly"
     },
     {
@@ -3582,7 +3582,7 @@
       "gens": 40,
       "mins": 90,
       "period": "yearly",
-      "price": 939.0,
+      "price": 341.04,
       "displayName": "40 gens + 90 min Yearly"
     },
     {
@@ -3590,7 +3590,7 @@
       "gens": 40,
       "mins": 105,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 374.04,
       "displayName": "40 gens + 105 min Yearly"
     },
     {
@@ -3598,7 +3598,7 @@
       "gens": 40,
       "mins": 120,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 407.04,
       "displayName": "40 gens + 120 min Yearly"
     },
     {
@@ -3606,7 +3606,7 @@
       "gens": 40,
       "mins": 135,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 440.04,
       "displayName": "40 gens + 135 min Yearly"
     },
     {
@@ -3614,7 +3614,7 @@
       "gens": 40,
       "mins": 150,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 473.04,
       "displayName": "40 gens + 150 min Yearly"
     },
     {
@@ -3622,7 +3622,7 @@
       "gens": 40,
       "mins": 165,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 506.04,
       "displayName": "40 gens + 165 min Yearly"
     },
     {
@@ -3630,7 +3630,7 @@
       "gens": 40,
       "mins": 180,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 539.04,
       "displayName": "40 gens + 180 min Yearly"
     },
     {
@@ -3638,7 +3638,7 @@
       "gens": 45,
       "mins": 0,
       "period": "yearly",
-      "price": 160.92,
+      "price": 108.99,
       "displayName": "45 gens Yearly"
     },
     {
@@ -3646,7 +3646,7 @@
       "gens": 45,
       "mins": 15,
       "period": "yearly",
-      "price": 294.99,
+      "price": 193.92,
       "displayName": "45 gens + 15 min Yearly"
     },
     {
@@ -3654,7 +3654,7 @@
       "gens": 45,
       "mins": 30,
       "period": "yearly",
-      "price": 424.99,
+      "price": 226.92,
       "displayName": "45 gens + 30 min Yearly"
     },
     {
@@ -3662,7 +3662,7 @@
       "gens": 45,
       "mins": 45,
       "period": "yearly",
-      "price": 559.0,
+      "price": 259.92,
       "displayName": "45 gens + 45 min Yearly"
     },
     {
@@ -3670,7 +3670,7 @@
       "gens": 45,
       "mins": 60,
       "period": "yearly",
-      "price": 689.0,
+      "price": 292.92,
       "displayName": "45 gens + 60 min Yearly"
     },
     {
@@ -3678,7 +3678,7 @@
       "gens": 45,
       "mins": 75,
       "period": "yearly",
-      "price": 829.0,
+      "price": 325.92,
       "displayName": "45 gens + 75 min Yearly"
     },
     {
@@ -3686,7 +3686,7 @@
       "gens": 45,
       "mins": 90,
       "period": "yearly",
-      "price": 959.0,
+      "price": 358.92,
       "displayName": "45 gens + 90 min Yearly"
     },
     {
@@ -3694,7 +3694,7 @@
       "gens": 45,
       "mins": 105,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 391.92,
       "displayName": "45 gens + 105 min Yearly"
     },
     {
@@ -3702,7 +3702,7 @@
       "gens": 45,
       "mins": 120,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 424.92,
       "displayName": "45 gens + 120 min Yearly"
     },
     {
@@ -3710,7 +3710,7 @@
       "gens": 45,
       "mins": 135,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 457.92,
       "displayName": "45 gens + 135 min Yearly"
     },
     {
@@ -3718,7 +3718,7 @@
       "gens": 45,
       "mins": 150,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 490.92,
       "displayName": "45 gens + 150 min Yearly"
     },
     {
@@ -3726,7 +3726,7 @@
       "gens": 45,
       "mins": 165,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 523.92,
       "displayName": "45 gens + 165 min Yearly"
     },
     {
@@ -3734,7 +3734,7 @@
       "gens": 45,
       "mins": 180,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 556.92,
       "displayName": "45 gens + 180 min Yearly"
     },
     {
@@ -3742,7 +3742,7 @@
       "gens": 50,
       "mins": 0,
       "period": "yearly",
-      "price": 178.8,
+      "price": 120.99,
       "displayName": "50 gens Yearly"
     },
     {
@@ -3750,7 +3750,7 @@
       "gens": 50,
       "mins": 15,
       "period": "yearly",
-      "price": 314.99,
+      "price": 211.8,
       "displayName": "50 gens + 15 min Yearly"
     },
     {
@@ -3758,7 +3758,7 @@
       "gens": 50,
       "mins": 30,
       "period": "yearly",
-      "price": 444.99,
+      "price": 244.8,
       "displayName": "50 gens + 30 min Yearly"
     },
     {
@@ -3766,7 +3766,7 @@
       "gens": 50,
       "mins": 45,
       "period": "yearly",
-      "price": 579.0,
+      "price": 277.8,
       "displayName": "50 gens + 45 min Yearly"
     },
     {
@@ -3774,7 +3774,7 @@
       "gens": 50,
       "mins": 60,
       "period": "yearly",
-      "price": 709.0,
+      "price": 310.8,
       "displayName": "50 gens + 60 min Yearly"
     },
     {
@@ -3782,7 +3782,7 @@
       "gens": 50,
       "mins": 75,
       "period": "yearly",
-      "price": 839.0,
+      "price": 343.8,
       "displayName": "50 gens + 75 min Yearly"
     },
     {
@@ -3790,7 +3790,7 @@
       "gens": 50,
       "mins": 90,
       "period": "yearly",
-      "price": 979.0,
+      "price": 376.8,
       "displayName": "50 gens + 90 min Yearly"
     },
     {
@@ -3798,7 +3798,7 @@
       "gens": 50,
       "mins": 105,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 409.8,
       "displayName": "50 gens + 105 min Yearly"
     },
     {
@@ -3806,7 +3806,7 @@
       "gens": 50,
       "mins": 120,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 442.8,
       "displayName": "50 gens + 120 min Yearly"
     },
     {
@@ -3814,7 +3814,7 @@
       "gens": 50,
       "mins": 135,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 475.8,
       "displayName": "50 gens + 135 min Yearly"
     },
     {
@@ -3822,7 +3822,7 @@
       "gens": 50,
       "mins": 150,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 508.8,
       "displayName": "50 gens + 150 min Yearly"
     },
     {
@@ -3830,7 +3830,7 @@
       "gens": 50,
       "mins": 165,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 541.8,
       "displayName": "50 gens + 165 min Yearly"
     },
     {
@@ -3838,7 +3838,7 @@
       "gens": 50,
       "mins": 180,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 574.8,
       "displayName": "50 gens + 180 min Yearly"
     },
     {
@@ -3846,7 +3846,7 @@
       "gens": 55,
       "mins": 0,
       "period": "yearly",
-      "price": 196.68,
+      "price": 132.99,
       "displayName": "55 gens Yearly"
     },
     {
@@ -3854,7 +3854,7 @@
       "gens": 55,
       "mins": 15,
       "period": "yearly",
-      "price": 329.0,
+      "price": 229.68,
       "displayName": "55 gens + 15 min Yearly"
     },
     {
@@ -3862,7 +3862,7 @@
       "gens": 55,
       "mins": 30,
       "period": "yearly",
-      "price": 464.99,
+      "price": 262.68,
       "displayName": "55 gens + 30 min Yearly"
     },
     {
@@ -3870,7 +3870,7 @@
       "gens": 55,
       "mins": 45,
       "period": "yearly",
-      "price": 599.0,
+      "price": 295.68,
       "displayName": "55 gens + 45 min Yearly"
     },
     {
@@ -3878,7 +3878,7 @@
       "gens": 55,
       "mins": 60,
       "period": "yearly",
-      "price": 729.0,
+      "price": 328.68,
       "displayName": "55 gens + 60 min Yearly"
     },
     {
@@ -3886,7 +3886,7 @@
       "gens": 55,
       "mins": 75,
       "period": "yearly",
-      "price": 859.0,
+      "price": 361.68,
       "displayName": "55 gens + 75 min Yearly"
     },
     {
@@ -3894,7 +3894,7 @@
       "gens": 55,
       "mins": 90,
       "period": "yearly",
-      "price": 989.0,
+      "price": 394.68,
       "displayName": "55 gens + 90 min Yearly"
     },
     {
@@ -3902,7 +3902,7 @@
       "gens": 55,
       "mins": 105,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 427.68,
       "displayName": "55 gens + 105 min Yearly"
     },
     {
@@ -3910,7 +3910,7 @@
       "gens": 55,
       "mins": 120,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 460.68,
       "displayName": "55 gens + 120 min Yearly"
     },
     {
@@ -3918,7 +3918,7 @@
       "gens": 55,
       "mins": 135,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 493.68,
       "displayName": "55 gens + 135 min Yearly"
     },
     {
@@ -3926,7 +3926,7 @@
       "gens": 55,
       "mins": 150,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 526.68,
       "displayName": "55 gens + 150 min Yearly"
     },
     {
@@ -3934,7 +3934,7 @@
       "gens": 55,
       "mins": 165,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 559.68,
       "displayName": "55 gens + 165 min Yearly"
     },
     {
@@ -3942,7 +3942,7 @@
       "gens": 55,
       "mins": 180,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 592.68,
       "displayName": "55 gens + 180 min Yearly"
     },
     {
@@ -3950,7 +3950,7 @@
       "gens": 60,
       "mins": 0,
       "period": "yearly",
-      "price": 214.56,
+      "price": 144.99,
       "displayName": "60 gens Yearly"
     },
     {
@@ -3958,7 +3958,7 @@
       "gens": 60,
       "mins": 15,
       "period": "yearly",
-      "price": 349.0,
+      "price": 247.56,
       "displayName": "60 gens + 15 min Yearly"
     },
     {
@@ -3966,7 +3966,7 @@
       "gens": 60,
       "mins": 30,
       "period": "yearly",
-      "price": 479.0,
+      "price": 280.56,
       "displayName": "60 gens + 30 min Yearly"
     },
     {
@@ -3974,7 +3974,7 @@
       "gens": 60,
       "mins": 45,
       "period": "yearly",
-      "price": 619.0,
+      "price": 313.56,
       "displayName": "60 gens + 45 min Yearly"
     },
     {
@@ -3982,7 +3982,7 @@
       "gens": 60,
       "mins": 60,
       "period": "yearly",
-      "price": 749.0,
+      "price": 346.56,
       "displayName": "60 gens + 60 min Yearly"
     },
     {
@@ -3990,7 +3990,7 @@
       "gens": 60,
       "mins": 75,
       "period": "yearly",
-      "price": 879.0,
+      "price": 379.56,
       "displayName": "60 gens + 75 min Yearly"
     },
     {
@@ -3998,7 +3998,7 @@
       "gens": 60,
       "mins": 90,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 412.56,
       "displayName": "60 gens + 90 min Yearly"
     },
     {
@@ -4006,7 +4006,7 @@
       "gens": 60,
       "mins": 105,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 445.56,
       "displayName": "60 gens + 105 min Yearly"
     },
     {
@@ -4014,7 +4014,7 @@
       "gens": 60,
       "mins": 120,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 478.56,
       "displayName": "60 gens + 120 min Yearly"
     },
     {
@@ -4022,7 +4022,7 @@
       "gens": 60,
       "mins": 135,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 511.56,
       "displayName": "60 gens + 135 min Yearly"
     },
     {
@@ -4030,7 +4030,7 @@
       "gens": 60,
       "mins": 150,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 544.56,
       "displayName": "60 gens + 150 min Yearly"
     },
     {
@@ -4038,7 +4038,7 @@
       "gens": 60,
       "mins": 165,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 577.56,
       "displayName": "60 gens + 165 min Yearly"
     },
     {
@@ -4046,8 +4046,9 @@
       "gens": 60,
       "mins": 180,
       "period": "yearly",
-      "price": 1000.0,
+      "price": 610.56,
       "displayName": "60 gens + 180 min Yearly"
     }
-  ]
+  ],
+  "generatedAt": "2026-10-22T19:13:37.951698+00:00"
 }

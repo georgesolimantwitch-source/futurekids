@@ -3,7 +3,6 @@ import { familyChallenges, missionSection } from "@/config/about";
 import { getSiteApp, type FeaturedSlug } from "@/config/site";
 import { Icon, type IconName } from "@/components/site/Icon";
 import { Magnetic, Parallax, Reveal, Tilt } from "@/components/site/motion";
-import { AppPreview } from "@/components/site/AppPreview";
 import { AppIcon, Container, Eyebrow, PillLink, SectionHeading } from "@/components/site/ui";
 import { ScrollWords } from "./interactive";
 import { PageHero, Section } from "./shared";
@@ -121,28 +120,17 @@ export function MissionPage() {
                 <Reveal dir={flipped ? "right" : "left"} className={flipped ? "lg:order-2" : ""}>
                   <div className="relative">
                     <div aria-hidden className="brand-glow absolute inset-[6%] rounded-[40px] opacity-30 blur-3xl" />
-                    {card.id === "food" ? (
-                      <div
-                        className="relative flex aspect-[4/3] items-end justify-center overflow-hidden rounded-[32px] ring-1 ring-ink/5"
-                        style={{ background: `linear-gradient(160deg, ${app.colorSoft}, #fefce8)` }}
-                      >
-                        <div className="float translate-y-[22%]">
-                          <AppPreview slug="fresher" width={230} />
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="relative overflow-hidden rounded-[32px] shadow-[0_40px_80px_-40px_rgba(15,23,42,0.5)] ring-4 ring-white/70">
-                        <Parallax speed={-0.05}>
-                          <Image
-                            src={card.illustration}
-                            alt={card.illustrationAlt}
-                            width={1536}
-                            height={1024}
-                            className="aspect-[4/3] w-full scale-110 object-cover"
-                          />
-                        </Parallax>
-                      </div>
-                    )}
+                    <div className="relative overflow-hidden rounded-[32px] shadow-[0_40px_80px_-40px_rgba(15,23,42,0.5)] ring-4 ring-white/70">
+                      <Parallax speed={-0.05}>
+                        <Image
+                          src={card.illustration}
+                          alt={card.illustrationAlt}
+                          width={1536}
+                          height={1024}
+                          className="aspect-[4/3] w-full scale-110 object-cover"
+                        />
+                      </Parallax>
+                    </div>
                   </div>
                 </Reveal>
                 <div>

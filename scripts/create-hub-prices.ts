@@ -73,8 +73,12 @@ async function ensurePrice(
     lookup_keys: [size.lookupKey],
     limit: 1,
   });
-  if (byLookup.data[0]) return byLookup.data[0].id;
+  const existing = byLookup.data[0];
+  if (existing && existing.unit_amount === size.priceCents) {
+    return existing.id;
+  }
 
+  // Create (or replace lookup key) so catalog matches config/hub.ts amounts.
   const price = await stripe.prices.create({
     product: productId,
     currency: "usd",

@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { siteApps } from "@/config/site";
-import { AppPreview } from "@/components/site/AppPreview";
 import { Icon } from "@/components/site/Icon";
 import { CountUp, Magnetic, Parallax, Reveal } from "@/components/site/motion";
 import {
@@ -14,6 +13,7 @@ import {
   PlayLink,
   SectionHeading,
 } from "@/components/site/ui";
+import { realPhotos } from "@/config/photos";
 import { IconFeatureGrid, PageHero, ProductGrid, Section, StepCards } from "./shared";
 
 const pillars = [
@@ -155,8 +155,8 @@ export function HomePage() {
             <div className="relative overflow-hidden rounded-[28px] shadow-[0_40px_80px_-40px_rgba(15,23,42,0.5)] sm:rounded-[36px]">
               <Parallax speed={-0.06}>
                 <Image
-                  src="/images/about/earnly-family.jpg"
-                  alt="A parent and daughter saving coins together while tracking chores on a tablet"
+                  src={realPhotos.kidsField.src}
+                  alt={realPhotos.kidsField.alt}
                   width={1536}
                   height={1024}
                   className="h-[320px] w-full scale-110 object-cover sm:h-[440px]"
@@ -236,6 +236,7 @@ export function HomePage() {
 
 function HeroCollage() {
   const [freshys, ballr, scholars, earnly] = siteApps;
+  const photo = realPhotos.kidsField;
   return (
     <Reveal
       dir="scale"
@@ -247,11 +248,11 @@ function HeroCollage() {
         className="brand-glow absolute inset-[-8%] rounded-full opacity-60 blur-3xl"
       />
 
-      {/* iPhone: one clear composition — no overlapping chips */}
+      {/* Mobile */}
       <div className="relative overflow-hidden rounded-[28px] ring-1 ring-ink/5 sm:hidden">
         <Image
-          src="/images/home/hero-kids.jpg"
-          alt="Three kids laughing on a soccer field at sunset"
+          src={photo.src}
+          alt={photo.alt}
           width={1536}
           height={1024}
           priority
@@ -260,50 +261,42 @@ function HeroCollage() {
         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 via-black/20 to-transparent p-4 pt-16">
           <div className="flex gap-2 overflow-x-auto scrollbar-none">
             {[freshys, ballr, scholars, earnly].map((app) => (
-              <span
+              <Link
                 key={app.slug}
+                href={app.href}
                 className="flex shrink-0 items-center gap-2 rounded-full bg-white/95 px-3 py-2 text-xs font-bold text-ink shadow-sm"
               >
                 <AppIcon src={app.iconPath} name={app.name} size={22} />
                 {app.homeChip.label}
-              </span>
+              </Link>
             ))}
           </div>
         </div>
-        <div className="absolute right-3 top-3">
-          <AppPreview slug="earnly" width={118} priority />
-        </div>
       </div>
 
-      {/* Tablet / desktop collage */}
+      {/* Desktop collage — real photography only */}
       <div className="relative hidden aspect-[1/1.02] sm:block">
-        <div className="absolute left-0 top-[6%] w-[72%] overflow-hidden rounded-[34px] shadow-[0_40px_80px_-35px_rgba(15,23,42,0.55)] ring-4 ring-white/70">
+        <div className="absolute left-0 top-[6%] w-[78%] overflow-hidden rounded-[34px] shadow-[0_40px_80px_-35px_rgba(15,23,42,0.55)] ring-4 ring-white/70">
           <Parallax speed={-0.05}>
             <Image
-              src="/images/home/hero-kids.jpg"
-              alt="Three kids laughing on a soccer field at sunset"
+              src={photo.src}
+              alt={photo.alt}
               width={1536}
               height={1024}
+              priority
               className="aspect-[4/4.4] w-full scale-110 object-cover object-[62%_center]"
             />
           </Parallax>
         </div>
 
-        <div className="absolute bottom-0 right-0 w-[42%] overflow-hidden rounded-[28px] shadow-[0_30px_60px_-30px_rgba(15,23,42,0.55)] ring-4 ring-white/70">
+        <div className="absolute bottom-0 right-0 w-[46%] overflow-hidden rounded-[28px] shadow-[0_30px_60px_-30px_rgba(15,23,42,0.55)] ring-4 ring-white/70">
           <Image
-            src="/images/about/scholars-family.jpg"
-            alt="A parent helping her son study with notes and a laptop"
+            src={photo.src}
+            alt={photo.alt}
             width={1536}
             height={1024}
-            className="aspect-square w-full object-cover"
+            className="aspect-square w-full object-cover object-[70%_40%]"
           />
-        </div>
-
-        <div
-          className="float absolute right-[2%] top-0 z-10"
-          style={{ "--float-speed": "7s" } as CSSProperties}
-        >
-          <AppPreview slug="earnly" width={168} />
         </div>
 
         <FloatChip className="left-[2%] top-[44%] flex max-w-[min(100%,220px)] items-center gap-2.5" delay={-2}>
@@ -314,7 +307,7 @@ function HeroCollage() {
             healthier families.
           </span>
         </FloatChip>
-        <FloatChip className="right-[34%] top-[2%] flex items-center gap-2.5" delay={-4} speed={7}>
+        <FloatChip className="right-[2%] top-[8%] flex items-center gap-2.5" delay={-4} speed={7}>
           <AppIcon src={ballr.iconPath} name={ballr.name} size={30} />
           <span className="text-xs font-bold leading-tight">
             Train, compete,
@@ -322,7 +315,7 @@ function HeroCollage() {
             get better.
           </span>
         </FloatChip>
-        <FloatChip className="bottom-[32%] right-[30%] flex items-center gap-2.5" delay={-1} speed={5.5}>
+        <FloatChip className="bottom-[36%] right-[42%] flex items-center gap-2.5" delay={-1} speed={5.5}>
           <AppIcon src={scholars.iconPath} name={scholars.name} size={30} />
           <span className="text-xs font-bold leading-tight">
             Study smarter
