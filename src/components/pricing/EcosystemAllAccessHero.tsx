@@ -71,6 +71,58 @@ import { BillingToggle } from "./PricingPlansSection";
 
 type SelectedPlan = "all-access" | AppSlug;
 
+function AllAccessMeterStepper({
+  label,
+  amount,
+  unit,
+  onDec,
+  onInc,
+  canDec,
+  canInc,
+}: {
+  label: string;
+  amount: number;
+  unit: string;
+  onDec: () => void;
+  onInc: () => void;
+  canDec: boolean;
+  canInc: boolean;
+}) {
+  return (
+    <div className="rounded-xl border border-neutral-200 bg-white px-2.5 py-2.5">
+      <p className="text-center text-[10px] font-semibold uppercase tracking-wide text-[#8a90a2]">
+        {label}
+      </p>
+      <div className="mt-2 flex items-center justify-between gap-1">
+        <button
+          type="button"
+          onClick={onDec}
+          disabled={!canDec}
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#007AFF] text-xl leading-none text-white transition hover:bg-[#0066d6] disabled:opacity-40"
+          aria-label={`Fewer ${label}`}
+        >
+          −
+        </button>
+        <div className="min-w-0 flex-1 text-center">
+          <p className="text-xl font-bold tabular-nums tracking-tight text-[#0b1020]">
+            {amount}
+          </p>
+          <p className="text-[10px] text-[#8a90a2]">{unit}</p>
+        </div>
+        <button
+          type="button"
+          onClick={onInc}
+          disabled={!canInc}
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#007AFF] text-xl leading-none text-white transition hover:bg-[#0066d6] disabled:opacity-40"
+          aria-label={`More ${label}`}
+        >
+          +
+        </button>
+      </div>
+    </div>
+  );
+}
+
 const planTabs: { id: SelectedPlan; label: string; icon?: string }[] = [
   { id: "all-access", label: "All Access" },
   ...ecosystemBundle.includedApps.map((app) => ({
@@ -1295,92 +1347,90 @@ export function EcosystemAllAccessHero({
                 </div>
 
                 <div className="flex flex-col gap-2 border-t border-neutral-200/80 px-3 py-2.5">
-                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
-                    <div className="min-w-0">
-                      <p className="text-xs font-medium text-[#0b1020]">Scholars</p>
-                      <p className="text-[10px] tabular-nums text-[#8a90a2]">
-                        +
-                        {creditPriceLine(bundleCreditAmount, bundleCreditPeriod)}
-                        {scholarsCount > 1
-                          ? ` · ${scholarsCount} seats`
-                          : ""}
-                      </p>
-                    </div>
-                    <div className="flex flex-wrap items-center gap-1.5 sm:shrink-0 sm:justify-end">
-                      <label>
-                        <span className="sr-only">Scholars kids</span>
-                        <select
-                          value={scholarsCount}
-                          onChange={(e) =>
-                            setScholarsChildCount(
-                              clampAllAccessScholarsChildCount(
-                                Number(e.target.value),
-                              ),
-                            )
-                          }
-                          className="rounded-lg border border-neutral-200 bg-white px-2 py-1.5 text-xs font-semibold tabular-nums text-[#0b1020] outline-none focus:border-neutral-400"
-                        >
-                          {Array.from({ length: 5 }, (_, i) => i + 1).map((n) => (
-                            <option key={n} value={n}>
-                              {n} {n === 1 ? "kid" : "kids"}
-                            </option>
-                          ))}
-                        </select>
-                      </label>
-                      <label>
-                        <span className="sr-only">Scholars generations</span>
-                        <select
-                          value={bundleCreditGens}
-                          onChange={(e) =>
-                            setScholarsGens(
-                              Math.max(
-                                scholarsCreditPricing.generations.step,
-                                clampGenerations(Number(e.target.value)),
-                              ),
-                            )
-                          }
-                          className="rounded-lg border border-neutral-200 bg-white px-2 py-1.5 text-xs font-semibold tabular-nums text-[#0b1020] outline-none focus:border-neutral-400"
-                        >
-                          {Array.from({ length: 12 }, (_, i) => (i + 1) * 5).map(
-                            (n) => (
-                              <option key={n} value={n}>
-                                {n} generations
-                              </option>
+                  <div className="min-w-0">
+                    <p className="text-xs font-medium text-[#0b1020]">Scholars</p>
+                    <p className="text-[10px] tabular-nums text-[#8a90a2]">
+                      +
+                      {creditPriceLine(bundleCreditAmount, bundleCreditPeriod)}
+                      {scholarsCount > 1 ? ` · ${scholarsCount} seats` : ""}
+                    </p>
+                  </div>
+
+                  <div className="grid gap-2 sm:grid-cols-3">
+                    <AllAccessMeterStepper
+                      label="Kids"
+                      amount={scholarsCount}
+                      unit={scholarsCount === 1 ? "kid" : "kids"}
+                      onDec={() =>
+                        setScholarsChildCount((current) =>
+                          clampAllAccessScholarsChildCount(current - 1),
+                        )
+                      }
+                      onInc={() =>
+                        setScholarsChildCount((current) =>
+                          clampAllAccessScholarsChildCount(current + 1),
+                        )
+                      }
+                      canDec={scholarsCount > 1}
+                      canInc={scholarsCount < 5}
+                    />
+                    <AllAccessMeterStepper
+                      label="Generations"
+                      amount={bundleCreditGens}
+                      unit="gens"
+                      onDec={() =>
+                        setScholarsGens((current) =>
+                          Math.max(
+                            scholarsCreditPricing.generations.step,
+                            clampGenerations(
+                              current - scholarsCreditPricing.generations.step,
                             ),
-                          )}
-                        </select>
-                      </label>
-                      <label>
-                        <span className="sr-only">Scholars tutor minutes</span>
-                        <select
-                          value={bundleCreditMins}
-                          onChange={(e) =>
-                            setScholarsMins(
-                              Math.max(
-                                scholarsCreditPricing.tutorMinutes.step,
-                                clampTutorMinutes(Number(e.target.value)),
-                              ),
-                            )
-                          }
-                          className="rounded-lg border border-neutral-200 bg-white px-2 py-1.5 text-xs font-semibold tabular-nums text-[#0b1020] outline-none focus:border-neutral-400"
-                        >
-                          {Array.from(
-                            {
-                              length: Math.floor(
-                                scholarsCreditPricing.tutorMinutes.max /
-                                  scholarsCreditPricing.tutorMinutes.step,
-                              ),
-                            },
-                            (_, i) =>
-                              (i + 1) * scholarsCreditPricing.tutorMinutes.step,
-                          ).map((n) => (
-                            <option key={n} value={n}>
-                              {n} min
-                            </option>
-                          ))}
-                        </select>
-                      </label>
-                    </div>
+                          ),
+                        )
+                      }
+                      onInc={() =>
+                        setScholarsGens((current) =>
+                          clampGenerations(
+                            current + scholarsCreditPricing.generations.step,
+                          ),
+                        )
+                      }
+                      canDec={
+                        bundleCreditGens > scholarsCreditPricing.generations.step
+                      }
+                      canInc={
+                        bundleCreditGens < scholarsCreditPricing.generations.max
+                      }
+                    />
+                    <AllAccessMeterStepper
+                      label="Tutor min"
+                      amount={bundleCreditMins}
+                      unit="min"
+                      onDec={() =>
+                        setScholarsMins((current) =>
+                          Math.max(
+                            scholarsCreditPricing.tutorMinutes.step,
+                            clampTutorMinutes(
+                              current - scholarsCreditPricing.tutorMinutes.step,
+                            ),
+                          ),
+                        )
+                      }
+                      onInc={() =>
+                        setScholarsMins((current) =>
+                          clampTutorMinutes(
+                            current + scholarsCreditPricing.tutorMinutes.step,
+                          ),
+                        )
+                      }
+                      canDec={
+                        bundleCreditMins >
+                        scholarsCreditPricing.tutorMinutes.step
+                      }
+                      canInc={
+                        bundleCreditMins < scholarsCreditPricing.tutorMinutes.max
+                      }
+                    />
                   </div>
 
                   <div className="rounded-xl border border-[#007AFF]/25 bg-[#F0F7FF] p-2.5">
