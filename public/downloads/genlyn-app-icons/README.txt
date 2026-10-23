@@ -15,3 +15,5 @@ SVG (vector):
 - ballr-icon.svg
 - scholars-icon.svg
 - freshys-icon.svg
+
+- genlyn-logo-dark-blue.png   Genlyn script on dark blue cosmic background (the one you asked for)
